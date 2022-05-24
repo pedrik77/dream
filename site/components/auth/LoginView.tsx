@@ -1,8 +1,9 @@
 import { FC, useEffect, useState, useCallback } from 'react'
 import { Logo, Button, Input } from '@components/ui'
-import useLogin from '@framework/auth/use-login'
 import { useUI } from '@components/ui/context'
 import { validate } from 'email-validator'
+import { MIN_PASSWORD_LENGTH } from './SignUpView'
+import { signIn } from '@lib/auth'
 
 const LoginView: React.FC = () => {
   // Form State
@@ -13,8 +14,6 @@ const LoginView: React.FC = () => {
   const [dirty, setDirty] = useState(false)
   const [disabled, setDisabled] = useState(false)
   const { setModalView, closeModal } = useUI()
-
-  const login = useLogin()
 
   const handleLogin = async (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
@@ -27,10 +26,7 @@ const LoginView: React.FC = () => {
     try {
       setLoading(true)
       setMessage('')
-      await login({
-        email,
-        password,
-      })
+      await signIn(email, password)
       setLoading(false)
       closeModal()
     } catch (e: any) {
@@ -46,7 +42,11 @@ const LoginView: React.FC = () => {
 
     // Unable to send form unless fields are valid.
     if (dirty) {
-      setDisabled(!validate(email) || password.length < 7 || !validPassword)
+      setDisabled(
+        !validate(email) ||
+          password.length < MIN_PASSWORD_LENGTH ||
+          !validPassword
+      )
     }
   }, [email, password, dirty])
 
@@ -64,15 +64,7 @@ const LoginView: React.FC = () => {
       </div>
       <div className="flex flex-col space-y-3">
         {message && (
-          <div className="text-red border border-red p-3">
-            {message}. Did you {` `}
-            <a
-              className="text-accent-9 inline font-bold hover:underline cursor-pointer"
-              onClick={() => setModalView('FORGOT_VIEW')}
-            >
-              forgot your password?
-            </a>
-          </div>
+          <div className="text-red border border-red p-3">{message}</div>
         )}
         <Input type="email" placeholder="Email" onChange={setEmail} />
         <Input type="password" placeholder="Password" onChange={setPassword} />
@@ -93,6 +85,15 @@ const LoginView: React.FC = () => {
             onClick={() => setModalView('SIGNUP_VIEW')}
           >
             Sign Up
+          </a>
+        </div>
+        <div className="pt-1 text-center text-sm">
+          Did you {` `}
+          <a
+            className="text-accent-9 inline font-bold hover:underline cursor-pointer"
+            onClick={() => setModalView('FORGOT_VIEW')}
+          >
+            forgot your password?
           </a>
         </div>
       </div>

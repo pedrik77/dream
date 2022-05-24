@@ -24,6 +24,7 @@ const Navbar: FC<NavbarProps> = ({ links }) => (
               <Logo />
             </a>
           </Link>
+
           <nav className={s.navMenu}>
             <Link href="/search">
               <a className={s.link}>All</a>

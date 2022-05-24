@@ -3,7 +3,9 @@ import { validate } from 'email-validator'
 import { Info } from '@components/icons'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
-import useSignup from '@framework/auth/use-signup'
+import { signUp } from '@lib/auth'
+
+export const MIN_PASSWORD_LENGTH = 8
 
 interface Props {}
 
@@ -11,14 +13,12 @@ const SignUpView: FC<Props> = () => {
   // Form State
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [newsletter, setNewsletter] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [dirty, setDirty] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
-  const signup = useSignup()
   const { setModalView, closeModal } = useUI()
 
   const handleSignup = async (e: React.SyntheticEvent<EventTarget>) => {
@@ -32,16 +32,12 @@ const SignUpView: FC<Props> = () => {
     try {
       setLoading(true)
       setMessage('')
-      await signup({
-        email,
-        firstName,
-        lastName,
-        password,
-      })
+      await signUp(email, password, newsletter)
       setLoading(false)
       closeModal()
-    } catch ({ errors }) {
-      setMessage(errors[0].message)
+    } catch (e) {
+      console.error(e)
+      setMessage('oh nou')
       setLoading(false)
     }
   }
@@ -52,7 +48,11 @@ const SignUpView: FC<Props> = () => {
 
     // Unable to send form unless fields are valid.
     if (dirty) {
-      setDisabled(!validate(email) || password.length < 7 || !validPassword)
+      setDisabled(
+        !validate(email) ||
+          password.length < MIN_PASSWORD_LENGTH ||
+          !validPassword
+      )
     }
   }, [email, password, dirty])
 
@@ -72,17 +72,21 @@ const SignUpView: FC<Props> = () => {
         {message && (
           <div className="text-red border border-red p-3">{message}</div>
         )}
-        <Input placeholder="First Name" onChange={setFirstName} />
-        <Input placeholder="Last Name" onChange={setLastName} />
         <Input type="email" placeholder="Email" onChange={setEmail} />
         <Input type="password" placeholder="Password" onChange={setPassword} />
+        <label>
+          <input
+            type="checkbox"
+            onChange={(e) => setNewsletter(e.target.checked)}
+          />{' '}
+          Newsletter
+        </label>
         <span className="text-accent-8">
           <span className="inline-block align-middle ">
             <Info width="15" height="15" />
           </span>{' '}
           <span className="leading-6 text-sm">
-            <strong>Info</strong>: Passwords must be longer than 7 chars and
-            include numbers.{' '}
+            <strong>Legalleee</strong>: suhlasis
           </span>
         </span>
         <div className="pt-2 w-full flex flex-col">
@@ -95,7 +99,6 @@ const SignUpView: FC<Props> = () => {
             Sign Up
           </Button>
         </div>
-
         <span className="pt-1 text-center text-sm">
           <span className="text-accent-7">Do you have an account?</span>
           {` `}

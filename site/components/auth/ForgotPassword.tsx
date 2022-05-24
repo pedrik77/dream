@@ -2,6 +2,7 @@ import { FC, useEffect, useState, useCallback } from 'react'
 import { validate } from 'email-validator'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
+import { resetPassword } from '@lib/auth'
 
 interface Props {}
 
@@ -22,6 +23,10 @@ const ForgotPassword: FC<Props> = () => {
       setDirty(true)
       handleValidation()
     }
+
+    await resetPassword(email)
+    setDisabled(true)
+    setMessage('Check your email for a reset link.')
   }
 
   const handleValidation = useCallback(() => {

@@ -3,11 +3,11 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import { Moon, Sun } from '@components/icons'
 import s from './CustomerMenuContent.module.css'
-import useLogout from '@framework/auth/use-logout'
 import {
   DropdownContent,
   DropdownMenuItem,
 } from '@components/ui/Dropdown/Dropdown'
+import { signOut } from '@lib/auth'
 
 const LINKS = [
   {
@@ -26,8 +26,6 @@ const LINKS = [
 
 export default function CustomerMenuContent() {
   const router = useRouter()
-  const logout = useLogout()
-  const { pathname } = useRouter()
   const { theme, setTheme } = useTheme()
 
   function handleClick(_: React.MouseEvent<HTMLAnchorElement>, href: string) {
@@ -46,7 +44,7 @@ export default function CustomerMenuContent() {
         <DropdownMenuItem key={href}>
           <a
             className={cn(s.link, {
-              [s.active]: pathname === href,
+              [s.active]: router.pathname === href,
             })}
             onClick={(e) => handleClick(e, href)}
           >
@@ -76,7 +74,10 @@ export default function CustomerMenuContent() {
       <DropdownMenuItem>
         <a
           className={cn(s.link, 'border-t border-accent-2 mt-4')}
-          onClick={() => logout()}
+          onClick={async () => {
+            await signOut()
+            router.push('/')
+          }}
         >
           Logout
         </a>
