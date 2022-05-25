@@ -11,17 +11,12 @@ const LoginView: React.FC = () => {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
-  const [dirty, setDirty] = useState(false)
   const [disabled, setDisabled] = useState(false)
   const { setModalView, closeModal } = useUI()
 
   const handleLogin = async (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
-
-    if (!dirty && !disabled) {
-      setDirty(true)
-      handleValidation()
-    }
+    setDisabled(true)
 
     try {
       setLoading(true)
@@ -30,29 +25,11 @@ const LoginView: React.FC = () => {
       setLoading(false)
       closeModal()
     } catch (e: any) {
-      setMessage(e.errors[0].message)
-      setLoading(false)
       setDisabled(false)
+      setLoading(false)
+      setMessage(e.message)
     }
   }
-
-  const handleValidation = useCallback(() => {
-    // Test for Alphanumeric password
-    const validPassword = /^(?=.*[a-zA-Z])(?=.*[0-9])/.test(password)
-
-    // Unable to send form unless fields are valid.
-    if (dirty) {
-      setDisabled(
-        !validate(email) ||
-          password.length < MIN_PASSWORD_LENGTH ||
-          !validPassword
-      )
-    }
-  }, [email, password, dirty])
-
-  useEffect(() => {
-    handleValidation()
-  }, [handleValidation])
 
   return (
     <form

@@ -35,9 +35,8 @@ const SignUpView: FC<Props> = () => {
       await signUp(email, password, newsletter)
       setLoading(false)
       closeModal()
-    } catch (e) {
-      console.error(e)
-      setMessage('oh nou')
+    } catch (e: any) {
+      setMessage(e.message)
       setLoading(false)
     }
   }

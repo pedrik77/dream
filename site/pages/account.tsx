@@ -1,8 +1,8 @@
 import type { GetStaticPropsContext } from 'next'
-import useCustomer from '@framework/customer/use-customer'
 import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
 import { Container, Text } from '@components/ui'
+import { useUser } from '@lib/auth'
 
 export async function getStaticProps({
   preview,
@@ -20,27 +20,27 @@ export async function getStaticProps({
   }
 }
 
-export default function Profile() {
-  const { data } = useCustomer()
+export default function Account() {
+  const { user } = useUser()
+  console.log(user)
+
   return (
     <Container className="pt-4">
-      <Text variant="pageHeading">My Profile</Text>
+      <Text variant="pageHeading">My Account</Text>
       <div className="grid grid-cols-4">
-        {data && (
+        {user && (
           <div className="flex flex-col divide-accent-2 divide-y">
             <div className="flex flex-row items-center space-x-4 py-4">
               <span className="text-lg font-medium text-accent-600 flex-1">
                 Full Name
               </span>
-              <span>
-                {data.firstName} {data.lastName}
-              </span>
+              <span>firstName lastName</span>
             </div>
             <div className="flex flex-row items-center space-x-4 py-4">
               <span className="text-lg font-medium text-accent-600 flex-1">
                 Email
               </span>
-              <span>{data.email}</span>
+              <span>'email'</span>
             </div>
           </div>
         )}
@@ -49,4 +49,4 @@ export default function Profile() {
   )
 }
 
-Profile.Layout = Layout
+Account.Layout = Layout

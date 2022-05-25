@@ -15,8 +15,8 @@ const LINKS = [
     href: '/orders',
   },
   {
-    name: 'My Profile',
-    href: '/profile',
+    name: 'My Account',
+    href: '/account',
   },
   {
     name: 'My Cart',
