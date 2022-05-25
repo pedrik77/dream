@@ -1,5 +1,4 @@
-import { FC, useEffect, useState, useCallback } from 'react'
-import { validate } from 'email-validator'
+import { FC, useState } from 'react'
 import { Info } from '@components/icons'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
@@ -17,7 +16,6 @@ const SignUpView: FC<Props> = () => {
   const [newsletter, setNewsletter] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
-  const [dirty, setDirty] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
   const router = useRouter()
@@ -26,11 +24,6 @@ const SignUpView: FC<Props> = () => {
 
   const handleSignup = async (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
-
-    if (!dirty && !disabled) {
-      setDirty(true)
-      handleValidation()
-    }
 
     try {
       setLoading(true)
@@ -45,24 +38,6 @@ const SignUpView: FC<Props> = () => {
       setLoading(false)
     }
   }
-
-  const handleValidation = useCallback(() => {
-    // Test for Alphanumeric password
-    const validPassword = /^(?=.*[a-zA-Z])(?=.*[0-9])/.test(password)
-
-    // Unable to send form unless fields are valid.
-    if (dirty) {
-      setDisabled(
-        !validate(email) ||
-          password.length < MIN_PASSWORD_LENGTH ||
-          !validPassword
-      )
-    }
-  }, [email, password, dirty])
-
-  useEffect(() => {
-    handleValidation()
-  }, [handleValidation])
 
   return (
     <form
