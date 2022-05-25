@@ -4,6 +4,7 @@ import { Info } from '@components/icons'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { signUp } from '@lib/auth'
+import { useRouter } from 'next/router'
 
 export const MIN_PASSWORD_LENGTH = 8
 
@@ -18,6 +19,8 @@ const SignUpView: FC<Props> = () => {
   const [message, setMessage] = useState('')
   const [dirty, setDirty] = useState(false)
   const [disabled, setDisabled] = useState(false)
+
+  const router = useRouter()
 
   const { setModalView, closeModal } = useUI()
 
@@ -35,6 +38,8 @@ const SignUpView: FC<Props> = () => {
       await signUp(email, password, newsletter)
       setLoading(false)
       closeModal()
+
+      router.push('/account')
     } catch (e: any) {
       setMessage(e.message)
       setLoading(false)

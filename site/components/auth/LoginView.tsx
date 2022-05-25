@@ -4,6 +4,7 @@ import { useUI } from '@components/ui/context'
 import { validate } from 'email-validator'
 import { MIN_PASSWORD_LENGTH } from './SignUpView'
 import { signIn } from '@lib/auth'
+import { useRouter } from 'next/router'
 
 const LoginView: React.FC = () => {
   // Form State
@@ -13,6 +14,7 @@ const LoginView: React.FC = () => {
   const [message, setMessage] = useState('')
   const [disabled, setDisabled] = useState(false)
   const { setModalView, closeModal } = useUI()
+  const router = useRouter()
 
   const handleLogin = async (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
@@ -24,6 +26,8 @@ const LoginView: React.FC = () => {
       await signIn(email, password)
       setLoading(false)
       closeModal()
+
+      router.push('/account')
     } catch (e: any) {
       setDisabled(false)
       setLoading(false)

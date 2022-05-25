@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/router'
 import {
   getAuth,
   onAuthStateChanged,
@@ -15,9 +14,9 @@ import { subscribe } from './newsletter'
 
 const auth = getAuth(app)
 
-export function useUser({ redirectTo = '', redirectIfFound = false } = {}) {
+export function useUser() {
   const [user, setUser] = useState(null)
-  const router = useRouter()
+  const [customer, setCustomer] = useState(null)
 
   const isLoggedIn = useMemo(() => !!user, [user])
 
@@ -25,8 +24,7 @@ export function useUser({ redirectTo = '', redirectIfFound = false } = {}) {
     () =>
       onAuthStateChanged(auth, async (user) => {
         if (user) {
-          const result = await getDoc(doc(db, 'customers', user.uid))
-          setUser({ ...user, ...result.data() })
+          setUser(user)
         } else {
           setUser(null)
         }
@@ -35,17 +33,16 @@ export function useUser({ redirectTo = '', redirectIfFound = false } = {}) {
   )
 
   useEffect(() => {
-    if (!redirectTo) return
+    if (!user) return setCustomer(null)
 
-    if (
-      (redirectTo && !redirectIfFound && !isLoggedIn) ||
-      (redirectIfFound && isLoggedIn)
-    ) {
-      router.push(redirectTo)
-    }
-  }, [user, redirectIfFound, redirectTo, isLoggedIn, router])
+    getDoc(doc(db, 'customers', user.uid))
+      .then((doc) => {
+        setCustomer(doc.data())
+      })
+      .catch(console.error)
+  }, [user])
 
-  return { user, isLoggedIn }
+  return { user, customer, isLoggedIn }
 }
 
 export async function signUp(email, password, newsletter = false) {
@@ -55,11 +52,15 @@ export async function signUp(email, password, newsletter = false) {
 
   const { uid } = result.user
 
-  const docRef = doc(db, 'customers', uid)
-  await setDoc(docRef, {
+  setCustomerProfile(uid, {
     fullname: '',
     phone: '',
-    address: {},
+    address: {
+      street: '',
+      city: '',
+      country: '',
+      zip: '',
+    },
   })
 
   if (newsletter) {
@@ -79,4 +80,9 @@ export function resetPassword(email) {
 
 export function signOut() {
   return authSignOut(auth)
+}
+
+export function setCustomerProfile(uid, data) {
+  const docRef = doc(db, 'customers', uid)
+  return setDoc(docRef, data)
 }
