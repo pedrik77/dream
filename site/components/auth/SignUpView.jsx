@@ -4,8 +4,8 @@ import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { signUp } from '@lib/auth'
 import { useRouter } from 'next/router'
-import { flash } from '@lib/flash'
 import Link from 'next/link'
+import { flash } from '@components/ui/FlashMessage'
 
 export const MIN_PASSWORD_LENGTH = 8
 

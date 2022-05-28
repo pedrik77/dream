@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
 } from '@components/ui/Dropdown/Dropdown'
 import { signOut } from '@lib/auth'
-import { flash } from '@lib/flash'
+import { flash } from '@components/ui/FlashMessage'
 
 const LINKS = [
   {

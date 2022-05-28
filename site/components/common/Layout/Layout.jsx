@@ -15,6 +15,7 @@ import CheckoutSidebarView from '@components/checkout/CheckoutSidebarView'
 import { CheckoutProvider } from '@components/checkout/context'
 import { MenuSidebarView } from '@components/common/UserNav'
 import { Flasher } from 'react-universal-flash'
+import { FlashMessage } from '@components/ui/FlashMessage'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -101,7 +102,9 @@ const Layout = ({ children, pageProps: { categories = [], ...pageProps } }) => {
         <main className="fit">{children}</main>
         <Footer pages={pageProps.pages} />
         <ModalUI />
-        <Flasher position="top_center" />
+        <Flasher position="top_center">
+          <FlashMessage />
+        </Flasher>
         <CheckoutProvider>
           <SidebarUI links={navBarlinks} />
         </CheckoutProvider>

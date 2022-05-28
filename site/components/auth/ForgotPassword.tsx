@@ -3,7 +3,7 @@ import { validate } from 'email-validator'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { resetPassword } from '@lib/auth'
-import { flash } from '@lib/flash'
+import { flash } from '@components/ui/FlashMessage'
 
 interface Props {}
 

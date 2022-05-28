@@ -5,7 +5,7 @@ import { validate } from 'email-validator'
 import { MIN_PASSWORD_LENGTH } from './SignUpView'
 import { signIn } from '@lib/auth'
 import { useRouter } from 'next/router'
-import { flash } from '@lib/flash'
+import { flash } from '@components/ui/FlashMessage'
 
 const FlashMessages = {
   success: 'Vitajte naspäť, sme radi, že vás tu máme!',

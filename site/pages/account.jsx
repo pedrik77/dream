@@ -3,6 +3,7 @@ import { Layout } from '@components/common'
 import { Container, Text, Input, Button } from '@components/ui'
 import { useUser, setCustomerProfile, resetPassword } from '@lib/auth'
 import { useEffect, useState } from 'react'
+import { flash } from '@components/ui/FlashMessage'
 
 export default function Account() {
   const { user, customer } = useUser()
@@ -16,7 +17,6 @@ export default function Account() {
   const [zip, setZip] = useState('')
 
   const [saving, setSaving] = useState(false)
-  const [resetEmailSent, setResetEmailSent] = useState(false)
 
   useEffect(() => {
     if (!customer) return
@@ -53,7 +53,17 @@ export default function Account() {
     e.preventDefault()
 
     await resetPassword(user.email)
-    setResetEmailSent(true)
+    flash(
+      <>
+        Poslali sme mail na tulic.peter77@gmail.com. Kliknite na link v maile
+        pre dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
+        <a href="#" onClick={sendResetEmail} className="text-bold">
+          Poslať znova
+        </a>
+      </>,
+      'info',
+      15
+    )
   }
 
   if (!user || !customer) return null
@@ -131,15 +141,6 @@ export default function Account() {
               <Button type="button" onClick={sendResetEmail}>
                 Zmeniť heslo
               </Button>
-              {resetEmailSent && (
-                <span>
-                  Poslali sme mail na {user.email}. Kliknite na link v maile pre
-                  dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
-                  <a href="#" onClick={sendResetEmail}>
-                    Poslať znova.
-                  </a>
-                </span>
-              )}
             </div>
           </div>
         </div>
