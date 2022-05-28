@@ -3,6 +3,7 @@ import { validate } from 'email-validator'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { resetPassword } from '@lib/auth'
+import { flash } from '@lib/flash'
 
 interface Props {}
 
@@ -10,7 +11,6 @@ const ForgotPassword: FC<Props> = () => {
   // Form State
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
   const [dirty, setDirty] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
@@ -26,7 +26,7 @@ const ForgotPassword: FC<Props> = () => {
 
     await resetPassword(email)
     setDisabled(true)
-    setMessage('Check your email for a reset link.')
+    flash('Email bol odoslaný na zadanú adresu.')
   }
 
   const handleValidation = useCallback(() => {
