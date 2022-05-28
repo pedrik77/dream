@@ -11,34 +11,16 @@ const ForgotPassword: FC<Props> = () => {
   // Form State
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
-  const [dirty, setDirty] = useState(false)
-  const [disabled, setDisabled] = useState(false)
 
   const { setModalView, closeModal } = useUI()
 
   const handleResetPassword = async (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
 
-    if (!dirty && !disabled) {
-      setDirty(true)
-      handleValidation()
-    }
-
     await resetPassword(email)
-    setDisabled(true)
+    setLoading(true)
     flash('Email bol odoslaný na zadanú adresu.')
   }
-
-  const handleValidation = useCallback(() => {
-    // Unable to send form unless fields are valid.
-    if (dirty) {
-      setDisabled(!validate(email))
-    }
-  }, [email, dirty])
-
-  useEffect(() => {
-    handleValidation()
-  }, [handleValidation])
 
   return (
     <form
@@ -60,7 +42,7 @@ const ForgotPassword: FC<Props> = () => {
             variant="slim"
             type="submit"
             loading={loading}
-            disabled={disabled}
+            disabled={loading}
           >
             Odoslať
           </Button>

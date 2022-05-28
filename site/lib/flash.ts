@@ -1,3 +1,4 @@
+// @ts-ignore
 import { flash as reactFlash } from 'react-universal-flash'
 
 export const flash = (
