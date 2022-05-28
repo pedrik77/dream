@@ -6822,6 +6822,13 @@ react-style-singleton@^2.1.0:
     invariant "^2.2.4"
     tslib "^1.0.0"
 
+react-universal-flash@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/react-universal-flash/-/react-universal-flash-1.0.15.tgz#b67c175fab7b8b3da7f794df164cd44a0277d797"
+  integrity sha512-TlWmrfTh8X07jD4tcMHG/YIsKePuw8A4dNQVE4iOJJ1IOew7cfqVBVrlUBj50N+a+Wyo6spj4GmK2Z6X9Qz3Nw==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-use-measure@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-use-measure/-/react-use-measure-2.1.1.tgz#5824537f4ee01c9469c45d5f7a8446177c6cc4ba"
