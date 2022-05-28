@@ -54,7 +54,9 @@
     "**/*.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.js"
+    "**/*.js",
+    "components/common/Layout/Layout.jsx",
+    "components/auth/LoginView.jsx"
   ],
   "exclude": [
     "node_modules"
