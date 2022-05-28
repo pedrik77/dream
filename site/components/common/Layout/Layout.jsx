@@ -14,9 +14,7 @@ import PaymentMethodView from '@components/checkout/PaymentMethodView'
 import CheckoutSidebarView from '@components/checkout/CheckoutSidebarView'
 import { CheckoutProvider } from '@components/checkout/context'
 import { MenuSidebarView } from '@components/common/UserNav'
-import type { Page } from '@commerce/types/page'
-import type { Category } from '@commerce/types/site'
-import type { Link as LinkProps } from '../UserNav/MenuSidebarView'
+import { Flasher } from 'react-universal-flash'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -48,17 +46,7 @@ const Modal = dynamic(() => import('@components/ui/Modal'), {
   ssr: false,
 })
 
-interface Props {
-  pageProps: {
-    pages?: Page[]
-    categories: Category[]
-  }
-}
-
-const ModalView: React.FC<{ modalView: string; closeModal(): any }> = ({
-  modalView,
-  closeModal,
-}) => {
+const ModalView = ({ modalView, closeModal }) => {
   return (
     <Modal onClose={closeModal}>
       {modalView === 'LOGIN_VIEW' && <LoginView />}
@@ -68,18 +56,14 @@ const ModalView: React.FC<{ modalView: string; closeModal(): any }> = ({
   )
 }
 
-const ModalUI: React.FC = () => {
+const ModalUI = () => {
   const { displayModal, closeModal, modalView } = useUI()
   return displayModal ? (
     <ModalView modalView={modalView} closeModal={closeModal} />
   ) : null
 }
 
-const SidebarView: React.FC<{
-  sidebarView: string
-  closeSidebar(): any
-  links: LinkProps[]
-}> = ({ sidebarView, closeSidebar, links }) => {
+const SidebarView = ({ sidebarView, closeSidebar, links }) => {
   return (
     <Sidebar onClose={closeSidebar}>
       {sidebarView === 'CART_VIEW' && <CartSidebarView />}
@@ -91,7 +75,7 @@ const SidebarView: React.FC<{
   )
 }
 
-const SidebarUI: React.FC<{ links: LinkProps[] }> = ({ links }) => {
+const SidebarUI = ({ links }) => {
   const { displaySidebar, closeSidebar, sidebarView } = useUI()
   return displaySidebar ? (
     <SidebarView
@@ -102,10 +86,7 @@ const SidebarUI: React.FC<{ links: LinkProps[] }> = ({ links }) => {
   ) : null
 }
 
-const Layout: React.FC<Props> = ({
-  children,
-  pageProps: { categories = [], ...pageProps },
-}) => {
+const Layout = ({ children, pageProps: { categories = [], ...pageProps } }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
   const navBarlinks = categories.slice(0, 2).map((c) => ({
@@ -120,6 +101,7 @@ const Layout: React.FC<Props> = ({
         <main className="fit">{children}</main>
         <Footer pages={pageProps.pages} />
         <ModalUI />
+        <Flasher position="top_center" />
         <CheckoutProvider>
           <SidebarUI links={navBarlinks} />
         </CheckoutProvider>

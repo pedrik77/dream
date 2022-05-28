@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
 } from '@components/ui/Dropdown/Dropdown'
 import { signOut } from '@lib/auth'
+import { flash } from '@lib/flash'
 
 const LINKS = [
   {
@@ -76,6 +77,7 @@ export default function CustomerMenuContent() {
           className={cn(s.link, 'border-t border-accent-2 mt-4')}
           onClick={async () => {
             await signOut()
+            flash('Boli ste úspešne odhlásený', 'success')
             router.push('/')
           }}
         >

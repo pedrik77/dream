@@ -30,6 +30,7 @@ const UserNav: React.FC<{
     openModal,
     setSidebarView,
     openSidebar,
+    setModalView,
   } = useUI()
 
   const itemsCount = data?.lineItems.reduce(countItem, 0) ?? 0
@@ -58,7 +59,11 @@ const UserNav: React.FC<{
               <button
                 aria-label="Menu"
                 className={s.avatarButton}
-                onClick={() => (isLoggedIn ? null : openModal())}
+                onClick={() => {
+                  if (isLoggedIn) return
+                  setModalView('LOGIN_VIEW')
+                  openModal()
+                }}
               >
                 <Avatar />
               </button>
