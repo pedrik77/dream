@@ -3,6 +3,7 @@ import { validate } from 'email-validator'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { resetPassword } from '@lib/auth'
+import { flash } from '@lib/flash'
 
 interface Props {}
 
@@ -10,7 +11,6 @@ const ForgotPassword: FC<Props> = () => {
   // Form State
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
   const [dirty, setDirty] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
@@ -26,7 +26,7 @@ const ForgotPassword: FC<Props> = () => {
 
     await resetPassword(email)
     setDisabled(true)
-    setMessage('Check your email for a reset link.')
+    flash('Email bol odoslaný na zadanú adresu.')
   }
 
   const handleValidation = useCallback(() => {
@@ -49,9 +49,10 @@ const ForgotPassword: FC<Props> = () => {
         <Logo width="64px" height="64px" />
       </div>
       <div className="flex flex-col space-y-4">
-        {message && (
-          <div className="text-red border border-red p-3">{message}</div>
-        )}
+        <div className="p-3">
+          Prosím zadajte vašu e-mailovú adresu. Pošleme vám e-mail na
+          resetovanie vášho hesla.
+        </div>
 
         <Input placeholder="Email" onChange={setEmail} type="email" />
         <div className="pt-2 w-full flex flex-col">
@@ -61,18 +62,16 @@ const ForgotPassword: FC<Props> = () => {
             loading={loading}
             disabled={disabled}
           >
-            Recover Password
+            Odoslať
           </Button>
         </div>
 
         <span className="pt-3 text-center text-sm">
-          <span className="text-accent-7">Do you have an account?</span>
-          {` `}
           <a
             className="text-accent-9 font-bold hover:underline cursor-pointer"
             onClick={() => setModalView('LOGIN_VIEW')}
           >
-            Log In
+            Prihlásiť sa
           </a>
         </span>
       </div>
