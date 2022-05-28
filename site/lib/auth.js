@@ -7,10 +7,20 @@ import {
   signOut as authSignOut,
   sendPasswordResetEmail,
   sendEmailVerification,
+  FacebookAuthProvider,
+  GoogleAuthProvider,
 } from 'firebase/auth'
 import { app, db } from './firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { subscribe } from './newsletter'
+
+const getProvider = (provider) => {
+  if (provider === 'fb') return FacebookAuthProvider
+
+  if (provider === 'google') return GoogleAuthProvider
+
+  return null
+}
 
 const auth = getAuth(app)
 
@@ -72,6 +82,10 @@ export async function signUp(email, password, newsletter = false) {
 
 export function signIn(email, password) {
   return signInWithEmailAndPassword(auth, email, password)
+}
+
+export function signInVia(provider) {
+  return auth.signInWithPopup(getProvider(provider))
 }
 
 export function resetPassword(email) {
