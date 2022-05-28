@@ -9,14 +9,18 @@ export const MIN_PASSWORD_LENGTH = 8
 
 interface Props {}
 
+// const FlashMessages = {
+//   success: 'Vitajte naspäť, sme radi, že vás tu máme!',
+//   'auth/user-not-found': 'Email je nesprávny',
+//   'auth/wrong-password': 'Heslo je nesprávne',
+// }
+
 const SignUpView: FC<Props> = () => {
   // Form State
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [newsletter, setNewsletter] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const [disabled, setDisabled] = useState(false)
 
   const router = useRouter()
 
@@ -27,14 +31,14 @@ const SignUpView: FC<Props> = () => {
 
     try {
       setLoading(true)
-      setMessage('')
+      // setMessage('')
       await signUp(email, password, newsletter)
       setLoading(false)
       closeModal()
 
       router.push('/account')
     } catch (e: any) {
-      setMessage(e.message)
+      // setMessage(e.message)
       setLoading(false)
     }
   }
@@ -48,9 +52,6 @@ const SignUpView: FC<Props> = () => {
         <Logo width="64px" height="64px" />
       </div>
       <div className="flex flex-col space-y-4">
-        {message && (
-          <div className="text-orange border border-red p-3">{message}</div>
-        )}
         <Input type="email" placeholder="Email" onChange={setEmail} />
         <Input type="password" placeholder="Password" onChange={setPassword} />
         <label>
@@ -73,7 +74,7 @@ const SignUpView: FC<Props> = () => {
             variant="slim"
             type="submit"
             loading={loading}
-            disabled={disabled}
+            disabled={loading}
           >
             Sign Up
           </Button>

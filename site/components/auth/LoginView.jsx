@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import { flash } from '@lib/flash'
 
 const FlashMessages = {
-  success: "'Vitajte naspäť, sme radi, že vás tu máme!'",
+  success: 'Vitajte naspäť, sme radi, že vás tu máme!',
   'auth/user-not-found': 'Email je nesprávny',
   'auth/wrong-password': 'Heslo je nesprávne',
 }
@@ -18,13 +18,11 @@ const LoginView = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [disabled, setDisabled] = useState(false)
   const { setModalView, closeModal } = useUI()
   const router = useRouter()
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    setDisabled(true)
 
     try {
       setLoading(true)
@@ -34,7 +32,6 @@ const LoginView = () => {
       flash(FlashMessages.success, 'success')
       router.push('/account')
     } catch (e) {
-      setDisabled(false)
       setLoading(false)
       flash(FlashMessages[e.code] ?? e.message, 'danger')
       console.error(e.code)
@@ -64,7 +61,7 @@ const LoginView = () => {
           variant="slim"
           type="submit"
           loading={loading}
-          disabled={disabled}
+          disabled={loading}
         >
           Prihlásiť
         </Button>
