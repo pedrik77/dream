@@ -2,7 +2,7 @@ import { FC, useState } from 'react'
 import { Info } from '@components/icons'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
-import { signUp } from '@lib/auth'
+import { signInVia, signUp } from '@lib/auth'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { flash } from '@components/ui/FlashMessage'
@@ -43,7 +43,7 @@ const SignUpView = () => {
     }
   }
 
-  const handleFbSignUp = async () => {}
+  const handleFbSignUp = () => signInVia('fb')
 
   return (
     <form

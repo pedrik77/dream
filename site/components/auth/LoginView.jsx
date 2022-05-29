@@ -3,7 +3,7 @@ import { Logo, Button, Input } from '@components/ui'
 import { useUI } from '@components/ui/context'
 import { validate } from 'email-validator'
 import { MIN_PASSWORD_LENGTH } from './SignUpView'
-import { signIn } from '@lib/auth'
+import { signIn, signInVia } from '@lib/auth'
 import { useRouter } from 'next/router'
 import { flash } from '@components/ui/FlashMessage'
 
@@ -38,7 +38,7 @@ const LoginView = () => {
     }
   }
 
-  const handleFbLogin = async () => {}
+  const handleFbLogin = () => signInVia('fb')
 
   return (
     <form
