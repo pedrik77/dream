@@ -7,10 +7,21 @@ import {
   signOut as authSignOut,
   sendPasswordResetEmail,
   sendEmailVerification,
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  signInWithRedirect,
 } from 'firebase/auth'
 import { app, db } from './firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { subscribe } from './newsletter'
+
+function getProvider(provider) {
+  if (provider === 'fb') return new FacebookAuthProvider()
+
+  if (provider === 'google') return new GoogleAuthProvider()
+
+  throw new Error('Unknown provider')
+}
 
 const auth = getAuth(app)
 
@@ -22,7 +33,7 @@ export function useUser() {
 
   useEffect(
     () =>
-      onAuthStateChanged(auth, async (user) => {
+      onAuthStateChanged(auth, (user) => {
         if (user) {
           setUser(user)
         } else {
@@ -72,6 +83,10 @@ export async function signUp(email, password, newsletter = false) {
 
 export function signIn(email, password) {
   return signInWithEmailAndPassword(auth, email, password)
+}
+
+export function signInVia(provider) {
+  return signInWithRedirect(auth, getProvider(provider))
 }
 
 export function resetPassword(email) {
