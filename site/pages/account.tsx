@@ -2,7 +2,12 @@ import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
 import { Container, Text, Input, Button } from '@components/ui'
 import { useUser, setCustomerProfile, resetPassword } from '@lib/auth'
-import { useEffect, useState } from 'react'
+import React, {
+  FormEventHandler,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react'
 import { flash } from '@components/ui/FlashMessage'
 
 export default function Account() {
@@ -19,8 +24,6 @@ export default function Account() {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    if (!customer) return
-
     setFullname(customer.fullname)
     setPhone(customer.phone)
 
@@ -30,8 +33,10 @@ export default function Account() {
     setZip(customer.address.zip)
   }, [user, customer])
 
-  const save = async (e) => {
+  const save: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
+
+    if (!user) return
 
     setSaving(true)
 
@@ -49,20 +54,29 @@ export default function Account() {
     setSaving(false)
   }
 
-  const sendResetEmail = async (e) => {
+  const sendResetEmail: MouseEventHandler = async (e) => {
     e.preventDefault()
 
+    if (!user || !user.email) return
     await resetPassword(user.email)
     flash(
-      <>
-        Poslali sme mail na tulic.peter77@gmail.com. Kliknite na link v maile
-        pre dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
-        <a href="#" onClick={sendResetEmail} className="text-bold">
-          Poslať znova
-        </a>
-      </>,
-      'info',
-      15
+      (deleteFlash) => (
+        <>
+          Poslali sme mail na tulic.peter77@gmail.com. Kliknite na link v maile
+          pre dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
+          <a
+            href="#"
+            onClick={(e) => {
+              deleteFlash()
+              sendResetEmail(e)
+            }}
+            className="text-bold"
+          >
+            Poslať znova
+          </a>
+        </>
+      ),
+      'info'
     )
   }
 
@@ -150,6 +164,7 @@ export default function Account() {
   )
 }
 
+// @ts-ignore
 export async function getStaticProps({ preview, locale, locales }) {
   const config = { locale, locales }
   const pagesPromise = commerce.getAllPages({ config, preview })
