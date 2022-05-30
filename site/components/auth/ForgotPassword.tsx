@@ -16,10 +16,11 @@ const ForgotPassword: FC<Props> = () => {
 
   const handleResetPassword = async (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
+    setLoading(true)
 
     await resetPassword(email)
-    setLoading(true)
     flash('Email bol odoslaný na zadanú adresu.')
+    closeModal()
   }
 
   return (

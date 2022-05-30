@@ -4,10 +4,14 @@ import cn from 'clsx'
 
 export type FlashType = 'success' | 'danger' | 'warning' | 'info'
 
+type MessageType = string | JSX.Element
+type MessageCallbackType = (deleteFlash: DeleteFlashType) => MessageType
+type DeleteFlashType = () => void
+
 interface Props {
   type: FlashType
-  content: any
-  deleteFlash: () => void
+  content: MessageCallbackType | MessageType
+  deleteFlash: DeleteFlashType
 }
 
 export const FlashMessage: React.FC<Props> = ({
@@ -15,6 +19,9 @@ export const FlashMessage: React.FC<Props> = ({
   content,
   deleteFlash,
 }) => {
+  const flashBody =
+    typeof content === 'function' ? content(deleteFlash) : content
+
   return (
     <div
       className={cn(
@@ -25,7 +32,7 @@ export const FlashMessage: React.FC<Props> = ({
         type === 'warning' && 'bg-yellow-500'
       )}
     >
-      {content}
+      {flashBody}
       <span className="font-bold px-2 cursor-pointer" onClick={deleteFlash}>
         &times;
       </span>
@@ -33,5 +40,8 @@ export const FlashMessage: React.FC<Props> = ({
   )
 }
 
-export const flash = (message: string, type: FlashType = 'info', seconds = 4) =>
-  reactFlash(message, seconds * 1000, type)
+export const flash = (
+  message: MessageCallbackType | MessageType,
+  type: FlashType = 'info',
+  seconds = 4
+) => reactFlash(message, seconds * 1000, type)
