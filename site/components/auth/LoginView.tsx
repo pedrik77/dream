@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useCallback } from 'react'
+import { FC, useEffect, useState, useCallback, FormEventHandler } from 'react'
 import { Logo, Button, Input } from '@components/ui'
 import { useUI } from '@components/ui/context'
 import { validate } from 'email-validator'
@@ -6,8 +6,9 @@ import { MIN_PASSWORD_LENGTH } from './SignUpView'
 import { signIn, signInVia } from '@lib/auth'
 import { useRouter } from 'next/router'
 import { flash } from '@components/ui/FlashMessage'
+import { StringMap } from '@lib/common-types'
 
-const FlashMessages = {
+const FlashMessages: StringMap = {
   success: 'Vitajte naspäť, sme radi, že vás tu máme!',
   'auth/user-not-found': 'Email je nesprávny',
   'auth/wrong-password': 'Heslo je nesprávne',
@@ -21,7 +22,7 @@ const LoginView = () => {
   const { setModalView, closeModal } = useUI()
   const router = useRouter()
 
-  const handleLogin = async (e) => {
+  const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
 
     try {
@@ -31,7 +32,7 @@ const LoginView = () => {
       closeModal()
       flash(FlashMessages.success, 'success')
       router.push('/account')
-    } catch (e) {
+    } catch (e: any) {
       setLoading(false)
       flash(FlashMessages[e.code] ?? e.message, 'danger')
       console.error(e.code)

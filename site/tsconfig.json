@@ -3,7 +3,11 @@
     "baseUrl": ".",
     "target": "esnext",
     "module": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -16,15 +20,33 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@lib/*": ["lib/*"],
-      "@utils/*": ["utils/*"],
-      "@config/*": ["config/*"],
-      "@assets/*": ["assets/*"],
-      "@components/*": ["components/*"],
-      "@commerce": ["../packages/commerce/src"],
-      "@commerce/*": ["../packages/commerce/src/*"],
-      "@framework": ["../packages/local/src"],
-      "@framework/*": ["../packages/local/src/*"]
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@config/*": [
+        "config/*"
+      ],
+      "@assets/*": [
+        "assets/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@commerce": [
+        "../packages/commerce/src"
+      ],
+      "@commerce/*": [
+        "../packages/commerce/src/*"
+      ],
+      "@framework": [
+        "../packages/local/src"
+      ],
+      "@framework/*": [
+        "../packages/local/src/*"
+      ]
     }
   },
   "include": [
@@ -34,9 +56,8 @@
     "**/*.tsx",
     "**/*.js",
     "components/common/Layout/Layout.jsx",
-    "components/auth/LoginView.jsx",
-    "components/auth/SignUpView.jsx",
-    "components/ui/FlashMessage/FlashMessage.jsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, FormEventHandler, useState } from 'react'
 import { Info } from '@components/icons'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
@@ -6,10 +6,11 @@ import { signInVia, signUp } from '@lib/auth'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { flash } from '@components/ui/FlashMessage'
+import { StringMap } from '@lib/common-types'
 
 export const MIN_PASSWORD_LENGTH = 8
 
-const FlashMessages = {
+const FlashMessages: StringMap = {
   confirm:
     'Na overenie vašej e-mailovej adresy kliknite na odkaz v e-maile, ktorý sme vám poslali',
   success: 'Gratulujeme, vaša registrácia prebehla úspešne!',
@@ -26,7 +27,7 @@ const SignUpView = () => {
 
   const { setModalView, closeModal } = useUI()
 
-  const handleSignup = async (e) => {
+  const handleSignUp: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
 
     try {
@@ -37,7 +38,7 @@ const SignUpView = () => {
       closeModal()
 
       router.push('/account')
-    } catch (e) {
+    } catch (e: any) {
       flash(FlashMessages[e.code] ?? e.message, 'danger')
       setLoading(false)
     }
@@ -47,7 +48,7 @@ const SignUpView = () => {
 
   return (
     <form
-      onSubmit={handleSignup}
+      onSubmit={handleSignUp}
       className="w-80 flex flex-col justify-between p-3"
     >
       <div className="flex justify-center pb-12 ">

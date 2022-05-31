@@ -14,6 +14,7 @@ import PaymentMethodView from '@components/checkout/PaymentMethodView'
 import CheckoutSidebarView from '@components/checkout/CheckoutSidebarView'
 import { CheckoutProvider } from '@components/checkout/context'
 import { MenuSidebarView } from '@components/common/UserNav'
+// @ts-ignore
 import { Flasher } from 'react-universal-flash'
 import { FlashMessage } from '@components/ui/FlashMessage'
 
