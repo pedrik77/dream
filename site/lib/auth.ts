@@ -63,7 +63,7 @@ export function useUser() {
   useEffect(() => {
     if (!user) return setCustomer(NULL_CUSTOMER_DATA)
 
-    onSnapshot(
+    return onSnapshot(
       doc(db, 'customers', user.uid),
       (doc) => {
         const data = doc.data()
@@ -79,6 +79,37 @@ export function useUser() {
   }, [user])
 
   return { user, customer, isLoggedIn }
+}
+
+export function useAdmin() {
+  const { user } = useUser()
+
+  const [permissions, setPermissions] = useState<string[]>([])
+
+  const hasPermission = (permission: string) => permissions.includes(permission)
+
+  useEffect(() => {
+    if (!user || !user.email) return
+
+    return onSnapshot(
+      doc(db, 'admins', user.email),
+      (doc) => {
+        const data = doc.data()
+        console.log('admin data', data)
+
+        if (!data) return setPermissions([])
+
+        setPermissions(data.permissions)
+      },
+      (err) => console.error(err)
+    )
+  }, [user])
+
+  return {
+    permissions,
+    isAdmin: !!permissions.length,
+    hasPermission,
+  }
 }
 
 export async function signUp(

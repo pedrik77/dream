@@ -1,8 +1,13 @@
 import { Layout } from '@components/common'
 import { Button, Container, Text } from '@components/ui'
+import { useAdmin } from '@lib/auth'
 import Link from 'next/link'
 
 export default function Dashboard() {
+  const { isAdmin, hasPermission } = useAdmin()
+
+  if (!isAdmin) return null
+
   return (
     <div>
       <Container className="grid lg:grid-cols-2 pt-4 gap-20">
