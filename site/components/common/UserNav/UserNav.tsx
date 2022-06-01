@@ -56,7 +56,7 @@ const UserNav: React.FC<{
         <li className={s.item}>
           <Dropdown>
             <DropdownTrigger>
-              <button
+              <a
                 aria-label="Menu"
                 className={s.avatarButton}
                 onClick={() => {
@@ -66,7 +66,7 @@ const UserNav: React.FC<{
                 }}
               >
                 <Avatar />
-              </button>
+              </a>
             </DropdownTrigger>
             <CustomerMenuContent />
           </Dropdown>

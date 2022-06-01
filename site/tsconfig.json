@@ -27,6 +27,13 @@
       "@framework/*": ["../packages/local/src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "components/common/Layout/Layout.jsx"
+  ],
   "exclude": ["node_modules"]
 }
