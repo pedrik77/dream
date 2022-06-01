@@ -86,7 +86,9 @@ export function useAdmin() {
 
   const [permissions, setPermissions] = useState<string[]>([])
 
-  const hasPermission = (permission: string) => permissions.includes(permission)
+  const hasPermission = (permission: string, orSuperAdmin = true) =>
+    permissions.includes(permission) ||
+    (orSuperAdmin ? permissions.includes('superadmin') : false)
 
   useEffect(() => {
     if (!user || !user.email) return
