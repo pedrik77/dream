@@ -27,16 +27,6 @@
       "@framework/*": ["../packages/local/src/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "components/common/Layout/Layout.jsx",
-    "components/auth/LoginView.jsx",
-    "components/auth/SignUpView.jsx",
-    "components/ui/FlashMessage/FlashMessage.jsx"
-  ],
+  "include": ["next-env.d.ts", "**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
   "exclude": ["node_modules"]
 }
