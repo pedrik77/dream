@@ -9,6 +9,7 @@ import React, {
   useState,
 } from 'react'
 import { flash } from '@components/ui/FlashMessage'
+import Link from 'next/link'
 
 export default function Account() {
   const { user, customer } = useUser()
@@ -84,82 +85,96 @@ export default function Account() {
 
   return (
     <Container className="pt-4">
-      <Text variant="pageHeading">Nastavenie účtu</Text>
-      <form onSubmit={save}>
-        <div className="grid grid-cols-2">
-          <Text variant="sectionHeading">Osobné informácie</Text>
-          <div className="flex flex-col divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Emailová adresa
-              </span>
-              <span>{user.email}</span>
-            </div>
-
-            <span>
-              Pre zmenu vašej mailovej adresy kontaktujte náš tím na adrese
-              info@dream.sk
-            </span>
-
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Celé meno
-              </span>
-              <Input value={fullname} onChange={setFullname} />
-            </div>
-
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Telefónne číslo
-              </span>
-              <Input value={phone} onChange={setPhone} type="tel" />
-            </div>
-          </div>
+      <div className="flex gap-3">
+        <div className="flex flex-col ">
+          <Link href="/account">
+            <a className="text-primary-600 hover:text-gray-800">
+              Nastavenie účtu
+            </a>
+          </Link>
+          <Link href="/orders">
+            <a className="text-primary-600 hover:text-gray-800">Moje súťaže</a>
+          </Link>
         </div>
-        <div className="grid grid-cols-2">
-          <Text variant="sectionHeading">Adresa</Text>
-          <div className="flex flex-col divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Ulica
-              </span>
-              <Input value={street} onChange={setStreet} />
-            </div>
+        <div className="flex-grow">
+          <Text variant="pageHeading">Nastavenie účtu</Text>
+          <form onSubmit={save}>
+            <div className="grid grid-cols-2">
+              <Text variant="sectionHeading">Osobné informácie</Text>
+              <div className="flex flex-col divide-accent-2 divide-y">
+                <div className="flex flex-row items-center space-x-4 py-4">
+                  <span className="text-lg font-medium text-accent-600 flex-1">
+                    Emailová adresa
+                  </span>
+                  <span>{user.email}</span>
+                </div>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Mesto
-              </span>
-              <Input value={city} onChange={setCity} />
-            </div>
+                <span>
+                  Pre zmenu vašej mailovej adresy kontaktujte náš tím na adrese
+                  info@dream.sk
+                </span>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Krajina
-              </span>
-              <Input value={country} onChange={setCountry} />
-            </div>
+                <div className="flex flex-row items-center space-x-4 py-4">
+                  <span className="text-lg font-medium text-accent-600 flex-1">
+                    Celé meno
+                  </span>
+                  <Input value={fullname} onChange={setFullname} />
+                </div>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                PSČ
-              </span>
-              <Input value={zip} onChange={setZip} />
+                <div className="flex flex-row items-center space-x-4 py-4">
+                  <span className="text-lg font-medium text-accent-600 flex-1">
+                    Telefónne číslo
+                  </span>
+                  <Input value={phone} onChange={setPhone} type="tel" />
+                </div>
+              </div>
             </div>
-          </div>
+            <div className="grid grid-cols-2">
+              <Text variant="sectionHeading">Adresa</Text>
+              <div className="flex flex-col divide-accent-2 divide-y">
+                <div className="flex flex-row items-center space-x-4 py-4">
+                  <span className="text-lg font-medium text-accent-600 flex-1">
+                    Ulica
+                  </span>
+                  <Input value={street} onChange={setStreet} />
+                </div>
+
+                <div className="flex flex-row items-center space-x-4 py-4">
+                  <span className="text-lg font-medium text-accent-600 flex-1">
+                    Mesto
+                  </span>
+                  <Input value={city} onChange={setCity} />
+                </div>
+
+                <div className="flex flex-row items-center space-x-4 py-4">
+                  <span className="text-lg font-medium text-accent-600 flex-1">
+                    Krajina
+                  </span>
+                  <Input value={country} onChange={setCountry} />
+                </div>
+
+                <div className="flex flex-row items-center space-x-4 py-4">
+                  <span className="text-lg font-medium text-accent-600 flex-1">
+                    PSČ
+                  </span>
+                  <Input value={zip} onChange={setZip} />
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-2">
+              <Text variant="sectionHeading">Prihlasovanie a bezpečnosť</Text>
+              <div className="flex flex-col divide-accent-2 divide-y">
+                <div className="flex flex-row items-center space-x-4 py-4">
+                  <Button type="button" onClick={sendResetEmail}>
+                    Zmeniť heslo
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <Button disabled={saving}>{saving ? 'Ukladám' : 'Uložiť'}</Button>
+          </form>
         </div>
-        <div className="grid grid-cols-2">
-          <Text variant="sectionHeading">Prihlasovanie a bezpečnosť</Text>
-          <div className="flex flex-col divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <Button type="button" onClick={sendResetEmail}>
-                Zmeniť heslo
-              </Button>
-            </div>
-          </div>
-        </div>
-        <Button disabled={saving}>{saving ? 'Ukladám' : 'Uložiť'}</Button>
-      </form>
+      </div>
     </Container>
   )
 }
