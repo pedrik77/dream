@@ -80,6 +80,11 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
           to COVID-19.
         </Collapse>
       </div>
+      <div>
+        <Button type="button" className={s.button}>
+          Join now
+        </Button>
+      </div>
     </div>
   )
 }
