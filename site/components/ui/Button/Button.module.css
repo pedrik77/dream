@@ -8,7 +8,7 @@
 }
 
 .root:hover {
-  @apply border-secondary text-accent-0 bg-primary;
+  @apply border-primary text-accent-0 bg-primary;
 }
 
 .root:focus {

@@ -51,7 +51,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
       />
       <div className="flex flex-row justify-between items-center">
         <Rating value={4} />
-        <div className="text-accent-6 pr-1 font-medium text-sm">36 reviews</div>
+        <div className="pr-1 font-medium text-sm">36 reviews</div>
       </div>
       <div>
         {process.env.COMMERCE_CART_ENABLED && (
@@ -80,8 +80,10 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
           to COVID-19.
         </Collapse>
       </div>
-      <div>
-        <Button type="button" className={s.button}>
+
+      {/* TODO Toto ten button neviem */}
+      <div className="flex justify-center">
+        <Button type="button" className={(s.button, 'my-5')}>
           Join now
         </Button>
       </div>
