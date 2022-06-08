@@ -29,8 +29,9 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
                       className={s.img}
                       src={image.url!}
                       alt={image.alt || 'Product Image'}
+                      layout="responsive"
                       width={800}
-                      height={650}
+                      height={600}
                       priority={i === 0}
                       quality="100"
                     />
