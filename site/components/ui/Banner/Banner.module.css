@@ -1,6 +1,14 @@
 .root {
-  @apply bg-secondary text-accent-9 cursor-pointer transition ease-in-out duration-150
+  @apply bg-secondary text-accent-0 cursor-pointer transition ease-in-out duration-150
   shadow-sm text-center justify-center uppercase
   border border-transparent items-center text-sm font-semibold
   tracking-wide;
+}
+
+.h2 {
+  @apply text-accent-0 font-extrabold;
+}
+
+.h2 span {
+  @apply text-secondary;
 }
