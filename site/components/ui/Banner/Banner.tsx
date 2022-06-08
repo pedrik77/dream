@@ -4,24 +4,27 @@ import s from './Banner.module.css'
 
 const Banner = () => {
   return (
-    <div className="w-screen h-[810px] flex relative">
+    <div className={s.bgOverlay}>
       <Image
-        className={s.img}
-        src="/assets/tesla1_1440x910.jpg"
+        // className={s.img}
+        src="/assets/tesla1_1440x810.jpg"
         alt="alt"
         layout="fill"
         width={1440}
-        height={910}
+        height={810}
         quality="100"
       />
-      <div className="container w-3/5 flex flex-col absolute top-20 left-20">
-        <h2 className="text-accent-0 font-extrabold text-7xl">
-          WIN A BRAND NEW CAR BLAH BLAH BLAH
+      <div className={s.bannerContainer}>
+        <h2 className={s.h2}>
+          WIN A BRAND NEW CAR
           <br></br>
-          <span className="text-secondary"> TESLA BLA</span>
+          <span className={s.span}> TESLA BLA</span>
         </h2>
+        <p className={s.p}>
+          Ice cream chocolate lemon drops sweet soufflé tart fruitcake.
+        </p>
 
-        <div className="flex my-6">
+        <div className="flex">
           <Button
             aria-label="Join Now"
             type="button"
