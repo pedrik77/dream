@@ -70,7 +70,7 @@ export default function Home({
         ))}
       </Marquee> */}
 
-      {/* <Grid layout="B" variant="filled">
+      <Grid layout="B" variant="filled">
         {products.slice(0, 3).map((product: any, i: number) => (
           <ProductCard
             key={product.id}
@@ -86,7 +86,7 @@ export default function Home({
         {products.slice(3).map((product: any, i: number) => (
           <ProductCard key={product.id} product={product} variant="slim" />
         ))}
-      </Marquee> */}
+      </Marquee>
       {/* <HomeAllProductsGrid
         newestProducts={products}
         categories={categories}
