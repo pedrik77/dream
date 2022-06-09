@@ -29,11 +29,11 @@ const Footer: FC<Props> = ({ className, pages }) => {
   return (
     <footer className={rootClassName}>
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-2 py-12 text-primary bg-primary transition-colors duration-150">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
           <div className="col-span-1 lg:col-span-2">
             <Link href="/">
               <a className="flex flex-initial items-center font-bold md:mr-24">
-                <span className="rounded-full border border-accent-6 mr-2">
+                <span className="rounded-full border border-accent-0 mr-2">
                   <Logo />
                 </span>
                 <span>ACME</span>
@@ -45,7 +45,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
               {[...links, ...sitePages].map((page) => (
                 <span key={page.url} className="py-3 md:py-0 md:pb-4">
                   <Link href={page.url!}>
-                    <a className="text-accent-9 hover:text-accent-6 transition ease-in-out duration-150">
+                    <a className="text-accent-0 hover:text-secondary transition ease-in-out duration-150">
                       {page.name}
                     </a>
                   </Link>
@@ -53,7 +53,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
               ))}
             </div>
           </div>
-          <div className="col-span-1 lg:col-span-2 flex items-start lg:justify-end text-primary">
+          <div className="col-span-1 lg:col-span-2 flex items-start lg:justify-end text-accent-0">
             <div className="flex space-x-6 items-center h-10">
               <a
                 className={s.link}
@@ -66,21 +66,21 @@ const Footer: FC<Props> = ({ className, pages }) => {
             </div>
           </div>
         </div>
-        <div className="pt-6 pb-10 flex flex-col md:flex-row justify-between items-center space-y-4 text-accent-6 text-sm">
+        <div className="pt-6 pb-10 flex flex-col md:flex-row justify-between items-center space-y-4 text-secondary text-sm">
           <div>
             <span>&copy; 2020 ACME, Inc. All rights reserved.</span>
           </div>
           <div className="flex items-center text-primary text-sm">
-            <span className="text-primary">Created by</span>
+            <span className="text-secondary">Created by</span>
             <a
               rel="noopener noreferrer"
               href="https://vercel.com"
               aria-label="Vercel.com Link"
               target="_blank"
-              className="text-primary"
+              className="text-secondary"
             >
               <Vercel
-                className="inline-block h-6 ml-3 text-primary"
+                className="inline-block h-6 ml-3 text-secondary"
                 alt="Vercel.com Logo"
               />
             </a>
