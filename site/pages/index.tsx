@@ -42,15 +42,31 @@ export default function Home({
   return (
     <>
       {/* TO DO EDIT PICS, TEXT, BUTTON */}
-      <Banner />
-      <Banner />
-      <Banner />
-
+      <Banner
+        primaryTitle="Dessert dragée"
+        secondaryTitle="Cupcake ipsum"
+        subtitle=" Soufflé bonbon caramels jelly beans. "
+        img="/assets/tesla1_1440x810.jpg"
+        buttonText="Join Now"
+      />
+      <Banner
+        primaryTitle="Dessert dragée"
+        secondaryTitle="Cupcake ipsum"
+        subtitle=" Soufflé bonbon caramels jelly beans. "
+        img="/assets/tesla1_1440x810.jpg"
+        buttonText="Join Now"
+      />
+      <Banner
+        primaryTitle="Dessert dragée"
+        secondaryTitle="Cupcake ipsum"
+        subtitle=" Soufflé bonbon caramels jelly beans. "
+        img="/assets/tesla1_1440x810.jpg"
+        buttonText="Join Now"
+      />
       <Hero
-        headline=" Dessert dragée halvah croissant."
+        headline=" Dessert dragée"
         description="Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. Soufflé bonbon caramels jelly beans. Tiramisu sweet roll cheesecake pie carrot cake. Tiramisu sweet roll cheesecake pie carrot cake. Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. "
       />
-
       {/* <Grid variant="filled">
         {products.slice(0, 3).map((product: any, i: number) => (
           <ProductCard
@@ -69,7 +85,6 @@ export default function Home({
           <ProductCard key={product.id} product={product} variant="slim" />
         ))}
       </Marquee> */}
-
       <Grid layout="B" variant="filled">
         {products.slice(0, 3).map((product: any, i: number) => (
           <ProductCard
