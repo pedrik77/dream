@@ -1,0 +1,7 @@
+.carouselContainer {
+  @apply w-screen;
+}
+
+.carouselContainer div {
+  @apply h-24;
+}
