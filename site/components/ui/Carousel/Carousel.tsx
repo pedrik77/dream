@@ -13,14 +13,26 @@ const Carousel = () => {
     },
   })
   return (
-    <div className={s.carouselContainer} ref={ref}>
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
-      <div>4</div>
-      <div>5</div>
-      <div>6</div>
-    </div>
+    <section className="keen-slider max-h-screen h-80 my-6 text-2xl" ref={ref}>
+      <div className="keen-slider__slide number-slide1 text-accent-0 bg-primary flex justify-center items-center">
+        1
+      </div>
+      <div className="keen-slider__slide number-slide1 text-accent-0 bg-primary flex justify-center items-center">
+        2
+      </div>
+      <div className="keen-slider__slide number-slide1 text-accent-0 bg-primary flex justify-center items-center">
+        3
+      </div>
+      <div className="keen-slider__slide number-slide1 text-accent-0 bg-primary flex justify-center items-center">
+        4
+      </div>
+      <div className="keen-slider__slide number-slide1 text-accent-0 bg-primary flex justify-center items-center">
+        5
+      </div>
+      <div className="keen-slider__slide number-slide1 text-accent-0 bg-primary flex justify-center items-center">
+        6
+      </div>
+    </section>
   )
 }
 export default Carousel
