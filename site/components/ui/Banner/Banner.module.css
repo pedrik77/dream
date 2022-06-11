@@ -18,24 +18,25 @@
 }
 
 .bannerContainer {
-  @apply container max-w-md md:max-w-2xl lg:max-w-3xl flex flex-col absolute top-14 md:top-16 left-16 md:left-32;
+  @apply container max-w-md md:max-w-2xl lg:max-w-4xl flex flex-col justify-center absolute top-14 md:top-16 left-16 md:left-32;
   z-index: 2;
 }
 
 .h2 {
   @apply text-accent-0 font-extrabold text-5xl uppercase;
-  line-height: 0.9em;
 }
 
 @media (min-width: 768px) {
   .h2 {
-    font-size: 4.5rem;
+    font-size: 4.25rem;
+    line-height: 0.9em;
   }
 }
 
 @media (min-width: 1024px) {
   .h2 {
-    font-size: 6.5rem;
+    font-size: 6.25rem;
+    line-height: 1em;
   }
 }
 
