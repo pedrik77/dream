@@ -14,24 +14,11 @@ const Carousel = () => {
   })
   return (
     <section className="keen-slider my-6 text-2xl" ref={ref}>
-      <div className="keen-slider__slide number-slide1 text-accent-0 bg-primary flex justify-center items-center h-[300px] max-h-screen">
-        1
-      </div>
-      <div className="keen-slider__slide number-slide1 text-accent-0 bg-secondary flex justify-center items-center h-[300px] max-h-screen">
-        2
-      </div>
-      <div className="keen-slider__slide number-slide1 text-accent-0 bg-primary flex justify-center items-center h-[300px] max-h-screen">
-        3
-      </div>
-      <div className="keen-slider__slide number-slide1 text-accent-0 bg-secondary flex justify-center items-center h-[300px] max-h-screen">
-        4
-      </div>
-      <div className="keen-slider__slide number-slide1 text-accent-0 bg-primary flex justify-center items-center h-[300px] max-h-screen">
-        5
-      </div>
-      <div className="keen-slider__slide number-slide1 text-accent-0 bg-secondary flex justify-center items-center h-[300px] max-h-screen">
-        6
-      </div>
+      <div className={`keen-slider__slide ${s.slide}`}>1</div>
+      <div className={`keen-slider__slide ${s.slide}`}>2</div>
+      <div className={`keen-slider__slide ${s.slide}`}>3</div>
+      <div className={`keen-slider__slide ${s.slide}`}>4</div>
+      <div className={`keen-slider__slide ${s.slide}`}>5</div>
     </section>
   )
 }
