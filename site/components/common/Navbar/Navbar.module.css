@@ -4,7 +4,7 @@
 }
 
 .nav {
-  @apply relative flex flex-row justify-between py-4 md:py-4;
+  @apply relative flex flex-row items-center justify-end gap-8 py-4 md:py-4;
 }
 
 .navMenu {
@@ -29,7 +29,7 @@
 }
 
 .logo {
-  @apply cursor-pointer transform duration-100 ease-in-out;
+  @apply cursor-pointer transform duration-100 ease-in-out justify-self-start flex-grow;
 
   &:hover {
     @apply shadow-md;
