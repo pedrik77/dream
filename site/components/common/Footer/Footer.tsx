@@ -8,6 +8,7 @@ import { Github, Vercel } from '@components/icons'
 import { Logo, Container } from '@components/ui'
 import { I18nWidget } from '@components/common'
 import s from './Footer.module.css'
+import SocialSection from '../SocialSection'
 
 interface Props {
   className?: string
@@ -38,6 +39,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
                 </span>
               </a>
             </Link>
+            <SocialSection />
           </div>
           <div className="col-span-1 lg:col-span-8">
             <div className="grid md:grid-rows-4 md:grid-cols-3 md:grid-flow-col">
