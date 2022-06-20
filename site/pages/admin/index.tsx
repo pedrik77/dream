@@ -1,10 +1,11 @@
 import { Layout } from '@components/common'
+import AdminPermit from '@components/magic/AdminPermit'
 import { Button, Container, Text } from '@components/ui'
-import { useAdmin } from '@lib/auth'
+import { useUser } from '@lib/auth'
 import Link from 'next/link'
 
 export default function Dashboard() {
-  const { isAdmin, hasPermission } = useAdmin()
+  const { isAdmin, user } = useUser()
 
   if (!isAdmin) return null
 
@@ -12,20 +13,36 @@ export default function Dashboard() {
     <div>
       <Container className="grid lg:grid-cols-2 pt-4 gap-20">
         <div className="flex flex-col">
-          <Link href="/admin/orders">Objednávky</Link>
-          <Link href="/admin/users">Používatelia</Link>
-          <Link href="/admin/products">Produkty</Link>
-          <Link href="/admin/winners">Víťazi</Link>
-          <Link href="/admin/pages">Stránky</Link>
+          <AdminPermit permission="orders.list">
+            <Link href="/admin/orders">Objednávky</Link>
+          </AdminPermit>
+
+          <AdminPermit permission="users.list">
+            <Link href="/admin/users">Používatelia</Link>
+          </AdminPermit>
+
+          <AdminPermit permission="products.list">
+            <Link href="/admin/products">Produkty</Link>
+          </AdminPermit>
+
+          <AdminPermit permission="winners.list">
+            <Link href="/admin/winners">Víťazi</Link>
+          </AdminPermit>
+
+          <AdminPermit permission="pages.list">
+            <Link href="/admin/pages">Stránky</Link>
+          </AdminPermit>
         </div>
 
         <div>
-          <Text variant="heading">Vitaj ty</Text>
+          <Text variant="heading">Vitaj {user?.email ?? 'ty'}</Text>
 
           <div className="flex">
-            <Button>
-              <Link href="/admin/products/add">Pridať produkt</Link>
-            </Button>
+            <AdminPermit permission="products.add">
+              <Button>
+                <Link href="/admin/products/add">Pridať produkt</Link>
+              </Button>
+            </AdminPermit>
           </div>
         </div>
       </Container>
