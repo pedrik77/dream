@@ -31,17 +31,19 @@ const Footer: FC<Props> = ({ className, pages }) => {
     <footer className={rootClassName}>
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
-          <div className="col-span-1 lg:col-span-2">
+          <div className="col-span-1 lg:col-span-4">
             <Link href="/">
-              <a className="flex flex-initial items-center font-bold md:mr-24">
+              <a className="flex flex-initial items-center font-bold md:mr-24 my-4">
                 <span className="mr-2">
                   <Logo />
                 </span>
               </a>
             </Link>
-            <SocialSection />
+            <div className="py-4 border-t-2">
+              <SocialSection />
+            </div>
           </div>
-          <div className="col-span-1 lg:col-span-8">
+          <div className="col-span-1 lg:col-span-6">
             <div className="grid md:grid-rows-4 md:grid-cols-3 md:grid-flow-col">
               {[...links, ...sitePages].map((page) => (
                 <span key={page.url} className="py-3 md:py-0 md:pb-4">
