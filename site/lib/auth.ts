@@ -46,6 +46,12 @@ export function useUser() {
   const [user, setUser] = useState<User | undefined>()
   const [customer, setCustomer] = useState<CustomerData>(NULL_CUSTOMER_DATA)
 
+  const [permissions, setPermissions] = useState<string[]>([])
+
+  const hasAdminPermission = (permission: string, orSuperAdmin = true) =>
+    permissions.includes(permission) ||
+    (orSuperAdmin ? permissions.includes('superadmin') : false)
+
   const isLoggedIn = useMemo(() => !!user, [user])
 
   useEffect(
@@ -78,18 +84,6 @@ export function useUser() {
     )
   }, [user])
 
-  return { user, customer, isLoggedIn }
-}
-
-export function useAdmin() {
-  const { user } = useUser()
-
-  const [permissions, setPermissions] = useState<string[]>([])
-
-  const hasPermission = (permission: string, orSuperAdmin = true) =>
-    permissions.includes(permission) ||
-    (orSuperAdmin ? permissions.includes('superadmin') : false)
-
   useEffect(() => {
     if (!user || !user.email) return
 
@@ -108,9 +102,12 @@ export function useAdmin() {
   }, [user])
 
   return {
-    permissions,
+    user,
+    customer,
+    isLoggedIn,
+    adminPermissions: permissions,
     isAdmin: !!permissions.length,
-    hasPermission,
+    hasAdminPermission,
   }
 }
 
