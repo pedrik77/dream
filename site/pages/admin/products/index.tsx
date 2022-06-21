@@ -54,8 +54,6 @@ export default function Dashboard() {
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
           checkboxSelection
           onSelectionModelChange={console.log}
         />

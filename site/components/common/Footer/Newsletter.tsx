@@ -1,6 +1,6 @@
+import { Button, Input } from '@components/ui'
 import { flash } from '@components/ui/FlashMessage'
 import { subscribe } from '@lib/newsletter'
-import { Button } from '@mui/material'
 import React, { FormEventHandler, useState } from 'react'
 
 export default function Newsletter() {
@@ -23,19 +23,16 @@ export default function Newsletter() {
   }
 
   return (
-    <div className="bg-dark">
-      <h3>
-        <span className="text-white">Newsletter </span>
-      </h3>
-      <form onSubmit={handleSubmit}>
-        <input
+    <form onSubmit={handleSubmit}>
+      <fieldset className="flex">
+        <Input
           type="text"
           value={email}
-          placeholder={'Email'}
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Newsletter"
+          onChange={setEmail}
         />
         <Button type="submit">Prihlásiť</Button>
-      </form>
-    </div>
+      </fieldset>
+    </form>
   )
 }
