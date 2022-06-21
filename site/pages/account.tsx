@@ -54,6 +54,8 @@ export default function Account() {
     })
 
     setSaving(false)
+
+    flash('Údaje uložené')
   }
 
   const sendResetEmail: MouseEventHandler = async (e) => {
