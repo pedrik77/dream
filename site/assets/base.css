@@ -20,6 +20,7 @@
   --accent-7: #9f0033;
   --accent-8: #2b001b;
   --accent-9: #000;
+  --success: rgb(61, 222, 61);
   --font-sans: 'Raleway', -apple-system, system-ui, BlinkMacSystemFont,
     'Helvetica Neue', 'Helvetica', sans-serif;
 }

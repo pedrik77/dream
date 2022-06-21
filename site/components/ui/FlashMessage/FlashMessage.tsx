@@ -1,6 +1,9 @@
 // @ts-ignore
+import _ from 'lodash'
 import { flash as reactFlash } from 'react-universal-flash'
+import s from './FlashMessage.module.css'
 import cn from 'clsx'
+import { Cross } from '@components/icons'
 
 export type FlashType = 'success' | 'danger' | 'warning' | 'info'
 
@@ -24,17 +27,17 @@ export const FlashMessage: React.FC<Props> = ({
 
   return (
     <div
-      className={cn(
-        'text-white',
-        type === 'success' && 'bg-green-500',
-        type === 'info' && 'bg-blue-500',
-        type === 'danger' && 'bg-red-500',
-        type === 'warning' && 'bg-yellow-500'
-      )}
+      className={cn({
+        [s.flashMessage]: true,
+        [s.flashTypeInfo]: type === 'info',
+        [s.flashTypeSuccess]: type === 'success',
+        [s.flashTypeWarning]: type === 'warning',
+        [s.flashTypeDanger]: type === 'danger',
+      })}
     >
       {flashBody}
-      <span className="font-bold px-2 cursor-pointer" onClick={deleteFlash}>
-        &times;
+      <span className={s.close} onClick={deleteFlash}>
+        <Cross />
       </span>
     </div>
   )
