@@ -2,6 +2,7 @@ import { Button, Input } from '@components/ui'
 import { flash } from '@components/ui/FlashMessage'
 import { subscribe } from '@lib/newsletter'
 import React, { FormEventHandler, useState } from 'react'
+import s from './Newsletter.module.css'
 
 export default function Newsletter() {
   const [email, setEmail] = useState('')
@@ -23,16 +24,27 @@ export default function Newsletter() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <fieldset className="flex">
-        <Input
-          type="text"
-          value={email}
-          placeholder="Newsletter"
-          onChange={setEmail}
-        />
-        <Button type="submit">Prihlásiť</Button>
-      </fieldset>
-    </form>
+    <>
+      <h3>SUBSCRIBE TOU OUR NEEEEWS</h3>
+      <form onSubmit={handleSubmit}>
+        <fieldset className={s.root}>
+          <Input
+            type="text"
+            value={email}
+            placeholder="Newsletter"
+            onChange={setEmail}
+            className={s.input}
+          />
+          <Button className={s.button} type="submit">
+            Prihlásiť
+          </Button>
+        </fieldset>
+      </form>
+      <p className={s.text}>
+        Wafer sweet bonbon dessert cupcake. Muffin apple pie candy oat cake
+        liquorice brownie tart. Tiramisu chocolate cake apple pie muffin
+        chocolate bar gummi bears sugar plum.
+      </p>
+    </>
   )
 }

@@ -31,9 +31,15 @@ const Footer: FC<Props> = ({ className, pages }) => {
   return (
     <footer className={rootClassName}>
       <Container>
-        <Newsletter />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
           <div className="col-span-1 lg:col-span-4">
+            <div className="py-4 border-b-2">
+              <Newsletter />
+            </div>
+
+            <div className="py-4 border-b-2">
+              <SocialSection />
+            </div>
             <Link href="/">
               <a className="flex flex-initial items-center font-bold md:mr-24 my-4">
                 <span className="mr-2">
@@ -41,9 +47,6 @@ const Footer: FC<Props> = ({ className, pages }) => {
                 </span>
               </a>
             </Link>
-            <div className="py-4 border-t-2">
-              <SocialSection />
-            </div>
           </div>
           <div className="col-span-1 lg:col-span-6">
             <div className="grid md:grid-rows-4 md:grid-cols-3 md:grid-flow-col">
