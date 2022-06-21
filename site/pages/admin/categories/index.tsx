@@ -1,7 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
 import { flash } from '@components/ui/FlashMessage'
-import { setCategory, useCategories } from '@lib/categories'
+import { Category, setCategory, useCategories } from '@lib/categories'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
@@ -73,9 +73,10 @@ export default function Categories() {
       <DataGrid
         rows={categories}
         columns={columns}
+        pageSize={6}
         checkboxSelection
         onSelectionModelChange={console.log}
-        getRowId={(row) => row.slug}
+        getRowId={(row: Category) => row.slug}
       />
     </Container>
   )
