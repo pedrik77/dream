@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { flash as reactFlash } from 'react-universal-flash'
 import s from './FlashMessage.module.css'
 import cn from 'clsx'
+import { Cross } from '@components/icons'
 
 export type FlashType = 'success' | 'danger' | 'warning' | 'info'
 
@@ -36,7 +37,7 @@ export const FlashMessage: React.FC<Props> = ({
     >
       {flashBody}
       <span className={s.close} onClick={deleteFlash}>
-        &times;
+        <Cross />
       </span>
     </div>
   )

@@ -7,7 +7,7 @@ const Logo = ({ className = '', height = 54, width = 180, ...props }) => (
     width={width}
     src="/logo-white-500-%C3%97-150-px).png"
     alt="logo"
-    onClick={() => flash('ahoj', 'info', 360)}
+    onClick={() => ['info','success','danger'].map(status => flash('ahoj', status, 360))}
   />
 )
 

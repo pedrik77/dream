@@ -17,7 +17,6 @@ import { MenuSidebarView } from '@components/common/UserNav'
 // @ts-ignore
 import { Flasher } from 'react-universal-flash'
 import { FlashMessage } from '@components/ui/FlashMessage'
-import { FlashMessageStyles } from '@components/ui/FlashMessage/FlashMessage.module.css'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -104,7 +103,7 @@ const Layout = ({ children, pageProps: { categories = [], ...pageProps } }) => {
         <main className="fit">{children}</main>
         <Footer pages={pageProps.pages} />
         <ModalUI />
-        <Flasher className={FlashMessageStyles.flashWrapper} position="custom">
+        <Flasher position="custom" customStyles={{ top: 0, width: '100vw' }}>
           <FlashMessage />
         </Flasher>
         <CheckoutProvider>
