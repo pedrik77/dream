@@ -14,7 +14,7 @@
 .link {
   @apply inline-flex items-center leading-6
   transition ease-in-out duration-75 cursor-pointer
-  text-accent-0;
+  text-accent-0 font-bold;
 }
 
 .link:hover {
