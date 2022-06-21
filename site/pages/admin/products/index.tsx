@@ -51,12 +51,12 @@ export default function Dashboard() {
   return (
     <Container className="grid lg:grid-cols-2 pt-4 gap-20">
       <div className="w-[80%] h-[600px] text-primary">
-        <DataGrid
+        {/* <DataGrid
           rows={rows}
           columns={columns}
           checkboxSelection
           onSelectionModelChange={console.log}
-        />
+        /> */}
       </div>
     </Container>
   )

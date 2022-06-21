@@ -2,7 +2,7 @@ import { getProduct } from '@lib/products'
 import { GetServerSideProps } from 'next'
 import React from 'react'
 
-export default function ProductForm({ product }) {
+export default function ProductForm({}) {
   return <div></div>
 }
 
