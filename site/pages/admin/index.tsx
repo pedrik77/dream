@@ -21,6 +21,10 @@ export default function Dashboard() {
             <Link href="/admin/users">Používatelia</Link>
           </AdminPermit>
 
+          <AdminPermit permission="categories.list">
+            <Link href="/admin/categories">Kategórie</Link>
+          </AdminPermit>
+
           <AdminPermit permission="products.list">
             <Link href="/admin/products">Produkty</Link>
           </AdminPermit>

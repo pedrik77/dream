@@ -2,19 +2,35 @@ import { Container } from '@components/ui'
 import Link from 'next/link'
 import React from 'react'
 
-const AccountLayout: React.FC = ({ children }) => {
+const LINKS = {
+  account: 'Nastavenie účtu',
+  orders: 'Moje súťaže',
+}
+
+type LinkKey = keyof typeof LINKS
+
+const AccountLayout: React.FC<{
+  current?: LinkKey
+  order?: Array<LinkKey>
+}> = ({ children, current = '', order = [] }) => {
+  const tuples = !!order.length
+    ? order.map((href) => [href, LINKS[href]])
+    : Object.entries(LINKS)
+
   return (
     <Container className="pt-4">
       <div className="flex gap-3">
-        <div className="flex flex-col ">
-          <Link href="/account">
-            <a className="text-primary-600 hover:text-gray-800">
-              Nastavenie účtu
-            </a>
-          </Link>
-          <Link href="/orders">
-            <a className="text-primary-600 hover:text-gray-800">Moje súťaže</a>
-          </Link>
+        <div className="flex flex-col">
+          {tuples.map(([href, label]) => (
+            <Link key={href} href={'/' + href}>
+              <a
+                title={label}
+                className={current === href ? 'underline' : 'text-primary-600'}
+              >
+                {label}
+              </a>
+            </Link>
+          ))}
         </div>
         <div className="flex-1">{children}</div>
       </div>

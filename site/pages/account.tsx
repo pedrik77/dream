@@ -85,7 +85,7 @@ export default function Account() {
   if (!user || !customer) return null
 
   return (
-    <AccountLayout>
+    <AccountLayout current="account">
       <Text variant="pageHeading">Nastavenie účtu</Text>
       <form onSubmit={save}>
         <div className="grid grid-cols-2">
