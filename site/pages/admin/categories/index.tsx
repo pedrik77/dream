@@ -1,10 +1,31 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
 import { flash } from '@components/ui/FlashMessage'
-import { Category, setCategory, useCategories } from '@lib/categories'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import _ from 'lodash'
+import {
+  Category,
+  deleteCategory,
+  setCategory,
+  useCategories,
+} from '@lib/categories'
+import {
+  DataGrid,
+  GridColDef,
+  GridEditRowsModel,
+  GridEventListener,
+} from '@mui/x-data-grid'
+import _, { debounce } from 'lodash'
 import React, { useEffect, useState } from 'react'
+
+const columns: GridColDef[] = [
+  { field: 'slug', headerName: 'Slug' },
+  { field: 'title', headerName: 'Title', editable: true },
+  {
+    field: 'menu_position',
+    headerName: 'Menu position',
+    editable: true,
+    type: 'number',
+  },
+]
 
 export default function Categories() {
   const { categories } = useCategories()
@@ -12,6 +33,8 @@ export default function Categories() {
   const [slug, setSlug] = useState('')
   const [title, setTitle] = useState('')
   const [menuPosition, setMenuPosition] = useState(-1)
+
+  const [selected, setSelected] = useState<string[]>([])
 
   const reset = () => {
     setSlug('')
@@ -24,23 +47,41 @@ export default function Categories() {
 
     if (!slug || !title) return flash('Vyplňte všetky polia', 'danger')
 
-    setCategory(slug, title, menuPosition).then(() => {
+    setCategory({ slug, title, menu_position: menuPosition }).then(() => {
       reset()
-
-      flash('Kategória uložená')
+      flash('Kategória vytvorená')
     })
+  }
+
+  const handleDeleteSelected = () => {
+    if (!confirm('Naozaj?')) return
+
+    const count = selected.length
+
+    deleteCategory(selected)
+      .then(() => flash(`Kategórie (${count}) odstránená`))
+      .catch(() => flash('oh no', 'danger'))
+  }
+
+  const handleEdit: GridEventListener<'cellEditCommit'> = (e) => {
+    const slug = e.id
+    const edited = e.field
+    const value = e.value
+
+    const category = categories.find((c) => c.slug === slug)
+
+    // @ts-ignore
+    if (!category || category[edited] === value) return
+
+    setCategory({ ...category, [edited]: value })
+      .then(() => flash('Kategória upravená'))
+      .catch(() => flash('oh no', 'danger'))
   }
 
   useEffect(() => setSlug(_.kebabCase(title)), [title])
 
-  const columns: GridColDef[] = [
-    { field: 'slug', headerName: 'Slug', width: 130 },
-    { field: 'title', headerName: 'Title', width: 130 },
-    { field: 'menu_position', headerName: 'Menu position', width: 60 },
-  ]
-
   return (
-    <Container className="flex flex-col gap-20">
+    <Container className="flex flex-col gap-4">
       <form onSubmit={handleSubmit} className="flex">
         <fieldset className="flex-[60%]">
           <Input
@@ -58,7 +99,7 @@ export default function Categories() {
         </fieldset>
 
         <fieldset className="h-[100%]">
-          <Button className="h-[100%]">Save</Button>
+          <Button className="h-[100%]">Pridat</Button>
           <Button
             className="h-[100%]"
             variant="ghost"
@@ -70,14 +111,23 @@ export default function Categories() {
         </fieldset>
       </form>
 
-      <DataGrid
-        rows={categories}
-        columns={columns}
-        pageSize={6}
-        checkboxSelection
-        onSelectionModelChange={console.log}
-        getRowId={(row: Category) => row.slug}
-      />
+      <div className={!!selected.length ? 'visible' : 'invisible'}>
+        <Button onClick={handleDeleteSelected}>Delete {selected.length}</Button>
+      </div>
+      <div className="h-[500px]">
+        <DataGrid
+          rows={categories}
+          columns={columns}
+          pageSize={6}
+          checkboxSelection
+          onSelectionModelChange={(selected) =>
+            setSelected(selected as string[])
+          }
+          onCellEditCommit={handleEdit}
+          getRowId={(row: Category) => row.slug}
+          disableSelectionOnClick
+        />
+      </div>
     </Container>
   )
 }

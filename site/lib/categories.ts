@@ -23,19 +23,23 @@ export async function getCategory(category: string) {
   return { slug: categoryData.id, ...categoryData.data() }
 }
 
-export async function setCategory(
-  slug: string,
-  title: string,
-  menuPosition = -1
-) {
+export async function setCategory({
+  slug,
+  title,
+  menu_position = -1,
+}: Category) {
   return await setDoc(doc(db, 'categories', slug), {
     title,
-    menu_position: menuPosition,
+    menu_position,
   })
 }
 
-export async function deleteCategory(slug: string) {
-  return await deleteDoc(doc(db, 'categories', slug))
+export async function deleteCategory(slug: string | string[]) {
+  return await Promise.all(
+    (typeof slug === 'string' ? [slug] : slug).map((slug) =>
+      deleteDoc(doc(db, 'categories', slug))
+    )
+  )
 }
 
 export function useCategories() {
