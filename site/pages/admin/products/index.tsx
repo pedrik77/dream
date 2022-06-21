@@ -5,25 +5,21 @@ import Link from 'next/link'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid'
 import AdminPermit from '@components/magic/AdminPermit'
 import { useEffect, useState } from 'react'
-import { getProducts } from '@lib/products'
+import { Product, useProducts } from '@lib/products'
 
 export default function Dashboard() {
   const { isAdmin, hasAdminPermission } = useUser()
 
-  const [products, setProducts] = useState<any[]>([])
+  const [selected, setSelected] = useState<string[]>([])
 
-  useEffect(() => {
-    getProducts().then((data) => {
-      console.log(data)
-    })
-  }, [])
+  const handleEdit = () => {}
+
+  const products = useProducts()
 
   if (!isAdmin && !hasAdminPermission('products.list')) return null
 
-  const rows = []
-
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'slug', headerName: 'Slug', width: 70 },
     { field: 'title_1', headerName: 'Title 1', width: 130 },
     { field: 'title_2', headerName: 'Title 2', width: 130 },
     {
@@ -49,14 +45,20 @@ export default function Dashboard() {
   ]
 
   return (
-    <Container className="grid lg:grid-cols-2 pt-4 gap-20">
+    <Container>
       <div className="w-[80%] h-[600px] text-primary">
-        {/* <DataGrid
-          rows={rows}
+        <DataGrid
+          rows={products}
           columns={columns}
           checkboxSelection
-          onSelectionModelChange={console.log}
-        /> */}
+          onSelectionModelChange={(selected) =>
+            setSelected(selected as string[])
+          }
+          pageSize={6}
+          onCellEditCommit={handleEdit}
+          getRowId={(row: Product) => row.slug}
+          disableSelectionOnClick
+        />
       </div>
     </Container>
   )
