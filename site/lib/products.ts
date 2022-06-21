@@ -58,7 +58,7 @@ export function useProducts() {
   return products
 }
 
-function transform(doc: DocumentSnapshot<DocumentData>) {
+function transform(doc: any) {
   const { closing_date, winner_announce_date, ...data } = doc.data()
 
   return {
