@@ -18,12 +18,12 @@
 }
 
 .bannerContainer {
-  @apply container max-w-md md:max-w-2xl lg:max-w-4xl flex flex-col justify-center absolute top-14 md:top-16 left-16 md:left-32;
+  @apply container max-w-md md:max-w-2xl lg:max-w-4xl flex flex-col justify-center absolute top-14 md:top-16 lg:top-20 left-16 md:left-32;
   z-index: 2;
 }
 
 .h2 {
-  @apply text-accent-0 font-extrabold text-5xl uppercase;
+  @apply text-accent-0 font-black text-7xl uppercase;
 }
 
 @media (min-width: 768px) {
