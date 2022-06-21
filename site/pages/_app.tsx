@@ -21,6 +21,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <Head />
       <ManagedUIContext>
         <Layout pageProps={pageProps}>
+          {/* @ts-ignore */}
           <Component {...pageProps} />
         </Layout>
       </ManagedUIContext>
