@@ -52,7 +52,7 @@ const SignUpView = () => {
       className="w-80 flex flex-col justify-between p-3"
     >
       <div className="flex justify-center pb-12 ">
-        <Logo width="64px" height="64px" />
+        <Logo width={64} height={64} />
       </div>
       <div className="flex flex-col space-y-4">
         <Input required type="email" placeholder="Email" onChange={setEmail} />
