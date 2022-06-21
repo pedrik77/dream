@@ -9,7 +9,7 @@ const SocialSection = () => {
       <h3>FOLLOW US ON</h3>
       <div className="flex gap-3">
         {SOCIALS.map((social) => (
-          <Link key={social} href={`${social}.com`}>
+          <Link key={social} href={`https://${social}.com`}>
             <a className={s.link}>
               <div>
                 {/*
