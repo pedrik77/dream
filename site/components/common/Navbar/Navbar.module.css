@@ -30,9 +30,4 @@
 
 .logo {
   @apply cursor-pointer justify-self-start flex-grow;
-
-  &:hover {
-    @apply shadow-md;
-    transform: scale(1.05);
-  }
 }
