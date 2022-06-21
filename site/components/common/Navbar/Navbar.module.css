@@ -4,7 +4,7 @@
 }
 
 .nav {
-  @apply relative flex flex-row justify-between py-4 md:py-4;
+  @apply relative flex flex-row items-center justify-end gap-8 py-2;
 }
 
 .navMenu {
@@ -14,22 +14,22 @@
 .link {
   @apply inline-flex items-center leading-6
   transition ease-in-out duration-75 cursor-pointer
-  text-accent-5;
+  text-accent-0 font-bold;
 }
 
 .link:hover {
-  @apply text-accent-9;
+  @apply text-secondary;
 }
 
 .link:focus {
-  @apply outline-none text-accent-8;
+  @apply outline-none text-secondary;
 }
 
 .account {
 }
 
 .logo {
-  @apply cursor-pointer rounded-full border transform duration-100 ease-in-out;
+  @apply cursor-pointer justify-self-start flex-grow;
 
   &:hover {
     @apply shadow-md;

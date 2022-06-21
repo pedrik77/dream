@@ -16,22 +16,11 @@ interface ProductViewProps {
 }
 
 const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
-  const { price } = usePrice({
-    amount: product.price.value,
-    baseAmount: product.price.retailPrice,
-    currencyCode: product.price.currencyCode!,
-  })
-
   return (
     <>
       <Container className="max-w-none w-full" clean>
         <div className={cn(s.root, 'fit')}>
           <div className={cn(s.main, 'fit')}>
-            <ProductTag
-              name={product.name}
-              price={`${price} ${product.price?.currencyCode}`}
-              fontSize={32}
-            />
             <div className={s.sliderContainer}>
               <ProductSlider key={product.id}>
                 {product.images.map((image, i) => (
@@ -40,22 +29,16 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
                       className={s.img}
                       src={image.url!}
                       alt={image.alt || 'Product Image'}
-                      width={600}
+                      layout="responsive"
+                      width={800}
                       height={600}
                       priority={i === 0}
-                      quality="85"
+                      quality="100"
                     />
                   </div>
                 ))}
               </ProductSlider>
             </div>
-            {process.env.COMMERCE_WISHLIST_ENABLED && (
-              <WishlistButton
-                className={s.wishlistButton}
-                productId={product.id}
-                variant={product.variants[0]}
-              />
-            )}
           </div>
 
           <ProductSidebar
@@ -65,6 +48,9 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           />
         </div>
         <hr className="mt-7 border-accent-2" />
+
+        {/* TODO: ADD WYSIYG EDITOR */}
+
         <section className="py-12 px-6 mb-10">
           <Text variant="sectionHeading">Related Products</Text>
           <div className={s.relatedProductsGrid}>

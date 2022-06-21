@@ -1,0 +1,7 @@
+.link {
+  @apply flex bg-accent-0 hover:bg-secondary rounded-full justify-center items-center w-8 h-8;
+}
+
+.icon {
+  @apply w-full p-2;
+}

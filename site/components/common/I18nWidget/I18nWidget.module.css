@@ -3,11 +3,11 @@
 }
 
 .button {
-  @apply h-10 px-2 rounded-md border border-accent-2 flex items-center justify-center transition-colors ease-linear;
+  @apply h-10 px-2 rounded-md flex items-center justify-center transition-colors ease-linear;
 }
 
 .button:hover {
-  @apply border-accent-3 shadow-sm;
+  @apply border-accent-0 shadow-sm;
 }
 
 .button:focus {
@@ -15,7 +15,7 @@
 }
 
 .dropdownMenu {
-  @apply fixed right-0 top-12 mt-2 origin-top-right outline-none bg-primary z-40 w-full h-full;
+  @apply fixed right-0 top-12 mt-2 origin-top-right outline-none bg-secondary z-40 w-full h-full;
 }
 
 .item {
