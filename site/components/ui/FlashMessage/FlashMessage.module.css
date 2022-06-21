@@ -1,0 +1,11 @@
+.flashMessage {
+  @apply text-accent-0;
+}
+
+.close {
+  @apply font-bold px-2 cursor-pointer;
+}
+
+.flashTypeInfo {
+  background-color: aqua;
+}

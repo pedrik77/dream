@@ -103,7 +103,7 @@ const Layout = ({ children, pageProps: { categories = [], ...pageProps } }) => {
         <main className="fit">{children}</main>
         <Footer pages={pageProps.pages} />
         <ModalUI />
-        <Flasher position="top_center">
+        <Flasher position="bottom_center">
           <FlashMessage />
         </Flasher>
         <CheckoutProvider>
