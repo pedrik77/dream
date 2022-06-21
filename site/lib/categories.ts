@@ -17,8 +17,8 @@ export interface Category {
   menu_position: number
 }
 
-export async function getCategory(category: string) {
-  const categoryData = await getDoc(doc(db, 'categories', category))
+export async function getCategory(slug: string) {
+  const categoryData = await getDoc(doc(db, 'categories', slug))
 
   return { slug: categoryData.id, ...categoryData.data() }
 }

@@ -1,28 +1,52 @@
 import {
   collection,
-  getDocs,
-  query,
-  where,
-  orderBy,
-  getFirestore,
   deleteDoc,
   doc,
-  limit as limitQuery,
-  startAfter,
   getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
 } from 'firebase/firestore'
-import { useEffect, useState } from 'react'
-import { useUser } from './auth'
-import { app } from './firebase'
+import { useEffect, useMemo, useState } from 'react'
+import { db } from './firebase'
 
-const db = getFirestore(app)
-
-export async function getProducts() {
-  const products = await getDocs(collection(db, 'products'))
-  return products.docs
-}
+export interface Product {}
 
 export async function getProduct(slug: string) {
-  const product = await getDoc(doc(db, 'products', slug))
-  return product
+  const productData = await getDoc(doc(db, 'products', slug))
+
+  return { slug: productData.id, ...productData.data() }
+}
+
+export async function setProduct(slug: string) {
+  return await setDoc(doc(db, 'products', slug), {})
+}
+
+export async function deleteProduct(slug: string | string[]) {
+  return await Promise.all(
+    (typeof slug === 'string' ? [slug] : slug).map((slug) =>
+      deleteDoc(doc(db, 'product', slug))
+    )
+  )
+}
+
+export function useProduct() {
+  const [products, setProducts] = useState<Product[]>([])
+
+  useEffect(
+    () =>
+      onSnapshot(collection(db, 'products'), (querySnapshot) => {
+        setProducts(
+          // @ts-ignore
+          querySnapshot.docs.map((doc) => ({
+            slug: doc.id,
+            ...doc.data(),
+          }))
+        )
+      }),
+    []
+  )
+
+  return { products }
 }
