@@ -13,6 +13,7 @@ export default function Newsletter() {
       .then((result) => {
         console.log({ result })
         flash('Skvelé, vaše prihlásenie prebehlo úspešne!')
+        setEmail('')
       })
       .catch((e) => {
         console.log(e)
