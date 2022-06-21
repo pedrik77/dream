@@ -1,6 +1,7 @@
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
 import s from './Carousel.module.css'
+import Image from 'next/image'
 
 const Carousel = () => {
   const [ref] = useKeenSlider<HTMLDivElement>({
@@ -13,12 +14,50 @@ const Carousel = () => {
     },
   })
   return (
-    <section className="keen-slider my-6 text-2xl" ref={ref}>
-      <div className={`keen-slider__slide ${s.slide}`}>1</div>
-      <div className={`keen-slider__slide ${s.slide}`}>2</div>
-      <div className={`keen-slider__slide ${s.slide}`}>3</div>
-      <div className={`keen-slider__slide ${s.slide}`}>4</div>
-      <div className={`keen-slider__slide ${s.slide}`}>5</div>
+    <section className={s.root}>
+      <h2 className={s.h2}>Check this dessert</h2>
+      <div className={`keen-slider ${s.keenSlider}`} ref={ref}>
+        <div className={`keen-slider__slide ${s.slide}`}>
+          <Image
+            height="360"
+            width="640"
+            src="/assets/tesla3.jpg"
+            alt="placeholder"
+          />
+        </div>
+        <div className={`keen-slider__slide ${s.slide}`}>
+          <Image
+            width="640"
+            height="360"
+            src="/assets/tesla4.jpg"
+            alt="placeholder"
+          />
+        </div>{' '}
+        <div className={`keen-slider__slide ${s.slide}`}>
+          <Image
+            width="640"
+            height="360"
+            src="/assets/tesla4.jpg"
+            alt="placeholder"
+          />
+        </div>{' '}
+        <div className={`keen-slider__slide ${s.slide}`}>
+          <Image
+            width="640"
+            height="360"
+            src="/assets/tesla4.jpg"
+            alt="placeholder"
+          />
+        </div>
+        <div className={`keen-slider__slide ${s.slide}`}>
+          <Image
+            width="640"
+            height="360"
+            src="/assets/tesla4.jpg"
+            alt="placeholder"
+          />
+        </div>
+      </div>
     </section>
   )
 }

@@ -1,7 +1,15 @@
+.root {
+  @apply w-screen my-8 py-8;
+}
+
+.h2 {
+  @apply text-5xl font-black text-center;
+}
+
 .keenSlider {
-  @apply w-screen;
+  @apply my-6 text-2xl;
 }
 
 .slide {
-  @apply text-accent-0 bg-secondary flex justify-center items-center h-[300px] max-h-screen bg-primary;
+  @apply text-accent-0 flex justify-center items-center h-[300px] max-h-screen;
 }
