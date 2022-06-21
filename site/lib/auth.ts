@@ -126,6 +126,10 @@ export async function signUp(
 
   if (newsletter) {
     await subscribe(email)
+      .then(() => console.log('You have been subscribed to our newsletter'))
+      .catch((e) => {
+        console.error(e)
+      })
   }
 
   return result
