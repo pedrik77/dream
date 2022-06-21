@@ -3,14 +3,12 @@ import {
   deleteDoc,
   doc,
   DocumentData,
+  DocumentSnapshot,
   getDoc,
   onSnapshot,
-  orderBy,
-  query,
-  QueryDocumentSnapshot,
   setDoc,
 } from 'firebase/firestore'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { db } from './firebase'
 
 export interface Product {
@@ -60,7 +58,7 @@ export function useProducts() {
   return products
 }
 
-function transform(doc: QueryDocumentSnapshot<DocumentData>) {
+function transform(doc: DocumentSnapshot<DocumentData>) {
   const { closing_date, winner_announce_date, ...data } = doc.data()
 
   return {
