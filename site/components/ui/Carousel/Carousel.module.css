@@ -1,5 +1,5 @@
 .root {
-  @apply w-screen my-8 py-8;
+  @apply w-screen my-8 py-8 relative;
 }
 
 .h2 {
@@ -12,4 +12,16 @@
 
 .slide {
   @apply text-accent-0 flex justify-center items-center h-[300px] max-h-screen;
+}
+
+.leftArrow,
+.rightArrow {
+  @apply absolute top-1/2 bg-opacity-20;
+}
+
+.leftArrow {
+  @apply left-0;
+}
+.rightArrow {
+  @apply right-0;
 }

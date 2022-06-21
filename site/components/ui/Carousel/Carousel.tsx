@@ -67,6 +67,7 @@ const Carousel = () => {
         </div>
       </div>
       <Button
+        className={s.leftArrow}
         onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()}
         disabled={currentSlide === 0}
       >
@@ -74,6 +75,7 @@ const Carousel = () => {
       </Button>
 
       <Button
+        className={s.rightArrow}
         onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
         disabled={
           currentSlide ===
