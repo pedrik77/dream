@@ -16,5 +16,10 @@
         "alt": "vysnivaj.si"
       }
     ]
+  },
+  "twitter": {
+    "handle": "@vysnivajsi",
+    "site": "@vysnivajsi",
+    "cardType": "summary_large_image"
   }
 }
