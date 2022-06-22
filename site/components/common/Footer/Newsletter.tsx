@@ -10,16 +10,16 @@ export default function Newsletter() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     console.log('submit', e)
-    subscribe(email)
+    
+
+    subscribe(email, true)
       .then((result) => {
         console.log({ result })
         flash('Skvelé, vaše prihlásenie prebehlo úspešne!')
         setEmail('')
       })
       .catch((e) => {
-        console.log(e)
-
-        flash('oh nou')
+        flash(e.message, 'danger')
       })
   }
 
