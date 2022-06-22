@@ -76,21 +76,18 @@ const Footer: FC<Props> = ({ className, pages }) => {
         </div>
         <div className="pt-6 pb-10 flex flex-col md:flex-row justify-between items-center space-y-4 text-secondary text-sm">
           <div>
-            <span>&copy; 2020 ACME, Inc. All rights reserved.</span>
+            <span>&copy; 2022 vysnivaj.si. All rights reserved.</span>
           </div>
           <div className="flex items-center text-primary text-sm">
             <span className="text-secondary">Created by</span>
             <a
               rel="noopener noreferrer"
-              href="https://vercel.com"
-              aria-label="Vercel.com Link"
+              href="https://jana.wtf"
+              aria-label="Mlocco link"
               target="_blank"
               className="text-secondary"
             >
-              <Vercel
-                className="inline-block h-6 ml-3 text-secondary"
-                alt="Vercel.com Logo"
-              />
+              <h3 className="pl-2">MLOCCOCO AGENCY</h3>
             </a>
           </div>
         </div>

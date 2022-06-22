@@ -27,13 +27,13 @@ export default function Newsletter() {
 
   return (
     <>
-      <h3>PRIHLASENIE DO ODBERU NOVINIEK</h3>
+      <h3>PRIHLÁSENIE DO ODBERU NOVINIEK</h3>
       <form onSubmit={handleSubmit}>
         <fieldset className={s.main}>
           <Input
             type="text"
             value={email}
-            placeholder="Zadajte email"
+            placeholder="Zadajte váš email"
             onChange={setEmail}
             className={s.input}
           />

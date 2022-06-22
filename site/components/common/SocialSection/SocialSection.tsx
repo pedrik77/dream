@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import s from './SocialSection.module.css'
 
-const SOCIALS = ['instagram', 'youtube', 'facebook']
+const SOCIALS = ['instagram', 'youtube', 'facebook', 'twitter']
 
 const SocialSection = () => {
   return (
@@ -15,11 +15,7 @@ const SocialSection = () => {
                 {/*
                eslint-disable-next-line @next/next/no-img-element
              */}
-                <img
-                  src={`/${social}_icon.png`}
-                  alt="icon"
-                  className={s.icon}
-                />
+                <img src={`/${social}.svg`} alt="icon" className={s.icon} />
               </div>
             </a>
           </Link>
