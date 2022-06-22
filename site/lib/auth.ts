@@ -125,7 +125,7 @@ export async function signUp(
   setCustomerProfile(uid, NULL_CUSTOMER_DATA)
 
   if (newsletter) {
-    await subscribe(email)
+    await subscribe(email, true)
       .then(() => console.log('You have been subscribed to our newsletter'))
       .catch((e) => {
         console.error(e)
