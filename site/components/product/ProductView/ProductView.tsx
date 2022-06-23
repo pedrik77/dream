@@ -1,7 +1,7 @@
 import cn from 'clsx'
 import Image from 'next/image'
 import s from './ProductView.module.css'
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import type { Product } from '@commerce/types/product'
 import usePrice from '@framework/product/use-price'
 import { WishlistButton } from '@components/wishlist'
@@ -16,6 +16,8 @@ interface ProductViewProps {
 }
 
 const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
+  const buyCardsRef = useRef<HTMLElement>(null)
+
   return (
     <>
       <Container className="max-w-none w-full" clean>
@@ -42,15 +44,20 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           </div>
 
           <ProductSidebar
-            key={product.id}
             product={product}
-            className={s.sidebar}
+            onJoinNow={() => {
+              if (!buyCardsRef.current) return
+
+              // TODO: BETTER SCROLL
+              buyCardsRef.current.scrollIntoView({ behavior: 'smooth' })
+            }}
           />
         </div>
         <hr className="mt-7 border-accent-2" />
 
         {/* TODO: ADD WYSIYG EDITOR */}
-        <section className={s.buySection}>
+
+        <section className={s.buySection} ref={buyCardsRef}>
           <h2 className={s.sectionHeading}>BUY NOW TICKETS</h2>
           <div className={s.buyCards}>
             {[20, 30, 50].map((price) => (

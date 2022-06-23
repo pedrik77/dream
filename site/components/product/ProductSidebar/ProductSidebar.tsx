@@ -14,10 +14,13 @@ import Link from 'next/link'
 
 interface ProductSidebarProps {
   product: Product
-  className?: string
+  onJoinNow?: () => void
 }
 
-const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
+const ProductSidebar: FC<ProductSidebarProps> = ({
+  product,
+  onJoinNow = () => {},
+}) => {
   const addItem = useAddItem()
   const { openSidebar } = useUI()
   const [loading, setLoading] = useState(false)
@@ -69,7 +72,11 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
       </div>
       {/* TODO Toto ten button neviem */}
       <div className="flex justify-center">
-        <Button type="button" className={(s.button, 'my-5')}>
+        <Button
+          onClick={onJoinNow}
+          type="button"
+          className={(s.button, 'my-5')}
+        >
           Join now
         </Button>
       </div>
