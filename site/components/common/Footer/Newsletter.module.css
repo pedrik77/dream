@@ -1,15 +1,26 @@
-.root {
-  @apply flex my-4;
-}
-
-.text {
-  @apply py-2 text-xs;
+.main {
+  @apply inline-flex my-4 border-[1px] border-secondary;
 }
 
 .input {
-  @apply h-12 text-accent-0;
+  @apply h-10 text-accent-0 border-none focus:shadow-none;
+}
+
+.input::placeholder {
+  @apply text-secondary text-sm;
 }
 
 .button {
-  @apply h-12;
+  @apply h-10 bg-secondary text-primary border-0 border-none shadow-none transition-none hover:shadow-none hover:bg-secondary hover:text-accent-0;
+}
+.gdpr {
+  @apply flex align-top py-2;
+}
+
+.checkbox {
+  @apply mr-2 text-accent-0 py-0;
+}
+
+.text {
+  @apply text-xs;
 }
