@@ -6,7 +6,7 @@ import type { Product } from '@commerce/types/product'
 import usePrice from '@framework/product/use-price'
 import { WishlistButton } from '@components/wishlist'
 import { ProductSlider, ProductCard } from '@components/product'
-import { Container, Text } from '@components/ui'
+import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
@@ -50,7 +50,18 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
         <hr className="mt-7 border-accent-2" />
 
         {/* TODO: ADD WYSIYG EDITOR */}
-
+        <section className={s.buySection}>
+          <h2 className={s.sectionHeading}>BUY NOW TICKETS</h2>
+          <div className={s.buyCards}>
+            {[20, 30, 50].map((price) => (
+              <div key={price} className={s.buyCard}>
+                <h5 className={s.ticketsNo}>{price / 2}</h5>
+                <span className={s.tickets}>Tiketov</span>
+                <Button className={s.btn}>{price} €</Button>
+              </div>
+            ))}
+          </div>
+        </section>
         <section className="py-12 px-6 mb-10">
           <Text variant="sectionHeading">Related Products</Text>
           <div className={s.relatedProductsGrid}>

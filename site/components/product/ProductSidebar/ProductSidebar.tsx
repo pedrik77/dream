@@ -10,6 +10,7 @@ import {
   SelectedOptions,
 } from '../helpers'
 import ProductTag from '../ProductTag'
+import Link from 'next/link'
 
 interface ProductSidebarProps {
   product: Product
@@ -43,7 +44,11 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
 
   return (
     <div className={s.sidebar}>
-      <h5 className={s.category}>Kategoria</h5>
+      <Link href="#">
+        <a>
+          <h5 className={s.category}>Kategoria</h5>
+        </a>
+      </Link>
       <ProductTag name={product.name} />
       <h4 className={s.subtitle}>
         Jelly dessert icing caramels biscuit tootsie.
