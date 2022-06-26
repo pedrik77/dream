@@ -1,9 +1,8 @@
+import { Category, getCategory } from './categories'
 import {
   collection,
   deleteDoc,
   doc,
-  DocumentData,
-  DocumentSnapshot,
   getDoc,
   onSnapshot,
   setDoc,
@@ -16,20 +15,21 @@ export interface Product {
   title_1: string
   title_2: string
   short_desc: string
-  closing_date: Date
-  winner_announce_date: Date
+  closing_date: number
+  winner_announce_date: number
   gallery_id: string
   long_desc: string
   donation_entries: string
+  category: string
 }
 
 export async function getProduct(slug: string) {
   const productData = await getDoc(doc(db, 'products', slug))
 
-  return transform(productData)
+  return await transform(productData)
 }
 
-export async function setProduct({ slug, ...product }: Product) {
+export async function setProduct({ slug, ...product }: any) {
   return await setDoc(doc(db, 'products', slug), product)
 }
 
@@ -46,10 +46,12 @@ export function useProducts() {
 
   useEffect(
     () =>
-      onSnapshot(collection(db, 'products'), (querySnapshot) => {
+      onSnapshot(collection(db, 'products'), async (querySnapshot) => {
         setProducts(
-          // @ts-ignore
-          querySnapshot.docs.map(transform)
+          await Promise.all(
+            // @ts-ignore
+            querySnapshot.docs.map(transform)
+          )
         )
       }),
     []
@@ -58,13 +60,13 @@ export function useProducts() {
   return products
 }
 
-function transform(doc: any) {
+async function transform(doc: any): Promise<Product> {
   const { closing_date, winner_announce_date, ...data } = doc.data()
 
   return {
     ...data,
     slug: doc.id,
-    closing_date: new Date(closing_date.seconds * 1000),
-    winner_announce_date: new Date(winner_announce_date.seconds * 1000),
+    closing_date: closing_date.seconds,
+    winner_announce_date: winner_announce_date.seconds,
   }
 }
