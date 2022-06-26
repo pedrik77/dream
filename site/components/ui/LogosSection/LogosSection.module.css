@@ -1,0 +1,15 @@
+.main {
+  @apply my-4 lg:my-8 mx-auto lg:py-8 flex flex-col;
+}
+
+.sectionTitle {
+  @apply text-5xl font-black text-center m-2 lg:m-4;
+}
+
+.text {
+  @apply text-lg font-bold text-center m-2 lg:m-4;
+}
+
+.logos {
+  @apply max-w-full flex flex-wrap gap-8 justify-center items-center m-8;
+}
