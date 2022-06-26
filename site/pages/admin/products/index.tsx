@@ -10,17 +10,19 @@ import {
 } from '@mui/x-data-grid'
 import AdminPermit from '@components/magic/AdminPermit'
 import { useEffect, useState } from 'react'
-import { Product, useProducts } from '@lib/products'
+import { deleteProduct, Product, useProducts } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
+import { flash } from '@components/ui/FlashMessage'
+import { useRouter } from 'next/router'
 
 export default function Dashboard() {
   const { isAdmin, hasAdminPermission } = useUser()
 
   const [selected, setSelected] = useState<string[]>([])
 
-  const handleEdit = () => {}
-
   const products = useProducts()
+
+  const router = useRouter()
 
   if (!isAdmin && !hasAdminPermission('products.list')) return null
 
@@ -60,8 +62,27 @@ export default function Dashboard() {
     { field: 'donation_entries', headerName: 'Donation entries', width: 90 },
   ]
 
+  const handleDeleteSelected = () => {
+    if (!confirm('Naozaj?')) return
+
+    const count = selected.length
+
+    deleteProduct(selected)
+      .then(() => flash(`Produkty (${count}) odstránená`))
+      .catch((e) => flash(e.message, 'danger'))
+  }
+
   return (
     <Container>
+      <div>
+        <Button onClick={() => router.push('/admin/products/add')}>New</Button>
+        <Button
+          className={!!selected.length ? 'visible' : 'invisible'}
+          onClick={handleDeleteSelected}
+        >
+          Delete {selected.length}
+        </Button>
+      </div>
       <div className="w-[80%] h-[600px] text-primary">
         <DataGrid
           rows={products}
@@ -71,7 +92,6 @@ export default function Dashboard() {
             setSelected(selected as string[])
           }
           pageSize={6}
-          onCellEditCommit={handleEdit}
           getRowId={(row: Product) => row.slug}
           disableSelectionOnClick
         />
