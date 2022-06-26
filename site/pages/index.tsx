@@ -6,6 +6,7 @@ import { Grid, Marquee, Hero } from '@components/ui'
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import Banner from '@components/ui/Banner'
 import Carousel from '@components/ui/Carousel'
+import LogosSection from '@components/ui/LogosSection'
 import { useEffect } from 'react'
 
 export async function getStaticProps({
@@ -72,6 +73,7 @@ export default function Home({
 
       <Carousel />
 
+      <LogosSection />
       {/* <Grid variant="filled">
         {products.slice(0, 3).map((product: any, i: number) => (
           <ProductCard
