@@ -48,3 +48,5 @@ export const flash = (
   type: FlashType = 'info',
   seconds = 4
 ) => reactFlash(message, seconds * 1000, type)
+
+export const handleErrorFlash = (e: any) => flash(e.message, 'danger')

@@ -12,7 +12,7 @@ import AdminPermit from '@components/magic/AdminPermit'
 import { useEffect, useState } from 'react'
 import { deleteProduct, Product, useProducts } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
-import { flash } from '@components/ui/FlashMessage'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 
 export default function Dashboard() {
@@ -69,7 +69,7 @@ export default function Dashboard() {
 
     deleteProduct(selected)
       .then(() => flash(`Produkty (${count}) odstránená`))
-      .catch((e) => flash(e.message, 'danger'))
+      .catch(handleErrorFlash)
   }
 
   return (

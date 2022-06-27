@@ -8,9 +8,10 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { flash } from '@components/ui/FlashMessage'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import Link from 'next/link'
 import AccountLayout from '@components/auth/AccountLayout'
+import useLoading from '@lib/hooks/useLoading'
 
 export default function Account() {
   const { user, customer } = useUser()
@@ -23,7 +24,7 @@ export default function Account() {
   const [country, setCountry] = useState('')
   const [zip, setZip] = useState('')
 
-  const [saving, setSaving] = useState(false)
+  const saving = useLoading()
 
   useEffect(() => {
     setFullname(customer.fullname)
@@ -35,14 +36,14 @@ export default function Account() {
     setZip(customer.address.zip)
   }, [user, customer])
 
-  const save: FormEventHandler<HTMLFormElement> = async (e) => {
+  const save: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
 
     if (!user) return
 
-    setSaving(true)
+    saving.start()
 
-    await setCustomerProfile(user.uid, {
+    setCustomerProfile(user.uid, {
       fullname,
       phone,
       address: {
@@ -52,36 +53,41 @@ export default function Account() {
         zip,
       },
     })
-
-    setSaving(false)
-
-    flash('Údaje uložené')
+      .then(() => {
+        flash('Údaje uložené')
+        saving.stop()
+      })
+      .catch(handleErrorFlash)
+      .finally(saving.stop)
   }
 
-  const sendResetEmail: MouseEventHandler = async (e) => {
+  const sendResetEmail: MouseEventHandler = (e) => {
     e.preventDefault()
 
     if (!user || !user.email) return
-    await resetPassword(user.email)
-    flash(
-      (deleteFlash) => (
-        <>
-          Poslali sme mail na {user.email}. Kliknite na link v maile pre
-          dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
-          <a
-            href="#"
-            onClick={(e) => {
-              deleteFlash()
-              sendResetEmail(e)
-            }}
-            className="text-bold"
-          >
-            Poslať znova
-          </a>
-        </>
-      ),
-      'info'
-    )
+    resetPassword(user.email)
+      .then(() => {
+        flash(
+          (deleteFlash) => (
+            <>
+              Poslali sme mail na {user.email}. Kliknite na link v maile pre
+              dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
+              <a
+                href="#"
+                onClick={(e) => {
+                  deleteFlash()
+                  sendResetEmail(e)
+                }}
+                className="text-bold"
+              >
+                Poslať znova
+              </a>
+            </>
+          ),
+          'info'
+        )
+      })
+      .catch(handleErrorFlash)
   }
 
   if (!user || !customer) return null
@@ -162,7 +168,9 @@ export default function Account() {
             </div>
           </div>
         </div>
-        <Button disabled={saving}>{saving ? 'Ukladám' : 'Uložiť'}</Button>
+        <Button disabled={saving.pending}>
+          {saving.pending ? 'Ukladám' : 'Uložiť'}
+        </Button>
       </form>
     </AccountLayout>
   )

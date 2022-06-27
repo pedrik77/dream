@@ -1,8 +1,9 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
-import { flash } from '@components/ui/FlashMessage'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useCategories } from '@lib/categories'
 import { inputDateFormat } from '@lib/date'
+import useLoading from '@lib/hooks/useLoading'
 import { getProduct, Product, setProduct } from '@lib/products'
 import { Timestamp } from 'firebase/firestore'
 import { GetServerSideProps } from 'next'
@@ -39,7 +40,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     product?.donation_entries || ''
   )
 
-  const [isSaving, setSaving] = useState(false)
+  const loading = useLoading()
 
   const { categories } = useCategories()
 
@@ -51,7 +52,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     if (!slug || !title_1 || !title_2 || !category)
       return flash('Vyplňte všetky polia', 'danger')
 
-    setSaving(true)
+    loading.start()
 
     setProduct({
       title_1,
@@ -68,10 +69,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
         flash('Produkt uložený', 'success')
         router.push('/admin/products')
       })
-      .catch((e) => {
-        flash(e.message, 'danger')
-      })
-      .finally(() => setSaving(false))
+      .catch(handleErrorFlash)
+      .finally(loading.stop)
   }
 
   return (
@@ -162,7 +161,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
           </label>
         </fieldset>
 
-        <Button disabled={isSaving}>Uložiť</Button>
+        <Button disabled={loading.pending}>Uložiť</Button>
       </form>
     </Container>
   )
