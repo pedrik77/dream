@@ -66,8 +66,8 @@ export default function Account() {
     flash(
       (deleteFlash) => (
         <>
-          Poslali sme mail na tulic.peter77@gmail.com. Kliknite na link v maile
-          pre dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
+          Poslali sme mail na {user.email}. Kliknite na link v maile pre
+          dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
           <a
             href="#"
             onClick={(e) => {
