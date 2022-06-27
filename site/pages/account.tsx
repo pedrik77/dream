@@ -25,6 +25,7 @@ export default function Account() {
   const [zip, setZip] = useState('')
 
   const saving = useLoading()
+  const resetMailSending = useLoading()
 
   useEffect(() => {
     setFullname(customer.fullname)
@@ -65,10 +66,13 @@ export default function Account() {
     e.preventDefault()
 
     if (!user || !user.email) return
+
+    resetMailSending.start()
+
     resetPassword(user.email)
       .then(() => {
         flash(
-          (deleteFlash) => (
+          ({ deleteFlash }) => (
             <>
               Poslali sme mail na {user.email}. Kliknite na link v maile pre
               dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
@@ -88,6 +92,7 @@ export default function Account() {
         )
       })
       .catch(handleErrorFlash)
+      .finally(resetMailSending.stop)
   }
 
   if (!user || !customer) return null
@@ -162,7 +167,11 @@ export default function Account() {
           <Text variant="sectionHeading">Prihlasovanie a bezpečnosť</Text>
           <div className="flex flex-col divide-accent-2 divide-y">
             <div className="flex flex-row items-center space-x-4 py-4">
-              <Button type="button" onClick={sendResetEmail}>
+              <Button
+                disabled={resetMailSending.pending}
+                type="button"
+                onClick={sendResetEmail}
+              >
                 Zmeniť heslo
               </Button>
             </div>

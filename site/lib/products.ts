@@ -26,7 +26,7 @@ export interface Product {
 export async function getProduct(slug: string) {
   const productData = await getDoc(doc(db, 'products', slug))
 
-  return await transform(productData)
+  return transform(productData)
 }
 
 export async function setProduct({ slug, ...product }: any) {
@@ -60,7 +60,7 @@ export function useProducts() {
   return products
 }
 
-async function transform(doc: any): Promise<Product> {
+function transform(doc: any): Product {
   const { closing_date, winner_announce_date, ...data } = doc.data()
 
   return {

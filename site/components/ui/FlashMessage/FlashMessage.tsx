@@ -8,7 +8,9 @@ import { Cross } from '@components/icons'
 export type FlashType = 'success' | 'danger' | 'warning' | 'info'
 
 type MessageType = string | JSX.Element
-type MessageCallbackType = (deleteFlash: DeleteFlashType) => MessageType
+type MessageCallbackType = (callbacks: {
+  deleteFlash: DeleteFlashType
+}) => MessageType
 type DeleteFlashType = () => void
 
 interface Props {
@@ -23,7 +25,7 @@ export const FlashMessage: React.FC<Props> = ({
   deleteFlash,
 }) => {
   const flashBody =
-    typeof content === 'function' ? content(deleteFlash) : content
+    typeof content === 'function' ? content({ deleteFlash }) : content
 
   return (
     <div
