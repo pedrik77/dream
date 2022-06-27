@@ -2,7 +2,6 @@ import s from './ProductSidebar.module.css'
 import { useAddItem } from '@framework/cart'
 import { FC, useEffect, useState } from 'react'
 import { ProductOptions } from '@components/product'
-import type { Product } from '@commerce/types/product'
 import { Button, Text, Rating, Collapse, useUI } from '@components/ui'
 import {
   getProductVariant,
@@ -10,6 +9,7 @@ import {
   SelectedOptions,
 } from '../helpers'
 import ProductTag from '../ProductTag'
+import { Product } from '@lib/products'
 
 interface ProductSidebarProps {
   product: Product
@@ -20,19 +20,12 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
   const addItem = useAddItem()
   const { openSidebar } = useUI()
   const [loading, setLoading] = useState(false)
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({})
 
-  useEffect(() => {
-    selectDefaultOptionFromProduct(product, setSelectedOptions)
-  }, [product])
-
-  const variant = getProductVariant(product, selectedOptions)
   const addToCart = async () => {
     setLoading(true)
     try {
       await addItem({
-        productId: String(product.id),
-        variantId: String(variant ? variant.id : product.variants[0]?.id),
+        productId: String(product.slug),
       })
       openSidebar()
       setLoading(false)
@@ -43,11 +36,11 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
 
   return (
     <div className={className}>
-      <ProductTag name={product.name} />
+      <ProductTag name={product.title_1} />
 
       <Text
         className="pb-4 break-words w-full max-w-xl"
-        html={product.descriptionHtml || product.description}
+        html={product.short_desc}
       />
       <div className="flex flex-row justify-between items-center">
         <Rating value={4} />
@@ -61,11 +54,8 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
             className={s.button}
             onClick={addToCart}
             loading={loading}
-            disabled={variant?.availableForSale === false}
           >
-            {variant?.availableForSale === false
-              ? 'Not Available'
-              : 'Add To Cart'}
+            Add To Cart
           </Button>
         )}
       </div>
