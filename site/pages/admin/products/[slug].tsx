@@ -1,7 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { useCategories } from '@lib/categories'
+import { Category, useCategories } from '@lib/categories'
 import { inputDateFormat } from '@lib/date'
 import useLoading from '@lib/hooks/useLoading'
 import { getProduct, Product, setProduct } from '@lib/products'
@@ -45,6 +45,11 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const { categories } = useCategories()
 
   const router = useRouter()
+
+  const categoryToSelect = (c?: Category) => ({
+    value: c?.slug || '',
+    label: c?.title || '',
+  })
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
@@ -109,17 +114,16 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
           </label>
           <label>
             Category <br />
-            <select
-              onChange={(e) => setCategory(e.target.value)}
-              value={category}
-            >
-              <option value="">Nezaradené</option>
-              {categories.map((c) => (
-                <option key={c.slug} value={c.slug}>
-                  {c.title}
-                </option>
-              ))}
-            </select>
+            {Select && (
+              // @ts-ignore
+              <Select
+                options={categories.map(categoryToSelect)}
+                onChange={(e: any) => setCategory(e.value)}
+                value={categoryToSelect(
+                  categories.find((c) => c.slug === category)
+                )}
+              />
+            )}
           </label>
         </fieldset>
         <fieldset className="flex">
@@ -154,10 +158,10 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
         <fieldset>
           <label>
             Long description <br />
-            <textarea
-              value={long_desc}
-              onChange={(e) => setLongDesc(e.target.value)}
-            />
+            {Editor && (
+              // @ts-ignore
+              <Editor value={long_desc} onChange={setLongDesc} />
+            )}
           </label>
         </fieldset>
 
