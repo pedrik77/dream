@@ -8,6 +8,10 @@
   min-height: 500px;
 }
 
+.category {
+  @apply uppercase text-xs font-bold text-secondary underline mb-4;
+}
+
 .header {
   @apply transition-colors ease-in-out duration-500
   absolute top-0 left-0 z-20 pr-16;
@@ -36,6 +40,22 @@
   @apply flex flex-col col-span-1 mx-auto max-w-8xl px-6 py-6 w-full h-full;
 }
 
+.subtitle {
+  @apply font-bold text-sm uppercase mb-8;
+}
+
+.info {
+  @apply flex justify-between align-top gap-4 mx-2 my-8;
+}
+
+.info div {
+  @apply flex flex-col items-start;
+}
+
+.infoTitle {
+  @apply text-lg font-bold;
+}
+
 .sliderContainer {
   @apply flex items-center justify-center overflow-x-hidden;
 }
@@ -55,10 +75,6 @@
 
 .button {
   width: 100%;
-}
-
-.wishlistButton {
-  @apply absolute z-30 top-0 right-0;
 }
 
 .relatedProductsGrid {

@@ -1,11 +1,11 @@
 import cn from 'clsx'
 import Image from 'next/image'
 import s from './ProductView.module.css'
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import usePrice from '@framework/product/use-price'
 import { WishlistButton } from '@components/wishlist'
 import { ProductSlider, ProductCard } from '@components/product'
-import { Container, Text } from '@components/ui'
+import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
@@ -38,6 +38,8 @@ const images = [
 ]
 
 const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
+  const buyCardsRef = useRef<HTMLElement>(null)
+
   return (
     <>
       <Container className="max-w-none w-full" clean>
@@ -64,15 +66,31 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           </div>
 
           <ProductSidebar
-            key={product.slug}
             product={product}
-            className={s.sidebar}
+            onJoinNow={() => {
+              if (!buyCardsRef.current) return
+
+              // TODO: BETTER SCROLL
+              buyCardsRef.current.scrollIntoView({ behavior: 'smooth' })
+            }}
           />
         </div>
         <hr className="mt-7 border-accent-2" />
 
         {/* TODO: ADD WYSIYG EDITOR */}
 
+        <section className={s.buySection} ref={buyCardsRef}>
+          <h2 className={s.sectionHeading}>BUY NOW TICKETS</h2>
+          <div className={s.buyCards}>
+            {[20, 30, 50].map((price) => (
+              <div key={price} className={s.buyCard}>
+                <h5 className={s.ticketsNo}>{price / 2}</h5>
+                <span className={s.tickets}>Tiketov</span>
+                <Button className={s.btn}>{price} €</Button>
+              </div>
+            ))}
+          </div>
+        </section>
         <section className="py-12 px-6 mb-10">
           <Text variant="sectionHeading">Related Products</Text>
           <div className={s.relatedProductsGrid}>

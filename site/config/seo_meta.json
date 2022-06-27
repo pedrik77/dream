@@ -1,12 +1,12 @@
 {
-  "title": "vysnivaj.si | Description",
+  "title": "vysnivaj.si",
   "titleTemplate": "%s - vysnivaj.si",
-  "description": "vysnivaj.si - https://www.vysnivaj.si",
+  "description": "vysnivaj.si - https://vysnivaj.si",
   "openGraph": {
-    "title": "vysnivaj.si | Description",
-    "description": "vysnivaj.si - https://www.vysnivaj.si",
+    "title": "vysnivaj.si",
+    "description": "vysnivaj.si - https://vysnivaj.si",
     "type": "website",
-    "url": "https://www.vysnivaj.si",
+    "url": "https://vysnivaj.si",
     "site_name": "vysnivaj.si",
     "images": [
       {
