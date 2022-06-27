@@ -99,42 +99,42 @@ export default function Account() {
 
   return (
     <AccountLayout current="account">
-      <Text variant="pageHeading">Nastavenie účtu</Text>
-      <form onSubmit={save}>
-        <div className="grid grid-cols-2">
+      <Text variant="heading">Nastavenie účtu</Text>
+      <form onSubmit={save} className="my-8 py-8 flex flex-col gap-4">
+        <div className="grid grid-cols-3">
           <Text variant="sectionHeading">Osobné informácie</Text>
-          <div className="flex flex-col divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
+          <div className="flex flex-col col-span-2 divide-accent-2 divide-y">
+            <div className="flex flex-row items-center space-x-4 py-8">
+              <span className="text-md font-medium text-accent-600 flex-1">
                 Emailová adresa
               </span>
               <span>{user.email}</span>
             </div>
 
-            <span>
+            <span className="text-md font-medium text-accent-600 flex-1 space-x-4 py-8">
               Pre zmenu vašej mailovej adresy kontaktujte náš tím na adrese
               info@dream.sk
             </span>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
+            <div className="flex flex-row items-center space-x-4 py-8">
+              <span className="text-md font-medium text-accent-600 flex-1">
                 Celé meno
               </span>
               <Input value={fullname} onChange={setFullname} />
             </div>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
+            <div className="flex flex-row items-center space-x-4 py-8">
+              <span className="text-md font-medium text-accent-600 flex-1">
                 Telefónne číslo
               </span>
               <Input value={phone} onChange={setPhone} type="tel" />
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-3">
           <Text variant="sectionHeading">Adresa</Text>
-          <div className="flex flex-col divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-4">
+          <div className="flex flex-col col-span-2 divide-accent-2 divide-y">
+            <div className="flex flex-row items-center space-x-4 py-8">
               <span className="text-lg font-medium text-accent-600 flex-1">
                 Ulica
               </span>
@@ -152,7 +152,11 @@ export default function Account() {
               <span className="text-lg font-medium text-accent-600 flex-1">
                 Krajina
               </span>
-              <Input value={country} onChange={setCountry} />
+              <Input
+                value={country}
+                onChange={setCountry}
+                className="bg-transparent"
+              />
             </div>
 
             <div className="flex flex-row items-center space-x-4 py-4">
@@ -163,13 +167,14 @@ export default function Account() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-3">
           <Text variant="sectionHeading">Prihlasovanie a bezpečnosť</Text>
-          <div className="flex flex-col divide-accent-2 divide-y">
+          <div className="flex flex-col col-span-2 divide-accent-2 divide-y">
             <div className="flex flex-row items-center space-x-4 py-4">
               <Button
                 disabled={resetMailSending.pending}
                 type="button"
+                variant="ghost"
                 onClick={sendResetEmail}
               >
                 Zmeniť heslo
@@ -177,7 +182,7 @@ export default function Account() {
             </div>
           </div>
         </div>
-        <Button disabled={saving.pending}>
+        <Button className="w-40 self-center my-16" disabled={saving.pending}>
           {saving.pending ? 'Ukladám' : 'Uložiť'}
         </Button>
       </form>
