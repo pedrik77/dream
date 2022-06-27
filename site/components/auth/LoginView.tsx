@@ -7,6 +7,7 @@ import { signIn, signInVia } from '@lib/auth'
 import { useRouter } from 'next/router'
 import { flash } from '@components/ui/FlashMessage'
 import { StringMap } from '@lib/common-types'
+import useLoading from '@lib/hooks/useLoading'
 
 const FlashMessages: StringMap = {
   success: 'Vitajte naspäť, sme radi, že vás tu máme!',
@@ -18,25 +19,27 @@ const LoginView = () => {
   // Form State
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+
   const { setModalView, closeModal } = useUI()
+
   const router = useRouter()
 
-  const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
+  const loading = useLoading()
+
+  const handleLogin: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
 
-    try {
-      setLoading(true)
-      await signIn(email, password)
-      setLoading(false)
-      closeModal()
-      flash(FlashMessages.success, 'success')
-      router.push('/account')
-    } catch (e: any) {
-      setLoading(false)
-      flash(FlashMessages[e.code] ?? e.message, 'danger')
-      console.error(e.code)
-    }
+    loading.start()
+    signIn(email, password)
+      .then(() => {
+        flash(FlashMessages.success, 'success')
+        router.push('/account')
+        closeModal()
+      })
+      .catch((e) => {
+        flash(FlashMessages[e.code] ?? e.message, 'danger')
+      })
+      .finally(loading.stop)
   }
 
   const handleFbLogin = () => signInVia('fb')
@@ -61,8 +64,8 @@ const LoginView = () => {
         <Button
           variant="slim"
           type="submit"
-          loading={loading}
-          disabled={loading}
+          loading={loading.pending}
+          disabled={loading.pending}
         >
           Prihlásiť
         </Button>
