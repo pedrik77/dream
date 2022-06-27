@@ -15,6 +15,39 @@ import { basicShowFormat } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 
+const dateFormatter = (r: GridValueFormatterParams) => basicShowFormat(r.value)
+
+const columns: GridColDef[] = [
+  { field: 'slug', headerName: 'Slug', width: 70 },
+  {
+    field: 'title_1',
+    headerName: 'Title 1',
+    width: 130,
+    renderCell: (r) => <Link href={`/admin/products/${r.id}`}>{r.value}</Link>,
+  },
+  { field: 'title_2', headerName: 'Title 2', width: 130 },
+  {
+    field: 'short_desc',
+    headerName: 'Short description',
+    width: 260,
+  },
+  {
+    field: 'closing_date',
+    headerName: 'Closing date',
+    width: 130,
+    valueFormatter: dateFormatter,
+  },
+  {
+    field: 'winner_announce_date',
+    headerName: 'Winner announce date',
+    width: 130,
+    valueFormatter: dateFormatter,
+  },
+  { field: 'gallery_id', headerName: 'Gallery', width: 60 },
+  { field: 'long_desc', headerName: 'Long description', width: 90 },
+  { field: 'donation_entries', headerName: 'Donation entries', width: 90 },
+]
+
 export default function Dashboard() {
   const { isAdmin, hasAdminPermission } = useUser()
 
@@ -25,42 +58,6 @@ export default function Dashboard() {
   const router = useRouter()
 
   if (!isAdmin && !hasAdminPermission('products.list')) return null
-
-  const dateFormatter = (r: GridValueFormatterParams) =>
-    basicShowFormat(r.value)
-
-  const columns: GridColDef[] = [
-    { field: 'slug', headerName: 'Slug', width: 70 },
-    {
-      field: 'title_1',
-      headerName: 'Title 1',
-      width: 130,
-      renderCell: (r) => (
-        <Link href={`/admin/products/${r.id}`}>{r.value}</Link>
-      ),
-    },
-    { field: 'title_2', headerName: 'Title 2', width: 130 },
-    {
-      field: 'short_desc',
-      headerName: 'Short description',
-      width: 260,
-    },
-    {
-      field: 'closing_date',
-      headerName: 'Closing date',
-      width: 130,
-      valueFormatter: dateFormatter,
-    },
-    {
-      field: 'winner_announce_date',
-      headerName: 'Winner announce date',
-      width: 130,
-      valueFormatter: dateFormatter,
-    },
-    { field: 'gallery_id', headerName: 'Gallery', width: 60 },
-    { field: 'long_desc', headerName: 'Long description', width: 90 },
-    { field: 'donation_entries', headerName: 'Donation entries', width: 90 },
-  ]
 
   const handleDeleteSelected = () => {
     if (!confirm('Naozaj?')) return
