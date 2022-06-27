@@ -172,7 +172,9 @@ ProductEdit.Layout = Layout
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const isEditing = params && params.slug != 'add'
 
-  const product = isEditing ? await getProduct(params.slug as string) : null
+  const product = isEditing
+    ? await getProduct((params.slug as string) || '')
+    : null
 
   if (isEditing && !product) return { notFound: true }
 
