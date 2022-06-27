@@ -44,7 +44,6 @@ const columns: GridColDef[] = [
     valueFormatter: dateFormatter,
   },
   { field: 'gallery_id', headerName: 'Gallery', width: 60 },
-  { field: 'long_desc', headerName: 'Long description', width: 90 },
   { field: 'donation_entries', headerName: 'Donation entries', width: 90 },
 ]
 
