@@ -2,7 +2,6 @@ import s from './ProductSidebar.module.css'
 import { useAddItem } from '@framework/cart'
 import { FC, useEffect, useState } from 'react'
 import { ProductOptions } from '@components/product'
-import type { Product } from '@commerce/types/product'
 import { Button, Text, Rating, Collapse, useUI } from '@components/ui'
 import {
   getProductVariant,
@@ -11,6 +10,7 @@ import {
 } from '../helpers'
 import ProductTag from '../ProductTag'
 import Link from 'next/link'
+import { Product } from '@lib/products'
 
 interface ProductSidebarProps {
   product: Product
@@ -24,19 +24,12 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   const addItem = useAddItem()
   const { openSidebar } = useUI()
   const [loading, setLoading] = useState(false)
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({})
 
-  useEffect(() => {
-    selectDefaultOptionFromProduct(product, setSelectedOptions)
-  }, [product])
-
-  const variant = getProductVariant(product, selectedOptions)
   const addToCart = async () => {
     setLoading(true)
     try {
       await addItem({
-        productId: String(product.id),
-        variantId: String(variant ? variant.id : product.variants[0]?.id),
+        productId: String(product.slug),
       })
       openSidebar()
       setLoading(false)
@@ -52,13 +45,13 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
           <h5 className={s.category}>Kategoria</h5>
         </a>
       </Link>
-      <ProductTag name={product.name} />
+      <ProductTag name={product.title_1} />
       <h4 className={s.subtitle}>
         Jelly dessert icing caramels biscuit tootsie.
       </h4>
       <Text
         className="pb-4 break-words w-full max-w-xl"
-        html={product.descriptionHtml || product.description}
+        html={product.short_desc}
       />
       <div className={s.info}>
         <div>

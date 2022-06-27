@@ -3,24 +3,30 @@ import { validate } from 'email-validator'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { resetPassword } from '@lib/auth'
-import { flash } from '@components/ui/FlashMessage'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import useLoading from '@lib/hooks/useLoading'
 
 interface Props {}
 
 const ForgotPassword: FC<Props> = () => {
   // Form State
   const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
+
+  const loading = useLoading()
 
   const { setModalView, closeModal } = useUI()
 
-  const handleResetPassword = async (e: React.SyntheticEvent<EventTarget>) => {
+  const handleResetPassword = (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
-    setLoading(true)
+    loading.start()
 
-    await resetPassword(email)
-    flash('Email bol odoslaný na zadanú adresu.')
-    closeModal()
+    resetPassword(email)
+      .then(() => {
+        flash('Email bol odoslaný na zadanú adresu.')
+        closeModal()
+      })
+      .catch(handleErrorFlash)
+      .finally(loading.stop)
   }
 
   return (
@@ -42,8 +48,8 @@ const ForgotPassword: FC<Props> = () => {
           <Button
             variant="slim"
             type="submit"
-            loading={loading}
-            disabled={loading}
+            loading={loading.pending}
+            disabled={loading.pending}
           >
             Odoslať
           </Button>

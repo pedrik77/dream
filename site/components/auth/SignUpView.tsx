@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { flash } from '@components/ui/FlashMessage'
 import { StringMap } from '@lib/common-types'
+import useLoading from '@lib/hooks/useLoading'
 
 export const MIN_PASSWORD_LENGTH = 8
 
@@ -21,27 +22,26 @@ const SignUpView = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [newsletter, setNewsletter] = useState(false)
-  const [loading, setLoading] = useState(false)
+
+  const loading = useLoading()
 
   const router = useRouter()
 
   const { setModalView, closeModal } = useUI()
 
-  const handleSignUp: FormEventHandler<HTMLFormElement> = async (e) => {
+  const handleSignUp: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
 
-    try {
-      setLoading(true)
-      flash(FlashMessages.confirm, 'info')
-      await signUp(email, password, newsletter)
-      setLoading(false)
-      closeModal()
+    loading.start()
 
-      router.push('/account')
-    } catch (e: any) {
-      flash(FlashMessages[e.code] ?? e.message, 'danger')
-      setLoading(false)
-    }
+    signUp(email, password, newsletter)
+      .then(() => {
+        flash(FlashMessages.confirm, 'info')
+        closeModal()
+        router.push('/account')
+      })
+      .catch((e) => flash(FlashMessages[e.code] ?? e.message, 'danger'))
+      .finally(loading.stop)
   }
 
   const handleFbSignUp = () => signInVia('fb')
@@ -95,8 +95,8 @@ const SignUpView = () => {
           <Button
             variant="slim"
             type="submit"
-            loading={loading}
-            disabled={loading}
+            loading={loading.pending}
+            disabled={loading.pending}
           >
             Registrovať
           </Button>
