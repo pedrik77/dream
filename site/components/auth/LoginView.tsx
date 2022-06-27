@@ -47,7 +47,7 @@ const LoginView = () => {
       className="w-80 flex flex-col justify-between p-3"
     >
       <div className="flex justify-center pb-12 ">
-        <Logo width={64} height={64} />
+        <Logo />
       </div>
       <div className="flex flex-col space-y-3">
         <Input required type="email" placeholder="Email" onChange={setEmail} />
@@ -71,7 +71,7 @@ const LoginView = () => {
         </Button>
         <div className="pt-1 text-center text-sm">
           <a
-            className="text-accent-9 font-bold hover:underline cursor-pointer"
+            className="text-accent-0 font-bold hover:underline cursor-pointer"
             onClick={() => setModalView('SIGNUP_VIEW')}
           >
             Registrovať
@@ -79,7 +79,7 @@ const LoginView = () => {
         </div>
         <div className="pt-1 text-center text-sm">
           <a
-            className="text-accent-9 inline font-bold hover:underline cursor-pointer"
+            className="text-accent-0 inline font-bold hover:underline cursor-pointer"
             onClick={() => setModalView('FORGOT_VIEW')}
           >
             Zabudnuté heslo

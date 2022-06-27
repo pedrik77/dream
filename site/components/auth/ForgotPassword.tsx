@@ -29,10 +29,10 @@ const ForgotPassword: FC<Props> = () => {
       className="w-80 flex flex-col justify-between p-3"
     >
       <div className="flex justify-center pb-12 ">
-        <Logo width={64} height={64} />
+        <Logo />
       </div>
       <div className="flex flex-col space-y-4">
-        <div className="p-3">
+        <div className="py-3 text-accent-0">
           Prosím zadajte vašu e-mailovú adresu. Pošleme vám e-mail na
           resetovanie vášho hesla.
         </div>
@@ -51,7 +51,7 @@ const ForgotPassword: FC<Props> = () => {
 
         <span className="pt-3 text-center text-sm">
           <a
-            className="text-accent-9 font-bold hover:underline cursor-pointer"
+            className="text-accent-0 font-bold hover:underline cursor-pointer"
             onClick={() => setModalView('LOGIN_VIEW')}
           >
             Prihlásiť sa

@@ -2,13 +2,13 @@
   @apply bg-secondary text-accent-9 cursor-pointer inline-flex
   px-10 py-5 leading-6 transition ease-in-out duration-150
   shadow-sm text-center justify-center uppercase
-  border border-transparent items-center text-sm font-semibold
+  border-transparent border-[2px] items-center text-sm font-semibold
   tracking-wide;
   max-height: 64px;
 }
 
 .root:hover {
-  @apply border-primary text-accent-0 bg-primary;
+  @apply border-secondary text-accent-0 bg-primary;
 }
 
 .root:focus {
@@ -20,7 +20,7 @@
 }
 
 .loading {
-  @apply bg-accent-1 text-accent-3 border-accent-2 cursor-not-allowed;
+  @apply bg-accent-1 text-primary border-primary cursor-not-allowed;
 }
 
 .slim {
