@@ -105,7 +105,7 @@ export default function Account() {
       <form onSubmit={save} className="my-8 py-8 flex flex-col gap-8">
         <AccountFieldWrapper>
           <Text variant="sectionHeading">Osobné informácie</Text>
-          <div className="flex flex-col col-span-2 divide-primary divide-y">
+          <div className="flex flex-col col-span-2 divide-secondary divide-y">
             <AccountField>
               <Label>Emailová adresa</Label>
               <span>{user.email}</span>
@@ -134,7 +134,7 @@ export default function Account() {
         </AccountFieldWrapper>
         <AccountFieldWrapper>
           <Text variant="sectionHeading">Adresa</Text>
-          <div className="flex flex-col col-span-2 divide-primary divide-y">
+          <div className="flex flex-col col-span-2 divide-secondary divide-y">
             <AccountField>
               <Label>Ulica</Label>
               <Input variant="ghost" value={street} onChange={setStreet} />

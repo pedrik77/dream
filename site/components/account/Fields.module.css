@@ -3,9 +3,13 @@
 }
 
 .field {
-  @apply flex flex-row justify-between space-x-4 py-8;
+  @apply flex flex-row justify-between space-x-4 py-10 font-bold;
+}
+
+.field button {
+  @apply self-end;
 }
 
 .label {
-  @apply font-medium flex-1;
+  @apply flex-1;
 }
