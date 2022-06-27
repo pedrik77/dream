@@ -25,7 +25,7 @@ const AccountLayout: React.FC<{
             <Link key={href} href={'/' + href}>
               <a
                 title={label}
-                className={current === href ? 'underline' : 'text-primary-600'}
+                className={current === href ? 'underline' : 'text-primary'}
               >
                 {label}
               </a>

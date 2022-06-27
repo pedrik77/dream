@@ -12,6 +12,8 @@ import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import Link from 'next/link'
 import AccountLayout from '@components/auth/AccountLayout'
 import useLoading from '@lib/hooks/useLoading'
+import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
+import { Label } from '@radix-ui/react-dropdown-menu'
 
 export default function Account() {
   const { user, customer } = useUser()
@@ -100,77 +102,64 @@ export default function Account() {
   return (
     <AccountLayout current="account">
       <Text variant="heading">Nastavenie účtu</Text>
-      <form onSubmit={save} className="my-8 py-8 flex flex-col gap-4">
-        <div className="grid grid-cols-3">
+      <form onSubmit={save} className="my-8 py-8 flex flex-col gap-8">
+        <AccountFieldWrapper>
           <Text variant="sectionHeading">Osobné informácie</Text>
-          <div className="flex flex-col col-span-2 divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-8">
-              <span className="text-md font-medium text-accent-600 flex-1">
-                Emailová adresa
-              </span>
+          <div className="flex flex-col col-span-2 divide-primary divide-y">
+            <AccountField>
+              <Label>Emailová adresa</Label>
               <span>{user.email}</span>
-            </div>
+            </AccountField>
 
             <span className="text-md font-medium text-accent-600 flex-1 space-x-4 py-8">
               Pre zmenu vašej mailovej adresy kontaktujte náš tím na adrese
               info@dream.sk
             </span>
 
-            <div className="flex flex-row items-center space-x-4 py-8">
-              <span className="text-md font-medium text-accent-600 flex-1">
-                Celé meno
-              </span>
-              <Input value={fullname} onChange={setFullname} />
-            </div>
+            <AccountField>
+              <Label>Celé meno</Label>
+              <Input variant="ghost" value={fullname} onChange={setFullname} />
+            </AccountField>
 
-            <div className="flex flex-row items-center space-x-4 py-8">
-              <span className="text-md font-medium text-accent-600 flex-1">
-                Telefónne číslo
-              </span>
-              <Input value={phone} onChange={setPhone} type="tel" />
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-3">
-          <Text variant="sectionHeading">Adresa</Text>
-          <div className="flex flex-col col-span-2 divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-8">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Ulica
-              </span>
-              <Input value={street} onChange={setStreet} />
-            </div>
-
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Mesto
-              </span>
-              <Input value={city} onChange={setCity} />
-            </div>
-
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Krajina
-              </span>
+            <AccountField>
+              <Label>Telefónne číslo</Label>
               <Input
-                value={country}
-                onChange={setCountry}
-                className="bg-transparent"
+                variant="ghost"
+                value={phone}
+                onChange={setPhone}
+                type="tel"
               />
-            </div>
-
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                PSČ
-              </span>
-              <Input value={zip} onChange={setZip} />
-            </div>
+            </AccountField>
           </div>
-        </div>
-        <div className="grid grid-cols-3">
+        </AccountFieldWrapper>
+        <AccountFieldWrapper>
+          <Text variant="sectionHeading">Adresa</Text>
+          <div className="flex flex-col col-span-2 divide-primary divide-y">
+            <AccountField>
+              <Label>Ulica</Label>
+              <Input variant="ghost" value={street} onChange={setStreet} />
+            </AccountField>
+
+            <AccountField>
+              <Label>Mesto</Label>
+              <Input variant="ghost" value={city} onChange={setCity} />
+            </AccountField>
+
+            <AccountField>
+              <Label>Krajina</Label>
+              <Input variant="ghost" value={country} onChange={setCountry} />
+            </AccountField>
+
+            <AccountField>
+              <Label>PSČ</Label>
+              <Input variant="ghost" value={zip} onChange={setZip} />
+            </AccountField>
+          </div>
+        </AccountFieldWrapper>
+        <AccountFieldWrapper>
           <Text variant="sectionHeading">Prihlasovanie a bezpečnosť</Text>
-          <div className="flex flex-col col-span-2 divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-4">
+          <div className="flex flex-col col-span-2 divide-primary divide-y">
+            <AccountField>
               <Button
                 disabled={resetMailSending.pending}
                 type="button"
@@ -179,9 +168,9 @@ export default function Account() {
               >
                 Zmeniť heslo
               </Button>
-            </div>
+            </AccountField>
           </div>
-        </div>
+        </AccountFieldWrapper>
         <Button className="w-40 self-center my-16" disabled={saving.pending}>
           {saving.pending ? 'Ukladám' : 'Uložiť'}
         </Button>

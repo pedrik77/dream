@@ -1,0 +1,11 @@
+.wrapper {
+  @apply grid grid-cols-3 my-4;
+}
+
+.field {
+  @apply flex flex-row justify-between space-x-4 py-8;
+}
+
+.label {
+  @apply font-medium flex-1;
+}
