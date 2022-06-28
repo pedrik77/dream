@@ -23,24 +23,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   product,
   onJoinNow = () => {},
 }) => {
-  const addItem = useAddItem()
-  const { openSidebar } = useUI()
-  const [loading, setLoading] = useState(false)
-
   const [category, setCategory] = useState<Category | null>(null)
-
-  const addToCart = async () => {
-    setLoading(true)
-    try {
-      await addItem({
-        productId: String(product.slug),
-      })
-      openSidebar()
-      setLoading(false)
-    } catch (err) {
-      setLoading(false)
-    }
-  }
 
   useEffect(() => {
     if (product.category) {

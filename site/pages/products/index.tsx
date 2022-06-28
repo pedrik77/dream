@@ -11,7 +11,6 @@ interface ProductsPageProps {
 
 export default function Products({ category = '' }: ProductsPageProps) {
   const products = useProducts(category)
-  console.log({ category })
 
   return (
     <Container>

@@ -10,14 +10,41 @@ import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
 import { Product } from '@lib/products'
+import { setOrder } from '@lib/orders'
+import { v4 as uuid4 } from 'uuid'
+import { useUser } from '@lib/auth'
+import { Timestamp } from 'firebase/firestore'
+import { today } from '@lib/date'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import { useRouter } from 'next/router'
 interface ProductViewProps {
   product: Product
 }
 
+const GLOBAL_ENTRIES = Object.entries({ 1: 1, 4: 2, 15: 5, 50: 10 })
+
 const ProductView: FC<ProductViewProps> = ({ product }) => {
   const buyCardsRef = useRef<HTMLElement>(null)
+  const { user } = useUser()
+  const router = useRouter()
 
   const relatedProducts: Product[] = []
+
+  const handleBuy = (ticketCount: number, price: number) => {
+    setOrder({
+      uuid: uuid4(),
+      user_id: user?.uid,
+      product_slug: product.slug,
+      ticket_count: ticketCount,
+      total_price: price,
+      created_date: Timestamp.fromDate(new Date(today())),
+    })
+      .then(() => {
+        flash('Ďakujeme za nákup!', 'success')
+        router.push('/orders')
+      })
+      .catch(handleErrorFlash)
+  }
 
   return (
     <>
@@ -62,11 +89,16 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
         <section className={s.buySection} ref={buyCardsRef}>
           <h2 className={s.sectionHeading}>BUY NOW TICKETS</h2>
           <div className={s.buyCards}>
-            {[20, 30, 50].map((price) => (
+            {GLOBAL_ENTRIES.map(([ticketCount, price]) => (
               <div key={price} className={s.buyCard}>
-                <h5 className={s.ticketsNo}>{price / 2}</h5>
+                <h5 className={s.ticketsNo}>{ticketCount}</h5>
                 <span className={s.tickets}>Tiketov</span>
-                <Button className={s.btn}>{price} €</Button>
+                <Button
+                  className={s.btn}
+                  onClick={() => handleBuy(Number(ticketCount), price)}
+                >
+                  {price} €
+                </Button>
               </div>
             ))}
           </div>
