@@ -1,6 +1,6 @@
 import s from './ProductSidebar.module.css'
 import { useAddItem } from '@framework/cart'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { ProductOptions } from '@components/product'
 import { Button, Text, Rating, Collapse, useUI } from '@components/ui'
 import {
@@ -11,6 +11,8 @@ import {
 import ProductTag from '../ProductTag'
 import Link from 'next/link'
 import { Product } from '@lib/products'
+import { basicShowFormat } from '@lib/date'
+import { Category, getCategory } from '@lib/categories'
 
 interface ProductSidebarProps {
   product: Product
@@ -25,6 +27,8 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   const { openSidebar } = useUI()
   const [loading, setLoading] = useState(false)
 
+  const [category, setCategory] = useState<Category | null>(null)
+
   const addToCart = async () => {
     setLoading(true)
     try {
@@ -38,17 +42,23 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
     }
   }
 
+  useEffect(() => {
+    if (product.category) {
+      getCategory(product.category).then(setCategory)
+    }
+  }, [product.category])
+
   return (
     <div className={s.sidebar}>
-      <Link href="#">
-        <a>
-          <h5 className={s.category}>Kategoria</h5>
-        </a>
-      </Link>
+      {category && (
+        <Link href={`/category/${category.slug}`}>
+          <a>
+            <h5 className={s.category}>{category.title}</h5>
+          </a>
+        </Link>
+      )}
       <ProductTag name={product.title_1} />
-      <h4 className={s.subtitle}>
-        Jelly dessert icing caramels biscuit tootsie.
-      </h4>
+      <h4 className={s.subtitle}>{product.title_2}</h4>
       <Text
         className="pb-4 break-words w-full max-w-xl"
         html={product.short_desc}
@@ -56,11 +66,11 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
       <div className={s.info}>
         <div>
           <span className={s.infoTitle}>Closes</span>
-          <span>12.12.2022</span>
+          <span>{basicShowFormat(product.closing_date)}</span>
         </div>
         <div>
           <span className={s.infoTitle}>Winner Announcement</span>
-          <span>20.12.2022</span>
+          <span>{basicShowFormat(product.winner_announce_date)}</span>
         </div>
       </div>
       {/* TODO Toto ten button neviem */}

@@ -17,10 +17,10 @@ export interface Category {
   menu_position: number
 }
 
-export async function getCategory(slug: string) {
+export async function getCategory(slug: string): Promise<Category> {
   const categoryData = await getDoc(doc(db, 'categories', slug))
 
-  return { slug: categoryData.id, ...categoryData.data() }
+  return { slug: categoryData.id, ...categoryData.data() } as Category
 }
 
 export async function setCategory({

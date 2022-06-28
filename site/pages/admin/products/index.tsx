@@ -27,11 +27,6 @@ const columns: GridColDef[] = [
   },
   { field: 'title_2', headerName: 'Title 2', width: 130 },
   {
-    field: 'short_desc',
-    headerName: 'Short description',
-    width: 260,
-  },
-  {
     field: 'closing_date',
     headerName: 'Closing date',
     width: 130,
@@ -43,7 +38,11 @@ const columns: GridColDef[] = [
     width: 130,
     valueFormatter: dateFormatter,
   },
-  { field: 'donation_entries', headerName: 'Donation entries', width: 90 },
+  {
+    field: 'short_desc',
+    headerName: 'Short description',
+    width: 260,
+  },
 ]
 
 export default function Dashboard() {

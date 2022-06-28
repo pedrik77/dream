@@ -12,33 +12,12 @@ import ProductTag from '../ProductTag'
 import { Product } from '@lib/products'
 interface ProductViewProps {
   product: Product
-  relatedProducts: Product[]
 }
 
-const images = [
-  // TODO
-  {
-    url: '/assets/tesla.jpg',
-    altText: 'Lightweight Jacket',
-    width: 1000,
-    height: 1000,
-  },
-  {
-    url: '/assets/tesla1.jpg',
-    altText: 'Lightweight Jacket',
-    width: 1000,
-    height: 1000,
-  },
-  {
-    url: '/assets/tesla3.jpg',
-    altText: 'Lightweight Jacket',
-    width: 1000,
-    height: 1000,
-  },
-]
-
-const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
+const ProductView: FC<ProductViewProps> = ({ product }) => {
   const buyCardsRef = useRef<HTMLElement>(null)
+
+  const relatedProducts: Product[] = []
 
   return (
     <>
@@ -47,12 +26,12 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           <div className={cn(s.main, 'fit')}>
             <div className={s.sliderContainer}>
               <ProductSlider key={product.slug}>
-                {images.map((image, i) => (
-                  <div key={image.url} className={s.imageContainer}>
+                {product.gallery.map((image, i) => (
+                  <div key={image.path} className={s.imageContainer}>
                     <Image
                       className={s.img}
-                      src={image.url!}
-                      alt={image.altText || 'Product Image'}
+                      src={image.src}
+                      alt={product.title_1}
                       layout="responsive"
                       width={800}
                       height={600}
@@ -78,6 +57,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
         <hr className="mt-7 border-accent-2" />
 
         {/* TODO: ADD WYSIYG EDITOR */}
+        <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
 
         <section className={s.buySection} ref={buyCardsRef}>
           <h2 className={s.sectionHeading}>BUY NOW TICKETS</h2>
@@ -123,7 +103,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           description: product.short_desc,
           images: [
             {
-              url: images[0]?.url!, // TODO
+              url: product.gallery[0]?.src, // TODO
               width: '800',
               height: '600',
               alt: product.title_1,
