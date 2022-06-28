@@ -4,9 +4,12 @@ import {
   doc,
   getDoc,
   onSnapshot,
+  query,
+  QueryConstraint,
   setDoc,
+  where,
 } from 'firebase/firestore'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { db } from './firebase'
 import { uploadFile } from './files'
 import { v4 as uuid4 } from 'uuid'
@@ -48,20 +51,33 @@ export async function deleteProduct(slug: string | string[]) {
   )
 }
 
-export function useProducts() {
+export function useProducts(categorySlug = '') {
   const [products, setProducts] = useState<Product[]>([])
+
+  const queries: QueryConstraint[] = useMemo(() => {
+    const queries: QueryConstraint[] = []
+
+    if (categorySlug) {
+      queries.push(where('category', '==', categorySlug))
+    }
+
+    return queries
+  }, [categorySlug])
 
   useEffect(
     () =>
-      onSnapshot(collection(db, 'products'), async (querySnapshot) => {
-        setProducts(
-          await Promise.all(
-            // @ts-ignore
-            querySnapshot.docs.map(transform)
+      onSnapshot(
+        query(collection(db, 'products'), ...queries),
+        async (querySnapshot) => {
+          setProducts(
+            await Promise.all(
+              // @ts-ignore
+              querySnapshot.docs.map(transform)
+            )
           )
-        )
-      }),
-    []
+        }
+      ),
+    [queries]
   )
 
   return products
