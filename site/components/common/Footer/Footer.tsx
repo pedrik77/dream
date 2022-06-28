@@ -10,6 +10,7 @@ import { I18nWidget } from '@components/common'
 import s from './Footer.module.css'
 import SocialSection from '../SocialSection'
 import Newsletter from './Newsletter'
+import { useCategories } from '@lib/categories'
 
 interface Props {
   className?: string
@@ -27,6 +28,11 @@ const links = [
 const Footer: FC<Props> = ({ className, pages }) => {
   const { sitePages } = usePages(pages)
   const rootClassName = cn(s.root, className)
+
+  const categories = useCategories().menu.map((c) => ({
+    name: c.title,
+    url: `/products?category=${c.slug}`,
+  }))
 
   return (
     <footer className={rootClassName}>
@@ -50,7 +56,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
           </div>
           <div className="col-span-1 lg:col-span-6">
             <div className="grid md:grid-rows-4 md:grid-cols-3 md:grid-flow-col">
-              {[...links, ...sitePages].map((page) => (
+              {[...links, ...categories, ...sitePages].map((page) => (
                 <span key={page.url} className="py-3 md:py-0 md:pb-4">
                   <Link href={page.url!}>
                     <a className="text-accent-0 hover:text-secondary transition ease-in-out duration-150">
