@@ -1,4 +1,3 @@
-import { Category, getCategory } from './categories'
 import {
   collection,
   deleteDoc,
@@ -9,6 +8,14 @@ import {
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { db } from './firebase'
+import { uploadFile } from './files'
+import { v4 as uuid4 } from 'uuid'
+
+export interface ProductImage {
+  src: string
+  path: string
+  filename: string
+}
 
 export interface Product {
   slug: string
@@ -17,7 +24,7 @@ export interface Product {
   short_desc: string
   closing_date: number
   winner_announce_date: number
-  gallery_id: string
+  gallery: ProductImage[]
   long_desc: string
   donation_entries: string
   category: string
@@ -58,6 +65,19 @@ export function useProducts() {
   )
 
   return products
+}
+
+export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
+  const uploaded = await Promise.all(
+    Array.from(files).map(async (file) => {
+      const filename = `${uuid4()}_${file.name}`
+      const path = `products/${filename}`
+      const src = await uploadFile(path, file)
+
+      return { src, path, filename }
+    })
+  )
+  return uploaded
 }
 
 function transform(doc: any): Product {

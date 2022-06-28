@@ -41,7 +41,7 @@ const ProductCard: FC<Props> = ({
               <div>
                 <Image
                   quality="85"
-                  src={product.gallery_id || placeholderImg}
+                  src={product.gallery?.[0].src || placeholderImg}
                   alt={product.title_1 || 'Product Image'}
                   height={320}
                   width={320}
@@ -61,7 +61,7 @@ const ProductCard: FC<Props> = ({
                   <Image
                     alt={product.title_1 || 'Product Image'}
                     className={s.productImage}
-                    src={product.gallery_id || placeholderImg}
+                    src={product.gallery?.[0].src || placeholderImg}
                     height={540}
                     width={540}
                     quality="85"
@@ -83,7 +83,7 @@ const ProductCard: FC<Props> = ({
                   <Image
                     alt={product.title_1 || 'Product Image'}
                     className={s.productImage}
-                    src={product.gallery_id || placeholderImg}
+                    src={product.gallery?.[0].src || placeholderImg}
                     height={540}
                     width={540}
                     quality="85"

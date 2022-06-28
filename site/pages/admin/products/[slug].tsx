@@ -3,13 +3,22 @@ import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { Category, useCategories } from '@lib/categories'
 import { inputDateFormat } from '@lib/date'
+import { deleteFile } from '@lib/files'
 import useLoading from '@lib/hooks/useLoading'
-import { getProduct, Product, setProduct } from '@lib/products'
+import {
+  getProduct,
+  Product,
+  ProductImage,
+  setProduct,
+  uploadGallery,
+} from '@lib/products'
 import { Timestamp } from 'firebase/firestore'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { FormEventHandler, useState } from 'react'
+import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
+import { v4 } from 'uuid'
 
 interface ProductEditProps {
   product: Product | null
@@ -39,8 +48,10 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const [donation_entries, setDonationEntries] = useState(
     product?.donation_entries || ''
   )
+  const [gallery, setGallery] = useState<ProductImage[]>(product?.gallery || [])
 
   const loading = useLoading()
+  const uploading = useLoading()
 
   const { categories } = useCategories()
 
@@ -50,6 +61,29 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     value: c?.slug || '',
     label: c?.title || '',
   })
+
+  const handleUpload: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const files = e.target.files
+
+    if (!files || !files.length) return
+
+    uploading.start()
+
+    uploadGallery(files)
+      .then((uploaded) => {
+        setGallery((gallery) => [...gallery, ...uploaded])
+        e.target.value = ''
+      })
+      .catch(handleErrorFlash)
+      .finally(uploading.stop)
+  }
+
+  const handleDeleteImage = (image: ProductImage) => {
+    if (!confirm('Vymazať obrázok?')) return
+
+    setGallery((gallery) => gallery.filter((i) => i.path !== image.path))
+    deleteFile(image.path)
+  }
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
@@ -65,6 +99,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       slug,
       closing_date: Timestamp.fromDate(new Date(closing_date)),
       winner_announce_date: Timestamp.fromDate(new Date(winner_announce_date)),
+      gallery,
       short_desc,
       long_desc,
       category,
@@ -112,7 +147,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               onChange={setTitle2}
             />
           </label>
-          <label>
+          <label className="w-full">
             Category <br />
             {Select && (
               // @ts-ignore
@@ -163,6 +198,30 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               <Editor value={long_desc} onChange={setLongDesc} />
             )}
           </label>
+        </fieldset>
+        <fieldset>
+          <label>
+            Gallery (click on image to delete)
+            <br />
+            <input
+              type="file"
+              onChange={handleUpload}
+              multiple
+              disabled={uploading.pending}
+            />
+          </label>
+          {uploading.pending && 'Uploading...'}
+          <div className="flex flex-wrap overflow-y-auto">
+            {gallery.map((image) => (
+              <figure
+                key={image.filename}
+                className="basis-[32%] cursor-pointer"
+                onClick={() => handleDeleteImage(image)}
+              >
+                <img src={image.src} alt={image.filename} />
+              </figure>
+            ))}
+          </div>
         </fieldset>
 
         <Button disabled={loading.pending}>Uložiť</Button>

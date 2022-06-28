@@ -43,7 +43,6 @@ const columns: GridColDef[] = [
     width: 130,
     valueFormatter: dateFormatter,
   },
-  { field: 'gallery_id', headerName: 'Gallery', width: 60 },
   { field: 'donation_entries', headerName: 'Donation entries', width: 90 },
 ]
 
