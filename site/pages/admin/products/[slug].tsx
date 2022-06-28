@@ -82,7 +82,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     if (!confirm('Vymazať obrázok?')) return
 
     setGallery((gallery) => gallery.filter((i) => i.path !== image.path))
-    deleteFile(image.path)
+    deleteFile(image.path).catch(handleErrorFlash)
   }
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
