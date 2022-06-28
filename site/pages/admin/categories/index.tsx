@@ -61,7 +61,7 @@ export default function Categories() {
     const count = selected.length
 
     deleteCategory(selected)
-      .then(() => flash(`Kategórie (${count}) odstránená`))
+      .then(() => flash(`Kategórie (${count}) odstránené`))
       .catch(handleErrorFlash)
   }
 
