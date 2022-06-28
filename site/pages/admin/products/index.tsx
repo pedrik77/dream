@@ -60,10 +60,8 @@ export default function Dashboard() {
   const handleDeleteSelected = () => {
     if (!confirm('Naozaj?')) return
 
-    const count = selected.length
-
     deleteProduct(selected)
-      .then(() => flash(`Produkty (${count}) odstránená`))
+      .then(() => flash(`Produkty (${selected.length}) odstránená`))
       .catch(handleErrorFlash)
   }
 
