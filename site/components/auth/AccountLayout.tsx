@@ -21,7 +21,7 @@ const AccountLayout: React.FC<{
 
   return (
     <Container className="pt-4 mt-0 md:mt-8">
-      <div className="flex flex-col lg:flex-row gap-3">
+      <div className="flex flex-col lg:flex-row gap-3 lg:gap-6">
         <div className="lg:w-1/3 flex flex-col gap-4 pr-4 pb-8 mx-2 g:mx-4 border-b-[1px] lg:border-r-[1px] border-opacity-70 border-primary items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
           <div className="flex justify-center align-center h-32 w-32">
             <Image

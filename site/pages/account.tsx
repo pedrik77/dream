@@ -163,8 +163,8 @@ export default function Account() {
         </AccountFieldWrapper>
         <AccountFieldWrapper>
           <Text variant="sectionHeading">Prihlasovanie a bezpečnosť</Text>
-          <div className="flex flex-col col-span-2 divide-primary divide-y">
-            <AccountField>
+          <div className="flex flex-col col-span-2 divide-primary divide-y border-opacity-50">
+            <div className="flex flex-row justify-end space-x-4 py-10 font-bold">
               <Button
                 disabled={resetMailSending.pending}
                 type="button"
@@ -173,7 +173,7 @@ export default function Account() {
               >
                 Zmeniť heslo
               </Button>
-            </AccountField>
+            </div>
           </div>
         </AccountFieldWrapper>
         <Button className="w-40 self-center md:my-16" disabled={saving.pending}>
