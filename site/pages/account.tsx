@@ -101,11 +101,16 @@ export default function Account() {
 
   return (
     <AccountLayout current="account">
-      <Text variant="heading">Nastavenie účtu</Text>
-      <form onSubmit={save} className="my-8 py-8 flex flex-col gap-8">
+      <Text variant="heading" className="mt-0 md:mt-8">
+        Nastavenie účtu
+      </Text>
+      <form
+        onSubmit={save}
+        className="my-4 md:my-8 py-4 md:py-8 flex flex-col gap-8"
+      >
         <AccountFieldWrapper>
           <Text variant="sectionHeading">Osobné informácie</Text>
-          <div className="flex flex-col col-span-2 divide-secondary divide-y">
+          <div className="flex flex-col md:col-span-2 divide-secondary divide-y">
             <AccountField>
               <Label>Emailová adresa</Label>
               <span>{user.email}</span>
@@ -171,7 +176,7 @@ export default function Account() {
             </AccountField>
           </div>
         </AccountFieldWrapper>
-        <Button className="w-40 self-center my-16" disabled={saving.pending}>
+        <Button className="w-40 self-center md:my-16" disabled={saving.pending}>
           {saving.pending ? 'Ukladám' : 'Uložiť'}
         </Button>
       </form>
