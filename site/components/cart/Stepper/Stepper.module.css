@@ -1,0 +1,6 @@
+.title {
+  @apply flex flex-wrap;
+}
+
+.label {
+}
