@@ -169,7 +169,7 @@ export default function Account() {
                 disabled={resetMailSending.pending}
                 type="button"
                 variant="ghost"
-                onClick={sendResetEmail}
+                onClick={(e) => confirm('Naozaj?') && sendResetEmail(e)}
               >
                 Zmeniť heslo
               </Button>

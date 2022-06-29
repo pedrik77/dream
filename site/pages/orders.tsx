@@ -4,6 +4,13 @@ import { Bag } from '@components/icons'
 import { Layout } from '@components/common'
 import { Container, Text } from '@components/ui'
 import AccountLayout from '@components/auth/AccountLayout'
+import { Order, useOrders } from '@lib/orders'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { useEffect, useState } from 'react'
+import { getProduct } from '@lib/products'
+import { basicShowFormat } from '@lib/date'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export async function getStaticProps({
   preview,
@@ -21,20 +28,57 @@ export async function getStaticProps({
   }
 }
 
+const columns: GridColDef[] = [
+  {
+    field: 'product',
+    headerName: 'Product',
+  },
+  {
+    field: 'price',
+    headerName: 'Price',
+    valueFormatter: (r) => `${r.value} €`,
+  },
+  { field: 'tickets', headerName: 'Tickets' },
+  { field: 'date', headerName: 'Date' },
+]
+
 export default function Orders() {
+  const orders = useOrders()
+
+  const [rows, setRows] = useState<any[]>([])
+
+  const router = useRouter()
+
+  useEffect(() => {
+    Promise.all(
+      orders.map(async (order) => {
+        const product = await getProduct(order.product_slug)
+
+        return {
+          uuid: order.uuid,
+          product: product?.title_1,
+          product_slug: product?.slug,
+          price: order.total_price,
+          tickets: order.ticket_count,
+          date: basicShowFormat(order.created_date),
+        }
+      })
+    ).then(setRows)
+  }, [orders])
+
   return (
     <AccountLayout current="orders">
       <Text variant="pageHeading">My Orders</Text>
-      <div className="flex-1 p-24 flex flex-col justify-center items-center ">
-        <span className="border border-dashed border-secondary rounded-full flex items-center justify-center w-16 h-16 p-12 bg-primary text-primary">
-          <Bag className="absolute" />
-        </span>
-        <h2 className="pt-6 text-2xl font-bold tracking-wide text-center">
-          No orders found
-        </h2>
-        <p className="text-accent-6 px-10 text-center pt-2">
-          Biscuit oat cake wafer icing ice cream tiramisu pudding cupcake.
-        </p>
+      <div className="w-full h-[600px]">
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={6}
+          getRowId={(row: Order) => row.uuid}
+          disableSelectionOnClick
+          getRowClassName={() => 'cursor-pointer'}
+          onRowClick={(r) => router.push(`/products/${r.row.product_slug}`)}
+        />
       </div>
     </AccountLayout>
   )
