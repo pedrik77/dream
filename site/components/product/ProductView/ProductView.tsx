@@ -11,12 +11,12 @@ import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
 import { Product } from '@lib/products'
 import { setOrder } from '@lib/orders'
-import { v4 as uuid4 } from 'uuid'
 import { useUser } from '@lib/auth'
 import { Timestamp } from 'firebase/firestore'
 import { today } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
+import { useShop } from '@lib/shop'
 interface ProductViewProps {
   product: Product
 }
@@ -28,23 +28,9 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const { user } = useUser()
   const router = useRouter()
 
-  const relatedProducts: Product[] = []
+  const { addToCart } = useShop()
 
-  const handleBuy = (ticketCount: number, price: number) => {
-    setOrder({
-      uuid: uuid4(),
-      user_id: user?.uid,
-      product_slug: product.slug,
-      ticket_count: ticketCount,
-      total_price: price,
-      created_date: Timestamp.fromDate(new Date(today())),
-    })
-      .then(() => {
-        flash('Ďakujeme za nákup!', 'success')
-        router.push('/orders')
-      })
-      .catch(handleErrorFlash)
-  }
+  const relatedProducts: Product[] = []
 
   return (
     <>
@@ -95,7 +81,14 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                 <span className={s.tickets}>Tiketov</span>
                 <Button
                   className={s.btn}
-                  onClick={() => handleBuy(Number(ticketCount), price)}
+                  onClick={() =>
+                    addToCart(product, Number(ticketCount), price)
+                      .then(() => {
+                        flash('V košíku!', 'success')
+                        router.push('/cart')
+                      })
+                      .catch(handleErrorFlash)
+                  }
                 >
                   {price} €
                 </Button>
