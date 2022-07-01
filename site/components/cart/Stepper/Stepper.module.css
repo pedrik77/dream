@@ -1,6 +1,3 @@
-.title {
-  @apply flex flex-wrap;
-}
-
-.label {
+.MuiStepper-root {
+  @apply bg-primary;
 }
