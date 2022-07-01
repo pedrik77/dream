@@ -2,6 +2,7 @@ import { Layout } from '@components/common'
 import { Button, Text, Container } from '@components/ui'
 import Stepper from '@components/cart/Stepper'
 import { useShop } from '@lib/shop'
+import Products from '@components/cart/Products/Products'
 
 export default function Cart() {
   const { cart } = useShop()
@@ -12,6 +13,7 @@ export default function Cart() {
         Košík
       </Text>
       <Stepper className="col-span-6" />
+      <Products />
     </Container>
   )
 }
