@@ -12,8 +12,6 @@ export default function Cart() {
         Košík
       </Text>
       <Stepper className="col-span-6" />
-
-      {console.log(cart)}
     </Container>
   )
 }

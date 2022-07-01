@@ -19,10 +19,12 @@ interface CartItem {
 
 export const useShop = () => {
   const [cart, setCart] = useState<CartItem[]>([])
+
   const total = useMemo(
     () => cart.reduce((acc, item) => acc + item.price, 0),
     [cart]
   )
+  console.log({ cart })
 
   const loading = useLoading()
 
