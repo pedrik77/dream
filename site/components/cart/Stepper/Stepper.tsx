@@ -2,11 +2,23 @@ import React from 'react'
 import s from './Stepper.module.css'
 import { Step, StepLabel, Stepper as MuiStepper } from '@mui/material'
 
-const steps = ['Step 1', 'Step 2', 'Step 3']
+interface StepperProps {
+  steps: Readonly<string[]>
+  activeStep: string
+  className?: string
+}
 
-export default function Stepper({ className = '' }) {
+export default function Stepper({
+  steps,
+  activeStep,
+  className = '',
+}: StepperProps) {
   return (
-    <MuiStepper className={className} activeStep={1} alternativeLabel>
+    <MuiStepper
+      className={className}
+      activeStep={steps.indexOf(activeStep)}
+      alternativeLabel
+    >
       {steps.map((title) => (
         <Step key={title} className={s.title}>
           <StepLabel className={s.label}>{title}</StepLabel>
