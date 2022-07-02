@@ -85,7 +85,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                     addToCart(product, Number(ticketCount), price)
                       .then(() => {
                         flash('V košíku!', 'success')
-                        router.push('/cart')
+                        // router.push('/cart')
                       })
                       .catch(handleErrorFlash)
                   }

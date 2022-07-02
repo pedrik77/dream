@@ -7,6 +7,7 @@ import Information from '@components/cart/Information/Information'
 import Payment from '@components/cart/Payment/Payment'
 import { useShop } from '@lib/shop'
 import Link from 'next/link'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 
 const STEPS = ['Košík', 'Informácie', 'Platba', 'Hotovo'] as const
 
@@ -15,7 +16,7 @@ type StepType = typeof STEPS[number]
 export default function Cart() {
   const [active, setActive] = useState<StepType>(STEPS[0])
 
-  const { isEmptyCart } = useShop()
+  const { placeOrder, isEmptyCart, clearCart } = useShop()
 
   const nextDisabled = useMemo(
     () => active === STEPS[STEPS.length - 1],
@@ -24,18 +25,46 @@ export default function Cart() {
 
   const prevDisabled = useMemo(() => active === STEPS[0], [active])
 
+  const steps = [
+    {
+      title: 'Košík',
+      component: <Products />,
+      nextLabel: 'Do checkoutu',
+      onNext: () => {},
+    },
+    {
+      title: 'Informácie',
+      component: <Information />,
+      nextLabel: 'Pokracovat na platbu',
+      onNext: () => {},
+    },
+    {
+      title: 'Platba',
+      component: <Payment />,
+      nextLabel: 'Zaplatit',
+      onNext: () => {
+        placeOrder()
+          .then(() => {
+            flash('Vaše objednávka bola úspešne odoslaná')
+            clearCart()
+          })
+          .catch(handleErrorFlash)
+      },
+    },
+  ]
+
   const step = steps.find((step) => step.title === active)?.component
   const nextLabel = steps.find((step) => step.title === active)?.nextLabel
   const onNext =
     steps.find((step) => step.title === active)?.onNext || (() => {})
 
-  const next = async () => {
+  const next = () => {
     if (nextDisabled) return
     setActive(STEPS[STEPS.indexOf(active) + 1])
     onNext()
   }
 
-  const prev = async () => {
+  const prev = () => {
     if (prevDisabled) return
     setActive(STEPS[STEPS.indexOf(active) - 1])
   }
@@ -73,26 +102,5 @@ export default function Cart() {
     </Container>
   )
 }
-
-const steps = [
-  {
-    title: 'Košík',
-    component: <Products />,
-    nextLabel: 'Do checkoutu',
-    onNext: () => {},
-  },
-  {
-    title: 'Informácie',
-    component: <Information />,
-    nextLabel: 'Pokracovat na platbu',
-    onNext: () => {},
-  },
-  {
-    title: 'Platba',
-    component: <Payment />,
-    nextLabel: 'Zaplatit',
-    onNext: () => {},
-  },
-]
 
 Cart.Layout = Layout

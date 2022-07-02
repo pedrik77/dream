@@ -49,7 +49,8 @@ export const useShop = () => {
   useEffect(() => {
     console.log('Saving cart, customer data', cart, customerData)
 
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart))
+    if (!!cart.length)
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart))
 
     sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customerData))
 
@@ -87,14 +88,22 @@ export const useShop = () => {
   const removeFromCart = (productSlug: string) =>
     setCart(cart.filter(({ product: { slug } }) => slug !== productSlug))
 
+  const clearCart = () => {
+    setCart([])
+    localStorage.removeItem(CART_STORAGE_KEY)
+    sessionStorage.removeItem(CUSTOMER_STORAGE_KEY)
+  }
+
   const isEmptyCart = !cart.length
 
-  const placeOrder = (items: CartItem[], ticketCount: number, price: number) =>
+  const placeOrder = () =>
     setOrder({
       uuid: uuid4(),
       user_id: user?.uid,
-      items,
-      total_price: price,
+      items: cart,
+      total_price: cart
+        .map(({ price }) => price)
+        .reduce((acc, price) => acc + price, 0),
       created_date: Timestamp.fromDate(new Date(today())),
     })
 
@@ -103,6 +112,7 @@ export const useShop = () => {
     total,
     loading: loading.pending,
     addToCart,
+    clearCart,
     isEmptyCart,
     customerData,
     setCustomerData,
