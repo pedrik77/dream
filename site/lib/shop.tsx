@@ -6,6 +6,7 @@ import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useUser } from './auth'
+import { useSkipFirst } from './hooks/useSkipFirst'
 
 const CART_STORAGE_KEY = 'cart'
 const CUSTOMER_STORAGE_KEY = 'cart'
@@ -33,6 +34,8 @@ export const useShop = () => {
 
   const loading = useLoading()
 
+  const skipFirst = useSkipFirst()
+
   useEffect(() => {
     const storedCart = localStorage.getItem(CART_STORAGE_KEY)
     const storedCustomer = sessionStorage.getItem(CUSTOMER_STORAGE_KEY)
@@ -45,11 +48,11 @@ export const useShop = () => {
   useEffect(() => {
     console.log('Saving cart, customer', cart, customer)
 
-    if (!!cart.length)
+    if (skipFirst())
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart))
 
     sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer))
-  }, [cart, customer])
+  }, [cart, customer, skipFirst])
 
   const addToCart = async (
     product: Product,
@@ -80,7 +83,9 @@ export const useShop = () => {
     !!cart.find(({ product: { slug } }) => slug === productSlug)
 
   const removeFromCart = (productSlug: string) =>
-    setCart(cart.filter(({ product: { slug } }) => slug !== productSlug))
+    setCart((cart) =>
+      cart.filter(({ product: { slug } }) => slug !== productSlug)
+    )
 
   const clearCart = () => {
     setCart([])
@@ -88,7 +93,7 @@ export const useShop = () => {
     sessionStorage.removeItem(CUSTOMER_STORAGE_KEY)
   }
 
-  const isEmptyCart = !cart.length
+  const isEmptyCart = () => !cart.length
 
   const placeOrder = () =>
     setOrder({
