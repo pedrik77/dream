@@ -23,9 +23,11 @@ export default function Cart() {
 
   const step = steps.find((step) => step.title === active)?.component
   return (
-    <Container className="grid lg:grid-cols-3 pt-4 gap-20">
-      <Text variant="heading">Košík</Text>
-      <Container clean>
+    <Container className="grid lg:grid-cols-12 pt-4 gap-4 center my-8">
+      <Text variant="heading" className="col-span-3 text-center">
+        Košík
+      </Text>
+      <Container clean className="col-span-9 align-left">
         <Stepper steps={STEPS} activeStep={active} />
         {step}
       </Container>
