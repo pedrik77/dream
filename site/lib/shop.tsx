@@ -7,6 +7,8 @@ import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useUser } from './auth'
 
+const STORAGE_KEY = 'cart'
+
 export interface CartItem {
   product: {
     slug: string
@@ -29,10 +31,16 @@ export const useShop = () => {
 
   const { user } = useUser()
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY)
+
+    if (stored) {
+      setCart(JSON.parse(stored))
+    }
+  }, [])
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart))
   }, [cart])
 
   console.log({ cart })
