@@ -3,6 +3,7 @@ import { Button, Text, Container } from '@components/ui'
 import Stepper from '@components/cart/Stepper'
 import { useMemo, useState } from 'react'
 import Products from '@components/cart/Products/Products'
+import Information from '@components/cart/Information/Information'
 
 const STEPS = ['Košík', 'Informácie', 'Platba', 'Hotovo'] as const
 
@@ -49,6 +50,9 @@ export default function Cart() {
   )
 }
 
-const steps = [{ title: 'Košík', component: <Products /> }]
+const steps = [
+  { title: 'Košík', component: <Products /> },
+  { title: 'Informácie', component: <Information /> },
+]
 
 Cart.Layout = Layout
