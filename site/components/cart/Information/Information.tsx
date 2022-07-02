@@ -1,37 +1,28 @@
 import { Input, Text } from '@components/ui'
 import { useUser } from '@lib/auth'
 import { useShop } from '@lib/shop'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function Information() {
-  const { customerData, setCustomerData } = useShop()
+  const { customer } = useUser()
 
-  const setFullname = (fullname: string) =>
-    setCustomerData({ ...customerData, fullname })
-  const setEmail = (email: string) =>
-    setCustomerData({ ...customerData, email })
-  const setPhone = (phone: string) =>
-    setCustomerData({ ...customerData, phone })
-  const setStreet = (street: string) =>
-    setCustomerData({
-      ...customerData,
-      address: { ...customerData.address, street },
-    })
-  const setCity = (city: string) =>
-    setCustomerData({
-      ...customerData,
-      address: { ...customerData.address, city },
-    })
-  const setZip = (zip: string) =>
-    setCustomerData({
-      ...customerData,
-      address: { ...customerData.address, zip },
-    })
-  const setCountry = (country: string) =>
-    setCustomerData({
-      ...customerData,
-      address: { ...customerData.address, country },
-    })
+  const [fullname, setFullname] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [street, setStreet] = useState('')
+  const [city, setCity] = useState('')
+  const [zip, setZip] = useState('')
+  const [country, setCountry] = useState('')
+
+  useEffect(() => {
+    setFullname(customer.fullname)
+    setEmail(customer.email)
+    setPhone(customer.phone)
+    setStreet(customer.address.street)
+    setCity(customer.address.city)
+    setZip(customer.address.zip)
+    setCountry(customer.address.country)
+  }, [customer])
 
   return (
     <div>
@@ -44,7 +35,7 @@ export default function Information() {
             Full name{' '}
             <Input
               type="text"
-              value={customerData.fullname}
+              value={fullname}
               placeholder="Full name"
               onChange={setFullname}
             />
@@ -53,7 +44,7 @@ export default function Information() {
             Email{' '}
             <Input
               type="email"
-              value={customerData.email}
+              value={email}
               placeholder="Email"
               onChange={setEmail}
             />
@@ -62,7 +53,7 @@ export default function Information() {
             Phone{' '}
             <Input
               type="tel"
-              value={customerData.phone}
+              value={phone}
               placeholder="Phone"
               onChange={setPhone}
             />
@@ -73,7 +64,7 @@ export default function Information() {
             Street{' '}
             <Input
               type="text"
-              value={customerData.address.street}
+              value={street}
               placeholder="Street"
               onChange={setStreet}
             />
@@ -82,7 +73,7 @@ export default function Information() {
             City{' '}
             <Input
               type="text"
-              value={customerData.address.city}
+              value={city}
               placeholder="City"
               onChange={setCity}
             />
@@ -91,7 +82,7 @@ export default function Information() {
             Zip{' '}
             <Input
               type="text"
-              value={customerData.address.zip}
+              value={zip}
               placeholder="Zip"
               onChange={setZip}
             />
@@ -100,7 +91,7 @@ export default function Information() {
             Country{' '}
             <Input
               type="text"
-              value={customerData.address.country}
+              value={country}
               placeholder="Country"
               onChange={setCountry}
             />
