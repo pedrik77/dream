@@ -11,6 +11,7 @@ import { getProduct } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { handleErrorFlash } from '@components/ui/FlashMessage'
 
 export async function getStaticProps({
   preview,
@@ -29,17 +30,13 @@ export async function getStaticProps({
 }
 
 const columns: GridColDef[] = [
+  { field: 'date', headerName: 'Date', sortable: true, filterable: true },
   {
-    field: 'product',
-    headerName: 'Product',
-  },
-  {
-    field: 'price',
-    headerName: 'Price',
+    field: 'total_price',
+    headerName: 'Total price',
     valueFormatter: (r) => `${r.value} €`,
   },
-  { field: 'tickets', headerName: 'Tickets' },
-  { field: 'date', headerName: 'Date' },
+  { field: 'product_count', headerName: 'Pocet sutazi' },
 ]
 
 export default function Orders() {
@@ -52,18 +49,16 @@ export default function Orders() {
   useEffect(() => {
     Promise.all(
       orders.map(async (order) => {
-        const product = await getProduct(order.product_slug)
-
         return {
           uuid: order.uuid,
-          product: product?.title_1,
-          product_slug: product?.slug,
-          price: order.total_price,
-          tickets: order.ticket_count,
+          total_price: order.total_price,
+          product_count: order.items.length,
           date: basicShowFormat(order.created_date),
         }
       })
-    ).then(setRows)
+    )
+      .then(setRows)
+      .catch(handleErrorFlash)
   }, [orders])
 
   return (
@@ -77,7 +72,7 @@ export default function Orders() {
           getRowId={(row: Order) => row.uuid}
           disableSelectionOnClick
           getRowClassName={() => 'cursor-pointer'}
-          onRowClick={(r) => router.push(`/products/${r.row.product_slug}`)}
+          onRowClick={(r) => router.push(`/orders/${r.row.uuid}`)}
         />
       </div>
     </AccountLayout>

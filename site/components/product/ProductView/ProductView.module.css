@@ -41,7 +41,7 @@
 }
 
 .buyCards {
-  @apply flex justify-center gap-4 m-4;
+  @apply flex flex-wrap justify-center gap-4 m-4;
 }
 
 .buyCard {
