@@ -20,8 +20,12 @@ interface Props {
 
 const links = [
   {
-    name: 'Home',
+    name: 'Dom',
     url: '/',
+  },
+  {
+    name: 'Vsetko',
+    url: '/products',
   },
 ]
 

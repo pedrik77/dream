@@ -191,17 +191,4 @@ export default function Account() {
   )
 }
 
-// @ts-ignore
-export async function getStaticProps({ preview, locale, locales }) {
-  const config = { locale, locales }
-  const pagesPromise = commerce.getAllPages({ config, preview })
-  const siteInfoPromise = commerce.getSiteInfo({ config, preview })
-  const { pages } = await pagesPromise
-  const { categories } = await siteInfoPromise
-
-  return {
-    props: { pages, categories },
-  }
-}
-
 Account.Layout = Layout

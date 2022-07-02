@@ -17,6 +17,7 @@ import { MenuSidebarView } from '@components/common/UserNav'
 // @ts-ignore
 import { Flasher } from 'react-universal-flash'
 import { FlashMessage } from '@components/ui/FlashMessage'
+import { useCategories } from '@lib/categories'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -88,13 +89,17 @@ const SidebarUI = ({ links }) => {
   ) : null
 }
 
-const Layout = ({ children, pageProps: { categories = [], ...pageProps } }) => {
+const Layout = ({ children, pageProps: { ...pageProps } }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
-  const navBarlinks = categories.slice(0, 2).map((c) => ({
-    label: c.name,
-    href: `/search/${c.slug}`,
-  }))
+  const navBarlinks = [
+    { label: 'Vsetkoo', href: '/products' },
+    ,
+    ...useCategories().menu.map((c) => ({
+      label: c.title,
+      href: `/products?category=${c.slug}`,
+    })),
+  ]
 
   return (
     <CommerceProvider locale={locale}>
