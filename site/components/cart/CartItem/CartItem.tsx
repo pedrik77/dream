@@ -5,23 +5,26 @@ import Image from 'next/image'
 import React from 'react'
 
 export default function CartItem({ product, ticketCount, price }: ICartItem) {
-  const { removeFromCart } = useShop()
+  const { removeFromCart, cart } = useShop()
 
   const handleRemove = () => removeFromCart(product.slug)
+  console.log(cart)
 
   return (
-    <Container className="flex center items-stretch my-4">
-      <Image
-        height={195}
-        width={300}
-        alt="productImage"
-        src={product.image}
-        className="rounded-md"
-      />
-      <div className="flex flex-col gap-4 center items-stretch">
-        <Text variant="heading">{ticketCount}</Text>
-        <Text>{product.title_1}</Text>
-        <Text>{product.title_2}</Text>
+    <div className="flex col-span-12 my-4 justify-between">
+      <div className="flex gap-4">
+        <Image
+          height={195}
+          width={300}
+          alt="productImage"
+          src={product.image}
+          className="rounded-md"
+        />
+        <div className="* flex flex-col gap-4 center">
+          <Text variant="heading">{ticketCount}</Text>
+          <Text>{product.title_1}</Text>
+          <Text>{product.title_2}</Text>
+        </div>
       </div>
 
       <Text variant="heading">{price}</Text>
@@ -30,6 +33,6 @@ export default function CartItem({ product, ticketCount, price }: ICartItem) {
           <Cross />
         </Button>
       </div>
-    </Container>
+    </div>
   )
 }

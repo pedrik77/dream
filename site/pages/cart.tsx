@@ -38,13 +38,17 @@ export default function Cart() {
       </Text>
       <Container clean className="col-span-9 align-left">
         <Stepper steps={STEPS} activeStep={active} />
+      </Container>
+      <Container className="col-span-12 center justify-between">
         {step}
-        <Button disabled={prevDisabled} onClick={prev}>
-          Spat
-        </Button>
-        <Button disabled={nextDisabled} onClick={next}>
-          Ďalej
-        </Button>
+        <div>
+          <Button disabled={prevDisabled} onClick={prev}>
+            Spat
+          </Button>
+          <Button disabled={nextDisabled} onClick={next}>
+            Ďalej
+          </Button>
+        </div>
       </Container>
     </Container>
   )
