@@ -94,7 +94,8 @@ export default function Account() {
               </a>
             </>
           ),
-          'info'
+          'info',
+          7
         )
       })
       .catch(handleErrorFlash)

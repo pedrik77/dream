@@ -1,12 +1,13 @@
 import { Product } from '@lib/products'
-import { Timestamp } from 'firebase/firestore'
-import { useEffect, useMemo, useState } from 'react'
+import { collection, doc, onSnapshot, Timestamp } from 'firebase/firestore'
+import { createContext, useEffect, useMemo, useState } from 'react'
 import { today } from './date'
 import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useUser } from './auth'
 import { useSkipFirst } from './hooks/useSkipFirst'
+import { db } from './firebase'
 
 const CART_STORAGE_KEY = 'cart'
 const CUSTOMER_STORAGE_KEY = 'cart'
@@ -36,23 +37,31 @@ export const useShop = () => {
 
   const skipFirst = useSkipFirst()
 
+  const cartId = useMemo(() => user?.email || uuid4(), [user])
+
+  useEffect(
+    () =>
+      onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
+        setCart(
+          // @ts-ignore
+          querySnapshot.docs.map(transform)
+        )
+      }),
+    [cartId]
+  )
+
   useEffect(() => {
     const storedCart = localStorage.getItem(CART_STORAGE_KEY)
     const storedCustomer = sessionStorage.getItem(CUSTOMER_STORAGE_KEY)
 
-    if (storedCart) setCart(JSON.parse(storedCart))
-
     if (storedCustomer) setCustomer(JSON.parse(storedCustomer))
   }, [setCustomer])
 
-  useEffect(() => {
-    console.log('Saving cart, customer', cart, customer)
-
-    if (skipFirst())
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart))
-
-    sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer))
-  }, [cart, customer, skipFirst])
+  useEffect(
+    () =>
+      sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer)),
+    [cart, customer, skipFirst]
+  )
 
   const addToCart = async (
     product: Product,
@@ -100,9 +109,7 @@ export const useShop = () => {
       uuid: uuid4(),
       user_uid: user?.uid,
       items: cart,
-      total_price: cart
-        .map(({ price }) => price)
-        .reduce((acc, price) => acc + price, 0),
+      total_price: total,
       customer,
       created_date: Timestamp.fromDate(new Date(today())),
     })
