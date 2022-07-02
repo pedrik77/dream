@@ -57,25 +57,15 @@ export const useShop = () => {
   const addToCart = async (
     product: Product,
     ticketCount: number,
-    price: number
+    price: number,
+    forceOverride = false
   ) => {
-    const inCart = cart.find(({ product: { slug } }) => slug === product.slug)
+    const inCart = isInCart(product.slug)
 
-    if (inCart)
-      return setCart(
-        cart.map((item) =>
-          item.product.slug === product.slug
-            ? {
-                ...item,
-                ticketCount: item.ticketCount + ticketCount,
-                price: item.price + price,
-              }
-            : item
-        )
-      )
+    if (inCart && !forceOverride) throw new Error('Already in cart')
 
     return setCart((cart) => [
-      ...cart,
+      ...cart.filter(({ product: { slug } }) => slug !== product.slug),
       {
         product: {
           title_1: product.title_1,
@@ -89,19 +79,17 @@ export const useShop = () => {
     ])
   }
 
+  const isInCart = (productSlug: string) =>
+    !!cart.find(({ product: { slug } }) => slug === productSlug)
+
   const removeFromCart = (productSlug: string) =>
     setCart(cart.filter(({ product: { slug } }) => slug !== productSlug))
 
-  const placeOrder = (product: Product, ticketCount: number, price: number) =>
+  const placeOrder = (items: CartItem[], ticketCount: number, price: number) =>
     setOrder({
       uuid: uuid4(),
       user_id: user?.uid,
-      items: [
-        {
-          product_slug: product.slug,
-          ticket_count: ticketCount,
-        },
-      ],
+      items,
       total_price: price,
       created_date: Timestamp.fromDate(new Date(today())),
     })

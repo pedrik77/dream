@@ -12,6 +12,7 @@ import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import Link from 'next/link'
 import AccountLayout from '@components/auth/AccountLayout'
 import useLoading from '@lib/hooks/useLoading'
+import { usePermission } from '@lib/hooks/usePermission'
 
 export default function Account() {
   const { user, customer } = useUser()
@@ -40,11 +41,16 @@ export default function Account() {
   const save: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
 
-    if (!user) return
+    if (!user || !user.email)
+      return flash(
+        'Nerozpoznány email. Skuste sa odhlasit a prihlasit. V pripade problemov nas kontaktujte.',
+        'danger'
+      )
 
     saving.start()
 
-    setCustomerProfile(user.uid, {
+    setCustomerProfile(user.email, {
+      email: user.email || '@',
       fullname,
       phone,
       address: {

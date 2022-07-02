@@ -1,18 +1,14 @@
 import { collection, doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
 import { db } from './firebase'
-
-export interface Item {
-  product_slug: string
-  ticket_count: number
-}
+import { CartItem } from './shop'
 
 export interface Address {}
 
 export interface Order {
   uuid: string
-  user_id: string
-  items: Item[]
+  user_uid: string
+  items: CartItem[]
   address: Address
   total_price: number
   created_date: number

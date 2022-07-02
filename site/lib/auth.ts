@@ -18,6 +18,7 @@ import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
 
 export const NULL_CUSTOMER_DATA = {
+  email: '',
   fullname: '',
   phone: '',
   address: {
@@ -67,10 +68,10 @@ export function useUser() {
   )
 
   useEffect(() => {
-    if (!user) return setCustomer(NULL_CUSTOMER_DATA)
+    if (!user || !user.email) return setCustomer(NULL_CUSTOMER_DATA)
 
     return onSnapshot(
-      doc(db, 'customers', user.uid),
+      doc(db, 'customers', user.email),
       (doc) => {
         const data = doc.data()
         console.log('customer data', data)
@@ -120,9 +121,7 @@ export async function signUp(
 
   sendEmailVerification(result.user)
 
-  const { uid } = result.user
-
-  setCustomerProfile(uid, NULL_CUSTOMER_DATA)
+  setCustomerProfile(email, NULL_CUSTOMER_DATA)
 
   if (newsletter) {
     await subscribe(email, true)
@@ -151,7 +150,7 @@ export function signOut() {
   return authSignOut(auth)
 }
 
-export function setCustomerProfile(uid: string, data: CustomerData) {
-  const docRef = doc(db, 'customers', uid)
+export function setCustomerProfile(email: string, data: CustomerData) {
+  const docRef = doc(db, 'customers', email)
   return setDoc(docRef, data)
 }

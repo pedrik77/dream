@@ -20,19 +20,21 @@ export default function Cart() {
 
   const prevDisabled = useMemo(() => active === STEPS[0], [active])
 
+  const step = steps.find((step) => step.title === active)?.component
+  const nextLabel = steps.find((step) => step.title === active)?.nextLabel
+  const onNext =
+    steps.find((step) => step.title === active)?.onNext || (() => {})
+
   const next = async () => {
     if (nextDisabled) return
     setActive(STEPS[STEPS.indexOf(active) + 1])
+    onNext()
   }
 
   const prev = async () => {
     if (prevDisabled) return
     setActive(STEPS[STEPS.indexOf(active) - 1])
   }
-
-  const step = steps.find((step) => step.title === active)?.component
-  const nextLabel = steps.find((step) => step.title === active)?.nextLabel
-  const onNext = steps.find((step) => step.title === active)?.onNext
 
   return (
     <Container className="grid lg:grid-cols-12 pt-4 gap-4 center my-8">

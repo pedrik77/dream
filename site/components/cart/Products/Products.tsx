@@ -5,6 +5,7 @@ import CartItem from '../CartItem'
 
 export default function Products() {
   const { cart } = useShop()
+  console.log({ cart })
 
   return (
     <div>
