@@ -1,5 +1,11 @@
 import { Product } from '@lib/products'
-import { doc, onSnapshot, setDoc, Timestamp } from 'firebase/firestore'
+import {
+  deleteDoc,
+  doc,
+  onSnapshot,
+  setDoc,
+  Timestamp,
+} from 'firebase/firestore'
 import { createContext, useEffect, useMemo, useState } from 'react'
 import { today } from './date'
 import useLoading from './hooks/useLoading'
@@ -25,6 +31,8 @@ export interface CartItem {
 
 const saveCart = (cartId: string, cart: any[]) =>
   setDoc(doc(db, 'cart', cartId), { data: cart })
+
+const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))
 
 export const useShop = () => {
   const { customer, user, setCustomer } = useUser()
@@ -63,7 +71,19 @@ export const useShop = () => {
     [customer]
   )
 
-  const getCartId = () => user?.email || uuid4()
+  const getCartId = () => {
+    if (user?.email) return user.email
+
+    const storedId = localStorage.getItem(CART_STORAGE_KEY)
+
+    if (storedId) return storedId
+
+    const cartId = uuid4()
+
+    localStorage.setItem(CART_STORAGE_KEY, cartId)
+
+    return cartId
+  }
 
   const addToCart = async (
     product: Product,
@@ -100,7 +120,8 @@ export const useShop = () => {
     )
 
   const clearCart = () => {
-    saveCart(getCartId(), [])
+    saveCart(getCartId(), []).catch((e) => {})
+
     sessionStorage.removeItem(CUSTOMER_STORAGE_KEY)
   }
 

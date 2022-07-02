@@ -2,12 +2,15 @@ import { Cross } from '@components/icons'
 import { Button, Container, Text } from '@components/ui'
 import { CartItem as ICartItem, useShop } from '@lib/shop'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 export default function CartItem({ product, ticketCount, price }: ICartItem) {
   const { removeFromCart } = useShop()
 
   const handleRemove = () => removeFromCart(product.slug)
+
+  const router = useRouter()
 
   return (
     <div className="col-span-12 flex flex-col md:flex-row gap-2 my-4 py-4 justify-between border-b border-primary">
@@ -21,7 +24,12 @@ export default function CartItem({ product, ticketCount, price }: ICartItem) {
         />
         <div className="flex flex-col center text-left">
           <span className="text-3xl font-bold ">{ticketCount} tiketov</span>
-          <Text variant="sectionHeading">{product.title_1}</Text>
+          <Text
+            variant="sectionHeading"
+            onClick={() => router.push(`/products/${product.slug}`)}
+          >
+            {product.title_1}
+          </Text>
           <span className="text-base m-0 left">{product.title_2}</span>
         </div>
       </div>
