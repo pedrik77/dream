@@ -1,13 +1,13 @@
 import { Product } from '@lib/products'
 import { Timestamp } from 'firebase/firestore'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { today } from './date'
 import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useUser } from './auth'
 
-interface CartItem {
+export interface CartItem {
   product: {
     slug: string
     title: string
@@ -24,19 +24,38 @@ export const useShop = () => {
     () => cart.reduce((acc, item) => acc + item.price, 0),
     [cart]
   )
-  console.log({ cart })
 
   const loading = useLoading()
 
   const { user } = useUser()
+
+  useEffect(() => {}, [])
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  }, [cart])
+
+  console.log({ cart })
 
   const addToCart = async (
     product: Product,
     ticketCount: number,
     price: number
   ) => {
-    if (cart.find(({ product: { slug } }) => slug === product.slug))
-      throw new Error('Product already in cart')
+    const inCart = cart.find(({ product: { slug } }) => slug === product.slug)
+
+    if (inCart)
+      return setCart(
+        cart.map((item) =>
+          item.product.slug === product.slug
+            ? {
+                ...item,
+                ticketCount: item.ticketCount + ticketCount,
+                price: item.price + price,
+              }
+            : item
+        )
+      )
 
     return setCart((cart) => [
       ...cart,
