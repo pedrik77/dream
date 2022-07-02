@@ -8,6 +8,7 @@ import Payment from '@components/cart/Payment/Payment'
 import { useShop } from '@lib/shop'
 import Link from 'next/link'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import { useRouter } from 'next/router'
 
 const STEPS = ['Košík', 'Informácie', 'Platba', 'Hotovo'] as const
 
@@ -17,6 +18,8 @@ export default function Cart() {
   const [active, setActive] = useState<StepType>(STEPS[0])
 
   const { placeOrder, isEmptyCart, clearCart } = useShop()
+
+  const router = useRouter()
 
   const nextDisabled = useMemo(
     () => active === STEPS[STEPS.length - 1],
@@ -47,6 +50,7 @@ export default function Cart() {
           .then(() => {
             flash('Vaše objednávka bola úspešne odoslaná')
             clearCart()
+            router.push('/orders')
           })
           .catch(handleErrorFlash)
       },
