@@ -1,16 +1,16 @@
 import { Product } from '@lib/products'
-import { collection, doc, onSnapshot, Timestamp } from 'firebase/firestore'
+import { doc, onSnapshot, setDoc, Timestamp } from 'firebase/firestore'
 import { createContext, useEffect, useMemo, useState } from 'react'
 import { today } from './date'
 import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useUser } from './auth'
-import { useSkipFirst } from './hooks/useSkipFirst'
 import { db } from './firebase'
+import { handleErrorFlash } from '@components/ui/FlashMessage'
 
 const CART_STORAGE_KEY = 'cart'
-const CUSTOMER_STORAGE_KEY = 'cart'
+const CUSTOMER_STORAGE_KEY = 'customer'
 
 export interface CartItem {
   product: {
@@ -22,6 +22,9 @@ export interface CartItem {
   ticketCount: number
   price: number
 }
+
+const saveCart = (cartId: string, cart: any[]) =>
+  setDoc(doc(db, 'cart', cartId), { data: cart })
 
 export const useShop = () => {
   const { customer, user, setCustomer } = useUser()
@@ -35,8 +38,6 @@ export const useShop = () => {
 
   const loading = useLoading()
 
-  const skipFirst = useSkipFirst()
-
   const cartId = useMemo(() => user?.email || uuid4(), [user])
 
   useEffect(
@@ -44,14 +45,13 @@ export const useShop = () => {
       onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
         setCart(
           // @ts-ignore
-          querySnapshot.docs.map(transform)
+          querySnapshot.data()?.data || []
         )
       }),
     [cartId]
   )
 
   useEffect(() => {
-    const storedCart = localStorage.getItem(CART_STORAGE_KEY)
     const storedCustomer = sessionStorage.getItem(CUSTOMER_STORAGE_KEY)
 
     if (storedCustomer) setCustomer(JSON.parse(storedCustomer))
@@ -60,8 +60,10 @@ export const useShop = () => {
   useEffect(
     () =>
       sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer)),
-    [cart, customer, skipFirst]
+    [customer]
   )
+
+  const getCartId = () => user?.email || uuid4()
 
   const addToCart = async (
     product: Product,
@@ -73,7 +75,7 @@ export const useShop = () => {
 
     if (inCart && !forceOverride) throw new Error('Already in cart')
 
-    return setCart((cart) => [
+    return saveCart(getCartId(), [
       ...cart.filter(({ product: { slug } }) => slug !== product.slug),
       {
         product: {
@@ -92,13 +94,13 @@ export const useShop = () => {
     !!cart.find(({ product: { slug } }) => slug === productSlug)
 
   const removeFromCart = (productSlug: string) =>
-    setCart((cart) =>
+    saveCart(
+      getCartId(),
       cart.filter(({ product: { slug } }) => slug !== productSlug)
     )
 
   const clearCart = () => {
-    setCart([])
-    localStorage.removeItem(CART_STORAGE_KEY)
+    saveCart(getCartId(), [])
     sessionStorage.removeItem(CUSTOMER_STORAGE_KEY)
   }
 
