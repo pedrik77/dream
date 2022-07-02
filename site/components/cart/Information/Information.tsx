@@ -1,17 +1,37 @@
 import { Input, Text } from '@components/ui'
 import { useUser } from '@lib/auth'
+import { useShop } from '@lib/shop'
 import React, { useState } from 'react'
 
 export default function Information() {
-  const { user, customer } = useUser()
+  const { customerData, setCustomerData } = useShop()
 
-  const [fullname, setFullname] = useState(customer.fullname)
-  const [email, setEmail] = useState(user?.email || '@')
-  const [phone, setPhone] = useState(customer.phone)
-  const [street, setStreet] = useState(customer.address.street)
-  const [city, setCity] = useState(customer.address.city)
-  const [zip, setZip] = useState(customer.address.zip)
-  const [country, setCountry] = useState(customer.address.country)
+  const setFullname = (fullname: string) =>
+    setCustomerData({ ...customerData, fullname })
+  const setEmail = (email: string) =>
+    setCustomerData({ ...customerData, email })
+  const setPhone = (phone: string) =>
+    setCustomerData({ ...customerData, phone })
+  const setStreet = (street: string) =>
+    setCustomerData({
+      ...customerData,
+      address: { ...customerData.address, street },
+    })
+  const setCity = (city: string) =>
+    setCustomerData({
+      ...customerData,
+      address: { ...customerData.address, city },
+    })
+  const setZip = (zip: string) =>
+    setCustomerData({
+      ...customerData,
+      address: { ...customerData.address, zip },
+    })
+  const setCountry = (country: string) =>
+    setCustomerData({
+      ...customerData,
+      address: { ...customerData.address, country },
+    })
 
   return (
     <div>
@@ -24,7 +44,7 @@ export default function Information() {
             Full name{' '}
             <Input
               type="text"
-              value={fullname}
+              value={customerData.fullname}
               placeholder="Full name"
               onChange={setFullname}
             />
@@ -33,7 +53,7 @@ export default function Information() {
             Email{' '}
             <Input
               type="email"
-              value={email}
+              value={customerData.email}
               placeholder="Email"
               onChange={setEmail}
             />
@@ -42,9 +62,47 @@ export default function Information() {
             Phone{' '}
             <Input
               type="tel"
-              value={phone}
+              value={customerData.phone}
               placeholder="Phone"
               onChange={setPhone}
+            />
+          </label>
+        </fieldset>
+        <fieldset className="flex">
+          <label>
+            Street{' '}
+            <Input
+              type="text"
+              value={customerData.address.street}
+              placeholder="Street"
+              onChange={setStreet}
+            />
+          </label>
+          <label>
+            City{' '}
+            <Input
+              type="text"
+              value={customerData.address.city}
+              placeholder="City"
+              onChange={setCity}
+            />
+          </label>
+          <label>
+            Zip{' '}
+            <Input
+              type="text"
+              value={customerData.address.zip}
+              placeholder="Zip"
+              onChange={setZip}
+            />
+          </label>
+          <label>
+            Country{' '}
+            <Input
+              type="text"
+              value={customerData.address.country}
+              placeholder="Country"
+              onChange={setCountry}
             />
           </label>
         </fieldset>
