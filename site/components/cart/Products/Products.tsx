@@ -3,9 +3,8 @@ import { useShop } from '@lib/shop'
 import React, { useMemo } from 'react'
 import CartItem from '../CartItem'
 
-export default function Products() {
+export default function Products({ sidebar = false }) {
   const { cart } = useShop()
-  console.log({ cart })
 
   return (
     <div>

@@ -81,7 +81,7 @@ export default function Cart() {
       <Container className="col-span-12 md:col-span-9 align-left">
         <Stepper steps={STEPS} activeStep={active} />
       </Container>
-      {isEmptyCart ? (
+      {isEmptyCart() ? (
         <Container className="col-span-12 flex flex-col justify-center center text-center my-4">
           <Text variant="sectionHeading" className="my-4">
             Košík je prázdny :(
