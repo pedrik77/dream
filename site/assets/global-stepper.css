@@ -16,7 +16,7 @@
 }
 
 .MuiStepConnector-root {
-  @apply p-2;
+  @apply px-0 py-2 md:p-2;
 }
 
 .MuiStepConnector-line {

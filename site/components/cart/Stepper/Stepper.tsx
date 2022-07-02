@@ -1,5 +1,4 @@
 import React from 'react'
-import s from './Stepper.module.css'
 import { Step, StepLabel, Stepper as MuiStepper } from '@mui/material'
 
 interface StepperProps {
@@ -20,8 +19,8 @@ export default function Stepper({
       alternativeLabel
     >
       {steps.map((title) => (
-        <Step key={title} className={s.title}>
-          <StepLabel className={s.label}>{title}</StepLabel>
+        <Step key={title}>
+          <StepLabel>{title}</StepLabel>
         </Step>
       ))}
     </MuiStepper>

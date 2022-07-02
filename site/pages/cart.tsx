@@ -42,14 +42,14 @@ export default function Cart() {
 
   return (
     <Container className="grid lg:grid-cols-12 pt-4 gap-4 center my-8">
-      <Text variant="heading" className="col-span-3 text-center">
+      <Text variant="heading" className="col-span-12 md:col-span-3 text-center">
         Košík
       </Text>
-      <Container clean className="col-span-9 align-left">
+      <Container clean className="col-span-12 md:col-span-9 align-left">
         <Stepper steps={STEPS} activeStep={active} />
       </Container>
       {isEmptyCart ? (
-        <Container clean>
+        <Container className="col-span-12 flex flex-col justify-center center text-center my-4">
           <Text variant="sectionHeading" className="my-4">
             Košík je prázdny :(
           </Text>
