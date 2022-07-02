@@ -1,15 +1,19 @@
+import { Text } from '@components/ui'
 import { useShop } from '@lib/shop'
 import React, { useMemo } from 'react'
+import CartItem from '../CartItem'
 
 export default function Products() {
   const { cart } = useShop()
 
   return (
     <div>
-      <h1>Tunak</h1>
+      <Text variant="sectionHeading" className="my-4">
+        Produkty
+      </Text>
       <div>
-        {cart.map(({ product, ticketCount, price }) => (
-          <div key={product.slug}>{product.title}</div>
+        {cart.map((item) => (
+          <CartItem key={item.product.slug} {...item} />
         ))}
       </div>
     </div>

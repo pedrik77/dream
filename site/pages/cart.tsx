@@ -19,8 +19,8 @@ export default function Cart() {
       <Text variant="heading">Košík</Text>
       <Container clean>
         <Stepper steps={STEPS} activeStep={active} />
+        <Products />
       </Container>
-      <Products />
     </Container>
   )
 }
