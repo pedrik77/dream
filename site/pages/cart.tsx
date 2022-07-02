@@ -4,6 +4,7 @@ import Stepper from '@components/cart/Stepper'
 import { useMemo, useState } from 'react'
 import Products from '@components/cart/Products/Products'
 import Information from '@components/cart/Information/Information'
+import Payment from '@components/cart/Payment/Payment'
 
 const STEPS = ['Košík', 'Informácie', 'Platba', 'Hotovo'] as const
 
@@ -30,6 +31,8 @@ export default function Cart() {
   }
 
   const step = steps.find((step) => step.title === active)?.component
+  const nextLabel = steps.find((step) => step.title === active)?.nextLabel
+  const onNext = steps.find((step) => step.title === active)?.onNext
 
   return (
     <Container className="grid lg:grid-cols-12 pt-4 gap-4 center my-8">
@@ -39,11 +42,11 @@ export default function Cart() {
       <Container clean className="col-span-9 align-left">
         <Stepper steps={STEPS} activeStep={active} />
         {step}
-        <Button disabled={prevDisabled} onClick={prev}>
+        <Button className={prevDisabled ? 'invisible' : ''} onClick={prev}>
           Spat
         </Button>
-        <Button disabled={nextDisabled} onClick={next}>
-          Ďalej
+        <Button className={nextDisabled ? 'invisible' : ''} onClick={next}>
+          {nextLabel}
         </Button>
       </Container>
     </Container>
@@ -51,8 +54,24 @@ export default function Cart() {
 }
 
 const steps = [
-  { title: 'Košík', component: <Products /> },
-  { title: 'Informácie', component: <Information /> },
+  {
+    title: 'Košík',
+    component: <Products />,
+    nextLabel: 'Do checkoutu',
+    onNext: () => {},
+  },
+  {
+    title: 'Informácie',
+    component: <Information />,
+    nextLabel: 'Pokracovat na platbu',
+    onNext: () => {},
+  },
+  {
+    title: 'Platba',
+    component: <Payment />,
+    nextLabel: 'Zaplatit',
+    onNext: () => {},
+  },
 ]
 
 Cart.Layout = Layout
