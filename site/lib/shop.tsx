@@ -32,7 +32,7 @@ export interface CartItem {
 const saveCart = (cartId: string, cart: any[]) =>
   setDoc(doc(db, 'cart', cartId), { data: cart })
 
-const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))
+export const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))
 
 export const useShop = () => {
   const { customer, user, setCustomer } = useUser()
@@ -44,7 +44,7 @@ export const useShop = () => {
     [cart]
   )
 
-  const loading = useLoading()
+  const loading = useLoading(true)
 
   const cartId = useMemo(() => user?.email || uuid4(), [user])
 
@@ -55,8 +55,9 @@ export const useShop = () => {
           // @ts-ignore
           querySnapshot.data()?.data || []
         )
+        loading.stop()
       }),
-    [cartId]
+    [cartId, loading]
   )
 
   useEffect(() => {

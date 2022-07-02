@@ -18,14 +18,15 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
-import { v4 } from 'uuid'
+import { setCategory as createCategory } from '@lib/categories'
+import _ from 'lodash'
 
 interface ProductEditProps {
   product: Product | null
   isEditing: boolean
 }
 
-const Select = dynamic(import('react-select'), { ssr: false })
+const Select = dynamic(import('react-select/creatable'), { ssr: false })
 const Editor = dynamic(import('../../../components/common/Editor'), {
   ssr: false,
 })
@@ -157,6 +158,15 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                 value={categoryToSelect(
                   categories.find((c) => c.slug === category)
                 )}
+                onCreateOption={(title) =>
+                  createCategory({
+                    title,
+                    slug: _.kebabCase(title),
+                    menu_position: -1,
+                  })
+                    .then(() => setCategory(_.kebabCase(title)))
+                    .catch(handleErrorFlash)
+                }
               />
             )}
           </label>
