@@ -5,10 +5,9 @@ import Image from 'next/image'
 import React from 'react'
 
 export default function CartItem({ product, ticketCount, price }: ICartItem) {
-  const { removeFromCart, cart } = useShop()
+  const { removeFromCart } = useShop()
 
   const handleRemove = () => removeFromCart(product.slug)
-  console.log(cart)
 
   return (
     <div className="flex col-span-12 my-4 justify-between">

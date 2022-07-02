@@ -87,9 +87,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                         flash('V košíku!', 'success')
                         router.push('/cart')
                       })
-                      .catch((e) => {
-                        handleErrorFlash(e)
-                      })
+                      .catch(handleErrorFlash)
                   }
                 >
                   {price} €

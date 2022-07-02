@@ -5,6 +5,8 @@ import { useMemo, useState } from 'react'
 import Products from '@components/cart/Products/Products'
 import Information from '@components/cart/Information/Information'
 import Payment from '@components/cart/Payment/Payment'
+import { useShop } from '@lib/shop'
+import Link from 'next/link'
 
 const STEPS = ['Košík', 'Informácie', 'Platba', 'Hotovo'] as const
 
@@ -12,6 +14,8 @@ type StepType = typeof STEPS[number]
 
 export default function Cart() {
   const [active, setActive] = useState<StepType>(STEPS[0])
+
+  const { isEmptyCart } = useShop()
 
   const nextDisabled = useMemo(
     () => active === STEPS[STEPS.length - 1],
@@ -44,17 +48,28 @@ export default function Cart() {
       <Container clean className="col-span-9 align-left">
         <Stepper steps={STEPS} activeStep={active} />
       </Container>
-      <Container className="col-span-12 center justify-between">
-        {step}
-        <div>
-          <Button className={prevDisabled ? 'invisible' : ''} onClick={prev}>
-            Spat
-          </Button>
-          <Button className={nextDisabled ? 'invisible' : ''} onClick={next}>
-            {nextLabel}
-          </Button>
-        </div>
-      </Container>
+      {isEmptyCart ? (
+        <Container clean>
+          <Text variant="sectionHeading" className="my-4">
+            Košík je prázdny :(
+          </Text>
+          <Link href="/products">
+            <a>Pozriet ponuku</a>
+          </Link>
+        </Container>
+      ) : (
+        <Container className="col-span-12 center justify-between">
+          {step}
+          <div>
+            <Button className={prevDisabled ? 'invisible' : ''} onClick={prev}>
+              Spat
+            </Button>
+            <Button className={nextDisabled ? 'invisible' : ''} onClick={next}>
+              {nextLabel}
+            </Button>
+          </div>
+        </Container>
+      )}
     </Container>
   )
 }
