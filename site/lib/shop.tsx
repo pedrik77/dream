@@ -81,8 +81,8 @@ export const useShop = () => {
     ])
   }
 
-  const removeFromCart = (product: Product) =>
-    setCart(cart.filter(({ product: { slug } }) => slug !== product.slug))
+  const removeFromCart = (productSlug: string) =>
+    setCart(cart.filter(({ product: { slug } }) => slug !== productSlug))
 
   const placeOrder = (product: Product, ticketCount: number, price: number) =>
     setOrder({
