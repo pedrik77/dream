@@ -110,3 +110,7 @@ a {
     opacity: 1;
   }
 }
+
+* {
+  outline: 1px solid #000;
+}

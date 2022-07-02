@@ -74,11 +74,11 @@ export default function Cart() {
   }
 
   return (
-    <Container className="grid lg:grid-cols-12 pt-4 gap-4 center my-8">
+    <section className="grid lg:grid-cols-12 pt-4 gap-4 center my-8 px-4">
       <Text variant="heading" className="col-span-12 md:col-span-3 text-center">
         Košík
       </Text>
-      <Container clean className="col-span-12 md:col-span-9 align-left">
+      <Container className="col-span-12 md:col-span-9 align-left">
         <Stepper steps={STEPS} activeStep={active} />
       </Container>
       {isEmptyCart ? (
@@ -91,9 +91,9 @@ export default function Cart() {
           </Link>
         </Container>
       ) : (
-        <Container className="col-span-12 center justify-between">
+        <div className="col-span-12 flex flex-col center justify-between">
           {step}
-          <div>
+          <div className="flex center items-center my-8">
             <Button className={prevDisabled ? 'invisible' : ''} onClick={prev}>
               Spat
             </Button>
@@ -101,9 +101,9 @@ export default function Cart() {
               {nextLabel}
             </Button>
           </div>
-        </Container>
+        </div>
       )}
-    </Container>
+    </section>
   )
 }
 

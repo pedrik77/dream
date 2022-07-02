@@ -10,8 +10,8 @@ export default function CartItem({ product, ticketCount, price }: ICartItem) {
   const handleRemove = () => removeFromCart(product.slug)
 
   return (
-    <div className="flex col-span-12 my-4 py-4 justify-between border-b border-primary">
-      <div className="flex gap-4 md:gap-8">
+    <div className="col-span-12 flex gap-2 my-4 py-4 justify-between border-b border-primary">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8">
         <Image
           height={195}
           width={300}
@@ -20,7 +20,7 @@ export default function CartItem({ product, ticketCount, price }: ICartItem) {
           className="rounded-md"
         />
         <div className="flex flex-col center text-left">
-          <Text variant="sectionHeading">{ticketCount} tiketov</Text>
+          <span className="text-3xl font-bold ">{ticketCount} tiketov</span>
           <Text variant="sectionHeading">{product.title_1}</Text>
           <span className="text-base m-0 left">{product.title_2}</span>
         </div>
