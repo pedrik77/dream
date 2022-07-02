@@ -64,7 +64,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--primary);
+  background-color: white;
   color: var(--text-primary);
   overscroll-behavior-x: none;
 }
@@ -109,8 +109,4 @@ a {
   to {
     opacity: 1;
   }
-}
-
-* {
-  outline: 1px solid #000;
 }

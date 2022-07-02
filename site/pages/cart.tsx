@@ -74,15 +74,18 @@ export default function Cart() {
   }
 
   return (
-    <section className="grid lg:grid-cols-12 pt-4 gap-4 center my-8 px-4">
-      <Text variant="heading" className="col-span-12 md:col-span-3 text-center">
+    <section className="grid grid-cols-6 md:grid-cols-12 pt-4 gap-4 center my-8 mx-4">
+      <Text
+        variant="heading"
+        className="col-span-full md:col-span-3 text-center"
+      >
         Košík
       </Text>
-      <Container className="col-span-12 md:col-span-9 align-left">
+      <div className="col-span-full md:col-span-9 align-left items-center">
         <Stepper steps={STEPS} activeStep={active} />
-      </Container>
+      </div>
       {isEmptyCart() ? (
-        <Container className="col-span-12 flex flex-col justify-center center text-center my-4">
+        <Container className="col-span-full flex flex-col justify-center center text-center my-4">
           <Text variant="sectionHeading" className="my-4">
             Košík je prázdny :(
           </Text>
@@ -91,7 +94,7 @@ export default function Cart() {
           </Link>
         </Container>
       ) : (
-        <div className="col-span-12 flex flex-col center justify-between">
+        <div className="col-span-full flex flex-col center justify-between">
           {step}
           <div className="flex center items-center my-8">
             <Button className={prevDisabled ? 'invisible' : ''} onClick={prev}>
