@@ -22,13 +22,9 @@ export interface CartItem {
 }
 
 export const useShop = () => {
-  const { customer, user } = useUser()
+  const { customer, user, setCustomer } = useUser()
 
   const [cart, setCart] = useState<CartItem[]>([])
-  const [customerData, setCustomerData] = useState({
-    ...customer,
-    email: user?.email || '@',
-  })
 
   const total = useMemo(
     () => cart.reduce((acc, item) => acc + item.price, 0),
@@ -43,19 +39,17 @@ export const useShop = () => {
 
     if (storedCart) setCart(JSON.parse(storedCart))
 
-    if (storedCustomer) setCustomerData(JSON.parse(storedCustomer))
-  }, [])
+    if (storedCustomer) setCustomer(JSON.parse(storedCustomer))
+  }, [setCustomer])
 
   useEffect(() => {
-    console.log('Saving cart, customer data', cart, customerData)
+    console.log('Saving cart, customer', cart, customer)
 
     if (!!cart.length)
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart))
 
-    sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customerData))
-
-    console.log({ cart, customerData })
-  }, [cart, customerData])
+    sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer))
+  }, [cart, customer])
 
   const addToCart = async (
     product: Product,
@@ -99,11 +93,12 @@ export const useShop = () => {
   const placeOrder = () =>
     setOrder({
       uuid: uuid4(),
-      user_id: user?.uid,
+      user_uid: user?.uid,
       items: cart,
       total_price: cart
         .map(({ price }) => price)
         .reduce((acc, price) => acc + price, 0),
+      customer,
       created_date: Timestamp.fromDate(new Date(today())),
     })
 
@@ -113,9 +108,8 @@ export const useShop = () => {
     loading: loading.pending,
     addToCart,
     clearCart,
+    isInCart,
     isEmptyCart,
-    customerData,
-    setCustomerData,
     removeFromCart,
     placeOrder,
   }

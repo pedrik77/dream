@@ -28,7 +28,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const { user } = useUser()
   const router = useRouter()
 
-  const { addToCart } = useShop()
+  const { addToCart, isInCart } = useShop()
 
   const relatedProducts: Product[] = []
 
@@ -81,14 +81,22 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                 <span className={s.tickets}>Tiketov</span>
                 <Button
                   className={s.btn}
-                  onClick={() =>
-                    addToCart(product, Number(ticketCount), price)
+                  onClick={() => {
+                    if (
+                      isInCart(product.slug) &&
+                      !confirm(
+                        'Produkt uz mate zvoleny. Prajete si prepisat variantu?'
+                      )
+                    )
+                      return router.push('/cart')
+
+                    addToCart(product, Number(ticketCount), price, true)
                       .then(() => {
                         flash('V košíku!', 'success')
-                        // router.push('/cart')
+                        router.push('/cart')
                       })
                       .catch(handleErrorFlash)
-                  }
+                  }}
                 >
                   {price} €
                 </Button>

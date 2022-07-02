@@ -92,7 +92,6 @@ export function useUser() {
       doc(db, 'admins', user.email),
       (doc) => {
         const data = doc.data()
-        console.log('admin data', data)
 
         if (!data) return setPermissions([])
 
@@ -109,6 +108,7 @@ export function useUser() {
     adminPermissions: permissions,
     isAdmin: !!permissions.length,
     hasAdminPermission,
+    setCustomer,
   }
 }
 

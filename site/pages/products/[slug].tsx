@@ -10,10 +10,10 @@ import { Layout } from '@components/common'
 import { ProductView } from '@components/product'
 import { getProduct, Product } from '@lib/products'
 
-interface SlugProps {
+interface ProductDetailProps {
   product: Product
 }
-export default function Slug({ product }: SlugProps) {
+export default function ProductDetail({ product }: ProductDetailProps) {
   const router = useRouter()
 
   return router.isFallback ? (
@@ -23,11 +23,11 @@ export default function Slug({ product }: SlugProps) {
   )
 }
 
-Slug.Layout = Layout
+ProductDetail.Layout = Layout
 
-export const getServerSideProps: GetServerSideProps<{
-  product: Product
-}> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<
+  ProductDetailProps
+> = async ({ params }) => {
   const product = await getProduct((params?.slug as string) || '')
 
   if (!product) return { notFound: true }
