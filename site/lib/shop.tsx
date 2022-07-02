@@ -12,7 +12,8 @@ const STORAGE_KEY = 'cart'
 export interface CartItem {
   product: {
     slug: string
-    title: string
+    title_1: string
+    title_2: string
     image: string
   }
   ticketCount: number
@@ -69,7 +70,8 @@ export const useShop = () => {
       ...cart,
       {
         product: {
-          title: product.title_1,
+          title_1: product.title_1,
+          title_2: product.title_2,
           slug: product.slug,
           image: product.gallery[0].src,
         },
