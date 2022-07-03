@@ -74,7 +74,7 @@ export default function Cart() {
   }
 
   return (
-    <section className="grid grid-cols-6 md:grid-cols-12 pt-4 gap-4 center my-8 mx-4 lg:mx-8">
+    <section className="grid grid-cols-6 md:grid-cols-12 gap-4 center my-8 mx-auto lg:mx-auto pt-4 px-4 max-w-4xl">
       <Text
         variant="heading"
         className="col-span-full md:col-span-3 text-center"
@@ -94,7 +94,7 @@ export default function Cart() {
           </Link>
         </Container>
       ) : (
-        <div className="col-span-full flex flex-col center justify-between">
+        <div className="col-span-full flex flex-col center justify-between mt-4">
           {step}
           <div className="flex justify-center items-center my-8">
             <Button disabled={prevDisabled} className="w-36" onClick={prev}>

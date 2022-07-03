@@ -74,65 +74,71 @@ export default function Information() {
             </AccountField>
           </div>
         </AccountFieldWrapper>
+      </div>
+      <div>
+        <Text variant="sectionHeading" className="my-4">
+          Adresne Informacie
+        </Text>
+        <div className="max-w-3xl my-4 mx-auto">
+          <AccountFieldWrapper>
+            <div className="flex flex-col col-span-3 divide-secondary divide-y">
+              <AccountField>
+                <label htmlFor="street" className="cursor-pointer">
+                  Street{' '}
+                </label>
+                <Input
+                  id="street"
+                  type="text"
+                  variant="ghost"
+                  value={street}
+                  placeholder="Street"
+                  onChange={setStreet}
+                />
+              </AccountField>
+              <AccountField>
+                <label htmlFor="city" className="cursor-pointer">
+                  City{' '}
+                </label>
+                <Input
+                  id="city"
+                  type="text"
+                  variant="ghost"
+                  value={city}
+                  placeholder="City"
+                  onChange={setCity}
+                />
+              </AccountField>
 
-        <AccountFieldWrapper>
-          <div className="flex flex-col col-span-3 divide-secondary divide-y">
-            <AccountField>
-              <label htmlFor="street" className="cursor-pointer">
-                Street{' '}
-              </label>
-              <Input
-                id="street"
-                type="text"
-                variant="ghost"
-                value={street}
-                placeholder="Street"
-                onChange={setStreet}
-              />
-            </AccountField>
-            <AccountField>
-              <label htmlFor="city" className="cursor-pointer">
-                City{' '}
-              </label>
-              <Input
-                id="city"
-                type="text"
-                variant="ghost"
-                value={city}
-                placeholder="City"
-                onChange={setCity}
-              />
-            </AccountField>
+              <AccountField>
+                <label htmlFor="zip" className="cursor-pointer">
+                  Zip{' '}
+                </label>
+                <Input
+                  id="zip"
+                  type="text"
+                  variant="ghost"
+                  value={zip}
+                  placeholder="Zip"
+                  onChange={setZip}
+                />
+              </AccountField>
 
-            <AccountField>
-              <label htmlFor="zip" className="cursor-pointer">
-                Zip{' '}
-              </label>
-              <Input
-                id="zip"
-                type="text"
-                variant="ghost"
-                value={zip}
-                placeholder="Zip"
-                onChange={setZip}
-              />
-            </AccountField>
-
-            <AccountField>
-              <label htmlFor="country" className="cursor-pointer">
-                Country{' '}
-              </label>
-              <Input
-                id="country"
-                type="text"
-                variant="ghost"
-                value={country}
-                placeholder="Country"
-                onChange={setCountry}
-              />
-            </AccountField>
-          </div>
-        </AccountFieldWrapper>
+              <AccountField>
+                <label htmlFor="country" className="cursor-pointer">
+                  Country{' '}
+                </label>
+                <Input
+                  id="country"
+                  type="text"
+                  variant="ghost"
+                  value={country}
+                  placeholder="Country"
+                  onChange={setCountry}
+                />
+              </AccountField>
+            </div>
+          </AccountFieldWrapper>
+        </div>
       </div>
     </div>
   )
