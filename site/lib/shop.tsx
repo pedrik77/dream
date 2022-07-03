@@ -84,12 +84,6 @@ export const useShop = () => {
     return cartId
   }
 
-  useEffect(() => {}, [])
-
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart))
-  }, [cart])
-
   console.log({ cart })
 
   const addToCart = async (
