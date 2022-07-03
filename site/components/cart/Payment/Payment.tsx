@@ -5,5 +5,9 @@ import React from 'react'
 export default function Payment() {
   const { total } = useShop()
 
-  return <Text variant="pageHeading">Cash {total} eur</Text>
+  return (
+    <div className="flex justify-center my-12">
+      <Text variant="pageHeading">Cash {total} eur</Text>
+    </div>
+  )
 }

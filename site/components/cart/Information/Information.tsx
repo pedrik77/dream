@@ -1,4 +1,4 @@
-import { AccountField } from '@components/account/Fields'
+import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
 import { Input, Text } from '@components/ui'
 import { useUser } from '@lib/auth'
 import { useShop } from '@lib/shop'
@@ -30,82 +30,115 @@ export default function Information() {
       <Text variant="sectionHeading" className="my-4">
         Personal Informacie
       </Text>
-      <div className="max-w-3xl my-8 mx-auto">
-        <fieldset className="flex flex-col gap-8 justify-center">
-          <AccountField>
-            <label htmlFor="fullname" className="cursor-pointer">
-              Celé meno
-            </label>
-            <Input
-              id="fullname"
-              variant="ghost"
-              value={fullname}
-              onChange={setFullname}
-            />
-          </AccountField>
-          <label>
-            Email{' '}
-            <Input
-              type="email"
-              variant="ghost"
-              value={email}
-              placeholder="Email"
-              onChange={setEmail}
-            />
-          </label>
-          <label>
-            Phone{' '}
-            <Input
-              type="tel"
-              variant="ghost"
-              value={phone}
-              placeholder="Phone"
-              onChange={setPhone}
-            />
-          </label>
-        </fieldset>
-        <fieldset className="flex">
-          <label>
-            Street{' '}
-            <Input
-              type="text"
-              variant="ghost"
-              value={street}
-              placeholder="Street"
-              onChange={setStreet}
-            />
-          </label>
-          <label>
-            City{' '}
-            <Input
-              type="text"
-              variant="ghost"
-              value={city}
-              placeholder="City"
-              onChange={setCity}
-            />
-          </label>
-          <label>
-            Zip{' '}
-            <Input
-              type="text"
-              variant="ghost"
-              value={zip}
-              placeholder="Zip"
-              onChange={setZip}
-            />
-          </label>
-          <label>
-            Country{' '}
-            <Input
-              type="text"
-              variant="ghost"
-              value={country}
-              placeholder="Country"
-              onChange={setCountry}
-            />
-          </label>
-        </fieldset>
+      <div className="max-w-3xl my-4 mx-auto">
+        <AccountFieldWrapper>
+          <div className="flex flex-col col-span-3 divide-secondary divide-y">
+            <AccountField>
+              <label htmlFor="fullname" className="cursor-pointer">
+                Celé meno
+              </label>
+              <Input
+                id="fullname"
+                variant="ghost"
+                value={fullname}
+                placeholder="Celé meno"
+                onChange={setFullname}
+              />
+            </AccountField>
+            <AccountField>
+              <label htmlFor="email" className="cursor-pointer">
+                Email{' '}
+              </label>
+              <Input
+                id="email"
+                type="email"
+                variant="ghost"
+                value={email}
+                placeholder="Email"
+                onChange={setEmail}
+              />
+            </AccountField>
+
+            <AccountField>
+              <label htmlFor="phone" className="cursor-pointer">
+                Phone{' '}
+              </label>
+              <Input
+                id="phone"
+                type="tel"
+                variant="ghost"
+                value={phone}
+                placeholder="Phone"
+                onChange={setPhone}
+              />
+            </AccountField>
+          </div>
+        </AccountFieldWrapper>
+      </div>
+      <div>
+        <Text variant="sectionHeading" className="my-4">
+          Adresne Informacie
+        </Text>
+        <div className="max-w-3xl my-4 mx-auto">
+          <AccountFieldWrapper>
+            <div className="flex flex-col col-span-3 divide-secondary divide-y">
+              <AccountField>
+                <label htmlFor="street" className="cursor-pointer">
+                  Street{' '}
+                </label>
+                <Input
+                  id="street"
+                  type="text"
+                  variant="ghost"
+                  value={street}
+                  placeholder="Street"
+                  onChange={setStreet}
+                />
+              </AccountField>
+              <AccountField>
+                <label htmlFor="city" className="cursor-pointer">
+                  City{' '}
+                </label>
+                <Input
+                  id="city"
+                  type="text"
+                  variant="ghost"
+                  value={city}
+                  placeholder="City"
+                  onChange={setCity}
+                />
+              </AccountField>
+
+              <AccountField>
+                <label htmlFor="zip" className="cursor-pointer">
+                  Zip{' '}
+                </label>
+                <Input
+                  id="zip"
+                  type="text"
+                  variant="ghost"
+                  value={zip}
+                  placeholder="Zip"
+                  onChange={setZip}
+                />
+              </AccountField>
+
+              <AccountField>
+                <label htmlFor="country" className="cursor-pointer">
+                  Country{' '}
+                </label>
+                <Input
+                  id="country"
+                  type="text"
+                  variant="ghost"
+                  value={country}
+                  placeholder="Country"
+                  onChange={setCountry}
+                />
+              </AccountField>
+            </div>
+          </AccountFieldWrapper>
+        </div>
       </div>
     </div>
   )
