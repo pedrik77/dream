@@ -1,3 +1,4 @@
+import { AccountField } from '@components/account/Fields'
 import { Input, Text } from '@components/ui'
 import { useUser } from '@lib/auth'
 import { useShop } from '@lib/shop'
@@ -31,16 +32,17 @@ export default function Information() {
       </Text>
       <div className="max-w-3xl my-8 mx-auto">
         <fieldset className="flex flex-col gap-8 justify-center">
-          <label>
-            Full name{' '}
+          <AccountField>
+            <label htmlFor="fullname" className="cursor-pointer">
+              Celé meno
+            </label>
             <Input
-              type="text"
+              id="fullname"
               variant="ghost"
               value={fullname}
-              placeholder="Full name"
               onChange={setFullname}
             />
-          </label>
+          </AccountField>
           <label>
             Email{' '}
             <Input
