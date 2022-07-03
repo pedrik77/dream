@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 import CartItem from '../CartItem'
 
 export default function Products({ sidebar = false }) {
-  const { cart } = useShop()
+  const { cart, total } = useShop()
 
   return (
     <div>
@@ -15,6 +15,10 @@ export default function Products({ sidebar = false }) {
         {cart.map((item) => (
           <CartItem key={item.product.slug} {...item} />
         ))}
+      </div>
+      <div className="flex justify-between border-t-0 border-primary">
+        <Text variant="sectionHeading">Spolu</Text>
+        <Text variant="sectionHeading">{total} €</Text>
       </div>
     </div>
   )

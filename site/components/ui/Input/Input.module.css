@@ -2,10 +2,14 @@
   @apply bg-primary py-2 px-6 w-full appearance-none transition duration-150 ease-in-out pr-10 border border-secondary text-accent-0;
 }
 
-.ghost {
-  @apply bg-transparent py-2 px-6 w-full appearance-none transition duration-150 ease-in-out pr-10 border border-primary text-primary;
-}
-
 .root:focus {
   @apply outline-none shadow-outline-normal;
+}
+
+.ghost {
+  @apply bg-transparent text-primary;
+}
+
+.ghost:focus {
+  @apply outline-none shadow-none border-secondary;
 }
