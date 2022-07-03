@@ -27,10 +27,10 @@ export default function Information() {
   return (
     <div>
       <Text variant="sectionHeading" className="my-4">
-        Informacie
+        Personal Informacie
       </Text>
-      <div>
-        <fieldset className="flex flex-col">
+      <div className="max-w-3xl my-8 mx-auto">
+        <fieldset className="flex flex-col gap-8 justify-center">
           <label>
             Full name{' '}
             <Input

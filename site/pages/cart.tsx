@@ -79,7 +79,7 @@ export default function Cart() {
         variant="heading"
         className="col-span-full md:col-span-3 text-center"
       >
-        Košík
+        {active}
       </Text>
       <div className="col-span-full md:col-span-9 align-left items-center">
         <Stepper steps={STEPS} activeStep={active} />
