@@ -8,7 +8,7 @@
 }
 
 .root:hover {
-  @apply border-secondary text-accent-0 bg-primary;
+  @apply border-primary text-accent-0 bg-primary;
 }
 
 .root:focus {
@@ -41,12 +41,12 @@
 
 .naked:hover,
 .naked:focus {
-  @apply bg-transparent border-none;
+  @apply bg-transparent text-secondary;
 }
 
 .disabled,
 .disabled:hover {
-  @apply text-accent-4 border-accent-2 bg-accent-1 cursor-not-allowed;
+  @apply border-gray-400 text-accent-0 bg-gray-400 cursor-not-allowed;
   filter: grayscale(1);
   -webkit-transform: translateZ(0);
   -webkit-perspective: 1000;

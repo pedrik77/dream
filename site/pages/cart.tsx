@@ -96,11 +96,11 @@ export default function Cart() {
       ) : (
         <div className="col-span-full flex flex-col center justify-between">
           {step}
-          <div className="flex center items-center my-8">
-            <Button className={prevDisabled ? 'invisible' : ''} onClick={prev}>
+          <div className="flex justify-center items-center my-8">
+            <Button disabled={prevDisabled} className="w-36" onClick={prev}>
               Spat
             </Button>
-            <Button className={nextDisabled ? 'invisible' : ''} onClick={next}>
+            <Button disabled={nextDisabled} className="w-36" onClick={next}>
               {nextLabel}
             </Button>
           </div>
