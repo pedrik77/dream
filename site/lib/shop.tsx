@@ -1,23 +1,42 @@
 import { Product } from '@lib/products'
-import { Timestamp } from 'firebase/firestore'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  deleteDoc,
+  doc,
+  onSnapshot,
+  setDoc,
+  Timestamp,
+} from 'firebase/firestore'
+import { createContext, useEffect, useMemo, useState } from 'react'
 import { today } from './date'
 import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useUser } from './auth'
+import { db } from './firebase'
+import { handleErrorFlash } from '@components/ui/FlashMessage'
+
+const CART_STORAGE_KEY = 'cart'
+const CUSTOMER_STORAGE_KEY = 'customer'
 
 export interface CartItem {
   product: {
     slug: string
-    title: string
+    title_1: string
+    title_2: string
     image: string
   }
   ticketCount: number
   price: number
 }
 
+const saveCart = (cartId: string, cart: any[]) =>
+  setDoc(doc(db, 'cart', cartId), { data: cart })
+
+export const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))
+
 export const useShop = () => {
+  const { customer, user, setCustomer } = useUser()
+
   const [cart, setCart] = useState<CartItem[]>([])
 
   const total = useMemo(
@@ -25,9 +44,47 @@ export const useShop = () => {
     [cart]
   )
 
-  const loading = useLoading()
+  const loading = useLoading(true)
 
-  const { user } = useUser()
+  const cartId = useMemo(() => user?.email || uuid4(), [user])
+
+  useEffect(
+    () =>
+      onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
+        setCart(
+          // @ts-ignore
+          querySnapshot.data()?.data || []
+        )
+        loading.stop()
+      }),
+    [cartId, loading]
+  )
+
+  useEffect(() => {
+    const storedCustomer = sessionStorage.getItem(CUSTOMER_STORAGE_KEY)
+
+    if (storedCustomer) setCustomer(JSON.parse(storedCustomer))
+  }, [setCustomer])
+
+  useEffect(
+    () =>
+      sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer)),
+    [customer]
+  )
+
+  const getCartId = () => {
+    if (user?.email) return user.email
+
+    const storedId = localStorage.getItem(CART_STORAGE_KEY)
+
+    if (storedId) return storedId
+
+    const cartId = uuid4()
+
+    localStorage.setItem(CART_STORAGE_KEY, cartId)
+
+    return cartId
+  }
 
   useEffect(() => {}, [])
 
@@ -40,28 +97,19 @@ export const useShop = () => {
   const addToCart = async (
     product: Product,
     ticketCount: number,
-    price: number
+    price: number,
+    forceOverride = false
   ) => {
-    const inCart = cart.find(({ product: { slug } }) => slug === product.slug)
+    const inCart = isInCart(product.slug)
 
-    if (inCart)
-      return setCart(
-        cart.map((item) =>
-          item.product.slug === product.slug
-            ? {
-                ...item,
-                ticketCount: item.ticketCount + ticketCount,
-                price: item.price + price,
-              }
-            : item
-        )
-      )
+    if (inCart && !forceOverride) throw new Error('Already in cart')
 
-    return setCart((cart) => [
-      ...cart,
+    return saveCart(getCartId(), [
+      ...cart.filter(({ product: { slug } }) => slug !== product.slug),
       {
         product: {
-          title: product.title_1,
+          title_1: product.title_1,
+          title_2: product.title_2,
           slug: product.slug,
           image: product.gallery[0].src,
         },
@@ -71,20 +119,30 @@ export const useShop = () => {
     ])
   }
 
-  const removeFromCart = (product: Product) =>
-    setCart(cart.filter(({ product: { slug } }) => slug !== product.slug))
+  const isInCart = (productSlug: string) =>
+    !!cart.find(({ product: { slug } }) => slug === productSlug)
 
-  const placeOrder = (product: Product, ticketCount: number, price: number) =>
+  const removeFromCart = (productSlug: string) =>
+    saveCart(
+      getCartId(),
+      cart.filter(({ product: { slug } }) => slug !== productSlug)
+    )
+
+  const clearCart = () => {
+    saveCart(getCartId(), []).catch((e) => {})
+
+    sessionStorage.removeItem(CUSTOMER_STORAGE_KEY)
+  }
+
+  const isEmptyCart = () => !cart.length
+
+  const placeOrder = () =>
     setOrder({
       uuid: uuid4(),
-      user_id: user?.uid,
-      items: [
-        {
-          product_slug: product.slug,
-          ticket_count: ticketCount,
-        },
-      ],
-      total_price: price,
+      user_uid: user?.uid,
+      items: cart,
+      total_price: total,
+      customer,
       created_date: Timestamp.fromDate(new Date(today())),
     })
 
@@ -93,6 +151,9 @@ export const useShop = () => {
     total,
     loading: loading.pending,
     addToCart,
+    clearCart,
+    isInCart,
+    isEmptyCart,
     removeFromCart,
     placeOrder,
   }

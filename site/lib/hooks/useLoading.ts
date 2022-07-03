@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-export default function useLoading() {
-  const [pending, setPending] = useState(false)
+export default function useLoading(defaultValue = false) {
+  const [pending, setPending] = useState(defaultValue)
 
   const start = () => setPending(true)
   const stop = () => setPending(false)

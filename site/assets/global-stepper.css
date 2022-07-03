@@ -1,5 +1,8 @@
+.MuiStep-root {
+  @apply p-0;
+}
 .MuiStepLabel-label {
-  @apply text-primary text-lg;
+  @apply text-primary md:text-lg;
 }
 
 .MuiStepLabel-label.Mui-active,
@@ -8,7 +11,7 @@
 }
 
 .MuiStepIcon-root {
-  @apply fill-primary w-10 h-10;
+  @apply fill-primary w-6 md:w-10 h-6 md:h-10;
 }
 
 .Mui-active {
@@ -16,7 +19,7 @@
 }
 
 .MuiStepConnector-root {
-  @apply p-2;
+  @apply px-0 md:m-1;
 }
 
 .MuiStepConnector-line {
