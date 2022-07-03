@@ -30,11 +30,12 @@ export default function Information() {
         Informacie
       </Text>
       <div>
-        <fieldset className="flex">
+        <fieldset className="flex flex-col">
           <label>
             Full name{' '}
             <Input
               type="text"
+              variant="ghost"
               value={fullname}
               placeholder="Full name"
               onChange={setFullname}
@@ -44,6 +45,7 @@ export default function Information() {
             Email{' '}
             <Input
               type="email"
+              variant="ghost"
               value={email}
               placeholder="Email"
               onChange={setEmail}
@@ -53,6 +55,7 @@ export default function Information() {
             Phone{' '}
             <Input
               type="tel"
+              variant="ghost"
               value={phone}
               placeholder="Phone"
               onChange={setPhone}
@@ -64,6 +67,7 @@ export default function Information() {
             Street{' '}
             <Input
               type="text"
+              variant="ghost"
               value={street}
               placeholder="Street"
               onChange={setStreet}
@@ -73,6 +77,7 @@ export default function Information() {
             City{' '}
             <Input
               type="text"
+              variant="ghost"
               value={city}
               placeholder="City"
               onChange={setCity}
@@ -82,6 +87,7 @@ export default function Information() {
             Zip{' '}
             <Input
               type="text"
+              variant="ghost"
               value={zip}
               placeholder="Zip"
               onChange={setZip}
@@ -91,6 +97,7 @@ export default function Information() {
             Country{' '}
             <Input
               type="text"
+              variant="ghost"
               value={country}
               placeholder="Country"
               onChange={setCountry}
