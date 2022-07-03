@@ -27,7 +27,7 @@ const LINKS = [
 
 export default function CustomerMenuContent() {
   const router = useRouter()
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme('light')
 
   function handleClick(_: React.MouseEvent<HTMLAnchorElement>, href: string) {
     router.push(href)
@@ -53,25 +53,7 @@ export default function CustomerMenuContent() {
           </a>
         </DropdownMenuItem>
       ))}
-      <DropdownMenuItem>
-        <a
-          className={cn(s.link, 'justify-between')}
-          onClick={() => {
-            setTheme(theme === 'dark' ? 'light' : 'dark')
-          }}
-        >
-          <div>
-            Theme: <strong>{theme}</strong>{' '}
-          </div>
-          <div className="ml-3">
-            {theme == 'dark' ? (
-              <Moon width={20} height={20} />
-            ) : (
-              <Sun width={20} height={20} />
-            )}
-          </div>
-        </a>
-      </DropdownMenuItem>
+      <DropdownMenuItem></DropdownMenuItem>
       <DropdownMenuItem>
         <a
           className={cn(s.link, 'border-t border-accent-2 mt-4')}
