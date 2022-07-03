@@ -12,7 +12,6 @@ export default function CartItem({ product, ticketCount, price }: ICartItem) {
 
   const router = useRouter()
 
-export default function CartItem({ product, ticketCount, price }: ICartItem) {
   return (
     <div className="col-span-12 flex flex-col md:flex-row gap-2 my-4 py-4 justify-between border-b border-primary">
       <div className="flex flex-row gap-4 md:gap-8">
