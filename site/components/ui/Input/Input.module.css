@@ -1,5 +1,5 @@
 .root {
-  @apply bg-primary py-2 px-6 w-full appearance-none transition duration-150 ease-in-out pr-10 border border-primary text-accent-0;
+  @apply bg-primary py-2 px-6 w-full appearance-none transition duration-150 ease-in-out pr-10 border border-secondary text-accent-0;
 }
 
 .ghost {
