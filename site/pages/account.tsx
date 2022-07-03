@@ -129,13 +129,23 @@ export default function Account() {
             </span>
 
             <AccountField>
-              <Label>Celé meno</Label>
-              <Input variant="ghost" value={fullname} onChange={setFullname} />
+              <label htmlFor="fullname" className="cursor-pointer">
+                Celé meno
+              </label>
+              <Input
+                id="fullname"
+                variant="ghost"
+                value={fullname}
+                onChange={setFullname}
+              />
             </AccountField>
 
             <AccountField>
-              <Label>Telefónne číslo</Label>
+              <label htmlFor="phone" className="cursor-pointer">
+                Telefónne číslo
+              </label>
               <Input
+                id="phone"
                 variant="ghost"
                 value={phone}
                 onChange={setPhone}
@@ -148,23 +158,46 @@ export default function Account() {
           <Text variant="sectionHeading">Adresa</Text>
           <div className="flex flex-col col-span-2 divide-secondary divide-y">
             <AccountField>
-              <Label>Ulica</Label>
-              <Input variant="ghost" value={street} onChange={setStreet} />
+              <label htmlFor="street" className="cursor-pointer">
+                Ulica
+              </label>
+              <Input
+                id="street"
+                variant="ghost"
+                value={street}
+                onChange={setStreet}
+              />
             </AccountField>
 
             <AccountField>
-              <Label>Mesto</Label>
-              <Input variant="ghost" value={city} onChange={setCity} />
+              <label htmlFor="city" className="cursor-pointer">
+                Mesto
+              </label>
+              <Input
+                id="city"
+                variant="ghost"
+                value={city}
+                onChange={setCity}
+              />
             </AccountField>
 
             <AccountField>
-              <Label>Krajina</Label>
-              <Input variant="ghost" value={country} onChange={setCountry} />
+              <label htmlFor="country" className="cursor-pointer">
+                Krajina
+              </label>
+              <Input
+                id="country"
+                variant="ghost"
+                value={country}
+                onChange={setCountry}
+              />
             </AccountField>
 
             <AccountField>
-              <Label>PSČ</Label>
-              <Input variant="ghost" value={zip} onChange={setZip} />
+              <label htmlFor="zip" className="cursor-pointer">
+                PSČ
+              </label>
+              <Input id="zip" variant="ghost" value={zip} onChange={setZip} />
             </AccountField>
           </div>
         </AccountFieldWrapper>
