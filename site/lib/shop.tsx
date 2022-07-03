@@ -73,8 +73,6 @@ export const useShop = () => {
   )
 
   const getCartId = () => {
-    if (user?.email) return user.email
-
     const storedId = localStorage.getItem(CART_STORAGE_KEY)
 
     if (storedId) return storedId
@@ -85,6 +83,8 @@ export const useShop = () => {
 
     return cartId
   }
+
+  console.log({ cart })
 
   const addToCart = async (
     product: Product,

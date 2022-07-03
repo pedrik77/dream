@@ -23,7 +23,6 @@ const columns: GridColDef[] = [
     field: 'title_1',
     headerName: 'Title 1',
     width: 130,
-    renderCell: (r) => <Link href={`/admin/products/${r.id}`}>{r.value}</Link>,
   },
   { field: 'title_2', headerName: 'Title 2', width: 130 },
   {
@@ -80,6 +79,7 @@ export default function Dashboard() {
           rows={products}
           columns={columns}
           checkboxSelection
+          onRowClick={(r) => router.push(`/admin/products/${r.id}`)}
           onSelectionModelChange={(selected) =>
             setSelected(selected as string[])
           }
