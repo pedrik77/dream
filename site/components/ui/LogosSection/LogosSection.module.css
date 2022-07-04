@@ -2,8 +2,8 @@
   @apply my-4 lg:my-8 mx-auto lg:py-8 flex flex-col;
 }
 
-.sectionTitle {
-  @apply text-5xl font-black text-center m-2 lg:m-4;
+.h2 {
+  @apply text-center;
 }
 
 .text {

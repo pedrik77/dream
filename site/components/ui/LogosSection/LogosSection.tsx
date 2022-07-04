@@ -5,7 +5,9 @@ import Text from '../Text'
 const LogosSection = () => {
   return (
     <section className={s.main}>
-      <h3 className={s.sectionTitle}>Our partners</h3>
+      <Text variant="myHeading" className={s.h2}>
+        Our partners
+      </Text>
       <Text className={s.text}>
         Check our partners bisquit. Sweet carrot cake macaroon bonbon croissant
         fruitcake jujubes macaroon oat cake.
