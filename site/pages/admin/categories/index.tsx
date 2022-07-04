@@ -1,6 +1,6 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
-import { flash } from '@components/ui/FlashMessage'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import {
   Category,
   deleteCategory,
@@ -47,10 +47,12 @@ export default function Categories() {
 
     if (!slug || !title) return flash('Vyplňte všetky polia', 'danger')
 
-    setCategory({ slug, title, menu_position: menuPosition }).then(() => {
-      reset()
-      flash('Kategória vytvorená')
-    })
+    setCategory({ slug, title, menu_position: menuPosition })
+      .then(() => {
+        reset()
+        flash('Kategória vytvorená')
+      })
+      .catch(handleErrorFlash)
   }
 
   const handleDeleteSelected = () => {
@@ -59,8 +61,8 @@ export default function Categories() {
     const count = selected.length
 
     deleteCategory(selected)
-      .then(() => flash(`Kategórie (${count}) odstránená`))
-      .catch(() => flash('oh no', 'danger'))
+      .then(() => flash(`Kategórie (${count}) odstránené`))
+      .catch(handleErrorFlash)
   }
 
   const handleEdit: GridEventListener<'cellEditCommit'> = (e) => {
@@ -75,7 +77,7 @@ export default function Categories() {
 
     setCategory({ ...category, [edited]: value })
       .then(() => flash('Kategória upravená'))
-      .catch(() => flash('oh no', 'danger'))
+      .catch(handleErrorFlash)
   }
 
   useEffect(() => setSlug(_.kebabCase(title)), [title])

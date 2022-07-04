@@ -1,21 +1,32 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
-import { flash } from '@components/ui/FlashMessage'
-import { useCategories } from '@lib/categories'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import { Category, useCategories } from '@lib/categories'
 import { inputDateFormat } from '@lib/date'
-import { getProduct, Product, setProduct } from '@lib/products'
+import { deleteFile } from '@lib/files'
+import useLoading from '@lib/hooks/useLoading'
+import {
+  getProduct,
+  Product,
+  ProductImage,
+  setProduct,
+  uploadGallery,
+} from '@lib/products'
 import { Timestamp } from 'firebase/firestore'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { FormEventHandler, useState } from 'react'
+import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
+import { setCategory as createCategory } from '@lib/categories'
+import _ from 'lodash'
 
 interface ProductEditProps {
   product: Product | null
   isEditing: boolean
 }
 
-const Select = dynamic(import('react-select'), { ssr: false })
+const Select = dynamic(import('react-select/creatable'), { ssr: false })
 const Editor = dynamic(import('../../../components/common/Editor'), {
   ssr: false,
 })
@@ -38,12 +49,42 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const [donation_entries, setDonationEntries] = useState(
     product?.donation_entries || ''
   )
+  const [gallery, setGallery] = useState<ProductImage[]>(product?.gallery || [])
 
-  const [isSaving, setSaving] = useState(false)
+  const loading = useLoading()
+  const uploading = useLoading()
 
   const { categories } = useCategories()
 
   const router = useRouter()
+
+  const categoryToSelect = (c?: Category) => ({
+    value: c?.slug || '',
+    label: c?.title || '',
+  })
+
+  const handleUpload: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const files = e.target.files
+
+    if (!files || !files.length) return
+
+    uploading.start()
+
+    uploadGallery(files)
+      .then((uploaded) => {
+        setGallery((gallery) => [...gallery, ...uploaded])
+        e.target.value = ''
+      })
+      .catch(handleErrorFlash)
+      .finally(uploading.stop)
+  }
+
+  const handleDeleteImage = (image: ProductImage) => {
+    if (!confirm('Vymazať obrázok?')) return
+
+    setGallery((gallery) => gallery.filter((i) => i.path !== image.path))
+    deleteFile(image.path).catch(handleErrorFlash)
+  }
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
@@ -51,7 +92,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     if (!slug || !title_1 || !title_2 || !category)
       return flash('Vyplňte všetky polia', 'danger')
 
-    setSaving(true)
+    loading.start()
 
     setProduct({
       title_1,
@@ -59,6 +100,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       slug,
       closing_date: Timestamp.fromDate(new Date(closing_date)),
       winner_announce_date: Timestamp.fromDate(new Date(winner_announce_date)),
+      gallery,
       short_desc,
       long_desc,
       category,
@@ -68,10 +110,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
         flash('Produkt uložený', 'success')
         router.push('/admin/products')
       })
-      .catch((e) => {
-        flash(e.message, 'danger')
-      })
-      .finally(() => setSaving(false))
+      .catch(handleErrorFlash)
+      .finally(loading.stop)
   }
 
   return (
@@ -108,19 +148,27 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               onChange={setTitle2}
             />
           </label>
-          <label>
+          <label className="w-full">
             Category <br />
-            <select
-              onChange={(e) => setCategory(e.target.value)}
-              value={category}
-            >
-              <option value="">Nezaradené</option>
-              {categories.map((c) => (
-                <option key={c.slug} value={c.slug}>
-                  {c.title}
-                </option>
-              ))}
-            </select>
+            {Select && (
+              // @ts-ignore
+              <Select
+                options={categories.map(categoryToSelect)}
+                onChange={(e: any) => setCategory(e.value)}
+                value={categoryToSelect(
+                  categories.find((c) => c.slug === category)
+                )}
+                onCreateOption={(title) =>
+                  createCategory({
+                    title,
+                    slug: _.kebabCase(title),
+                    menu_position: -1,
+                  })
+                    .then(() => setCategory(_.kebabCase(title)))
+                    .catch(handleErrorFlash)
+                }
+              />
+            )}
           </label>
         </fieldset>
         <fieldset className="flex">
@@ -155,14 +203,38 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
         <fieldset>
           <label>
             Long description <br />
-            <textarea
-              value={long_desc}
-              onChange={(e) => setLongDesc(e.target.value)}
-            />
+            {Editor && (
+              // @ts-ignore
+              <Editor value={long_desc} onChange={setLongDesc} />
+            )}
           </label>
         </fieldset>
+        <fieldset>
+          <label>
+            Gallery (click on image to delete)
+            <br />
+            <input
+              type="file"
+              onChange={handleUpload}
+              multiple
+              disabled={uploading.pending}
+            />
+          </label>
+          {uploading.pending && 'Uploading...'}
+          <div className="flex flex-wrap overflow-y-auto">
+            {gallery.map((image) => (
+              <figure
+                key={image.filename}
+                className="basis-[32%] cursor-pointer"
+                onClick={() => handleDeleteImage(image)}
+              >
+                <img src={image.src} alt={image.filename} />
+              </figure>
+            ))}
+          </div>
+        </fieldset>
 
-        <Button disabled={isSaving}>Uložiť</Button>
+        <Button disabled={loading.pending}>Uložiť</Button>
       </form>
     </Container>
   )
@@ -171,9 +243,11 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 ProductEdit.Layout = Layout
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const isEditing = params && params.slug != 'add'
+  const isEditing = params && params?.slug != 'add'
 
-  const product = isEditing ? await getProduct(params.slug as string) : null
+  const product = isEditing
+    ? await getProduct((params?.slug as string) || '')
+    : null
 
   if (isEditing && !product) return { notFound: true }
 

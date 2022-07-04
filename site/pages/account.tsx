@@ -8,9 +8,13 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { flash } from '@components/ui/FlashMessage'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import Link from 'next/link'
 import AccountLayout from '@components/auth/AccountLayout'
+import useLoading from '@lib/hooks/useLoading'
+import { usePermission } from '@lib/hooks/usePermission'
+import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
+import { Label } from '@radix-ui/react-dropdown-menu'
 
 export default function Account() {
   const { user, customer } = useUser()
@@ -23,7 +27,8 @@ export default function Account() {
   const [country, setCountry] = useState('')
   const [zip, setZip] = useState('')
 
-  const [saving, setSaving] = useState(false)
+  const saving = useLoading()
+  const resetMailSending = useLoading()
 
   useEffect(() => {
     setFullname(customer.fullname)
@@ -35,14 +40,19 @@ export default function Account() {
     setZip(customer.address.zip)
   }, [user, customer])
 
-  const save: FormEventHandler<HTMLFormElement> = async (e) => {
+  const save: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
 
-    if (!user) return
+    if (!user || !user.email)
+      return flash(
+        'Nerozpoznány email. Skuste sa odhlasit a prihlasit. V pripade problemov nas kontaktujte.',
+        'danger'
+      )
 
-    setSaving(true)
+    saving.start()
 
-    await setCustomerProfile(user.uid, {
+    setCustomerProfile(user.email, {
+      email: user.email || '@',
       fullname,
       phone,
       address: {
@@ -52,133 +62,166 @@ export default function Account() {
         zip,
       },
     })
-
-    setSaving(false)
-
-    flash('Údaje uložené')
+      .then(() => {
+        flash('Údaje uložené')
+        saving.stop()
+      })
+      .catch(handleErrorFlash)
+      .finally(saving.stop)
   }
 
-  const sendResetEmail: MouseEventHandler = async (e) => {
+  const sendResetEmail: MouseEventHandler = (e) => {
     e.preventDefault()
 
     if (!user || !user.email) return
-    await resetPassword(user.email)
-    flash(
-      (deleteFlash) => (
-        <>
-          Poslali sme mail na tulic.peter77@gmail.com. Kliknite na link v maile
-          pre dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
-          <a
-            href="#"
-            onClick={(e) => {
-              deleteFlash()
-              sendResetEmail(e)
-            }}
-            className="text-bold"
-          >
-            Poslať znova
-          </a>
-        </>
-      ),
-      'info'
-    )
+
+    resetMailSending.start()
+
+    resetPassword(user.email)
+      .then(() => {
+        flash(
+          ({ deleteFlash }) => (
+            <>
+              Poslali sme mail na {user.email}. Kliknite na link v maile pre
+              dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
+              <a
+                href="#"
+                onClick={(e) => {
+                  deleteFlash()
+                  sendResetEmail(e)
+                }}
+                className="text-bold"
+              >
+                Poslať znova
+              </a>
+            </>
+          ),
+          'info',
+          7
+        )
+      })
+      .catch(handleErrorFlash)
+      .finally(resetMailSending.stop)
   }
 
   if (!user || !customer) return null
 
   return (
     <AccountLayout current="account">
-      <Text variant="pageHeading">Nastavenie účtu</Text>
-      <form onSubmit={save}>
-        <div className="grid grid-cols-2">
+      <Text variant="heading" className="mt-0 md:mt-8">
+        Nastavenie účtu
+      </Text>
+      <form
+        onSubmit={save}
+        className="my-4 md:my-8 py-4 md:py-8 flex flex-col gap-8"
+      >
+        <AccountFieldWrapper>
           <Text variant="sectionHeading">Osobné informácie</Text>
-          <div className="flex flex-col divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
-                Emailová adresa
-              </span>
+          <div className="flex flex-col md:col-span-2 divide-secondary divide-y">
+            <AccountField>
+              <Label>Emailová adresa</Label>
               <span>{user.email}</span>
-            </div>
+            </AccountField>
 
-            <span>
+            <span className="text-md font-medium text-accent-600 flex-1 space-x-4 py-8">
               Pre zmenu vašej mailovej adresy kontaktujte náš tím na adrese
               info@dream.sk
             </span>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
+            <AccountField>
+              <label htmlFor="fullname" className="cursor-pointer">
                 Celé meno
-              </span>
-              <Input value={fullname} onChange={setFullname} />
-            </div>
+              </label>
+              <Input
+                id="fullname"
+                variant="ghost"
+                value={fullname}
+                onChange={setFullname}
+              />
+            </AccountField>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
+            <AccountField>
+              <label htmlFor="phone" className="cursor-pointer">
                 Telefónne číslo
-              </span>
-              <Input value={phone} onChange={setPhone} type="tel" />
-            </div>
+              </label>
+              <Input
+                id="phone"
+                variant="ghost"
+                value={phone}
+                onChange={setPhone}
+                type="tel"
+              />
+            </AccountField>
           </div>
-        </div>
-        <div className="grid grid-cols-2">
+        </AccountFieldWrapper>
+        <AccountFieldWrapper>
           <Text variant="sectionHeading">Adresa</Text>
-          <div className="flex flex-col divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
+          <div className="flex flex-col col-span-2 divide-secondary divide-y">
+            <AccountField>
+              <label htmlFor="street" className="cursor-pointer">
                 Ulica
-              </span>
-              <Input value={street} onChange={setStreet} />
-            </div>
+              </label>
+              <Input
+                id="street"
+                variant="ghost"
+                value={street}
+                onChange={setStreet}
+              />
+            </AccountField>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
+            <AccountField>
+              <label htmlFor="city" className="cursor-pointer">
                 Mesto
-              </span>
-              <Input value={city} onChange={setCity} />
-            </div>
+              </label>
+              <Input
+                id="city"
+                variant="ghost"
+                value={city}
+                onChange={setCity}
+              />
+            </AccountField>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
+            <AccountField>
+              <label htmlFor="country" className="cursor-pointer">
                 Krajina
-              </span>
-              <Input value={country} onChange={setCountry} />
-            </div>
+              </label>
+              <Input
+                id="country"
+                variant="ghost"
+                value={country}
+                onChange={setCountry}
+              />
+            </AccountField>
 
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <span className="text-lg font-medium text-accent-600 flex-1">
+            <AccountField>
+              <label htmlFor="zip" className="cursor-pointer">
                 PSČ
-              </span>
-              <Input value={zip} onChange={setZip} />
-            </div>
+              </label>
+              <Input id="zip" variant="ghost" value={zip} onChange={setZip} />
+            </AccountField>
           </div>
-        </div>
-        <div className="grid grid-cols-2">
+        </AccountFieldWrapper>
+        <AccountFieldWrapper>
           <Text variant="sectionHeading">Prihlasovanie a bezpečnosť</Text>
-          <div className="flex flex-col divide-accent-2 divide-y">
-            <div className="flex flex-row items-center space-x-4 py-4">
-              <Button type="button" onClick={sendResetEmail}>
+          <div className="flex flex-col col-span-2 divide-primary divide-y border-opacity-50">
+            <div className="flex flex-row justify-end space-x-4 py-10 font-bold">
+              <Button
+                disabled={resetMailSending.pending}
+                type="button"
+                variant="ghost"
+                onClick={(e) => confirm('Naozaj?') && sendResetEmail(e)}
+              >
                 Zmeniť heslo
               </Button>
             </div>
           </div>
-        </div>
-        <Button disabled={saving}>{saving ? 'Ukladám' : 'Uložiť'}</Button>
+        </AccountFieldWrapper>
+        <Button className="w-40 self-center md:my-16" disabled={saving.pending}>
+          {saving.pending ? 'Ukladám' : 'Uložiť'}
+        </Button>
       </form>
     </AccountLayout>
   )
-}
-
-// @ts-ignore
-export async function getStaticProps({ preview, locale, locales }) {
-  const config = { locale, locales }
-  const pagesPromise = commerce.getAllPages({ config, preview })
-  const siteInfoPromise = commerce.getSiteInfo({ config, preview })
-  const { pages } = await pagesPromise
-  const { categories } = await siteInfoPromise
-
-  return {
-    props: { pages, categories },
-  }
 }
 
 Account.Layout = Layout

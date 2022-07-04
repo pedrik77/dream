@@ -1,6 +1,6 @@
 import s from './ProductSidebar.module.css'
 import { useAddItem } from '@framework/cart'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { ProductOptions } from '@components/product'
 import { Button, Text, Rating, Collapse, useUI } from '@components/ui'
 import {
@@ -9,71 +9,60 @@ import {
   SelectedOptions,
 } from '../helpers'
 import ProductTag from '../ProductTag'
+import Link from 'next/link'
 import { Product } from '@lib/products'
+import { basicShowFormat } from '@lib/date'
+import { Category, getCategory } from '@lib/categories'
 
 interface ProductSidebarProps {
   product: Product
-  className?: string
+  onJoinNow?: () => void
 }
 
-const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
-  const addItem = useAddItem()
-  const { openSidebar } = useUI()
-  const [loading, setLoading] = useState(false)
+const ProductSidebar: FC<ProductSidebarProps> = ({
+  product,
+  onJoinNow = () => {},
+}) => {
+  const [category, setCategory] = useState<Category | null>(null)
 
-  const addToCart = async () => {
-    setLoading(true)
-    try {
-      await addItem({
-        productId: String(product.slug),
-      })
-      openSidebar()
-      setLoading(false)
-    } catch (err) {
-      setLoading(false)
+  useEffect(() => {
+    if (product.category) {
+      getCategory(product.category).then(setCategory)
     }
-  }
+  }, [product.category])
 
   return (
-    <div className={className}>
+    <div className={s.sidebar}>
+      {category && (
+        <Link href={`/category/${category.slug}`}>
+          <a>
+            <h5 className={s.category}>{category.title}</h5>
+          </a>
+        </Link>
+      )}
       <ProductTag name={product.title_1} />
-
+      <h4 className={s.subtitle}>{product.title_2}</h4>
       <Text
         className="pb-4 break-words w-full max-w-xl"
         html={product.short_desc}
       />
-      <div className="flex flex-row justify-between items-center">
-        <Rating value={4} />
-        <div className="pr-1 font-medium text-sm">36 reviews</div>
+      <div className={s.info}>
+        <div>
+          <span className={s.infoTitle}>Closes</span>
+          <span>{basicShowFormat(product.closing_date)}</span>
+        </div>
+        <div>
+          <span className={s.infoTitle}>Winner Announcement</span>
+          <span>{basicShowFormat(product.winner_announce_date)}</span>
+        </div>
       </div>
-      <div>
-        {process.env.COMMERCE_CART_ENABLED && (
-          <Button
-            aria-label="Add to Cart"
-            type="button"
-            className={s.button}
-            onClick={addToCart}
-            loading={loading}
-          >
-            Add To Cart
-          </Button>
-        )}
-      </div>
-      <div className="mt-6">
-        <Collapse title="Care">
-          This is a limited edition production run. Printing starts when the
-          drop ends.
-        </Collapse>
-        <Collapse title="Details">
-          This is a limited edition production run. Printing starts when the
-          drop ends. Reminder: Bad Boys For Life. Shipping may take 10+ days due
-          to COVID-19.
-        </Collapse>
-      </div>
-
       {/* TODO Toto ten button neviem */}
       <div className="flex justify-center">
-        <Button type="button" className={(s.button, 'my-5')}>
+        <Button
+          onClick={onJoinNow}
+          type="button"
+          className={(s.button, 'my-5')}
+        >
           Join now
         </Button>
       </div>

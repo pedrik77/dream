@@ -2,7 +2,7 @@
   @apply bg-secondary text-accent-9 cursor-pointer inline-flex
   px-8 md:px-10 py-3 md:py-5 leading-6 transition ease-in-out duration-150
   shadow-sm text-center justify-center uppercase
-  border border-transparent items-center text-sm font-semibold
+  border-transparent border-[2px] items-center text-sm font-semibold
   tracking-wide;
   max-height: 64px;
 }
@@ -20,7 +20,7 @@
 }
 
 .loading {
-  @apply bg-accent-1 text-accent-3 border-accent-2 cursor-not-allowed;
+  @apply bg-accent-1 text-primary border-primary cursor-not-allowed;
 }
 
 .slim {
@@ -28,11 +28,11 @@
 }
 
 .ghost {
-  @apply border border-accent-2 bg-accent-0 text-accent-9 text-sm;
+  @apply border border-primary bg-transparent text-primary text-sm;
 }
 
 .ghost:hover {
-  @apply border-accent-9 bg-accent-9 text-accent-0;
+  @apply border border-secondary text-secondary bg-transparent;
 }
 
 .naked {
@@ -41,12 +41,12 @@
 
 .naked:hover,
 .naked:focus {
-  @apply bg-transparent border-none;
+  @apply bg-transparent text-secondary;
 }
 
 .disabled,
 .disabled:hover {
-  @apply text-accent-4 border-accent-2 bg-accent-1 cursor-not-allowed;
+  @apply border-gray-400 text-accent-0 bg-gray-400 cursor-not-allowed;
   filter: grayscale(1);
   -webkit-transform: translateZ(0);
   -webkit-perspective: 1000;

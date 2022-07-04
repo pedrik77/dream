@@ -1,5 +1,5 @@
 import { Button, Input } from '@components/ui'
-import { flash } from '@components/ui/FlashMessage'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { subscribe } from '@lib/newsletter'
 import { Checkbox } from '@mui/material'
 import React, { FormEventHandler, useState } from 'react'
@@ -8,6 +8,8 @@ import s from './Newsletter.module.css'
 export default function Newsletter() {
   const [email, setEmail] = useState('')
   const [gdprChecked, setGdprChecked] = useState(false)
+
+  const [isSubmitting, setSubmitting] = useState(false)
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -20,9 +22,8 @@ export default function Newsletter() {
         setEmail('')
         setGdprChecked(false)
       })
-      .catch((e) => {
-        flash(e.message, 'danger')
-      })
+      .catch(handleErrorFlash)
+      .finally(() => setSubmitting(false))
   }
 
   return (
@@ -38,7 +39,7 @@ export default function Newsletter() {
             className={s.input}
           />
 
-          <Button className={s.button} type="submit">
+          <Button disabled={isSubmitting} className={s.button} type="submit">
             Prihlásiť
           </Button>
         </fieldset>

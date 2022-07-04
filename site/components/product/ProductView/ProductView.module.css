@@ -32,8 +32,32 @@
   width: 100%;
 }
 
-.wishlistButton {
-  @apply absolute z-30 top-0 right-0;
+.buySection {
+  @apply my-20;
+}
+
+.sectionHeading {
+  @apply text-center text-3xl my-4;
+}
+
+.buyCards {
+  @apply flex flex-wrap justify-center gap-4 m-4;
+}
+
+.buyCard {
+  @apply text-center flex flex-col gap-4 border-2 border-secondary min-w-[10rem];
+}
+
+.ticketsNo {
+  @apply uppercase font-bold text-6xl;
+}
+
+.tickets {
+  @apply text-lg uppercase font-bold;
+}
+
+.btn {
+  @apply block py-4 px-6 text-2xl;
 }
 
 .relatedProductsGrid {

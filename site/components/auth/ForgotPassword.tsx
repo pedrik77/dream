@@ -3,24 +3,30 @@ import { validate } from 'email-validator'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { resetPassword } from '@lib/auth'
-import { flash } from '@components/ui/FlashMessage'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import useLoading from '@lib/hooks/useLoading'
 
 interface Props {}
 
 const ForgotPassword: FC<Props> = () => {
   // Form State
   const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
+
+  const loading = useLoading()
 
   const { setModalView, closeModal } = useUI()
 
-  const handleResetPassword = async (e: React.SyntheticEvent<EventTarget>) => {
+  const handleResetPassword = (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
-    setLoading(true)
+    loading.start()
 
-    await resetPassword(email)
-    flash('Email bol odoslaný na zadanú adresu.')
-    closeModal()
+    resetPassword(email)
+      .then(() => {
+        flash('Email bol odoslaný na zadanú adresu.')
+        closeModal()
+      })
+      .catch(handleErrorFlash)
+      .finally(loading.stop)
   }
 
   return (
@@ -29,10 +35,10 @@ const ForgotPassword: FC<Props> = () => {
       className="w-80 flex flex-col justify-between p-3"
     >
       <div className="flex justify-center pb-12 ">
-        <Logo width={64} height={64} />
+        <Logo />
       </div>
       <div className="flex flex-col space-y-4">
-        <div className="p-3">
+        <div className="py-3 text-accent-0">
           Prosím zadajte vašu e-mailovú adresu. Pošleme vám e-mail na
           resetovanie vášho hesla.
         </div>
@@ -42,8 +48,8 @@ const ForgotPassword: FC<Props> = () => {
           <Button
             variant="slim"
             type="submit"
-            loading={loading}
-            disabled={loading}
+            loading={loading.pending}
+            disabled={loading.pending}
           >
             Odoslať
           </Button>
@@ -51,7 +57,7 @@ const ForgotPassword: FC<Props> = () => {
 
         <span className="pt-3 text-center text-sm">
           <a
-            className="text-accent-9 font-bold hover:underline cursor-pointer"
+            className="text-accent-0 font-bold hover:underline cursor-pointer"
             onClick={() => setModalView('LOGIN_VIEW')}
           >
             Prihlásiť sa

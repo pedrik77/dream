@@ -1,0 +1,27 @@
+.MuiStep-root {
+  @apply p-0;
+}
+.MuiStepLabel-label {
+  @apply text-primary md:text-lg;
+}
+
+.MuiStepLabel-label.Mui-active,
+.MuiStepLabel-label.Mui-completed {
+  @apply text-primary;
+}
+
+.MuiStepIcon-root {
+  @apply fill-primary w-6 md:w-10 h-6 md:h-10;
+}
+
+.Mui-active {
+  @apply fill-secondary;
+}
+
+.MuiStepConnector-root {
+  @apply px-0 md:m-1;
+}
+
+.MuiStepConnector-line {
+  @apply border border-primary;
+}

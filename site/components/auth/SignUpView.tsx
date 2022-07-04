@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { flash } from '@components/ui/FlashMessage'
 import { StringMap } from '@lib/common-types'
+import useLoading from '@lib/hooks/useLoading'
 
 export const MIN_PASSWORD_LENGTH = 8
 
@@ -21,27 +22,26 @@ const SignUpView = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [newsletter, setNewsletter] = useState(false)
-  const [loading, setLoading] = useState(false)
+
+  const loading = useLoading()
 
   const router = useRouter()
 
   const { setModalView, closeModal } = useUI()
 
-  const handleSignUp: FormEventHandler<HTMLFormElement> = async (e) => {
+  const handleSignUp: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
 
-    try {
-      setLoading(true)
-      flash(FlashMessages.confirm, 'info')
-      await signUp(email, password, newsletter)
-      setLoading(false)
-      closeModal()
+    loading.start()
 
-      router.push('/account')
-    } catch (e: any) {
-      flash(FlashMessages[e.code] ?? e.message, 'danger')
-      setLoading(false)
-    }
+    signUp(email, password, newsletter)
+      .then(() => {
+        flash(FlashMessages.confirm, 'info')
+        closeModal()
+        router.push('/account')
+      })
+      .catch((e) => flash(FlashMessages[e.code] ?? e.message, 'danger'))
+      .finally(loading.stop)
   }
 
   const handleFbSignUp = () => signInVia('fb')
@@ -52,9 +52,9 @@ const SignUpView = () => {
       className="w-80 flex flex-col justify-between p-3"
     >
       <div className="flex justify-center pb-12 ">
-        <Logo width={64} height={64} />
+        <Logo />
       </div>
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-4 text-accent-0">
         <Input required type="email" placeholder="Email" onChange={setEmail} />
         <Input
           required
@@ -62,15 +62,16 @@ const SignUpView = () => {
           placeholder="Heslo"
           onChange={setPassword}
         />
-        <label>
+        <label className="text-sm">
           <input
+            className="mr-2"
             type="checkbox"
             onChange={(e) => setNewsletter(e.target.checked)}
           />{' '}
           Newsletter
         </label>
-        <span className="text-accent-8">
-          <span className="inline-block align-middle ">
+        <span className="text-accent-0">
+          <span className="inline-block align-middle mr-2">
             <Info width="15" height="15" />
           </span>{' '}
           <span className="leading-6 text-sm">
@@ -81,8 +82,8 @@ const SignUpView = () => {
             a súhlasím s nimi.
           </span>
         </span>
-        <span className="text-accent-8">
-          <span className="inline-block align-middle ">
+        <span className="text-accent-0">
+          <span className="inline-block align-middle mr-2">
             <Info width="15" height="15" />
           </span>{' '}
           <span className="leading-6 text-sm">
@@ -95,8 +96,8 @@ const SignUpView = () => {
           <Button
             variant="slim"
             type="submit"
-            loading={loading}
-            disabled={loading}
+            loading={loading.pending}
+            disabled={loading.pending}
           >
             Registrovať
           </Button>
@@ -105,10 +106,10 @@ const SignUpView = () => {
           </Button>
         </div>
         <span className="pt-1 text-center text-sm">
-          <span className="text-accent-7">Máte už konto?</span>
+          <span className="text-secondary">Máte už konto?</span>
           {` `}
           <a
-            className="text-accent-9 font-bold hover:underline cursor-pointer"
+            className="text-accent-0 font-bold hover:underline cursor-pointer"
             onClick={() => setModalView('LOGIN_VIEW')}
           >
             Prihlásiť

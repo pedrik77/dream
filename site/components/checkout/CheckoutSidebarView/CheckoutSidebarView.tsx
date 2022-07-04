@@ -11,42 +11,12 @@ import ShippingWidget from '../ShippingWidget'
 import PaymentWidget from '../PaymentWidget'
 import s from './CheckoutSidebarView.module.css'
 import { useCheckoutContext } from '../context'
+import { useShop } from '@lib/shop'
 
 const CheckoutSidebarView: FC = () => {
-  const [loadingSubmit, setLoadingSubmit] = useState(false)
   const { setSidebarView, closeSidebar } = useUI()
-  const { data: cartData, mutate: refreshCart } = useCart()
-  const { data: checkoutData, submit: onCheckout } = useCheckout()
-  const { clearCheckoutFields } = useCheckoutContext()
 
-  async function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
-    try {
-      setLoadingSubmit(true)
-      event.preventDefault()
-
-      await onCheckout()
-      clearCheckoutFields()
-      setLoadingSubmit(false)
-      refreshCart()
-      closeSidebar()
-    } catch {
-      // TODO - handle error UI here.
-      setLoadingSubmit(false)
-    }
-  }
-
-  const { price: subTotal } = usePrice(
-    cartData && {
-      amount: Number(cartData.subtotalPrice),
-      currencyCode: cartData.currency.code,
-    }
-  )
-  const { price: total } = usePrice(
-    cartData && {
-      amount: Number(cartData.totalPrice),
-      currencyCode: cartData.currency.code,
-    }
-  )
+  const { cart, total } = useShop()
 
   return (
     <SidebarLayout
@@ -61,35 +31,26 @@ const CheckoutSidebarView: FC = () => {
         </Link>
 
         <PaymentWidget
-          isValid={checkoutData?.hasPayment}
+          isValid={false}
           onClick={() => setSidebarView('PAYMENT_VIEW')}
         />
         <ShippingWidget
-          isValid={checkoutData?.hasShipping}
+          isValid={false}
           onClick={() => setSidebarView('SHIPPING_VIEW')}
         />
 
         <ul className={s.lineItemsList}>
-          {cartData!.lineItems.map((item: any) => (
-            <CartItem
-              key={item.id}
-              item={item}
-              currencyCode={cartData!.currency.code}
-              variant="display"
-            />
+          {cart.map((item) => (
+            <CartItem key={item.product.slug} {...item} />
           ))}
         </ul>
       </div>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={console.log}
         className="flex-shrink-0 px-6 py-6 sm:px-6 sticky z-20 bottom-0 w-full right-0 left-0 bg-accent-0 border-t text-sm"
       >
         <ul className="pb-2">
-          <li className="flex justify-between py-1">
-            <span>Subtotal</span>
-            <span>{subTotal}</span>
-          </li>
           <li className="flex justify-between py-1">
             <span>Taxes</span>
             <span>Calculated at checkout</span>
@@ -105,12 +66,7 @@ const CheckoutSidebarView: FC = () => {
         </div>
         <div>
           {/* Once data is correctly filled */}
-          <Button
-            type="submit"
-            width="100%"
-            disabled={!checkoutData?.hasPayment || !checkoutData?.hasShipping}
-            loading={loadingSubmit}
-          >
+          <Button type="submit" width="100%">
             Confirm Purchase
           </Button>
         </div>
