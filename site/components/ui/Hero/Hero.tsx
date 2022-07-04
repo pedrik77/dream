@@ -3,6 +3,8 @@ import { Container } from '@components/ui'
 import { ArrowRight } from '@components/icons'
 import s from './Hero.module.css'
 import Link from 'next/link'
+import Text from '../Text'
+
 interface HeroProps {
   className?: string
   headline: string
@@ -14,7 +16,9 @@ const Hero: FC<HeroProps> = ({ headline, description }) => {
     <div className="bg-primary">
       <Container>
         <div className={s.root}>
-          <h2 className={s.title}>{headline}</h2>
+          <Text variant="myHeading" className={s.h2}>
+            {headline}
+          </Text>
           <div className={s.description}>
             <p>{description}</p>
             <Link href="/">

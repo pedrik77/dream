@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ArrowLeft, ArrowRight } from '@components/icons'
 import Button from '../Button'
 import { useState } from 'react'
+import Text from '../Text'
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -19,51 +20,36 @@ const Carousel = () => {
       min: -5,
       max: 5,
     },
+    breakpoints: {
+      '(max-width: 768px)': {
+        slides: { origin: 'center', perView: 1.5 },
+      },
+      '(max-width: 600px)': {
+        slides: { perView: 1 },
+      },
+    },
   })
 
   return (
     <section className={s.root}>
-      <h2 className={s.h2}>Check this dessert</h2>
+      <Text variant="myHeading" className={s.h2}>
+        Check this dessert
+      </Text>
       <div className={`keen-slider ${s.keenSlider}`} ref={sliderRef}>
         <div className={`keen-slider__slide ${s.slide}`}>
-          <Image
-            height="360"
-            width="640"
-            src="/assets/tesla3.jpg"
-            alt="placeholder"
-          />
+          <Image layout="fill" src="/assets/tesla3.jpg" alt="placeholder" />
         </div>
         <div className={`keen-slider__slide ${s.slide}`}>
-          <Image
-            width="640"
-            height="360"
-            src="/assets/tesla4.jpg"
-            alt="placeholder"
-          />
+          <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
         </div>{' '}
         <div className={`keen-slider__slide ${s.slide}`}>
-          <Image
-            width="640"
-            height="360"
-            src="/assets/tesla4.jpg"
-            alt="placeholder"
-          />
+          <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
         </div>{' '}
         <div className={`keen-slider__slide ${s.slide}`}>
-          <Image
-            width="640"
-            height="360"
-            src="/assets/tesla4.jpg"
-            alt="placeholder"
-          />
+          <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
         </div>
         <div className={`keen-slider__slide ${s.slide}`}>
-          <Image
-            width="640"
-            height="360"
-            src="/assets/tesla4.jpg"
-            alt="placeholder"
-          />
+          <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
         </div>
       </div>
       <Button

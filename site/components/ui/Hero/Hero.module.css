@@ -2,8 +2,8 @@
   @apply flex flex-col py-16 mx-auto;
 }
 
-.title {
-  @apply text-secondary font-extrabold text-4xl leading-none tracking-tight;
+.h2 {
+  @apply text-secondary;
 }
 
 .description {

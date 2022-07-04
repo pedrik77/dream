@@ -14,6 +14,10 @@
   @apply pt-1 pb-2 text-2xl font-bold tracking-wide cursor-pointer mb-2;
 }
 
+.myHeading {
+  @apply pt-2 pb-3 text-6xl font-black leading-none tracking-tight;
+}
+
 /* Apply base font sizes and styles for typography markup (h2, h2, ul, p, etc.).
    A helpful addition for whenn page content is consumed from a source managed through a wysiwyg editor. */
 
