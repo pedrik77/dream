@@ -73,7 +73,7 @@ export const useShop = () => {
   )
 
   const getCartId = () => {
-    return user?.email || uuid4()
+    return 'unicart'
 
     const storedId = localStorage.getItem(CART_STORAGE_KEY)
 
