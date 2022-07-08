@@ -84,8 +84,6 @@ export const useShop = () => {
     return cartId
   }
 
-  console.log({ cart })
-
   const addToCart = async (
     product: Product,
     ticketCount: number,
