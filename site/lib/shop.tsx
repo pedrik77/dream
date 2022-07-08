@@ -32,6 +32,18 @@ export interface CartItem {
 const saveCart = (cartId: string, cart: any[]) =>
   setDoc(doc(db, 'cart', cartId), { data: cart })
 
+const getCartId = () => {
+  const storedId = localStorage.getItem(CART_STORAGE_KEY)
+
+  if (storedId) return storedId
+
+  const cartId = uuid4()
+
+  localStorage.setItem(CART_STORAGE_KEY, cartId)
+
+  return cartId
+}
+
 export const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))
 
 export const useShop = () => {
@@ -46,7 +58,7 @@ export const useShop = () => {
 
   const loading = useLoading(true)
 
-  const cartId = useMemo(() => user?.email || uuid4(), [user])
+  const cartId = useMemo(() => getCartId(), [])
 
   useEffect(
     () =>
@@ -71,20 +83,6 @@ export const useShop = () => {
       sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer)),
     [customer]
   )
-
-  const getCartId = () => {
-    return 'unicart'
-
-    // const storedId = localStorage.getItem(CART_STORAGE_KEY)
-
-    // if (storedId) return storedId
-
-    // const cartId = uuid4()
-
-    // localStorage.setItem(CART_STORAGE_KEY, cartId)
-
-    // return cartId
-  }
 
   const addToCart = async (
     product: Product,
