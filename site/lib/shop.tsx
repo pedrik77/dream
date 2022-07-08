@@ -75,15 +75,15 @@ export const useShop = () => {
   const getCartId = () => {
     return 'unicart'
 
-    const storedId = localStorage.getItem(CART_STORAGE_KEY)
+    // const storedId = localStorage.getItem(CART_STORAGE_KEY)
 
-    if (storedId) return storedId
+    // if (storedId) return storedId
 
-    const cartId = uuid4()
+    // const cartId = uuid4()
 
-    localStorage.setItem(CART_STORAGE_KEY, cartId)
+    // localStorage.setItem(CART_STORAGE_KEY, cartId)
 
-    return cartId
+    // return cartId
   }
 
   const addToCart = async (
