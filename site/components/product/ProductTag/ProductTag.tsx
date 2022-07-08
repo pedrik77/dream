@@ -1,3 +1,4 @@
+import { Text } from '@components/ui'
 import cn from 'clsx'
 import { inherits } from 'util'
 import s from './ProductTag.module.css'
