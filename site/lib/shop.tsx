@@ -33,6 +33,8 @@ const saveCart = (cartId: string, cart: any[]) =>
   setDoc(doc(db, 'cart', cartId), { data: cart })
 
 const getCartId = () => {
+  if (!window) return ''
+
   const storedId = localStorage.getItem(CART_STORAGE_KEY)
 
   if (storedId) return storedId
