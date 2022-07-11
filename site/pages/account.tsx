@@ -12,12 +12,11 @@ import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import Link from 'next/link'
 import AccountLayout from '@components/auth/AccountLayout'
 import useLoading from '@lib/hooks/useLoading'
-import { usePermission } from '@lib/hooks/usePermission'
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
 import { Label } from '@radix-ui/react-dropdown-menu'
 
 export default function Account() {
-  const { user, customer } = useUser()
+  const { customer } = useUser()
 
   const [fullname, setFullname] = useState('')
   const [phone, setPhone] = useState('')
@@ -38,12 +37,12 @@ export default function Account() {
     setCity(customer.address.city)
     setCountry(customer.address.country)
     setZip(customer.address.zip)
-  }, [user, customer])
+  }, [customer])
 
   const save: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
 
-    if (!user || !user.email)
+    if (!customer.email)
       return flash(
         'Nerozpoznány email. Skuste sa odhlasit a prihlasit. V pripade problemov nas kontaktujte.',
         'danger'
@@ -51,8 +50,8 @@ export default function Account() {
 
     saving.start()
 
-    setCustomerProfile(user.email, {
-      email: user.email || '@',
+    setCustomerProfile(customer.email, {
+      email: customer.email || '@',
       fullname,
       phone,
       address: {
@@ -73,16 +72,16 @@ export default function Account() {
   const sendResetEmail: MouseEventHandler = (e) => {
     e.preventDefault()
 
-    if (!user || !user.email) return
+    if (!customer.email) return
 
     resetMailSending.start()
 
-    resetPassword(user.email)
+    resetPassword(customer.email)
       .then(() => {
         flash(
           ({ deleteFlash }) => (
             <>
-              Poslali sme mail na {user.email}. Kliknite na link v maile pre
+              Poslali sme mail na {customer.email}. Kliknite na link v maile pre
               dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
               <a
                 href="#"
@@ -104,7 +103,7 @@ export default function Account() {
       .finally(resetMailSending.stop)
   }
 
-  if (!user || !customer) return null
+  if (!customer) return null
 
   return (
     <AccountLayout current="account">
@@ -120,7 +119,7 @@ export default function Account() {
           <div className="flex flex-col md:col-span-2 divide-secondary divide-y">
             <AccountField>
               <Label>Emailová adresa</Label>
-              <span>{user.email}</span>
+              <span>{customer.email}</span>
             </AccountField>
 
             <span className="text-md font-medium text-accent-600 flex-1 space-x-4 py-8">

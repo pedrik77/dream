@@ -1,16 +1,25 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useUser } from '@lib/auth'
 
-export function usePermission(permission: string, redirect?: string) {
+interface usePermissionArgs {
+  permission: string
+  redirect?: string
+}
+
+export function usePermission({ permission, redirect }: usePermissionArgs) {
   const { hasAdminPermission } = useUser()
   const router = useRouter()
 
+  const [allowed, setAllowed] = useState(false)
+
   useEffect(() => {
-    if (hasAdminPermission(permission)) return
+    if (hasAdminPermission(permission)) return setAllowed(true)
 
-    if (!redirect) throw Error('No redirect specified')
+    setAllowed(false)
 
-    router.push(redirect)
+    if (redirect) router.push(redirect)
   }, [permission, redirect, router, hasAdminPermission])
+
+  return allowed
 }
