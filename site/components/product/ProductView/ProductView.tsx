@@ -17,8 +17,6 @@ import { today } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { useShop } from '@lib/shop'
-// @ts-ignore
-import scrollToComponent from 'react-scroll-to-component'
 
 interface ProductViewProps {
   product: Product
@@ -67,16 +65,15 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
           <ProductSidebar
             product={product}
-            onJoinNow={() =>
-              scrollToComponent(buyCardsRef, {
-                offset: 1000,
-                align: 'top',
-                duration: 1500,
-              })
-            }
+            onJoinNow={() => {
+              if (!buyCardsRef.current) return
+
+              // TODO: BETTER SCROLL
+              buyCardsRef.current.scrollIntoView({ behavior: 'smooth' })
+            }}
           />
         </div>
-        <hr className="mt-7 border-accent-2" />
+        <hr className="mt-7 border-primary" />
 
         {/* TODO: ADD WYSIYG EDITOR */}
         <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
