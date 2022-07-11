@@ -73,7 +73,7 @@ export function useUser() {
     return onSnapshot(
       doc(db, 'customers', user.email),
       (doc) => {
-        const data = doc.data()
+        const data = { ...doc.data(), email: doc.id }
         console.log('customer data', data)
 
         setCustomer(data as CustomerData)
