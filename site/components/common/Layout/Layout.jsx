@@ -108,7 +108,7 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
         <main className="fit">{children}</main>
         <Footer pages={pageProps.pages} />
         <ModalUI />
-        <Flasher position="custom" customStyles={{ top: 0, width: '100vw' }}>
+        <Flasher position="custom" customStyles={{ top: 74, width: '100vw' }}>
           <FlashMessage />
         </Flasher>
         <CheckoutProvider>

@@ -1,5 +1,5 @@
 .flashMessage {
-  @apply py-3 px-4 text-center;
+  @apply py-2 px-4 md:px-8 text-center flex items-center justify-between;
 }
 
 .flashTypeInfo {

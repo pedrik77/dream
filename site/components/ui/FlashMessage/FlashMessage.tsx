@@ -37,6 +37,7 @@ export const FlashMessage: React.FC<Props> = ({
         [s.flashTypeDanger]: type === 'danger',
       })}
     >
+      <div></div>
       {flashBody}
       <span className={s.close} onClick={deleteFlash}>
         <Cross />
@@ -48,7 +49,7 @@ export const FlashMessage: React.FC<Props> = ({
 export const flash = (
   message: MessageCallbackType | MessageType,
   type: FlashType = 'info',
-  seconds = 4
+  seconds = 100
 ) => reactFlash(message, seconds * 1000, type)
 
 export const handleErrorFlash = (e: any) => flash(e.message, 'danger')
