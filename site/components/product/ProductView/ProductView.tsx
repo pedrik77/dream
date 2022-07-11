@@ -21,7 +21,12 @@ interface ProductViewProps {
   product: Product
 }
 
-const GLOBAL_ENTRIES = Object.entries({ 1: 1, 4: 2, 15: 5, 50: 10 })
+const GLOBAL_ENTRIES = Object.entries({
+  1: 1,
+  4: 2,
+  15: 5,
+  50: 10,
+})
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
   const buyCardsRef = useRef<HTMLElement>(null)
