@@ -37,6 +37,7 @@ export const FlashMessage: React.FC<Props> = ({
         [s.flashTypeDanger]: type === 'danger',
       })}
     >
+      <div></div>
       {flashBody}
       <span className={s.close} onClick={deleteFlash}>
         <Cross />
