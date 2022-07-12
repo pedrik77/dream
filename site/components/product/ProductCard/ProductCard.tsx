@@ -34,24 +34,28 @@ const ProductCard: FC<Props> = ({
     <Link href={`/products/${product.slug}`}>
       <a className={rootClassName} aria-label={product.title_1}>
         {variant === 'simple' && (
-          <>
-            <div className={s.imageContainer}>
-              {product && false && (
-                <div>
-                  <Image
-                    alt={product.title_1 || 'Product Image'}
-                    className={s.productImage}
-                    src={product.gallery?.[0].src || placeholderImg}
-                    height={540}
-                    width={540}
-                    quality="85"
-                    layout="responsive"
-                    {...imgProps}
-                  />
-                </div>
-              )}
+          <div className={s.cardContainer}>
+            {product && (
+              <div className={s.imageContainer}>
+                <Image
+                  alt={product.title_1 || 'Product Image'}
+                  className={s.productImage}
+                  src={product.gallery?.[0].src || placeholderImg}
+                  height={195}
+                  width={300}
+                  quality="85"
+                  layout="responsive"
+                  {...imgProps}
+                />
+              </div>
+            )}
+            <div className={s.textContainer}>
+              <Text variant="sectionHeading" className="text-left">
+                {product.title_1}
+              </Text>
+              <span className="text-base m-0 text-left">{product.title_2}</span>
             </div>
-          </>
+          </div>
         )}
 
         {variant === 'default' && (
@@ -70,7 +74,7 @@ const ProductCard: FC<Props> = ({
                 />
               </div>
             )}
-            <div className="flex flex-col">
+            <div className={s.textContainer}>
               <Text variant="sectionHeading" className="text-left">
                 {product.title_1}
               </Text>

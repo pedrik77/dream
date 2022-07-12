@@ -1,9 +1,6 @@
 .root {
-  @apply w-full box-border overflow-hidden
-  bg-no-repeat bg-center bg-cover transition-transform
-  ease-linear cursor-pointer;
+  @apply flex max-w-sm px-4 overflow-hidden transition-transform ease-linear cursor-pointer;
   height: 100% !important;
-  flex-grow: 25%;
 }
 
 .cardContainer {
@@ -17,4 +14,8 @@
 .productImage {
   @apply transform transition-transform duration-500
   object-cover scale-120;
+}
+
+.textContainer {
+  @apply flex flex-col;
 }
