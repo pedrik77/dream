@@ -49,7 +49,7 @@ export const FlashMessage: React.FC<Props> = ({
 export const flash = (
   message: MessageCallbackType | MessageType,
   type: FlashType = 'info',
-  seconds = 100
+  seconds = 4
 ) => reactFlash(message, seconds * 1000, type)
 
 export const handleErrorFlash = (e: any) => flash(e.message, 'danger')
