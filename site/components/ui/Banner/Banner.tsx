@@ -11,13 +11,7 @@ const Banner: React.FC<{
 }> = ({ primaryTitle, secondaryTitle, subtitle, img, buttonText }) => {
   return (
     <div className={s.bgOverlay}>
-      <Image
-        // className={s.img}
-        src={img}
-        alt="alt"
-        layout="fill"
-        quality="100"
-      />
+      <Image src={img} alt="alt" layout="fill" quality="100" />
       <div className={s.bannerContainer}>
         <h2 className={s.h2}>
           {primaryTitle}

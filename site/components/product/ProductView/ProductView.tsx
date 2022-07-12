@@ -17,6 +17,7 @@ import { today } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { useShop } from '@lib/shop'
+
 interface ProductViewProps {
   product: Product
 }
@@ -72,13 +73,15 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             }}
           />
         </div>
-        <hr className="mt-7 border-accent-2" />
+        <hr className="mt-7 border-primary" />
 
         {/* TODO: ADD WYSIYG EDITOR */}
         <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
 
         <section className={s.buySection} ref={buyCardsRef}>
-          <h2 className={s.sectionHeading}>BUY NOW TICKETS</h2>
+          <Text variant="myHeading" className="text-center">
+            Buy tickets now
+          </Text>
           <div className={s.buyCards}>
             {GLOBAL_ENTRIES.map(([ticketCount, price]) => (
               <div key={price} className={s.buyCard}>
@@ -109,8 +112,8 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             ))}
           </div>
         </section>
-        <section className="py-12 px-6 mb-10">
-          <Text variant="sectionHeading">Related Products</Text>
+        <section className="py-12 px-6 mb-10 text-center">
+          <Text variant="myHeading">Related Products</Text>
           <div className={s.relatedProductsGrid}>
             {relatedProducts.map((p) => (
               <div

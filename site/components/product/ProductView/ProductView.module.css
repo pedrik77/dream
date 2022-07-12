@@ -1,5 +1,5 @@
 .root {
-  @apply relative grid items-start gap-1 grid-cols-1 overflow-x-hidden;
+  @apply relative grid items-start gap-4 grid-cols-1 overflow-x-hidden p-8;
   min-height: auto;
 }
 
@@ -41,11 +41,11 @@
 }
 
 .buyCards {
-  @apply flex flex-wrap justify-center gap-4 m-4;
+  @apply flex flex-wrap justify-center gap-4 my-8 mx-auto max-w-4xl;
 }
 
 .buyCard {
-  @apply text-center flex flex-col gap-4 border-2 border-secondary min-w-[10rem];
+  @apply text-center flex flex-col gap-4 outline-1 outline-secondary outline min-w-[10rem];
 }
 
 .ticketsNo {

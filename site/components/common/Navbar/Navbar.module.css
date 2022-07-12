@@ -25,9 +25,6 @@
   @apply outline-none text-secondary;
 }
 
-.account {
-}
-
 .logo {
   @apply cursor-pointer justify-self-start flex-grow;
 }
