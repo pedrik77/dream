@@ -13,7 +13,7 @@ export default function Products({ category = '' }: ProductsPageProps) {
   const products = useProducts(category)
 
   return (
-    <Container className="flex-row justify-center text-center my-8">
+    <Container className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center text-center my-8">
       {!products.length && (
         <Text variant="sectionHeading" className="my-4">
           Žiadne produkty v kategórii :(

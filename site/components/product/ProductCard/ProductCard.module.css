@@ -1,5 +1,5 @@
 .root {
-  @apply flex max-w-sm px-4 overflow-hidden transition-transform ease-linear cursor-pointer;
+  @apply flex px-4 overflow-hidden transition-transform ease-linear cursor-pointer;
   height: 100% !important;
 }
 
