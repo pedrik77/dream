@@ -42,8 +42,8 @@ const Footer: FC<Props> = ({ className, pages }) => {
     <footer className={rootClassName}>
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
-          <div className="flex flex-col justify-between col-span-1 lg:col-span-5">
-            <div className="grid md:grid-rows-4 md:grid-cols-3 md:grid-flow-col">
+          <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
+            <div className="grid md:grid-rows-4 grid-cols-3 md:grid-flow-col">
               {[...links, ...categories, ...sitePages].map((page) => (
                 <span key={page.url} className="py-3 md:py-0 md:pb-4">
                   <Link href={page.url!}>
@@ -64,18 +64,13 @@ const Footer: FC<Props> = ({ className, pages }) => {
               </Link>
             </div>
           </div>
-          <div className="col-span-1 lg:col-span-4">
+          <div className="col-span-1 lg:col-span-6">
             <div className="py-4 border-b-2">
               <Newsletter />
             </div>
 
             <div className="py-4">
               <SocialSection />
-            </div>
-          </div>
-          <div className="col-span-1 lg:col-span-2 flex items-start lg:justify-end text-accent-0">
-            <div className="flex space-x-6 items-center h-10">
-              <I18nWidget />
             </div>
           </div>
         </div>
