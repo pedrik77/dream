@@ -10,9 +10,10 @@ import {
 } from '../helpers'
 import ProductTag from '../ProductTag'
 import Link from 'next/link'
-import { Product } from '@lib/products'
+import { getDonorsCount, Product } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
 import { Category, getCategory } from '@lib/categories'
+import CountUp from 'react-countup'
 
 interface ProductSidebarProps {
   product: Product
@@ -24,12 +25,19 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   onJoinNow = () => {},
 }) => {
   const [category, setCategory] = useState<Category | null>(null)
+  const [countUpValue, setCountUpValue] = useState(0)
 
   useEffect(() => {
     if (product.category) {
       getCategory(product.category).then(setCategory)
     }
   }, [product.category])
+
+  useEffect(() => {
+    if (!product.show_donors) return setCountUpValue(product.price ?? 0)
+
+    getDonorsCount(product.slug).then(setCountUpValue)
+  }, [product])
 
   return (
     <div className={s.sidebar}>
@@ -42,6 +50,10 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
       )}
       <ProductTag name={product.title_1} />
       <h4 className={s.subtitle}>{product.title_2}</h4>
+      <h4>
+        <CountUp end={countUpValue} duration={1.25} />{' '}
+        {product.show_donors ? ' donorov' : '€'}
+      </h4>
       <Text
         className="pb-4 break-words w-full max-w-xl"
         html={product.short_desc}

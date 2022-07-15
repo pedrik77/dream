@@ -98,6 +98,10 @@ export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
   return uploaded
 }
 
+export async function getDonorsCount(slug: string) {
+  return 4277
+}
+
 function transform(doc: any): Product {
   const { closing_date, winner_announce_date, ...data } = doc.data()
 
