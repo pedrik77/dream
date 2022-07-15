@@ -17,6 +17,7 @@ import { today } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { useShop } from '@lib/shop'
+import { confirm } from '@lib/alerts'
 
 interface ProductViewProps {
   product: Product
@@ -91,12 +92,12 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                 <span className={s.tickets}>Tiketov</span>
                 <Button
                   className={s.btn}
-                  onClick={() => {
+                  onClick={async () => {
                     if (
                       isInCart(product.slug) &&
-                      !confirm(
+                      !(await confirm(
                         'Produkt uz mate zvoleny. Prajete si prepisat variantu?'
-                      )
+                      ))
                     )
                       return router.push('/cart')
 

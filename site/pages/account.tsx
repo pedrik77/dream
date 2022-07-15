@@ -14,6 +14,7 @@ import AccountLayout from '@components/auth/AccountLayout'
 import useLoading from '@lib/hooks/useLoading'
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
 import { Label } from '@radix-ui/react-dropdown-menu'
+import { confirm } from '@lib/alerts'
 
 export default function Account() {
   const { customer } = useUser()
@@ -208,7 +209,11 @@ export default function Account() {
                 disabled={resetMailSending.pending}
                 type="button"
                 variant="ghost"
-                onClick={(e) => confirm('Naozaj?') && sendResetEmail(e)}
+                onClick={(e) =>
+                  confirm('Naozaj?').then(
+                    (confirmed) => confirmed && sendResetEmail(e)
+                  )
+                }
               >
                 Zmeniť heslo
               </Button>
