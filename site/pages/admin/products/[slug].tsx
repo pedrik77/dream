@@ -35,6 +35,8 @@ const Editor = dynamic(import('../../../components/common/Editor'), {
 export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const [title_1, setTitle1] = useState(product?.title_1 || '')
   const [title_2, setTitle2] = useState(product?.title_2 || '')
+  const [price, setPrice] = useState(product?.price || 0)
+  const [show_donors, setShowDonors] = useState(product?.show_donors || false)
   const [slug, setSlug] = useState(product?.slug || '')
   const [closing_date, setClosingDate] = useState(
     product?.closing_date ? inputDateFormat(product.closing_date) : ''
@@ -98,6 +100,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     setProduct({
       title_1,
       title_2,
+      show_donors,
+      price,
       slug,
       closing_date: Timestamp.fromDate(new Date(closing_date)),
       winner_announce_date: Timestamp.fromDate(new Date(winner_announce_date)),
@@ -137,6 +141,25 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               onChange={setSlug}
               disabled={isEditing}
             />
+          </label>
+        </fieldset>
+        <fieldset className="flex">
+          <label>
+            Price
+            <Input
+              type="number"
+              value={price}
+              placeholder="Price"
+              onChange={setPrice}
+            />
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={show_donors}
+              onChange={(e) => setShowDonors(e.target.checked)}
+            />{' '}
+            Show donors number
           </label>
         </fieldset>
         <fieldset className="flex">

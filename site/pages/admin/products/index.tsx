@@ -26,6 +26,7 @@ const columns: GridColDef[] = [
     width: 130,
   },
   { field: 'title_2', headerName: 'Title 2', width: 130 },
+  { field: 'price', headerName: 'Price', width: 50 },
   {
     field: 'closing_date',
     headerName: 'Closing date',
