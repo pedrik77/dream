@@ -18,7 +18,7 @@
 }
 
 .imgContainer {
-  @apply w-full h-52 sm:h-60 md:h-96 lg:h-[90vh] overflow-hidden;
+  @apply w-full h-full overflow-hidden;
 }
 
 .bannerContainer {
