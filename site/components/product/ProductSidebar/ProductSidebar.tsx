@@ -52,7 +52,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
       <h4 className={s.subtitle}>{product.title_2}</h4>
       <h4>
         <CountUp end={countUpValue} duration={1.25} />{' '}
-        {product.show_donors ? ' donorov' : '€'}
+        {product.show_donors ? ' donorov' : ' €'}
       </h4>
       <Text
         className="pb-4 break-words w-full max-w-xl"
