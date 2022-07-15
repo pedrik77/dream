@@ -1,6 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import { confirm } from '@lib/alerts'
 import {
   Category,
   deleteCategory,
@@ -55,8 +56,8 @@ export default function Categories() {
       .catch(handleErrorFlash)
   }
 
-  const handleDeleteSelected = () => {
-    if (!confirm('Naozaj?')) return
+  const handleDeleteSelected = async () => {
+    if (!(await confirm('Naozaj?'))) return
 
     const count = selected.length
 

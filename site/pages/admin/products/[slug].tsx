@@ -20,6 +20,7 @@ import { useRouter } from 'next/router'
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
 import { setCategory as createCategory } from '@lib/categories'
 import _ from 'lodash'
+import { confirm } from '@lib/alerts'
 
 interface ProductEditProps {
   product: Product | null
@@ -79,8 +80,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       .finally(uploading.stop)
   }
 
-  const handleDeleteImage = (image: ProductImage) => {
-    if (!confirm('Vymazať obrázok?')) return
+  const handleDeleteImage = async (image: ProductImage) => {
+    if (!(await confirm('Vymazať obrázok?'))) return
 
     setGallery((gallery) => gallery.filter((i) => i.path !== image.path))
     deleteFile(image.path).catch(handleErrorFlash)
