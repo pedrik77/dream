@@ -3,7 +3,7 @@
 }
 
 .bgOverlay {
-  @apply w-screen h-72 md:h-96 lg:h-[90vh] flex relative mb-6 lg:mb-8;
+  @apply w-screen h-52 sm:h-60 md:h-96 lg:h-[90vh] flex relative mb-6 lg:mb-8;
 }
 
 .bgOverlay::after {
@@ -17,9 +17,14 @@
   z-index: 1;
 }
 
+.imgContainer {
+  @apply w-full h-52 sm:h-60 md:h-96 lg:h-[90vh] overflow-hidden;
+}
+
 .bannerContainer {
-  @apply container max-w-[100vw] md:max-w-2xl lg:max-w-4xl flex flex-col justify-center absolute top-10 md:top-16 lg:top-20 left-12 md:left-24 lg:left-32;
+  @apply container flex flex-col justify-center absolute top-4 sm:top-8 md:top-16 lg:top-20 left-4 sm:left-8 md:left-20 lg:left-24;
   z-index: 2;
+  width: calc(100vw - 2rem);
 }
 
 .h2 {
@@ -31,12 +36,20 @@
     font-size: 4.25rem;
     line-height: 0.9em;
   }
+
+  .bannerContainer {
+    width: calc(100vw - 5rem);
+  }
 }
 
 @media (min-width: 1024px) {
   .h2 {
     font-size: 6.25rem;
     line-height: 1em;
+  }
+
+  .bannerContainer {
+    width: calc(100vw - 6rem);
   }
 }
 
@@ -49,5 +62,5 @@
 }
 
 .button {
-  @apply text-white my-2 md:my-4 lg:my-6 max-w-[10rem];
+  @apply text-white my-2 md:my-4 lg:my-6 md:max-w-[10rem];
 }
