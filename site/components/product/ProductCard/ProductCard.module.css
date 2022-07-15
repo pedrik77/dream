@@ -1,5 +1,5 @@
 .root {
-  @apply flex px-4 overflow-hidden transition-transform ease-linear cursor-pointer;
+  @apply w-full overflow-hidden transition-transform ease-linear cursor-pointer;
   height: 100% !important;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .productImage {
-  @apply transform transition-transform duration-500
+  @apply mx-auto transform transition-transform duration-500
   object-cover scale-120;
 }
 

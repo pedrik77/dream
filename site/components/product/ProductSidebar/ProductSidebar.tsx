@@ -40,7 +40,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
           </a>
         </Link>
       )}
-      <ProductTag name={product.title_1} />
+      <ProductTag>{product.title_1}</ProductTag>
       <h4 className={s.subtitle}>{product.title_2}</h4>
       <Text
         className="pb-4 break-words w-full max-w-xl"
