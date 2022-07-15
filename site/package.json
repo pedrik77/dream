@@ -54,6 +54,7 @@
     "react-select": "^5.3.2",
     "react-universal-flash": "^1.0.15",
     "react-use-measure": "^2.1.1",
+    "sweetalert2": "^11.4.23",
     "tabbable": "^5.2.1",
     "tailwindcss": "^3.0.13",
     "uuid": "^8.3.2"

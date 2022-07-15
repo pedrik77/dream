@@ -17,6 +17,7 @@ import { today } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { useShop } from '@lib/shop'
+import { confirm } from '@lib/alerts'
 
 interface ProductViewProps {
   product: Product
@@ -30,7 +31,7 @@ const GLOBAL_ENTRIES = Object.entries({
 })
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
-  const buyCardsRef = useRef<HTMLElement>(null)
+  const buyCardsRef = useRef<HTMLDivElement>(null)
   const { user } = useUser()
   const router = useRouter()
 
@@ -67,9 +68,10 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             product={product}
             onJoinNow={() => {
               if (!buyCardsRef.current) return
-
-              // TODO: BETTER SCROLL
-              buyCardsRef.current.scrollIntoView({ behavior: 'smooth' })
+              buyCardsRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+              })
             }}
           />
         </div>
@@ -78,7 +80,8 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
         {/* TODO: ADD WYSIYG EDITOR */}
         <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
 
-        <section className={s.buySection} ref={buyCardsRef}>
+        <div ref={buyCardsRef}></div>
+        <section className={s.buySection}>
           <Text variant="myHeading" className="text-center">
             Buy tickets now
           </Text>
@@ -89,12 +92,12 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                 <span className={s.tickets}>Tiketov</span>
                 <Button
                   className={s.btn}
-                  onClick={() => {
+                  onClick={async () => {
                     if (
                       isInCart(product.slug) &&
-                      !confirm(
+                      !(await confirm(
                         'Produkt uz mate zvoleny. Prajete si prepisat variantu?'
-                      )
+                      ))
                     )
                       return router.push('/cart')
 

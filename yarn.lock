@@ -8137,6 +8137,11 @@ swap-case@^2.0.2:
   dependencies:
     tslib "^2.0.3"
 
+sweetalert2@^11.4.23:
+  version "11.4.23"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.4.23.tgz#a29b1d43bbfd579c1a54952da2a18a8d1a41cf0e"
+  integrity sha512-BfO0gIIHu4SJiixBHpCmd74W+EkORJPX9zy5HLp6vkMAz7RsUED7BhrOBEYrYYgw9nnbxYOwzJDDVPNuK1JQtQ==
+
 swell-js@^4.0.0-next.0:
   version "4.0.0-next.0"
   resolved "https://registry.yarnpkg.com/swell-js/-/swell-js-4.0.0-next.0.tgz#870599372e3c9eafefeafc2c63863c4032d8be6b"

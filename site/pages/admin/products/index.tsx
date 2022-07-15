@@ -14,6 +14,7 @@ import { deleteProduct, Product, useProducts } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
+import { confirm } from '@lib/alerts'
 
 const dateFormatter = (r: GridValueFormatterParams) => basicShowFormat(r.value)
 
@@ -55,11 +56,11 @@ export default function Dashboard() {
 
   if (!isAdmin && !hasAdminPermission('products.list')) return null
 
-  const handleDeleteSelected = () => {
-    if (!confirm('Naozaj?')) return
+  const handleDeleteSelected = async () => {
+    if (!(await confirm('Naozaj?'))) return
 
     deleteProduct(selected)
-      .then(() => flash(`Produkty (${selected.length}) odstránená`))
+      .then(() => flash(`Produkty (${selected.length}) odstránené`))
       .catch(handleErrorFlash)
   }
 
