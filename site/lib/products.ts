@@ -24,6 +24,7 @@ export interface Product {
   slug: string
   title_1: string
   title_2: string
+  price?: number
   short_desc: string
   closing_date: number
   winner_announce_date: number
