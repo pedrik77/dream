@@ -25,6 +25,7 @@ export interface Product {
   title_1: string
   title_2: string
   price?: number
+  show_donors?: boolean
   short_desc: string
   closing_date: number
   winner_announce_date: number
