@@ -30,7 +30,7 @@ const GLOBAL_ENTRIES = Object.entries({
 })
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
-  const buyCardsRef = useRef<HTMLElement>(null)
+  const buyCardsRef = useRef<HTMLDivElement>(null)
   const { user } = useUser()
   const router = useRouter()
 
@@ -67,9 +67,10 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             product={product}
             onJoinNow={() => {
               if (!buyCardsRef.current) return
-
-              // TODO: BETTER SCROLL
-              buyCardsRef.current.scrollIntoView({ behavior: 'smooth' })
+              buyCardsRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+              })
             }}
           />
         </div>
@@ -78,7 +79,8 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
         {/* TODO: ADD WYSIYG EDITOR */}
         <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
 
-        <section className={s.buySection} ref={buyCardsRef}>
+        <div ref={buyCardsRef}></div>
+        <section className={s.buySection}>
           <Text variant="myHeading" className="text-center">
             Buy tickets now
           </Text>
