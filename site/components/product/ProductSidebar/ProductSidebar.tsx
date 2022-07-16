@@ -14,6 +14,7 @@ import { getDonorsCount, Product } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
 import { Category, getCategory } from '@lib/categories'
 import CountUp from 'react-countup'
+import { handleErrorFlash } from '@components/ui/FlashMessage'
 
 interface ProductSidebarProps {
   product: Product
@@ -36,7 +37,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   useEffect(() => {
     if (!product.show_donors) return setCountUpValue(product.price ?? 0)
 
-    getDonorsCount(product.slug).then(setCountUpValue)
+    getDonorsCount(product.slug).then(setCountUpValue).catch(handleErrorFlash)
   }, [product])
 
   return (

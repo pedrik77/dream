@@ -1,7 +1,12 @@
 import { Layout } from '@components/common'
 import { ProductCard } from '@components/product'
+<<<<<<< HEAD
 import { Container, Text } from '@components/ui'
 import Banner from '@components/ui/Banner'
+=======
+import { Container } from '@components/ui'
+import PageBanner from '@components/ui/PageBanner'
+>>>>>>> development
 import { useProducts } from '@lib/products'
 import { GetServerSideProps } from 'next'
 import React from 'react'
