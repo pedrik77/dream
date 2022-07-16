@@ -14,18 +14,11 @@ export default function Products({ category = '' }: ProductsPageProps) {
   const products = useProducts(category)
 
   return (
-    <Container clean>
-      <PageBanner
-        primaryTitle="Lorem Ipsum"
-        secondaryTitle="Chocolate Cake"
-        img="/assets/tesla1_1440x810.jpg"
-      />
-      <Container>
-        {!products.length && 'Žiadne produkty v kategórii'}
-        {products.map((product) => (
-          <ProductCard key={product.slug} product={product} />
-        ))}
-      </Container>
+    <Container>
+      {!products.length && 'Žiadne produkty v kategórii'}
+      {products.map((product) => (
+        <ProductCard key={product.slug} product={product} />
+      ))}
     </Container>
   )
 }
