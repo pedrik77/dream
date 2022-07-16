@@ -21,26 +21,17 @@
   @apply w-full h-full overflow-hidden;
 }
 
+.textSection {
+  @apply flex align-middle items-start;
+}
+
 .textContainer {
   @apply flex flex-col justify-center absolute top-4 sm:top-12 md:top-16 lg:top-20 left-4 sm:left-8 md:left-20 lg:left-24;
   z-index: 2;
-  width: calc(100vw - 2rem);
 }
 
 .h2 {
-  @apply text-white font-black text-3xl sm:text-6xl md:text-7xl uppercase;
-}
-
-@media (min-width: 768px) {
-  .textContainer {
-    width: calc(100vw - 5rem);
-  }
-}
-
-@media (min-width: 1024px) {
-  .textContainer {
-    width: calc(100vw - 6rem);
-  }
+  @apply text-white font-black text-3xl sm:text-6xl md:text-7xl lg:text-8xl uppercase;
 }
 
 .h2 span {

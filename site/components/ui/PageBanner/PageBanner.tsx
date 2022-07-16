@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Container from '../Container'
 import s from './PageBanner.module.css'
 
 const PageBanner: React.FC<{
@@ -18,12 +19,14 @@ const PageBanner: React.FC<{
           quality="100"
         />
       </div>
-      <div className={s.textContainer}>
-        <h2 className={s.h2}>
-          {primaryTitle}
-          <br />
-          <span className={s.span}>{secondaryTitle}</span>
-        </h2>
+      <div className={s.textSection}>
+        <div className={s.textContainer}>
+          <h2 className={s.h2}>
+            {primaryTitle}
+            <br />
+            <span className={s.span}>{secondaryTitle}</span>
+          </h2>
+        </div>
       </div>
     </div>
   )
