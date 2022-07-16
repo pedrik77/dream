@@ -9,7 +9,7 @@ import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
-import { Product } from '@lib/products'
+import { Product, useProducts } from '@lib/products'
 import { setOrder } from '@lib/orders'
 import { useUser } from '@lib/auth'
 import { Timestamp } from 'firebase/firestore'
@@ -37,7 +37,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
   const { addToCart, isInCart } = useShop()
 
-  const relatedProducts: Product[] = []
+  const relatedProducts = useProducts()
 
   return (
     <>

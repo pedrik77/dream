@@ -49,7 +49,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
           </a>
         </Link>
       )}
-      <ProductTag name={product.title_1} />
+      <ProductTag>{product.title_1}</ProductTag>
       <h4 className={s.subtitle}>{product.title_2}</h4>
       <h4>
         <CountUp end={countUpValue} duration={1.25} />{' '}

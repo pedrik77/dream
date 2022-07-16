@@ -7,6 +7,7 @@ import WishlistButton from '@components/wishlist/WishlistButton'
 import usePrice from '@framework/product/use-price'
 import ProductTag from '../ProductTag'
 import { Product } from '@lib/products'
+import { Text } from '@components/ui'
 
 interface Props {
   className?: string
@@ -32,68 +33,54 @@ const ProductCard: FC<Props> = ({
   return (
     <Link href={`/products/${product.slug}`}>
       <a className={rootClassName} aria-label={product.title_1}>
-        {variant === 'slim' && (
-          <>
-            <div className={s.header}>
-              <span>{product.title_1}</span>
-            </div>
-            {product && false && (
-              <div>
+        {variant === 'simple' && (
+          <div className={s.cardContainer}>
+            {product && (
+              <div className={s.imageContainer}>
                 <Image
-                  quality="85"
-                  src={product.gallery?.[0].src || placeholderImg}
                   alt={product.title_1 || 'Product Image'}
-                  height={320}
-                  width={320}
-                  layout="fixed"
+                  className={s.productImage}
+                  src={product.gallery?.[0].src || placeholderImg}
+                  height={195}
+                  width={300}
+                  quality="85"
+                  layout="responsive"
                   {...imgProps}
                 />
               </div>
             )}
-          </>
-        )}
-
-        {variant === 'simple' && (
-          <>
-            <div className={s.imageContainer}>
-              {product && false && (
-                <div>
-                  <Image
-                    alt={product.title_1 || 'Product Image'}
-                    className={s.productImage}
-                    src={product.gallery?.[0].src || placeholderImg}
-                    height={540}
-                    width={540}
-                    quality="85"
-                    layout="responsive"
-                    {...imgProps}
-                  />
-                </div>
-              )}
+            <div className={s.textContainer}>
+              <ProductTag className="text-left">{product.title_1}</ProductTag>
+              <span className="text-base m-0 text-left">{product.title_2}</span>
             </div>
-          </>
+          </div>
         )}
 
         {variant === 'default' && (
-          <>
-            <ProductTag name={product.title_1} />
-            <div className={s.imageContainer}>
-              {product && false && (
-                <div>
-                  <Image
-                    alt={product.title_1 || 'Product Image'}
-                    className={s.productImage}
-                    src={product.gallery?.[0].src || placeholderImg}
-                    height={540}
-                    width={540}
-                    quality="85"
-                    layout="responsive"
-                    {...imgProps}
-                  />
-                </div>
-              )}
+          <div className={s.cardContainer}>
+            {product && (
+              <div className={s.imageContainer}>
+                <Image
+                  alt={product.title_1 || 'Product Image'}
+                  className={s.productImage}
+                  src={product.gallery?.[0].src || placeholderImg}
+                  height={195}
+                  width={300}
+                  quality="85"
+                  layout="responsive"
+                  {...imgProps}
+                />
+              </div>
+            )}
+            <div className={s.textContainer}>
+              {/* <Text variant="sectionHeading" className="text-left">
+                {product.title_1}
+              </Text> */}
+              <ProductTag className="text-left">{product.title_1}</ProductTag>
+
+              <span className="text-base m-0 text-left">{product.title_2}</span>
             </div>
-          </>
+          </div>
         )}
       </a>
     </Link>
