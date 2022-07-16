@@ -1,0 +1,7 @@
+.root {
+  @apply font-bold text-lg md:text-xl uppercase;
+}
+
+.active {
+  @apply border-b-2 border-primary;
+}
