@@ -119,17 +119,14 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <Text variant="myHeading">Related Products</Text>
           <div className={s.relatedProductsGrid}>
             {relatedProducts.map((p) => (
-              <div
-                key={p.slug}
-                className="animated fadeIn bg-accent-0 border border-accent-2"
-              >
+              <div key={p.slug} className="animated fadeIn bg-accent-0">
                 <ProductCard
                   product={p}
                   key={p.slug}
                   variant="simple"
                   className="animated fadeIn"
                   imgProps={{
-                    width: 300,
+                    width: 500,
                     height: 300,
                   }}
                 />
