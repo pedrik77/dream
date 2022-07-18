@@ -1,5 +1,5 @@
 .root {
-  @apply relative grid items-center justify-center gap-y-8 grid-cols-1 overflow-x-hidden p-8;
+  @apply relative grid items-center justify-center gap-y-8 grid-cols-1 overflow-x-hidden p-4 sm:p-8;
   min-height: auto;
 }
 

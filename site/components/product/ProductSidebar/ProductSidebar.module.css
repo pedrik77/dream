@@ -17,7 +17,7 @@
 }
 
 .info {
-  @apply flex justify-between align-top gap-4 mx-2 my-8;
+  @apply flex flex-col sm:flex-row justify-start lg:justify-between align-top gap-8 my-8;
 }
 
 .info div {
