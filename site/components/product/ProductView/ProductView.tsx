@@ -74,11 +74,13 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
               })
             }}
           />
-        </div>
-        <hr className="mt-7 border-primary" />
 
-        {/* TODO: ADD WYSIYG EDITOR */}
-        <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
+          {/* TODO: ADD WYSIYG EDITOR */}
+          <div className={s.motivationContainer}>
+            <Text variant="pageHeading">Toto dostaneš</Text>
+            <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
+          </div>
+        </div>
 
         <div ref={buyCardsRef}></div>
         <section className={s.buySection}>
