@@ -23,7 +23,7 @@
   @apply max-h-full object-fill;
 } */
 
-.motivationContainer {
+.descContainer {
   @apply my-8 text-base p-0;
 }
 
@@ -76,7 +76,7 @@
     max-height: 600px;
   }
 
-  .motivationContainer {
+  .descContainer {
     @apply col-span-8;
   }
 }

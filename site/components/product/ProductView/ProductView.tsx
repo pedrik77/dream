@@ -76,7 +76,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           />
 
           {/* TODO: ADD WYSIYG EDITOR */}
-          <div className={s.motivationContainer}>
+          <div className={s.descContainer}>
             <Text variant="pageHeading">Toto dostaneš</Text>
             <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
           </div>
