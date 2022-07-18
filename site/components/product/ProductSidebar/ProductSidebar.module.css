@@ -9,11 +9,19 @@
 } */
 
 .category {
-  @apply uppercase text-xs font-bold text-secondary underline mb-4;
+  @apply uppercase text-sm font-bold text-accent-6 underline mb-4;
 }
 
 .subtitle {
-  @apply font-bold text-sm uppercase mb-8;
+  @apply font-bold text-accent-6 text-sm uppercase mb-8;
+}
+
+.countUp {
+  @apply text-lg font-bold;
+}
+
+.countUp span {
+  @apply text-xl bg-secondary py-1 px-[2px];
 }
 
 .info {
