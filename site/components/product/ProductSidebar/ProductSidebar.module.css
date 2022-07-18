@@ -1,51 +1,31 @@
 .root {
-  @apply relative grid items-start gap-1 grid-cols-1 overflow-x-hidden;
+  @apply col-span-4 flex flex-col max-w-8xl px-0 w-full h-full relative overflow-x-hidden;
   min-height: auto;
 }
 
-.main {
+/* .main {
   @apply relative px-0 pb-0 box-border  flex flex-col col-span-1;
   min-height: 500px;
-}
+} */
 
 .category {
-  @apply uppercase text-xs font-bold text-secondary underline mb-4;
-}
-
-.header {
-  @apply transition-colors ease-in-out duration-500
-  absolute top-0 left-0 z-20 pr-16;
-}
-
-.header .name {
-  @apply pt-0 max-w-full w-full leading-extra-loose;
-  font-size: 2rem;
-  letter-spacing: 0.4px;
-}
-
-.header .name span {
-  @apply py-4 px-6 bg-primary text-primary font-bold;
-  font-size: inherit;
-  letter-spacing: inherit;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-.header .price {
-  @apply pt-2 px-6 pb-4 text-sm bg-primary text-base
-  font-semibold inline-block tracking-wide;
-}
-
-.sidebar {
-  @apply flex flex-col col-span-1 mx-auto max-w-8xl px-6 py-6 w-full h-full;
+  @apply uppercase text-sm font-bold text-accent-6 underline mb-4;
 }
 
 .subtitle {
-  @apply font-bold text-sm uppercase mb-8;
+  @apply font-bold text-accent-6 text-sm uppercase mb-8;
+}
+
+.countUp {
+  @apply text-lg font-bold;
+}
+
+.countUp span {
+  @apply text-xl bg-secondary py-1 px-[2px];
 }
 
 .info {
-  @apply flex justify-between align-top gap-4 mx-2 my-8;
+  @apply flex flex-col sm:flex-row justify-start lg:justify-between align-top gap-8 my-8;
 }
 
 .info div {
@@ -82,18 +62,6 @@
 }
 
 @screen lg {
-  .root {
-    @apply grid-cols-12;
-  }
-
-  .main {
-    @apply mx-0 col-span-8;
-  }
-
-  .sidebar {
-    @apply col-span-4 py-6;
-  }
-
   .imageContainer {
     max-height: 600px;
   }
