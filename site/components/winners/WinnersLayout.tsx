@@ -38,41 +38,55 @@ const WinnersLayout: React.FC<{
     return tree
   }, [winners])
 
+  const treeClass =
+    'flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl'
+
   return (
     <Container className="pt-4 mt-0 md:mt-8">
       <div className="flex flex-col lg:flex-row gap-3 lg:gap-6">
         <div className="lg:w-1/3 flex flex-col gap-4 pr-4 pb-8 mx-2 g:mx-4 border-b-[1px] lg:border-r-[1px] border-opacity-70 border-primary items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
-          <Text variant="pageHeading">Víťazi</Text>
-          <div className="flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl">
+          <Text variant="pageHeading">
+            <Link href="/winners">
+              <a>Víťazi</a>
+            </Link>
+          </Text>
+          <div className={treeClass}>
             {Object.entries(yearTree).map(([year, monthTree]) => (
               <Fragment key={year}>
-                <a
-                  title={year}
-                  className={
-                    currentYear === year
-                      ? 'border-b-2 border-primary border-opacity-70'
-                      : 'text-primary hover:border-b-2 border-secondary'
-                  }
-                  onClick={() => {}}
-                >
-                  {year}
-                </a>
+                <Link href={`/winners?date=${year}`}>
+                  <a
+                    title={year}
+                    className={
+                      currentYear === year
+                        ? 'border-b-2 border-primary border-opacity-70'
+                        : 'text-primary hover:border-b-2 border-secondary'
+                    }
+                  >
+                    {year}
+                  </a>
+                </Link>
 
-                {Object.entries(monthTree).map(([month, winners]) => (
-                  <Fragment key={`${month}/${year}`}>
-                    <a
-                      title={month}
-                      className={
-                        currentMonth === month
-                          ? 'border-b-2 border-primary border-opacity-70'
-                          : 'text-primary hover:border-b-2 border-secondary'
-                      }
-                      onClick={() => {}}
-                    >
-                      {month}
-                    </a>
-                  </Fragment>
-                ))}
+                {currentYear === year && (
+                  <div className={treeClass + ' pl-5 text-sm'}>
+                    {Object.entries(monthTree).map(([month, winners]) => (
+                      <Link
+                        href={`/winners?date=${year}-${month}`}
+                        key={`${month}/${year}`}
+                      >
+                        <a
+                          title={month}
+                          className={
+                            currentMonth === month
+                              ? 'border-b-2 border-primary border-opacity-70'
+                              : 'text-primary hover:border-b-2 border-secondary'
+                          }
+                        >
+                          {month}
+                        </a>
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </Fragment>
             ))}
           </div>
