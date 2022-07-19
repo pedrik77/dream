@@ -6,6 +6,21 @@ import Link from 'next/link'
 import React, { Fragment, useMemo } from 'react'
 import { inputDateFormat } from '@lib/date'
 
+const MONTHS = [
+  'január',
+  'február',
+  'marec',
+  'apríl',
+  'máj',
+  'jún',
+  'júl',
+  'august',
+  'september',
+  'október',
+  'november',
+  'december',
+]
+
 const WinnersLayout: React.FC<{
   current?: string
 }> = ({ children, current = '' }) => {
@@ -81,7 +96,7 @@ const WinnersLayout: React.FC<{
                               : 'text-primary hover:border-b-2 border-secondary'
                           }
                         >
-                          {month}
+                          {MONTHS[parseInt(month) - 1]}
                         </a>
                       </Link>
                     ))}
