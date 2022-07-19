@@ -25,7 +25,7 @@ export default function Products({ category = '' }: ProductsPageProps) {
         <Tab active>Aktuálne</Tab>
         <Tab>Predošlé</Tab>
       </Container>
-      <Container className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-8 justify-center text-center mt-8 mb-16 max-w-6xl">
+      <Container className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-8 jitems-center ustify-center text-center mt-8 mb-16 max-w-6xl">
         {!products.length && (
           <Text variant="sectionHeading" className="my-4">
             Žiadne produkty v kategórii :(
