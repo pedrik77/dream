@@ -35,7 +35,6 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   }, [product.category])
 
   useEffect(() => {
-    return setCountUpValue(10000)
     if (!product.show_donors) return setCountUpValue(product.price ?? 0)
 
     getDonorsCount(product.slug).then(setCountUpValue).catch(handleErrorFlash)
