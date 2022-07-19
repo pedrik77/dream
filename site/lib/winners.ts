@@ -9,7 +9,7 @@ export interface Winner {
 export const useWinners = (): Winner[] => {
   const [winners, setWinners] = useState<Winner[]>([])
 
-  const products = useProducts({ onlyActive: true })
+  const products = useProducts({ onlyActive: false })
 
   console.log({ products })
 
