@@ -80,6 +80,14 @@ export function useProducts({
       queries.push(where('closing_date', '<=', Timestamp.fromDate(new Date())))
     }
 
+    if (onlyActive) {
+      queries.push(where('closing_date', '>', Date.now()))
+    }
+
+    if (onlyPast) {
+      queries.push(where('closing_date', '<=', Date.now()))
+    }
+
     return queries
   }, [category, onlyActive, onlyPast])
 
