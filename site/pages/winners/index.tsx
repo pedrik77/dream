@@ -118,7 +118,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
                           className={
                             currentMonth === month
                               ? 'border-b-2 border-primary border-opacity-70'
-                              : 'text-primary hover:border-b-2 border-secondary'
+                              : 'text-accent-6 text-sm hover:text-primary'
                           }
                         >
                           {monthName(month)}
@@ -131,19 +131,21 @@ export default function Winners({ date = '' }: WinnersPageProps) {
             ))}
           </div>
         </div>
-        <div className="col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 my-8 py-2 gap-4 md:gap-8">
+        <div className="col-span-10">
           {date && (
             <Text variant="pageHeading">
               {currentMonthName} {currentYear}
             </Text>
           )}
-          {products.map((product) => (
-            <ProductCard
-              variant="simple"
-              key={product.slug}
-              product={product}
-            />
-          ))}
+          <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 my-8 py-2 gap-4 md:gap-8">
+            {products.map((product) => (
+              <ProductCard
+                variant="simple"
+                key={product.slug}
+                product={product}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </Container>
