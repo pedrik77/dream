@@ -1,5 +1,4 @@
 import { Layout } from '@components/common'
-import WinnersLayout from '@components/winners/WinnersLayout'
 import { GetServerSideProps } from 'next'
 import { Avatar } from '@components/common'
 import { Container, Text } from '@components/ui'
@@ -59,20 +58,25 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     return tree
   }, [allProducts])
 
-  const products = useMemo(() => {
-    if (!yearTree[currentYear]) return []
+  const monthName = (month: string) => MONTHS[parseInt(month) - 1]
+
+  const [products, currentMonthName] = useMemo(() => {
+    if (!yearTree[currentYear]) return [allProducts, '']
 
     if (!currentMonth) {
-      return Object.values(yearTree[currentYear]).reduce(
-        (month, acc) => [...acc, ...month],
-        []
-      )
+      return [
+        Object.values(yearTree[currentYear]).reduce(
+          (month, acc) => [...acc, ...month],
+          []
+        ),
+        '',
+      ]
     }
 
-    if (!yearTree[currentYear][currentMonth]) return []
+    if (!yearTree[currentYear][currentMonth]) return [[], '']
 
-    return yearTree[currentYear][currentMonth]
-  }, [yearTree, currentMonth, currentYear])
+    return [yearTree[currentYear][currentMonth], monthName(currentMonth)]
+  }, [yearTree, currentMonth, currentYear, allProducts])
 
   const treeClass =
     'flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl'
@@ -117,7 +121,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
                               : 'text-primary hover:border-b-2 border-secondary'
                           }
                         >
-                          {MONTHS[parseInt(month) - 1]}
+                          {monthName(month)}
                         </a>
                       </Link>
                     ))}
@@ -128,6 +132,11 @@ export default function Winners({ date = '' }: WinnersPageProps) {
           </div>
         </div>
         <div className="">
+          {date && (
+            <Text variant="pageHeading">
+              {currentMonthName} {currentYear}
+            </Text>
+          )}
           {products.map((product) => (
             <ProductCard key={product.slug} product={product} />
           ))}
