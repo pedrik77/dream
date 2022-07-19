@@ -9,7 +9,7 @@ import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
-import { Product } from '@lib/products'
+import { Product, useProducts } from '@lib/products'
 import { setOrder } from '@lib/orders'
 import { useUser } from '@lib/auth'
 import { Timestamp } from 'firebase/firestore'
@@ -37,7 +37,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
   const { addToCart, isInCart } = useShop()
 
-  const relatedProducts: Product[] = []
+  const relatedProducts = useProducts()
 
   return (
     <>
@@ -74,11 +74,13 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
               })
             }}
           />
-        </div>
-        <hr className="mt-7 border-primary" />
 
-        {/* TODO: ADD WYSIYG EDITOR */}
-        <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
+          {/* TODO: ADD WYSIYG EDITOR */}
+          <div className={s.descContainer}>
+            <Text variant="pageHeading">Toto dostaneš</Text>
+            <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
+          </div>
+        </div>
 
         <div ref={buyCardsRef}></div>
         <section className={s.buySection}>
@@ -119,17 +121,14 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <Text variant="myHeading">Related Products</Text>
           <div className={s.relatedProductsGrid}>
             {relatedProducts.map((p) => (
-              <div
-                key={p.slug}
-                className="animated fadeIn bg-accent-0 border border-accent-2"
-              >
+              <div key={p.slug} className="animated fadeIn bg-accent-0">
                 <ProductCard
                   product={p}
                   key={p.slug}
                   variant="simple"
                   className="animated fadeIn"
                   imgProps={{
-                    width: 300,
+                    width: 500,
                     height: 300,
                   }}
                 />

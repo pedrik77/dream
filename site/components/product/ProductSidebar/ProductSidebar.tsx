@@ -35,13 +35,14 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   }, [product.category])
 
   useEffect(() => {
+    return setCountUpValue(10000)
     if (!product.show_donors) return setCountUpValue(product.price ?? 0)
 
     getDonorsCount(product.slug).then(setCountUpValue).catch(handleErrorFlash)
   }, [product])
 
   return (
-    <div className={s.sidebar}>
+    <div className={s.root}>
       {category && (
         <Link href={`/category/${category.slug}`}>
           <a>
@@ -49,9 +50,10 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
           </a>
         </Link>
       )}
-      <ProductTag name={product.title_1} />
+      <ProductTag>{product.title_1}</ProductTag>
       <h4 className={s.subtitle}>{product.title_2}</h4>
-      <h4>
+      <h4 className={s.countUp}>
+        {product.show_donors ? ' Prispelo už ' : 'Výhra v hodnote '}
         <CountUp end={countUpValue} duration={1.25} />{' '}
         {product.show_donors ? ' donorov' : ' €'}
       </h4>

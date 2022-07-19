@@ -5,18 +5,17 @@ import s from './ProductTag.module.css'
 
 interface ProductTagProps {
   className?: string
-  name: string
   fontSize?: number
 }
 
 const ProductTag: React.FC<ProductTagProps> = ({
-  name,
+  children,
   className = '',
   fontSize = 32,
 }) => {
   return (
     <div className={cn(s.root, className)}>
-      <h3 className={s.name}>{name}</h3>
+      <h3 className={s.name}>{children}</h3>
     </div>
   )
 }
