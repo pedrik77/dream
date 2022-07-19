@@ -12,7 +12,7 @@ interface ProductsPageProps {
 }
 
 export default function Products({ category = '' }: ProductsPageProps) {
-  const products = useProducts(category)
+  const products = useProducts({ category })
 
   return (
     <Container clean>

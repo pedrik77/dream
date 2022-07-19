@@ -1,39 +1,40 @@
 import { Layout } from '@components/common'
 import AdminPermit from '@components/magic/AdminPermit'
 import { Button, Container, Text } from '@components/ui'
-import { useUser } from '@lib/auth'
+import { PERMISSIONS, useUser } from '@lib/auth'
+import { usePermission } from '@lib/hooks/usePermission'
 import Link from 'next/link'
 
 export default function Dashboard() {
-  const { isAdmin, user } = useUser()
+  const { user } = useUser()
 
-  if (!isAdmin) return null
+  if (!usePermission()) return null
 
   return (
     <div>
       <Container className="grid lg:grid-cols-2 pt-4 gap-20">
         <div className="flex flex-col">
-          <AdminPermit permission="orders.list">
+          <AdminPermit permission={PERMISSIONS.ORDERS_LIST}>
             <Link href="/admin/orders">Objednávky</Link>
           </AdminPermit>
 
-          <AdminPermit permission="users.list">
+          <AdminPermit permission={PERMISSIONS.USERS_LIST}>
             <Link href="/admin/users">Používatelia</Link>
           </AdminPermit>
 
-          <AdminPermit permission="categories.list">
+          <AdminPermit permission={PERMISSIONS.CATEGORIES_LIST}>
             <Link href="/admin/categories">Kategórie</Link>
           </AdminPermit>
 
-          <AdminPermit permission="products.list">
+          <AdminPermit permission={PERMISSIONS.PRODUCTS_LIST}>
             <Link href="/admin/products">Produkty</Link>
           </AdminPermit>
 
-          <AdminPermit permission="winners.list">
+          <AdminPermit permission={PERMISSIONS.WINNERS_LIST}>
             <Link href="/admin/winners">Víťazi</Link>
           </AdminPermit>
 
-          <AdminPermit permission="pages.list">
+          <AdminPermit permission={PERMISSIONS.PAGES_LIST}>
             <Link href="/admin/pages">Stránky</Link>
           </AdminPermit>
         </div>
@@ -42,7 +43,7 @@ export default function Dashboard() {
           <Text variant="heading">Vitaj {user?.email ?? 'ty'}</Text>
 
           <div className="flex">
-            <AdminPermit permission="products.add">
+            <AdminPermit permission={PERMISSIONS.PRODUCTS_ADD}>
               <Button>
                 <Link href="/admin/products/add">Pridať produkt</Link>
               </Button>

@@ -33,6 +33,17 @@ export type ProviderType = 'fb' | 'google'
 
 export type CustomerData = typeof NULL_CUSTOMER_DATA
 
+export const PERMISSIONS = {
+  SUPERADMIN: 'superadmin',
+  ORDERS_LIST: 'orders.list',
+  USERS_LIST: 'users.list',
+  CATEGORIES_LIST: 'categories.list',
+  PRODUCTS_LIST: 'products.list',
+  WINNERS_LIST: 'winners.list',
+  PAGES_LIST: 'pages.list',
+  PRODUCTS_ADD: 'products.add',
+} as const
+
 const auth = getAuth(app)
 
 function getProvider(provider: ProviderType) {
@@ -49,9 +60,20 @@ export function useUser() {
 
   const [permissions, setPermissions] = useState<string[]>([])
 
-  const hasAdminPermission = (permission: string, orSuperAdmin = true) =>
-    permissions.includes(permission) ||
-    (orSuperAdmin ? permissions.includes('superadmin') : false)
+  const isAdmin = !!permissions.length
+
+  const hasAdminPermission = (permission?: string, orSuperAdmin = true) => {
+    if (!permission && isAdmin) {
+      return true
+    }
+
+    if (!permission) return false
+
+    return (
+      permissions.includes(permission) ||
+      (orSuperAdmin ? permissions.includes('superadmin') : false)
+    )
+  }
 
   const isLoggedIn = useMemo(() => !!user, [user])
 
@@ -106,7 +128,7 @@ export function useUser() {
     customer,
     isLoggedIn,
     adminPermissions: permissions,
-    isAdmin: !!permissions.length,
+    isAdmin,
     hasAdminPermission,
     setCustomer,
   }

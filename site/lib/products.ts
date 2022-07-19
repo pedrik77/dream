@@ -7,6 +7,7 @@ import {
   query,
   QueryConstraint,
   setDoc,
+  Timestamp,
   where,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
@@ -53,18 +54,34 @@ export async function deleteProduct(slug: string | string[]) {
   )
 }
 
-export function useProducts(categorySlug = '') {
+export function useProducts({
+  category = '',
+  onlyActive = false,
+  onlyPast = false,
+}: {
+  category?: string
+  onlyActive?: boolean
+  onlyPast?: boolean
+} = {}) {
   const [products, setProducts] = useState<Product[]>([])
 
   const queries: QueryConstraint[] = useMemo(() => {
     const queries: QueryConstraint[] = []
 
-    if (categorySlug) {
-      queries.push(where('category', '==', categorySlug))
+    if (category) {
+      queries.push(where('category', '==', category))
+    }
+
+    if (onlyActive) {
+      queries.push(where('closing_date', '>', Timestamp.fromDate(new Date())))
+    }
+
+    if (onlyPast) {
+      queries.push(where('closing_date', '<=', Timestamp.fromDate(new Date())))
     }
 
     return queries
-  }, [categorySlug])
+  }, [category, onlyActive, onlyPast])
 
   useEffect(
     () =>
