@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react'
 import { useUser } from '@lib/auth'
 
 interface usePermissionArgs {
-  permission: string
+  permission?: string
   redirect?: string
 }
 
-export function usePermission({ permission, redirect }: usePermissionArgs) {
+export function usePermission({
+  permission,
+  redirect,
+}: usePermissionArgs = {}) {
   const { hasAdminPermission } = useUser()
   const router = useRouter()
 

@@ -1,12 +1,10 @@
 import { Layout } from '@components/common'
 import { Button, Container, Text } from '@components/ui'
-import { useUser } from '@lib/auth'
-import Link from 'next/link'
+import { PERMISSIONS } from '@lib/auth'
 import {
   DataGrid,
   GridColDef,
   GridValueFormatterParams,
-  GridValueGetterParams,
 } from '@mui/x-data-grid'
 import AdminPermit from '@components/magic/AdminPermit'
 import { useEffect, useState } from 'react'
@@ -15,6 +13,7 @@ import { basicShowFormat } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { confirm } from '@lib/alerts'
+import { usePermission } from '@lib/hooks/usePermission'
 
 const dateFormatter = (r: GridValueFormatterParams) => basicShowFormat(r.value)
 
@@ -47,15 +46,13 @@ const columns: GridColDef[] = [
 ]
 
 export default function Dashboard() {
-  const { isAdmin, hasAdminPermission } = useUser()
-
   const [selected, setSelected] = useState<string[]>([])
 
   const products = useProducts()
 
   const router = useRouter()
 
-  if (!isAdmin && !hasAdminPermission('products.list')) return null
+  if (usePermission({ permission: PERMISSIONS.PRODUCTS_LIST })) return null
 
   const handleDeleteSelected = async () => {
     if (!(await confirm('Naozaj?'))) return
@@ -68,7 +65,11 @@ export default function Dashboard() {
   return (
     <Container>
       <div>
-        <Button onClick={() => router.push('/admin/products/add')}>New</Button>
+        <AdminPermit permission={PERMISSIONS.PRODUCTS_ADD}>
+          <Button onClick={() => router.push('/admin/products/add')}>
+            New
+          </Button>
+        </AdminPermit>
         <Button
           className={!!selected.length ? 'visible' : 'invisible'}
           onClick={handleDeleteSelected}
