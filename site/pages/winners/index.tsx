@@ -83,8 +83,8 @@ export default function Winners({ date = '' }: WinnersPageProps) {
 
   return (
     <Container className="pt-4 mt-0 md:mt-8">
-      <div className="flex flex-col lg:flex-row gap-3 lg:gap-6">
-        <div className="lg:w-1/3 flex flex-col gap-4 pr-4 pb-8 mx-2 g:mx-4 border-b-[1px] lg:border-r-[1px] border-opacity-70 border-primary items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
+      <div className="grid grid-cols-12 lg:flex-row gap-3 lg:gap-6">
+        <div className="col-span-2 flex flex-col gap-4 pr-4 pb-8 mx-2 g:mx-4 lg:border-r-[1px] border-opacity-70 border-primary items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
           <Text variant="pageHeading">
             <Link href="/winners">
               <a>Víťazi</a>
@@ -131,14 +131,18 @@ export default function Winners({ date = '' }: WinnersPageProps) {
             ))}
           </div>
         </div>
-        <div className="">
+        <div className="col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 my-8 py-2 gap-4 md:gap-8">
           {date && (
             <Text variant="pageHeading">
               {currentMonthName} {currentYear}
             </Text>
           )}
           {products.map((product) => (
-            <ProductCard key={product.slug} product={product} />
+            <ProductCard
+              variant="simple"
+              key={product.slug}
+              product={product}
+            />
           ))}
         </div>
       </div>
