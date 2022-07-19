@@ -62,6 +62,13 @@ export default function Winners({ date = '' }: WinnersPageProps) {
   const products = useMemo(() => {
     if (!yearTree[currentYear]) return []
 
+    if (!currentMonth) {
+      return Object.values(yearTree[currentYear]).reduce(
+        (month, acc) => [...acc, ...month],
+        []
+      )
+    }
+
     if (!yearTree[currentYear][currentMonth]) return []
 
     return yearTree[currentYear][currentMonth]
