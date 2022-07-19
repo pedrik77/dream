@@ -53,7 +53,11 @@ export async function deleteProduct(slug: string | string[]) {
   )
 }
 
-export function useProducts(categorySlug = '') {
+export function useProducts({
+  categorySlug = '',
+  onlyActive = false,
+  onlyPast = false,
+}) {
   const [products, setProducts] = useState<Product[]>([])
 
   const queries: QueryConstraint[] = useMemo(() => {
@@ -63,8 +67,16 @@ export function useProducts(categorySlug = '') {
       queries.push(where('category', '==', categorySlug))
     }
 
+    if (onlyActive) {
+      queries.push(where('closing_date', '>', Date.now()))
+    }
+
+    if (onlyPast) {
+      queries.push(where('closing_date', '<=', Date.now()))
+    }
+
     return queries
-  }, [categorySlug])
+  }, [categorySlug, onlyActive, onlyPast])
 
   useEffect(
     () =>
