@@ -64,6 +64,11 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     return tree
   }, [allProducts])
 
+  const monthTree = useMemo(
+    () => (currentYear ? yearTree[currentYear] : null),
+    [yearTree, currentYear]
+  )
+
   const monthName = (month: string) => MONTHS[parseInt(month) - 1]
 
   const [products, currentMonthName] = useMemo(() => {
@@ -103,46 +108,45 @@ export default function Winners({ date = '' }: WinnersPageProps) {
               </Link>
             </Text>
             <div className={treeClass}>
-              {Object.entries(yearTree).map(([year, monthTree]) => (
-                <Fragment key={year}>
-                  <Link href={`/winners?date=${year}`}>
-                    <a
-                      title={year}
-                      className={
-                        currentYear === year
-                          ? 'border-b-2 border-primary border-opacity-70'
-                          : 'text-primary hover:border-b-2 border-secondary'
-                      }
-                    >
-                      {year}
-                    </a>
-                  </Link>
-
-                  {currentYear === year && (
-                    <div className={treeClass + ' pl-5 text-sm'}>
-                      {Object.entries(monthTree).map(([month, winners]) => (
-                        <Link
-                          href={`/winners?date=${year}-${month}`}
-                          key={`${month}/${year}`}
-                        >
-                          <a
-                            title={month}
-                            className={
-                              currentMonth === month
-                                ? 'border-b-2 border-primary border-opacity-70'
-                                : 'text-accent-6 text-sm hover:text-primary'
-                            }
-                          >
-                            {monthName(month)}
-                          </a>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </Fragment>
+              {Object.keys(yearTree).map((year) => (
+                <Link key={year} href={`/winners?date=${year}`}>
+                  <a
+                    title={year}
+                    className={
+                      currentYear === year
+                        ? 'border-b-2 border-primary border-opacity-70'
+                        : 'text-primary hover:border-b-2 border-secondary'
+                    }
+                  >
+                    {year}
+                  </a>
+                </Link>
               ))}
             </div>
+
+            {monthTree && (
+              <div className={treeClass + ' pl-5 text-sm'}>
+                {Object.keys(monthTree).map((month) => (
+                  <Link
+                    href={`/winners?date=${currentYear}-${month}`}
+                    key={`${month}/${currentYear}`}
+                  >
+                    <a
+                      title={month}
+                      className={
+                        currentMonth === month
+                          ? 'border-b-2 border-primary border-opacity-70'
+                          : 'text-accent-6 text-sm hover:text-primary'
+                      }
+                    >
+                      {monthName(month)}
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
+
           <div className="">
             {date && (
               <Text variant="pageHeading">
