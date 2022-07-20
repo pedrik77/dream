@@ -136,7 +136,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
                       title={month}
                       className={
                         currentMonth === month
-                          ? 'border-b-2 border-primary border-opacity-70'
+                          ? 'border-b-2 text-sm border-primary border-opacity-70'
                           : 'text-accent-6 text-sm hover:text-primary'
                       }
                     >
