@@ -67,14 +67,14 @@ export default function Dashboard() {
       <div>
         <AdminPermit permission={PERMISSIONS.PRODUCTS_ADD}>
           <Button onClick={() => router.push('/admin/products/add')}>
-            New
+            Pridat produkt
           </Button>
         </AdminPermit>
         <Button
           className={!!selected.length ? 'visible' : 'invisible'}
           onClick={handleDeleteSelected}
         >
-          Delete {selected.length}
+          Vymazat ({selected.length})
         </Button>
       </div>
       <div className="w-[80%] h-[600px] text-primary">
