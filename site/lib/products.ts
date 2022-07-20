@@ -14,6 +14,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { db } from './firebase'
 import { uploadFile } from './files'
 import { v4 as uuid4 } from 'uuid'
+import { CustomerData } from './auth'
+import { Order } from './orders'
 
 export interface ProductImage {
   src: string
@@ -21,7 +23,10 @@ export interface ProductImage {
   filename: string
 }
 
-export interface Winner {}
+export interface Winner {
+  customer: CustomerData
+  order: Order
+}
 
 export interface Product {
   slug: string

@@ -45,20 +45,15 @@ export default function Winners({ date = '' }: WinnersPageProps) {
       const year = date[0]
       const month = date[1]
 
-      const yearNumber = parseInt(year)
+      if (!tree[year]) {
+        tree[year] = {}
+      }
 
-      ;[1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((add) => {
-        const year = yearNumber + add
-        if (!tree[year]) {
-          tree[year] = {}
-        }
+      if (!tree[year][month]) {
+        tree[year][month] = []
+      }
 
-        if (!tree[year][month]) {
-          tree[year][month] = []
-        }
-
-        tree[year][month].push(product)
-      })
+      tree[year][month].push(product)
     })
 
     return tree
