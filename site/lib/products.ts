@@ -21,6 +21,8 @@ export interface ProductImage {
   filename: string
 }
 
+export interface Winner {}
+
 export interface Product {
   slug: string
   title_1: string
@@ -34,6 +36,7 @@ export interface Product {
   long_desc: string
   donation_entries: string
   category: string
+  winner?: Winner
 }
 
 export async function getProduct(slug: string) {

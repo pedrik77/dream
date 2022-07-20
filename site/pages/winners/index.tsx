@@ -109,7 +109,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
             </Text>
             <div className={treeClass}>
               {Object.keys(yearTree).map((year) => (
-                <Link key={year} href={`/winners?date=${year}`}>
+                <Link key={year} href={`/winners?date=${year}`} scroll={false}>
                   <a
                     title={year}
                     className={
@@ -130,6 +130,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
                   <Link
                     href={`/winners?date=${currentYear}-${month}`}
                     key={`${month}/${currentYear}`}
+                    scroll={false}
                   >
                     <a
                       title={month}
