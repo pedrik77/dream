@@ -3,8 +3,6 @@ import Container from '../Container'
 import s from './PageBanner.module.css'
 
 const PageBanner: React.FC<{
-  primaryTitle: string
-  secondaryTitle: string
   img: string
 }> = ({ img }) => {
   return (
@@ -12,7 +10,7 @@ const PageBanner: React.FC<{
       <Image
         src={img}
         alt="alt"
-        width="1440"
+        width="2000"
         height="610"
         layout="responsive"
         quality="100"
