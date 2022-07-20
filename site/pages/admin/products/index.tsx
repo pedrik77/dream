@@ -8,12 +8,13 @@ import {
 } from '@mui/x-data-grid'
 import AdminPermit from '@components/magic/AdminPermit'
 import { useEffect, useState } from 'react'
-import { deleteProduct, Product, useProducts } from '@lib/products'
+import { deleteProduct, Product, setProduct, useProducts } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { confirm } from '@lib/alerts'
 import { usePermission } from '@lib/hooks/usePermission'
+import { v4 } from 'uuid'
 
 const dateFormatter = (r: GridValueFormatterParams) => basicShowFormat(r.value)
 
@@ -62,13 +63,25 @@ export default function Dashboard() {
       .catch(handleErrorFlash)
   }
 
+  const redirectToAddProduct = () => {
+    router.push('/admin/products/add')
+
+    // const prod = products[0]
+    // if (!prod) return
+    // console.log(prod)
+
+    // Array(16)
+    //   .fill(0)
+    //   .forEach(() => {
+    //     setProduct({ ...prod, slug: v4() })
+    //   })
+  }
+
   return (
     <Container>
       <div>
         <AdminPermit permission={PERMISSIONS.PRODUCTS_ADD}>
-          <Button onClick={() => router.push('/admin/products/add')}>
-            Pridat produkt
-          </Button>
+          <Button onClick={redirectToAddProduct}>Pridat produkt</Button>
         </AdminPermit>
         <Button
           className={!!selected.length ? 'visible' : 'invisible'}
@@ -87,6 +100,7 @@ export default function Dashboard() {
             setSelected(selected as string[])
           }
           pageSize={6}
+          rowsPerPageOptions={[6, 12, 24]}
           getRowId={(row: Product) => row.slug}
           disableSelectionOnClick
         />
