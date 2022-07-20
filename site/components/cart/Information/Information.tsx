@@ -32,7 +32,7 @@ export default function Information() {
       </Text>
       <div className="max-w-3xl my-4 mx-auto">
         <AccountFieldWrapper>
-          <div className="flex flex-col col-span-3 divide-secondary divide-y">
+          <div className="flex flex-col col-span-3 divider divide-y">
             <AccountField>
               <label htmlFor="fullname" className="cursor-pointer">
                 Celé meno
@@ -81,7 +81,7 @@ export default function Information() {
         </Text>
         <div className="max-w-3xl my-4 mx-auto">
           <AccountFieldWrapper>
-            <div className="flex flex-col col-span-3 divide-secondary divide-y">
+            <div className="flex flex-col col-span-3 divider divide-y">
               <AccountField>
                 <label htmlFor="street" className="cursor-pointer">
                   Street{' '}
