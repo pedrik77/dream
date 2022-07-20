@@ -19,7 +19,7 @@ export default function Products({ category = '' }: ProductsPageProps) {
       <PageBanner
         primaryTitle="Dessert dragée"
         secondaryTitle="Cupcake ipsum"
-        img="/assets/tesla1_1440x810.jpg"
+        img="/assets/page_banner.jpg"
       />
       <Container className="flex gap-8 items-center justify-center my-16">
         <Tab active>Aktuálne</Tab>
