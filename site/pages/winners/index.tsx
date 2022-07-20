@@ -8,6 +8,7 @@ import React, { Fragment, useMemo } from 'react'
 import { inputDateFormat } from '@lib/date'
 import { Product, useProducts } from '@lib/products'
 import { ProductCard } from '@components/product'
+import PageBanner from '@components/ui/PageBanner'
 
 const MONTHS = [
   'január',
@@ -58,6 +59,11 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     return tree
   }, [allProducts])
 
+  const monthTree = useMemo(
+    () => (currentYear ? yearTree[currentYear] : null),
+    [yearTree, currentYear]
+  )
+
   const monthName = (month: string) => MONTHS[parseInt(month) - 1]
 
   const [products, currentMonthName] = useMemo(() => {
@@ -79,21 +85,22 @@ export default function Winners({ date = '' }: WinnersPageProps) {
   }, [yearTree, currentMonth, currentYear, allProducts])
 
   const treeClass =
-    'flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl'
+    'flex flex-row gap-4 justify-center items-center text-lg md:text-xl'
 
   return (
-    <Container className="pt-4 mt-0 md:mt-8">
-      <div className="flex flex-col lg:flex-row gap-3 lg:gap-6">
-        <div className="lg:w-1/3 flex flex-col gap-4 pr-4 pb-8 mx-2 g:mx-4 border-b-[1px] lg:border-r-[1px] border-opacity-70 border-primary items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
-          <Text variant="pageHeading">
-            <Link href="/winners">
-              <a>Víťazi</a>
-            </Link>
-          </Text>
-          <div className={treeClass}>
-            {Object.entries(yearTree).map(([year, monthTree]) => (
-              <Fragment key={year}>
-                <Link href={`/winners?date=${year}`}>
+    <Container clean>
+      <PageBanner img="/assets/page_banner.jpg" />
+      <Container className="py-8 mt-0 md:mt-8 items-center justify-center">
+        <div className="flex flex-col gap-3 lg:gap-6 max-w-lg md:max-w-2xl mx-auto lg:max-w-6xl items-center justify-center">
+          <div className="flex flex-col gap-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
+            <Text variant="pageHeading">
+              <Link href="/winners">
+                <a>Víťazi</a>
+              </Link>
+            </Text>
+            <div className={treeClass}>
+              {Object.keys(yearTree).map((year) => (
+                <Link key={year} href={`/winners?date=${year}`} scroll={false}>
                   <a
                     title={year}
                     className={
@@ -105,43 +112,51 @@ export default function Winners({ date = '' }: WinnersPageProps) {
                     {year}
                   </a>
                 </Link>
+              ))}
+            </div>
 
-                {currentYear === year && (
-                  <div className={treeClass + ' pl-5 text-sm'}>
-                    {Object.entries(monthTree).map(([month, winners]) => (
-                      <Link
-                        href={`/winners?date=${year}-${month}`}
-                        key={`${month}/${year}`}
-                      >
-                        <a
-                          title={month}
-                          className={
-                            currentMonth === month
-                              ? 'border-b-2 border-primary border-opacity-70'
-                              : 'text-primary hover:border-b-2 border-secondary'
-                          }
-                        >
-                          {monthName(month)}
-                        </a>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </Fragment>
-            ))}
+            {monthTree && (
+              <div className={treeClass + ' pl-5 text-sm'}>
+                {Object.keys(monthTree).map((month) => (
+                  <Link
+                    href={`/winners?date=${currentYear}-${month}`}
+                    key={`${month}/${currentYear}`}
+                    scroll={false}
+                  >
+                    <a
+                      title={month}
+                      className={
+                        currentMonth === month
+                          ? 'border-b-2 text-sm border-primary border-opacity-70'
+                          : 'text-accent-6 text-sm hover:text-primary'
+                      }
+                    >
+                      {monthName(month)}
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="">
+            {date && (
+              <Text variant="pageHeading">
+                {currentMonthName} {currentYear}
+              </Text>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-8 py-2 gap-4 md:gap-8">
+              {products.map((product) => (
+                <ProductCard
+                  variant="simple"
+                  key={product.slug}
+                  product={product}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        <div className="">
-          {date && (
-            <Text variant="pageHeading">
-              {currentMonthName} {currentYear}
-            </Text>
-          )}
-          {products.map((product) => (
-            <ProductCard key={product.slug} product={product} />
-          ))}
-        </div>
-      </div>
+      </Container>
     </Container>
   )
 }

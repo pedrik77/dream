@@ -14,11 +14,18 @@ import { useEffect, useMemo, useState } from 'react'
 import { db } from './firebase'
 import { uploadFile } from './files'
 import { v4 as uuid4 } from 'uuid'
+import { CustomerData } from './auth'
+import { Order } from './orders'
 
 export interface ProductImage {
   src: string
   path: string
   filename: string
+}
+
+export interface Winner {
+  customer: CustomerData
+  order: Order
 }
 
 export interface Product {
@@ -34,6 +41,7 @@ export interface Product {
   long_desc: string
   donation_entries: string
   category: string
+  winner?: Winner
 }
 
 export async function getProduct(slug: string) {

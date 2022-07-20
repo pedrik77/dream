@@ -1,8 +1,8 @@
 .root {
-  @apply bg-secondary text-accent-9 cursor-pointer inline-flex
-  px-6 md:px-10 py-2 md:py-5 leading-6 transition ease-in-out duration-150
+  @apply bg-secondary text-accent-0 cursor-pointer inline-flex
+  px-3 sm:px-6 md:px-10 lg:px-12 py-1 sm:py-2 md:py-5 lg:py-7 leading-6 transition ease-in-out duration-150
   shadow-sm text-center justify-center uppercase
-  border-transparent border-[2px] items-center text-xs md:text-sm font-semibold
+  border-transparent border-[2px] items-center text-[0.65rem] sm:text-xs md:text-sm lg:text-lg font-semibold
   tracking-wide;
   max-height: 64px;
 }
@@ -51,7 +51,4 @@
   -webkit-transform: translateZ(0);
   -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
-}
-
-.progress {
 }

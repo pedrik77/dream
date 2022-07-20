@@ -33,7 +33,7 @@ const LoginView = () => {
     signIn(email, password)
       .then(() => {
         flash(FlashMessages.success, 'success')
-        router.push('/account')
+        // router.push('/account')
         closeModal()
       })
       .catch((e) => {
@@ -53,12 +53,19 @@ const LoginView = () => {
         <Logo />
       </div>
       <div className="flex flex-col space-y-3">
-        <Input required type="email" placeholder="Email" onChange={setEmail} />
+        <Input
+          required
+          type="email"
+          placeholder="Email"
+          onChange={setEmail}
+          value={email}
+        />
         <Input
           required
           type="password"
           placeholder="Heslo"
           onChange={setPassword}
+          value={password}
         />
 
         <Button
