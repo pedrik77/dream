@@ -90,7 +90,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
   }, [yearTree, currentMonth, currentYear, allProducts])
 
   const treeClass =
-    'flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl'
+    'flex flex-row gap-4 justify-center items-center text-lg md:text-xl'
 
   return (
     <Container clean>
@@ -101,7 +101,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
       />
       <Container className="py-8 mt-0 md:mt-8 items-center justify-center">
         <div className="flex flex-col gap-3 lg:gap-6 max-w-lg md:max-w-2xl mx-auto lg:max-w-6xl items-center justify-center">
-          <div className="flex flex-col gap-4 pr-4 pb-8 mx-2 g:mx-4 lg:border-r-[1px] border-opacity-70 border-primary items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
+          <div className="flex flex-col gap-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
             <Text variant="pageHeading">
               <Link href="/winners">
                 <a>Víťazi</a>
