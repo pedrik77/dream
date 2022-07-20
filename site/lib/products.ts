@@ -15,7 +15,7 @@ import { db } from './firebase'
 import { uploadFile } from './files'
 import { v4 as uuid4 } from 'uuid'
 import { CustomerData } from './auth'
-import { Order } from './orders'
+// import { Order } from './orders'
 
 export interface ProductImage {
   src: string
@@ -23,10 +23,10 @@ export interface ProductImage {
   filename: string
 }
 
-export interface Winner {
-  customer: CustomerData
-  order: Order
-}
+// export interface Winner {
+//   customer: CustomerData
+//   order: Order
+// }
 
 export interface Product {
   slug: string
@@ -41,7 +41,7 @@ export interface Product {
   long_desc: string
   donation_entries: string
   category: string
-  winner?: Winner
+  // winner?: Winner
 }
 
 export async function getProduct(slug: string) {
