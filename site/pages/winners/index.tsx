@@ -89,11 +89,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
 
   return (
     <Container clean>
-      <PageBanner
-        primaryTitle="Lorem ipsum doleres chocolates"
-        secondaryTitle="Neviem uz boha co"
-        img="/assets/tesla1_1440x810.jpg"
-      />
+      <PageBanner img="/assets/page_banner.jpg" />
       <Container className="py-8 mt-0 md:mt-8 items-center justify-center">
         <div className="flex flex-col gap-3 lg:gap-6 max-w-lg md:max-w-2xl mx-auto lg:max-w-6xl items-center justify-center">
           <div className="flex flex-col gap-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">

@@ -13,16 +13,19 @@ export default function CartItem({ product, ticketCount, price }: ICartItem) {
   const router = useRouter()
 
   return (
-    <div className="col-span-12 flex flex-col md:flex-row gap-2 my-4 py-8 items-center justify-between border-none md:border-b md:border-primary">
-      <div className="flex flex-col md:flex-row gap-4 md:gap-8 pb-4 md:pb-0 max-w-lg">
-        <Image
-          height={195}
-          width={300}
-          alt="productImage"
-          src={product.image}
-          className="rounded-md"
-        />
-        <div className="flex flex-col center text-left">
+    <div className="col-span-12 md:grid grid-cols-1 md:grid-cols-12 gap-2 my-4 py-12 items-center justify-between border-b">
+      <div className="col-span-1 md:col-span-8 grid grid-cols-1 sm:grid-cols-6 gap-y-4 sm:gap-4 md:gap-8 pb-4 md:pb-0 max-w-lg mx-auto">
+        <div className="cols-span-1 sm:col-span-3 w-full h-auto">
+          <Image
+            height={195}
+            width={300}
+            layout="responsive"
+            alt="productImage"
+            src={product.image}
+            className="rounded-md"
+          />
+        </div>
+        <div className="col-span-3 flex flex-col center text-left">
           <span className="text-2xl md:text-3xl font-bold ">
             {ticketCount} tiketov
           </span>
@@ -36,7 +39,7 @@ export default function CartItem({ product, ticketCount, price }: ICartItem) {
         </div>
       </div>
 
-      <div className="flex gap-4 md:gap-12 items-center justify-center md:justify-start border-t border-secondary md:border-none pt-4 md:pt-0">
+      <div className="col-span-4 flex gap-4 md:gap-12 items-center justify-center md:justify-end pt-4 md:pt-0">
         <Text variant="sectionHeading">{price} € </Text>
         <div className="flex center items-center border-l-2 border-primary md:border-none pl-4 md:pl-0">
           <Button onClick={handleRemove} variant="naked" className="primary">

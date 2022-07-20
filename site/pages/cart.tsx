@@ -74,7 +74,7 @@ export default function Cart() {
   }
 
   return (
-    <section className="grid grid-cols-6 md:grid-cols-12 gap-4 center my-8 mx-auto lg:mx-auto pt-4 px-4 max-w-4xl">
+    <section className="grid grid-cols-6 md:grid-cols-12 gap-4 center my-8 mx-auto lg:mx-auto pt-4 px-4 max-w-6xl">
       <Text
         variant="heading"
         className="col-span-full md:col-span-3 text-center"

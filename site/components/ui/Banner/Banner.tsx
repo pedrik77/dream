@@ -16,7 +16,7 @@ const Banner: React.FC<{
           src={img}
           alt="alt"
           width="1440"
-          height="810"
+          height="910"
           layout="responsive"
           quality="100"
         />
