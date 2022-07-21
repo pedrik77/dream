@@ -1,7 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Text, Container } from '@components/ui'
 import Stepper from '@components/cart/Stepper'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Products from '@components/cart/Products/Products'
 import Information from '@components/cart/Information/Information'
 import Payment from '@components/cart/Payment/Payment'
@@ -72,6 +72,11 @@ export default function Cart() {
     if (prevDisabled) return
     setActive(STEPS[STEPS.indexOf(active) - 1])
   }
+
+  useEffect(
+    () => window && window.scrollTo({ top: 0, behavior: 'smooth' }),
+    [active]
+  )
 
   return (
     <section className="grid grid-cols-6 md:grid-cols-12 gap-4 center my-8 mx-auto lg:mx-auto pt-4 px-4 max-w-6xl">

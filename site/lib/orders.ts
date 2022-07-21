@@ -8,6 +8,7 @@ export interface Order {
   uuid: string
   user_uid: string
   items: CartItem[]
+  products: string[]
   customer: CustomerData
   total_price: number
   created_date: number
@@ -20,7 +21,10 @@ export async function getOrder(uuid: string): Promise<Order> {
 }
 
 export async function setOrder({ uuid, ...order }: any) {
-  return await setDoc(doc(db, 'orders', uuid), order)
+  return await setDoc(doc(db, 'orders', uuid), {
+    ...order,
+    products: order.items.map((i: any) => i.product.slug),
+  })
 }
 
 export function useOrders() {
