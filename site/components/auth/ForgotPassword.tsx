@@ -43,7 +43,12 @@ const ForgotPassword: FC<Props> = () => {
           resetovanie vášho hesla.
         </div>
 
-        <Input placeholder="Email" onChange={setEmail} type="email" />
+        <Input
+          placeholder="Email"
+          onChange={setEmail}
+          type="email"
+          value={email}
+        />
         <div className="pt-2 w-full flex flex-col">
           <Button
             variant="slim"

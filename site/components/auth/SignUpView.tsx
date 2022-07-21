@@ -55,17 +55,25 @@ const SignUpView = () => {
         <Logo />
       </div>
       <div className="flex flex-col space-y-4 text-accent-0">
-        <Input required type="email" placeholder="Email" onChange={setEmail} />
+        <Input
+          required
+          type="email"
+          placeholder="Email"
+          onChange={setEmail}
+          value={email}
+        />
         <Input
           required
           type="password"
           placeholder="Heslo"
           onChange={setPassword}
+          value={password}
         />
         <label className="text-sm">
           <input
             className="mr-2"
             type="checkbox"
+            checked={newsletter}
             onChange={(e) => setNewsletter(e.target.checked)}
           />{' '}
           Newsletter
