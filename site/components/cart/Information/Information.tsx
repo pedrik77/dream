@@ -1,4 +1,5 @@
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
+import { useAuthContext } from '@components/contexts/AuthWrapper'
 import { Button, Input, Text } from '@components/ui'
 import { useUI } from '@components/ui/context'
 import { useAuth } from '@lib/auth'
@@ -6,7 +7,7 @@ import { useShop } from '@lib/shop'
 import React, { useEffect, useState } from 'react'
 
 export default function Information() {
-  const { customer, isLoggedIn } = useAuth()
+  const { customer, isLoggedIn } = useAuthContext()
 
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
