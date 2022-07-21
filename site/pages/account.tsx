@@ -1,7 +1,7 @@
 import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
 import { Container, Text, Input, Button } from '@components/ui'
-import { useUser, setCustomerProfile, resetPassword } from '@lib/auth'
+import { useAuth, setCustomerProfile, resetPassword } from '@lib/auth'
 import React, {
   FormEventHandler,
   MouseEventHandler,
@@ -17,7 +17,7 @@ import { Label } from '@radix-ui/react-dropdown-menu'
 import { confirm } from '@lib/alerts'
 
 export default function Account() {
-  const { customer } = useUser()
+  const { customer } = useAuth()
 
   const [fullname, setFullname] = useState('')
   const [phone, setPhone] = useState('')

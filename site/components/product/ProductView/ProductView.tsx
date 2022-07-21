@@ -11,7 +11,7 @@ import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
 import { Product, useProducts } from '@lib/products'
 import { setOrder } from '@lib/orders'
-import { useUser } from '@lib/auth'
+import { useAuth } from '@lib/auth'
 import { Timestamp } from 'firebase/firestore'
 import { today } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
@@ -32,7 +32,7 @@ const GLOBAL_ENTRIES = Object.entries({
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
   const buyCardsRef = useRef<HTMLDivElement>(null)
-  const { user } = useUser()
+  const { user } = useAuth()
   const router = useRouter()
 
   const { addToCart, isInCart } = useShop()

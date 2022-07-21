@@ -11,7 +11,7 @@ import { today } from './date'
 import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
-import { useUser } from './auth'
+import { useAuth } from './auth'
 import { db } from './firebase'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
 
@@ -49,7 +49,7 @@ const getCartId = (email: string = '') => {
 export const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))
 
 export const useShop = () => {
-  const { customer, user, setCustomer } = useUser()
+  const { customer, user, setCustomer } = useAuth()
 
   const [cart, setCart] = useState<CartItem[]>([])
 

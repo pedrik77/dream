@@ -1,12 +1,12 @@
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
 import { Button, Input, Text } from '@components/ui'
 import { useUI } from '@components/ui/context'
-import { useUser } from '@lib/auth'
+import { useAuth } from '@lib/auth'
 import { useShop } from '@lib/shop'
 import React, { useEffect, useState } from 'react'
 
 export default function Information() {
-  const { customer, isLoggedIn } = useUser()
+  const { customer, isLoggedIn } = useAuth()
 
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')

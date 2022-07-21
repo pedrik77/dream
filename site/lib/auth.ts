@@ -54,7 +54,7 @@ function getProvider(provider: ProviderType) {
   throw new Error('Unknown provider')
 }
 
-export function useUser() {
+export function useAuth() {
   const [user, setUser] = useState<User | undefined>()
   const [customer, setCustomer] = useState<CustomerData>(NULL_CUSTOMER_DATA)
 

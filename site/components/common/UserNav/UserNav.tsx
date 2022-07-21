@@ -15,7 +15,7 @@ import {
 } from '@components/ui'
 
 import type { LineItem } from '@commerce/types/cart'
-import { useUser } from '@lib/auth'
+import { useAuth } from '@lib/auth'
 
 const countItem = (count: number, item: LineItem) => count + item.quantity
 
@@ -23,7 +23,7 @@ const UserNav: React.FC<{
   className?: string
 }> = ({ className }) => {
   const { data } = useCart()
-  const { isLoggedIn } = useUser()
+  const { isLoggedIn } = useAuth()
   const {
     toggleSidebar,
     closeSidebarIfPresent,
