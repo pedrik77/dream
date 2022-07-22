@@ -34,7 +34,7 @@ export type ProviderType = 'fb' | 'google'
 
 export type CustomerData = typeof NULL_CUSTOMER_DATA
 
-export const PERMISSIONS = {
+export const PERMISSIONS = Object.freeze({
   SUPERADMIN: 'superadmin',
   ORDERS_LIST: 'orders.list',
   USERS_LIST: 'users.list',
@@ -43,7 +43,7 @@ export const PERMISSIONS = {
   WINNERS_LIST: 'winners.list',
   PAGES_LIST: 'pages.list',
   PRODUCTS_ADD: 'products.add',
-} as const
+})
 
 const auth = getAuth(app)
 
