@@ -17,10 +17,11 @@ export const useUserAvatar = (name = 'userAvatar') => {
       localStorage.setItem(name, value)
       setUserAvatar(value)
     }
-  }, [])
+  }, [name, setUserAvatar, userAvatar])
 
   return {
     userAvatar,
     setUserAvatar,
+    isPlaceholder: (userAvatar as string).includes('linear-gradient'),
   }
 }
