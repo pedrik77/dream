@@ -1,3 +1,5 @@
+import { v4 } from 'uuid'
+import { useUI } from './../components/ui/context'
 import { useEffect, useMemo, useState } from 'react'
 import {
   getAuth,
@@ -17,10 +19,13 @@ import { doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
 
+const placeholder = `https://api.lorem.space/image/burger?w=200&h=200`
+
 export const NULL_CUSTOMER_DATA = {
   email: '',
   fullname: '',
   phone: '',
+  avatar: placeholder,
   address: {
     street: '',
     city: '',
@@ -95,10 +100,13 @@ export function useUser() {
     return onSnapshot(
       doc(db, 'customers', user.email),
       (doc) => {
-        const data = { ...doc.data(), email: doc.id }
+        const data = { ...doc.data(), email: doc.id } as CustomerData
         console.log('customer data', data)
 
-        setCustomer(data as CustomerData)
+        setCustomer({
+          ...data,
+          avatar: data.avatar || placeholder,
+        })
       },
       (err) => {
         console.error(err)

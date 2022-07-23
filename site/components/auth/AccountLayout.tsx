@@ -1,6 +1,6 @@
 import { Avatar } from '@components/common'
-import { Container, Text } from '@components/ui'
-import { useUserAvatar } from '@lib/hooks/useUserAvatar'
+import { Container, Text, useUI } from '@components/ui'
+import { useUser } from '@lib/auth'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -20,9 +20,7 @@ const AccountLayout: React.FC<{
     ? order.map((href) => [href, LINKS[href]])
     : Object.entries(LINKS)
 
-  const { userAvatar, setUserAvatar } = useUserAvatar()
-
-  console.log(userAvatar)
+  const { customer } = useUser()
 
   return (
     <Container className="pt-4 mt-0 md:mt-8">
@@ -31,7 +29,7 @@ const AccountLayout: React.FC<{
           <div className="flex justify-center align-center h-32 w-32">
             <Avatar />
           </div>
-          <Text variant="pageHeading">Zorinska</Text>
+          <Text variant="pageHeading">{customer.fullname}</Text>
           <div className="flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl">
             {tuples.map(([href, label]) => (
               <Link key={href} href={'/' + href}>
