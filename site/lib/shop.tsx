@@ -54,7 +54,7 @@ const Context = createContext<ContextType>({
 })
 
 export const ShopProvider: React.FC = ({ children }) => {
-  const { customer, user, setCustomer } = useAuthContext()
+  const { customer, user } = useAuthContext()
 
   const [cart, setCart] = useState<CartItem[]>([])
 
@@ -67,31 +67,17 @@ export const ShopProvider: React.FC = ({ children }) => {
 
   const cartId = useMemo(() => getCartId(), [])
 
-  useEffect(
-    () =>
-      onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
-        setCart(
-          // @ts-ignore
-          querySnapshot.data()?.data || []
-        )
-        loading.stop()
-      }),
-    [cartId, loading]
-  )
-
-  useEffect(() => {
-    if (!customer.email) return
-
-    const storedCustomer = sessionStorage.getItem(CUSTOMER_STORAGE_KEY)
-
-    if (storedCustomer) setCustomer(JSON.parse(storedCustomer))
-  }, [customer, setCustomer])
-
-  useEffect(
-    () =>
-      sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer)),
-    [customer]
-  )
+  // useEffect(
+  //   () =>
+  //     onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
+  //       setCart(
+  //         // @ts-ignore
+  //         querySnapshot.data()?.data || []
+  //       )
+  //       loading.stop()
+  //     }),
+  //   [cartId, loading]
+  // )
 
   const addToCart = async (
     { slug, title_1, title_2, gallery }: Product,
@@ -103,7 +89,7 @@ export const ShopProvider: React.FC = ({ children }) => {
 
     if (inCart && !forceOverride) throw new Error('Already in cart')
 
-    return saveCart(getCartId(), [
+    return saveCart(cartId, [
       ...cart.filter(({ product }) => slug !== product.slug),
       {
         product: {
@@ -123,14 +109,11 @@ export const ShopProvider: React.FC = ({ children }) => {
 
   const removeFromCart = (productSlug: string) =>
     saveCart(
-      getCartId(),
+      cartId,
       cart.filter(({ product: { slug } }) => slug !== productSlug)
     )
 
-  const clearCart = async () => {
-    await saveCart(getCartId(), []).catch((e) => {})
-    sessionStorage.removeItem(CUSTOMER_STORAGE_KEY)
-  }
+  const clearCart = () => saveCart(cartId, []).catch((e) => {})
 
   const isEmptyCart = () => !cart.length
 

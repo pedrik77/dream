@@ -43,7 +43,7 @@ export const NULL_CUSTOMER_DATA = {
 
 export type ProviderType = 'fb' | 'google'
 
-export type CustomerData = typeof NULL_CUSTOMER_DATA
+export type CustomerDataType = typeof NULL_CUSTOMER_DATA
 
 export const PERMISSIONS = {
   SUPERADMIN: 'superadmin',
@@ -58,12 +58,12 @@ export const PERMISSIONS = {
 
 type ContextType = {
   user?: User
-  customer: CustomerData
+  customer: CustomerDataType
   isLoggedIn: boolean
   adminPermissions: string[]
   isAdmin: boolean
   hasAdminPermission: (permission: string) => boolean
-  setCustomer: (customer: CustomerData) => void
+  setCustomer: (customer: CustomerDataType) => void
 }
 
 const Context = createContext<ContextType>({
@@ -78,7 +78,7 @@ const Context = createContext<ContextType>({
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | undefined>()
-  const [customer, setCustomer] = useState<CustomerData>(NULL_CUSTOMER_DATA)
+  const [customer, setCustomer] = useState<CustomerDataType>(NULL_CUSTOMER_DATA)
 
   const [permissions, setPermissions] = useState<string[]>([])
 
@@ -117,7 +117,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     return onSnapshot(
       doc(db, 'customers', user.email),
       (doc) => {
-        const data = { ...doc.data(), email: doc.id } as CustomerData
+        const data = { ...doc.data(), email: doc.id } as CustomerDataType
         console.log('customer data', data)
 
         setCustomer({
@@ -214,7 +214,7 @@ export function signOut() {
   return authSignOut(auth)
 }
 
-export function setCustomerProfile(email: string, data: CustomerData) {
+export function setCustomerProfile(email: string, data: CustomerDataType) {
   const docRef = doc(db, 'customers', email)
   return setDoc(docRef, data)
 }
