@@ -2,28 +2,18 @@ import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
 import { Input, Text } from '@components/ui'
 import { useUser } from '@lib/auth'
 import { useShop } from '@lib/shop'
-import React, { useEffect, useState } from 'react'
+import { ExpectClosure } from '@lib/types'
 
 export default function Information() {
-  const { customer } = useUser()
+  const { customer, setCustomer, isLoggedIn } = useUser()
 
-  const [fullname, setFullname] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [street, setStreet] = useState('')
-  const [city, setCity] = useState('')
-  const [zip, setZip] = useState('')
-  const [country, setCountry] = useState('')
-
-  useEffect(() => {
-    setFullname(customer.fullname)
-    setEmail(customer.email)
-    setPhone(customer.phone)
-    setStreet(customer.address.street)
-    setCity(customer.address.city)
-    setZip(customer.address.zip)
-    setCountry(customer.address.country)
-  }, [customer])
+  const setFullname = (fullname: string) => {}
+  const setEmail = (email: string) => {}
+  const setPhone = (phone: string) => {}
+  const setStreet = (street: string) => {}
+  const setCity = (city: string) => {}
+  const setZip = (zip: string) => {}
+  const setCountry = (country: string) => {}
 
   return (
     <div>
@@ -40,7 +30,7 @@ export default function Information() {
               <Input
                 id="fullname"
                 variant="ghost"
-                value={fullname}
+                value={customer.fullname}
                 placeholder="Celé meno"
                 onChange={setFullname}
               />
@@ -53,9 +43,10 @@ export default function Information() {
                 id="email"
                 type="email"
                 variant="ghost"
-                value={email}
+                value={customer.email}
                 placeholder="Email"
                 onChange={setEmail}
+                disabled={isLoggedIn}
               />
             </AccountField>
 
@@ -67,7 +58,7 @@ export default function Information() {
                 id="phone"
                 type="tel"
                 variant="ghost"
-                value={phone}
+                value={customer.phone}
                 placeholder="Phone"
                 onChange={setPhone}
               />
@@ -90,7 +81,7 @@ export default function Information() {
                   id="street"
                   type="text"
                   variant="ghost"
-                  value={street}
+                  value={customer.address.street}
                   placeholder="Street"
                   onChange={setStreet}
                 />
@@ -103,7 +94,7 @@ export default function Information() {
                   id="city"
                   type="text"
                   variant="ghost"
-                  value={city}
+                  value={customer.address.city}
                   placeholder="City"
                   onChange={setCity}
                 />
@@ -117,7 +108,7 @@ export default function Information() {
                   id="zip"
                   type="text"
                   variant="ghost"
-                  value={zip}
+                  value={customer.address.zip}
                   placeholder="Zip"
                   onChange={setZip}
                 />
@@ -131,7 +122,7 @@ export default function Information() {
                   id="country"
                   type="text"
                   variant="ghost"
-                  value={country}
+                  value={customer.address.country}
                   placeholder="Country"
                   onChange={setCountry}
                 />

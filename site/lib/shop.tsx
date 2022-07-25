@@ -75,10 +75,12 @@ export const useShop = () => {
   )
 
   useEffect(() => {
+    if (!customer.email) return
+
     const storedCustomer = sessionStorage.getItem(CUSTOMER_STORAGE_KEY)
 
     if (storedCustomer) setCustomer(JSON.parse(storedCustomer))
-  }, [setCustomer])
+  }, [customer, setCustomer])
 
   useEffect(
     () =>
@@ -87,23 +89,23 @@ export const useShop = () => {
   )
 
   const addToCart = async (
-    product: Product,
+    { slug, title_1, title_2, gallery }: Product,
     ticketCount: number,
     price: number,
     forceOverride = false
   ) => {
-    const inCart = isInCart(product.slug)
+    const inCart = isInCart(slug)
 
     if (inCart && !forceOverride) throw new Error('Already in cart')
 
     return saveCart(getCartId(), [
-      ...cart.filter(({ product: { slug } }) => slug !== product.slug),
+      ...cart.filter(({ product }) => slug !== product.slug),
       {
         product: {
-          title_1: product.title_1,
-          title_2: product.title_2,
-          slug: product.slug,
-          image: product.gallery[0].src,
+          title_1: title_1,
+          title_2: title_2,
+          slug: slug,
+          image: gallery[0].src,
         },
         ticketCount,
         price,
@@ -131,7 +133,7 @@ export const useShop = () => {
   const placeOrder = () =>
     setOrder({
       uuid: uuid4(),
-      user_uid: user?.uid,
+      user_uid: user?.uid || '',
       items: cart,
       total_price: total,
       customer,

@@ -94,7 +94,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
         <div className="flex flex-col gap-3 lg:gap-6 max-w-lg md:max-w-2xl mx-auto lg:max-w-6xl items-center justify-center">
           <div className="flex flex-col gap-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
             <Text variant="pageHeading">
-              <Link href="/winners">
+              <Link href="/winners" scroll={false}>
                 <a>Víťazi</a>
               </Link>
             </Text>

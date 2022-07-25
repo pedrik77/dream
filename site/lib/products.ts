@@ -3,6 +3,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
   query,
   QueryConstraint,
@@ -66,10 +67,12 @@ export function useProducts({
   category = '',
   onlyActive = false,
   onlyPast = false,
+  onError = (e) => {},
 }: {
   category?: string
   onlyActive?: boolean
   onlyPast?: boolean
+  onError?: (e: any) => void
 } = {}) {
   const [products, setProducts] = useState<Product[]>([])
 
@@ -91,21 +94,25 @@ export function useProducts({
     return queries
   }, [category, onlyActive, onlyPast])
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(collection(db, 'products'), ...queries),
-        async (querySnapshot) => {
-          setProducts(
-            await Promise.all(
-              // @ts-ignore
-              querySnapshot.docs.map(transform)
+  try {
+    useEffect(
+      () =>
+        onSnapshot(
+          query(collection(db, 'products'), ...queries),
+          async (querySnapshot) => {
+            setProducts(
+              await Promise.all(
+                // @ts-ignore
+                querySnapshot.docs.map(transform)
+              )
             )
-          )
-        }
-      ),
-    [queries]
-  )
+          }
+        ),
+      [queries]
+    )
+  } catch (e) {
+    onError(e)
+  }
 
   return products
 }
@@ -124,7 +131,13 @@ export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
 }
 
 export async function getDonorsCount(slug: string) {
-  return 4277
+  const snapshot = await getDocs(
+    query(collection(db, 'orders'), where('products', 'array-contains', slug))
+  )
+
+  return snapshot.docs
+    .map((doc) => doc.data().customer.email)
+    .filter((v, i, a) => a.indexOf(v) === i).length
 }
 
 function transform(doc: any): Product {
