@@ -97,7 +97,7 @@ const useMenu = () => {
 
   const links = useMemo(() => {
     return [
-      { label: 'Všetkoo', href: '/products' },
+      { label: 'Všetky súťaže', href: '/products' },
       ,
       ...menu.map((c) => ({
         label: c.title,
