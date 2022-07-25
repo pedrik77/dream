@@ -103,7 +103,12 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                     )
                       return router.push('/cart')
 
-                    addToCart(product, Number(ticketCount), price, true)
+                    addToCart({
+                      product,
+                      ticketCount: Number(ticketCount),
+                      price,
+                      forceOverride: true,
+                    })
                       .then(() => {
                         flash('V košíku!', 'success')
                         router.push('/cart')

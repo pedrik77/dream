@@ -8,12 +8,10 @@ import {
 } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { today } from './date'
-import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useAuthContext } from './auth'
 import { db } from './firebase'
-import { handleErrorFlash } from '@components/ui/FlashMessage'
 
 const CART_STORAGE_KEY = 'cart'
 const CUSTOMER_STORAGE_KEY = 'customer'
@@ -29,15 +27,21 @@ export interface CartItem {
   price: number
 }
 
+type AddToCartParams = {
+  product: Product
+  ticketCount: number
+  price: number
+  forceOverride?: boolean
+}
+
 type ContextType = {
   cart: CartItem[]
   total: number
-  loading: boolean
-  addToCart: () => Promise<void>
+  addToCart: (args: AddToCartParams) => Promise<void>
   clearCart: () => Promise<void>
-  isInCart: () => boolean
+  isInCart: (productSlug: string) => boolean
   isEmptyCart: () => boolean
-  removeFromCart: () => Promise<void>
+  removeFromCart: (productSlug: string) => Promise<void>
   placeOrder: () => Promise<void>
 }
 
@@ -63,28 +67,26 @@ export const ShopProvider: React.FC = ({ children }) => {
     [cart]
   )
 
-  const loading = useLoading(true)
-
   const cartId = useMemo(() => getCartId(), [])
 
-  // useEffect(
-  //   () =>
-  //     onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
-  //       setCart(
-  //         // @ts-ignore
-  //         querySnapshot.data()?.data || []
-  //       )
-  //       loading.stop()
-  //     }),
-  //   [cartId, loading]
-  // )
+  useEffect(
+    () =>
+      onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
+        setCart(
+          // @ts-ignore
+          querySnapshot.data()?.data || []
+        )
+        // loading.stop()
+      }),
+    [cartId]
+  )
 
-  const addToCart = async (
-    { slug, title_1, title_2, gallery }: Product,
-    ticketCount: number,
-    price: number,
-    forceOverride = false
-  ) => {
+  const addToCart = async ({
+    product: { slug, title_1, title_2, gallery },
+    ticketCount,
+    price,
+    forceOverride = false,
+  }: AddToCartParams) => {
     const inCart = isInCart(slug)
 
     if (inCart && !forceOverride) throw new Error('Already in cart')
@@ -132,7 +134,6 @@ export const ShopProvider: React.FC = ({ children }) => {
       value={{
         cart,
         total,
-        loading: loading.pending,
         addToCart,
         clearCart,
         isInCart,
