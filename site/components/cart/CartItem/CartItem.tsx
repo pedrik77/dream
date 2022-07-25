@@ -1,12 +1,12 @@
 import { Cross } from '@components/icons'
 import { Button, Container, Text } from '@components/ui'
-import { CartItem as ICartItem, useShop } from '@lib/shop'
+import { CartItem as ICartItem, useShopContext } from '@lib/shop'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 
 export default function CartItem({ product, ticketCount, price }: ICartItem) {
-  const { removeFromCart } = useShop()
+  const { removeFromCart } = useShopContext()
 
   const handleRemove = () => removeFromCart(product.slug)
 

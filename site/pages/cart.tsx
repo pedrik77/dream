@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 import Products from '@components/cart/Products/Products'
 import Information from '@components/cart/Information/Information'
 import Payment from '@components/cart/Payment/Payment'
-import { useShop } from '@lib/shop'
+import { useShopContext } from '@lib/shop'
 import Link from 'next/link'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
@@ -17,7 +17,7 @@ type StepType = typeof STEPS[number]
 export default function Cart() {
   const [active, setActive] = useState<StepType>(STEPS[0])
 
-  const { placeOrder, isEmptyCart, clearCart } = useShop()
+  const { placeOrder, isEmptyCart, clearCart } = useShopContext()
 
   const router = useRouter()
 

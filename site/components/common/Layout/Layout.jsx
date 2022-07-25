@@ -19,6 +19,8 @@ import { Flasher } from 'react-universal-flash'
 import { FlashMessage } from '@components/ui/FlashMessage'
 import { useCategories } from '@lib/categories'
 import { useMemo } from 'react'
+import { AuthProvider } from '@lib/auth'
+import { ShopProvider } from '@lib/shop'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -117,27 +119,34 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
 
   return (
     <CommerceProvider locale={locale}>
-      <div className={cn(s.root)}>
-        <Navbar links={navBarlinks} />
-        <main className="fit">{children}</main>
-        <Footer pages={pageProps.pages} />
-        <ModalUI />
-        <Flasher position="custom" customStyles={{ top: 74, width: '100vw' }}>
-          <FlashMessage />
-        </Flasher>
-        <CheckoutProvider>
-          <SidebarUI links={navBarlinks} />
-        </CheckoutProvider>
-        <FeatureBar
-          title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
-          hide={acceptedCookies}
-          action={
-            <Button className="mx-5" onClick={() => onAcceptCookies()}>
-              Accept cookies
-            </Button>
-          }
-        />
-      </div>
+      <AuthProvider>
+        <ShopProvider>
+          <div className={cn(s.root)}>
+            <Navbar links={navBarlinks} />
+            <main className="fit">{children}</main>
+            <Footer pages={pageProps.pages} />
+            <ModalUI />
+            <Flasher
+              position="custom"
+              customStyles={{ top: 74, width: '100vw' }}
+            >
+              <FlashMessage />
+            </Flasher>
+            <CheckoutProvider>
+              <SidebarUI links={navBarlinks} />
+            </CheckoutProvider>
+            <FeatureBar
+              title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
+              hide={acceptedCookies}
+              action={
+                <Button className="mx-5" onClick={() => onAcceptCookies()}>
+                  Accept cookies
+                </Button>
+              }
+            />
+          </div>
+        </ShopProvider>
+      </AuthProvider>
     </CommerceProvider>
   )
 }

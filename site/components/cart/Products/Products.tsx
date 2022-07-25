@@ -1,10 +1,10 @@
 import { Text } from '@components/ui'
-import { useShop } from '@lib/shop'
+import { useShopContext } from '@lib/shop'
 import React, { useMemo } from 'react'
 import CartItem from '../CartItem'
 
 export default function Products({ sidebar = false }) {
-  const { cart, total } = useShop()
+  const { cart, total } = useShopContext()
 
   return (
     <div>

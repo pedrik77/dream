@@ -1,6 +1,12 @@
-import { v4 } from 'uuid'
-import { useUI } from './../components/ui/context'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import {
   getAuth,
   onAuthStateChanged,
@@ -18,6 +24,7 @@ import { app, db } from './firebase'
 import { doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
+import { Context } from 'vm'
 
 const placeholder = `https://api.lorem.space/image/burger?w=200&h=200`
 
@@ -49,17 +56,27 @@ export const PERMISSIONS = {
   PRODUCTS_ADD: 'products.add',
 } as const
 
-const auth = getAuth(app)
-
-function getProvider(provider: ProviderType) {
-  if (provider === 'fb') return new FacebookAuthProvider()
-
-  if (provider === 'google') return new GoogleAuthProvider()
-
-  throw new Error('Unknown provider')
+type ContextType = {
+  user?: User
+  customer: CustomerData
+  isLoggedIn: boolean
+  adminPermissions: string[]
+  isAdmin: boolean
+  hasAdminPermission: (permission: string) => boolean
+  setCustomer: (customer: CustomerData) => void
 }
 
-export function useUser() {
+const Context = createContext<ContextType>({
+  user: undefined,
+  customer: NULL_CUSTOMER_DATA,
+  isLoggedIn: false,
+  adminPermissions: [],
+  isAdmin: false,
+  hasAdminPermission: () => false,
+  setCustomer: () => {},
+})
+
+export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | undefined>()
   const [customer, setCustomer] = useState<CustomerData>(NULL_CUSTOMER_DATA)
 
@@ -130,16 +147,33 @@ export function useUser() {
       (err) => console.error(err)
     )
   }, [user])
+  return (
+    <Context.Provider
+      value={{
+        user,
+        customer,
+        isLoggedIn,
+        adminPermissions: permissions,
+        isAdmin,
+        hasAdminPermission,
+        setCustomer,
+      }}
+    >
+      {children}
+    </Context.Provider>
+  )
+}
 
-  return {
-    user,
-    customer,
-    isLoggedIn,
-    adminPermissions: permissions,
-    isAdmin,
-    hasAdminPermission,
-    setCustomer,
-  }
+export const useAuthContext = () => useContext(Context)
+
+const auth = getAuth(app)
+
+function getProvider(provider: ProviderType) {
+  if (provider === 'fb') return new FacebookAuthProvider()
+
+  if (provider === 'google') return new GoogleAuthProvider()
+
+  throw new Error('Unknown provider')
 }
 
 export async function signUp(

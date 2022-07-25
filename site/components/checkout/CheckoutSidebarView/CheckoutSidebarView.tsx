@@ -11,12 +11,12 @@ import ShippingWidget from '../ShippingWidget'
 import PaymentWidget from '../PaymentWidget'
 import s from './CheckoutSidebarView.module.css'
 import { useCheckoutContext } from '../context'
-import { useShop } from '@lib/shop'
+import { useShopContext } from '@lib/shop'
 
 const CheckoutSidebarView: FC = () => {
   const { setSidebarView, closeSidebar } = useUI()
 
-  const { cart, total } = useShop()
+  const { cart, total } = useShopContext()
 
   return (
     <SidebarLayout

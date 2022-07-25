@@ -6,12 +6,12 @@ import {
   setDoc,
   Timestamp,
 } from 'firebase/firestore'
-import { createContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { today } from './date'
 import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
-import { useUser } from './auth'
+import { useAuthContext } from './auth'
 import { db } from './firebase'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
 
@@ -29,27 +29,32 @@ export interface CartItem {
   price: number
 }
 
-const saveCart = (cartId: string, cart: any[]) =>
-  setDoc(doc(db, 'cart', cartId), { data: cart })
-
-const getCartId = () => {
-  if (typeof window === 'undefined') return ''
-
-  const storedId = localStorage.getItem(CART_STORAGE_KEY)
-
-  if (storedId) return storedId
-
-  const cartId = uuid4()
-
-  localStorage.setItem(CART_STORAGE_KEY, cartId)
-
-  return cartId
+type ContextType = {
+  cart: CartItem[]
+  total: number
+  loading: boolean
+  addToCart: () => Promise<void>
+  clearCart: () => Promise<void>
+  isInCart: () => boolean
+  isEmptyCart: () => boolean
+  removeFromCart: () => Promise<void>
+  placeOrder: () => Promise<void>
 }
 
-export const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))
+const Context = createContext<ContextType>({
+  cart: [],
+  total: 0,
+  loading: false,
+  addToCart: async () => {},
+  clearCart: async () => {},
+  isInCart: () => false,
+  isEmptyCart: () => true,
+  removeFromCart: async () => {},
+  placeOrder: async () => {},
+})
 
-export const useShop = () => {
-  const { customer, user, setCustomer } = useUser()
+export const ShopProvider: React.FC = ({ children }) => {
+  const { customer, user, setCustomer } = useAuthContext()
 
   const [cart, setCart] = useState<CartItem[]>([])
 
@@ -122,9 +127,8 @@ export const useShop = () => {
       cart.filter(({ product: { slug } }) => slug !== productSlug)
     )
 
-  const clearCart = () => {
-    saveCart(getCartId(), []).catch((e) => {})
-
+  const clearCart = async () => {
+    await saveCart(getCartId(), []).catch((e) => {})
     sessionStorage.removeItem(CUSTOMER_STORAGE_KEY)
   }
 
@@ -140,15 +144,42 @@ export const useShop = () => {
       created_date: Timestamp.fromDate(new Date(today())),
     })
 
-  return {
-    cart,
-    total,
-    loading: loading.pending,
-    addToCart,
-    clearCart,
-    isInCart,
-    isEmptyCart,
-    removeFromCart,
-    placeOrder,
-  }
+  return (
+    <Context.Provider
+      value={{
+        cart,
+        total,
+        loading: loading.pending,
+        addToCart,
+        clearCart,
+        isInCart,
+        isEmptyCart,
+        removeFromCart,
+        placeOrder,
+      }}
+    >
+      {children}
+    </Context.Provider>
+  )
 }
+
+export const useShopContext = () => useContext(Context)
+
+const saveCart = (cartId: string, cart: any[]) =>
+  setDoc(doc(db, 'cart', cartId), { data: cart })
+
+const getCartId = () => {
+  if (typeof window === 'undefined') return ''
+
+  const storedId = localStorage.getItem(CART_STORAGE_KEY)
+
+  if (storedId) return storedId
+
+  const cartId = uuid4()
+
+  localStorage.setItem(CART_STORAGE_KEY, cartId)
+
+  return cartId
+}
+
+export const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))

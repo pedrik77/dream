@@ -1,9 +1,9 @@
 import { Text } from '@components/ui'
-import { useShop } from '@lib/shop'
+import { useShopContext } from '@lib/shop'
 import React from 'react'
 
 export default function Payment() {
-  const { total } = useShop()
+  const { total } = useShopContext()
 
   return (
     <div className="flex justify-center my-12">

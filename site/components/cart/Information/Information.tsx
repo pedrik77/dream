@@ -1,11 +1,11 @@
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
 import { Input, Text } from '@components/ui'
-import { useUser } from '@lib/auth'
-import { useShop } from '@lib/shop'
+import { useAuthContext } from '@lib/auth'
+import { useShopContext } from '@lib/shop'
 import { ExpectClosure } from '@lib/types'
 
 export default function Information() {
-  const { customer, setCustomer, isLoggedIn } = useUser()
+  const { customer, setCustomer, isLoggedIn } = useAuthContext()
 
   const setFullname = (fullname: string) => {}
   const setEmail = (email: string) => {}

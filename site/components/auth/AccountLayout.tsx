@@ -1,6 +1,6 @@
 import { Avatar } from '@components/common'
 import { Container, Text, useUI } from '@components/ui'
-import { useUser } from '@lib/auth'
+import { useAuthContext } from '@lib/auth'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -20,7 +20,7 @@ const AccountLayout: React.FC<{
     ? order.map((href) => [href, LINKS[href]])
     : Object.entries(LINKS)
 
-  const { customer } = useUser()
+  const { customer } = useAuthContext()
 
   return (
     <Container className="pt-4 mt-0 md:mt-8">

@@ -1,12 +1,12 @@
 import { FC, useRef, useEffect } from 'react'
-import { useUser } from '@lib/auth'
+import { useAuthContext } from '@lib/auth'
 
 interface Props {
   className?: string
 }
 
 const Avatar: FC<Props> = () => {
-  let { customer } = useUser()
+  let { customer } = useAuthContext()
 
   return (
     <img
