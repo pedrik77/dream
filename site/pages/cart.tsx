@@ -48,7 +48,7 @@ export default function Cart() {
       onNext: () => {
         placeOrder()
           .then(() => {
-            flash('Vaše objednávka bola úspešne odoslaná')
+            flash('Vaše objednávka bola úspešne odoslaná', 'success')
             clearCart()
             router.push('/orders')
           })
