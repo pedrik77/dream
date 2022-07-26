@@ -50,7 +50,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       return flash('Vyplňte všetky firemne polia', 'danger')
     }
 
-    await setCustomerProfile({
+    setCustomerProfile({
       ...customer,
       fullname,
       email,
@@ -68,8 +68,8 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
         vat_id: companyVatId,
       },
     })
-
-    onNext()
+      .then(onNext)
+      .catch(handleErrorFlash)
   }
 
   return (
