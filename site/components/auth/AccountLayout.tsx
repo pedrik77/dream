@@ -1,9 +1,12 @@
 import { Avatar } from '@components/common'
 import { Container, Text, useUI } from '@components/ui'
-import { useAuthContext } from '@lib/auth'
+import { confirm } from '@lib/alerts'
+import { setCustomerProfile, useAuthContext } from '@lib/auth'
+import { uploadFile } from '@lib/files'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { ChangeEventHandler, EventHandler, useRef } from 'react'
+import { v4 as uuid4 } from 'uuid'
 
 const LINKS = {
   account: 'Nastavenie účtu',
@@ -22,7 +25,32 @@ const AccountLayout: React.FC<{
 
   const { customer } = useAuthContext()
 
-  const handleChangeAvatar = () => {}
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  const handleFileSelect = () => {
+    if (fileRef.current) {
+      fileRef.current.click()
+    }
+  }
+
+  const handleChangeAvatar: ChangeEventHandler<HTMLInputElement> = async (
+    e
+  ) => {
+    const file = e.target.files?.[0]
+
+    if (!file) return
+
+    const proceed = await confirm('Nahrať nový avatar?')
+
+    if (!proceed) return
+
+    const filename = `${uuid4()}_${file.name}`
+    const path = `products/${filename}`
+
+    const src = await uploadFile(path, file)
+
+    setCustomerProfile({ ...customer, avatar: src })
+  }
 
   return (
     <Container className="pt-4 mt-0 md:mt-8">
@@ -30,9 +58,14 @@ const AccountLayout: React.FC<{
         <div className="lg:w-1/3 flex flex-col gap-4 pr-4 pb-8 mx-2 g:mx-4 border-b-[1px] lg:border-r-[1px] border-opacity-70 border-primary items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
           <div
             className="flex justify-center align-center h-32 w-32"
-            onClick={handleChangeAvatar}
+            onClick={handleFileSelect}
           >
-            <form></form>
+            <input
+              className="d-none"
+              type="file"
+              ref={fileRef}
+              onChange={handleChangeAvatar}
+            />
             <Avatar />
           </div>
           <Text className="text-xs">(kliknutím zmeníte avatar)</Text>
