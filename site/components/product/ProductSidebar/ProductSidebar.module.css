@@ -3,11 +3,6 @@
   min-height: auto;
 }
 
-/* .main {
-  @apply relative px-0 pb-0 box-border  flex flex-col col-span-1;
-  min-height: 500px;
-} */
-
 .category {
   @apply uppercase text-sm font-bold text-accent-6 underline mb-4;
 }
@@ -25,7 +20,7 @@
 }
 
 .info {
-  @apply flex flex-col sm:flex-row justify-start lg:justify-between align-top gap-8 my-8;
+  @apply flex flex-col sm:flex-row justify-start lg:justify-between align-top gap-4 md:gap-16 lg:gap-8 sm:my-8;
 }
 
 .info div {
