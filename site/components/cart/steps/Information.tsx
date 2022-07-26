@@ -136,16 +136,18 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       </div>
       <div>
         <Text variant="sectionHeading" className="my-4">
-          Firemne udaje (kupujem na firmu{' '}
-          <input
-            type="checkbox"
-            checked={asCompany}
-            onChange={(e) => setAsCompany(e.target.checked)}
-          />
+          <label>
+            Firemne udaje (kupujem na firmu{' '}
+            <input
+              type="checkbox"
+              checked={asCompany}
+              onChange={(e) => setAsCompany(e.target.checked)}
+            />
+          </label>
           )
         </Text>
 
-        {asCompany && (
+        {asCompany ? (
           <div className="max-w-3xl my-4 mx-auto">
             <AccountFieldWrapper>
               <div className="flex flex-col col-span-3 divider divide-y">
@@ -204,6 +206,8 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
               </div>
             </AccountFieldWrapper>
           </div>
+        ) : (
+          'Máte záujem nakúpit na firmu?'
         )}
       </div>
       <div>
