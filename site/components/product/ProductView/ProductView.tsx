@@ -31,13 +31,41 @@ const GLOBAL_ENTRIES = Object.entries({
 })
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
-  const buyCardsRef = useRef<HTMLDivElement>(null)
+  const scrollToRef = useRef<HTMLDivElement>(null)
   const { user } = useAuthContext()
   const router = useRouter()
 
   const { addToCart, isInCart } = useShopContext()
 
   const relatedProducts = useProducts()
+
+  const handleScroll = () => {
+    if (!scrollToRef.current) return
+    scrollToRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    })
+  }
+
+  const handleAddToCart = async (ticketCount: number, price: number) => {
+    if (
+      isInCart(product.slug) &&
+      !(await confirm('Produkt uz mate zvoleny. Prajete si prepisat variantu?'))
+    )
+      return router.push('/cart')
+
+    addToCart({
+      product,
+      ticketCount: ticketCount,
+      price,
+      forceOverride: true,
+    })
+      .then(() => {
+        flash('V košíku!', 'success')
+        router.push('/cart')
+      })
+      .catch(handleErrorFlash)
+  }
 
   return (
     <>
@@ -64,25 +92,16 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             </div>
           </div>
 
-          <ProductSidebar
-            product={product}
-            onJoinNow={() => {
-              if (!buyCardsRef.current) return
-              buyCardsRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-              })
-            }}
-          />
+          <ProductSidebar product={product} onJoinNow={handleScroll} />
 
           {/* TODO: ADD WYSIYG EDITOR */}
           <div className={s.descContainer}>
             <Text variant="pageHeading">Toto dostaneš</Text>
             <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
           </div>
+          <div ref={scrollToRef}></div>
         </div>
 
-        <div ref={buyCardsRef}></div>
         <section className={s.buySection}>
           <Text variant="myHeading" className="text-center">
             Buy tickets now
@@ -94,27 +113,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                 <span className={s.tickets}>Tiketov</span>
                 <Button
                   className={s.btn}
-                  onClick={async () => {
-                    if (
-                      isInCart(product.slug) &&
-                      !(await confirm(
-                        'Produkt uz mate zvoleny. Prajete si prepisat variantu?'
-                      ))
-                    )
-                      return router.push('/cart')
-
-                    addToCart({
-                      product,
-                      ticketCount: Number(ticketCount),
-                      price,
-                      forceOverride: true,
-                    })
-                      .then(() => {
-                        flash('V košíku!', 'success')
-                        router.push('/cart')
-                      })
-                      .catch(handleErrorFlash)
-                  }}
+                  onClick={() => handleAddToCart(Number(ticketCount), price)}
                 >
                   {price} €
                 </Button>
