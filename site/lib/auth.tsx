@@ -39,6 +39,12 @@ export const NULL_CUSTOMER_DATA = {
     country: '',
     zip: '',
   },
+  company: {
+    name: '',
+    business_id: '',
+    tax_id: '',
+    vat_id: '',
+  },
 }
 
 export type ProviderType = 'fb' | 'google'
@@ -185,7 +191,7 @@ export async function signUp(
 
   sendEmailVerification(result.user)
 
-  setCustomerProfile(email, NULL_CUSTOMER_DATA)
+  setCustomerProfile({ ...NULL_CUSTOMER_DATA, email })
 
   if (newsletter) {
     await subscribe(email, true)
@@ -214,7 +220,7 @@ export function signOut() {
   return authSignOut(auth)
 }
 
-export function setCustomerProfile(email: string, data: CustomerDataType) {
+export function setCustomerProfile({ email, ...customer }: CustomerDataType) {
   const docRef = doc(db, 'customers', email)
-  return setDoc(docRef, data)
+  return setDoc(docRef, customer)
 }

@@ -51,7 +51,7 @@ export default function Account() {
 
     saving.start()
 
-    setCustomerProfile(customer.email, {
+    setCustomerProfile({
       ...customer,
       email: customer.email || '@',
       fullname,
