@@ -45,8 +45,9 @@ const AccountLayout: React.FC<{
 
     if (!proceed) return
 
-    const filename = `${uuid4()}_${file.name}`
-    const path = `products/${filename}`
+    flash('Nahrávam avatar...', 'info')
+
+    const path = `avatar/${customer.email}`
 
     try {
       const src = await uploadFile(path, file)
