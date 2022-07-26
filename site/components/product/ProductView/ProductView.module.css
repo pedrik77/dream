@@ -32,7 +32,7 @@
 }
 
 .buySection {
-  @apply my-20;
+  @apply my-10 lg:my-20;
 }
 
 .sectionHeading {
