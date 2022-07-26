@@ -65,6 +65,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   const loading = useLoading()
   const uploading = useLoading()
+  const loadingDonors = useLoading()
 
   const { categories } = useCategories()
 
@@ -73,9 +74,13 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   useEffect(() => {
     if (!product) return
 
+    loadingDonors.start()
+
     getDonorsCount(product.slug)
       .then(setDonors)
       .catch((e) => {})
+      .finally(loadingDonors.stop)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product])
 
   const categoryToSelect = (c?: Category) => ({
@@ -176,7 +181,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               checked={show_donors}
               onChange={(e) => setShowDonors(e.target.checked)}
             />{' '}
-            Show donors number ({donors})
+            Show donors number ({loadingDonors.pending ? '...' : donors})
           </label>
         </fieldset>
         <fieldset className="flex">
