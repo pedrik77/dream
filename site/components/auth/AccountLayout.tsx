@@ -1,5 +1,6 @@
 import { Avatar } from '@components/common'
 import { Container, Text, useUI } from '@components/ui'
+import { flash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/alerts'
 import { setCustomerProfile, useAuthContext } from '@lib/auth'
 import { uploadFile } from '@lib/files'
@@ -47,9 +48,16 @@ const AccountLayout: React.FC<{
     const filename = `${uuid4()}_${file.name}`
     const path = `products/${filename}`
 
-    const src = await uploadFile(path, file)
+    try {
+      const src = await uploadFile(path, file)
 
-    setCustomerProfile({ ...customer, avatar: src })
+      await setCustomerProfile({ ...customer, avatar: src })
+
+      flash('Avatar bude čoskoro nahradeny', 'success')
+    } catch (e) {
+      console.error(e)
+      flash('Nastala chyba, skúste to prosīm znova', 'danger')
+    }
   }
 
   return (

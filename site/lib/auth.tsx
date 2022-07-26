@@ -68,7 +68,7 @@ type ContextType = {
   isLoggedIn: boolean
   adminPermissions: string[]
   isAdmin: boolean
-  hasAdminPermission: (permission: string) => boolean
+  hasAdminPermission: (permission?: string) => boolean
   setCustomer: (customer: CustomerDataType) => void
 }
 
