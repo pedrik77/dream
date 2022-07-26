@@ -40,15 +40,15 @@
 }
 
 .buyCards {
-  @apply flex flex-wrap justify-center gap-4 my-8 mx-auto max-w-4xl;
+  @apply flex flex-wrap justify-center gap-4 my-8 px-1 mx-auto max-w-4xl;
 }
 
 .buyCard {
-  @apply text-center flex flex-col gap-4 outline-1 outline-secondary outline min-w-[10rem];
+  @apply text-center flex flex-col gap-2 sm:gap-4 outline-1 outline-secondary outline min-w-[8rem] sm:min-w-[10rem];
 }
 
 .ticketsNo {
-  @apply uppercase font-bold text-6xl;
+  @apply uppercase font-bold text-4xl sm:text-6xl;
 }
 
 .tickets {
