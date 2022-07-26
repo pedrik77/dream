@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useAuth } from '@lib/auth'
+import { useEffect, useMemo, useState, createContext } from 'react'
 import {
   getAuth,
   onAuthStateChanged,
@@ -33,7 +34,7 @@ export type ProviderType = 'fb' | 'google'
 
 export type CustomerData = typeof NULL_CUSTOMER_DATA
 
-export const PERMISSIONS = {
+export const PERMISSIONS = Object.freeze({
   SUPERADMIN: 'superadmin',
   ORDERS_LIST: 'orders.list',
   USERS_LIST: 'users.list',
@@ -42,7 +43,7 @@ export const PERMISSIONS = {
   WINNERS_LIST: 'winners.list',
   PAGES_LIST: 'pages.list',
   PRODUCTS_ADD: 'products.add',
-} as const
+})
 
 const auth = getAuth(app)
 
@@ -54,7 +55,7 @@ function getProvider(provider: ProviderType) {
   throw new Error('Unknown provider')
 }
 
-export function useUser() {
+export function useAuth() {
   const [user, setUser] = useState<User | undefined>()
   const [customer, setCustomer] = useState<CustomerData>(NULL_CUSTOMER_DATA)
 

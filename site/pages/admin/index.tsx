@@ -1,12 +1,12 @@
 import { Layout } from '@components/common'
 import AdminPermit from '@components/magic/AdminPermit'
 import { Button, Container, Text } from '@components/ui'
-import { PERMISSIONS, useUser } from '@lib/auth'
+import { PERMISSIONS, useAuth } from '@lib/auth'
 import { usePermission } from '@lib/hooks/usePermission'
 import Link from 'next/link'
 
 export default function Dashboard() {
-  const { user } = useUser()
+  const { user } = useAuth()
 
   if (!usePermission()) return null
 

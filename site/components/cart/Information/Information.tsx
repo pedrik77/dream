@@ -1,11 +1,13 @@
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
-import { Input, Text } from '@components/ui'
-import { useUser } from '@lib/auth'
+import { useAuthContext } from '@components/contexts/AuthWrapper'
+import { Button, Input, Text } from '@components/ui'
+import { useUI } from '@components/ui/context'
+import { useAuth } from '@lib/auth'
 import { useShop } from '@lib/shop'
 import React, { useEffect, useState } from 'react'
 
 export default function Information() {
-  const { customer } = useUser()
+  const { customer, isLoggedIn } = useAuthContext()
 
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
@@ -25,14 +27,32 @@ export default function Information() {
     setCountry(customer.address.country)
   }, [customer])
 
+  const { setModalView, openModal } = useUI()
+
+  const loginModal = () => {
+    setModalView('LOGIN_VIEW')
+    openModal()
+  }
+
+  const signUpModal = () => {
+    setModalView('SIGNUP_VIEW')
+    openModal()
+  }
+
   return (
     <div>
+      {!isLoggedIn && (
+        <div className="flex flex-col align-middle">
+          <Button onClick={signUpModal}>Je libo registrovat?</Button> abo{' '}
+          <Button onClick={loginModal}>Je libo rovno prihlasit?</Button>`
+        </div>
+      )}
       <Text variant="sectionHeading" className="my-4">
         Personal Informacie
       </Text>
       <div className="max-w-3xl my-4 mx-auto">
         <AccountFieldWrapper>
-          <div className="flex flex-col col-span-3 divide-secondary divide-y">
+          <div className="flex flex-col col-span-3 divider divide-y">
             <AccountField>
               <label htmlFor="fullname" className="cursor-pointer">
                 Celé meno
@@ -81,7 +101,7 @@ export default function Information() {
         </Text>
         <div className="max-w-3xl my-4 mx-auto">
           <AccountFieldWrapper>
-            <div className="flex flex-col col-span-3 divide-secondary divide-y">
+            <div className="flex flex-col col-span-3 divider divide-y">
               <AccountField>
                 <label htmlFor="street" className="cursor-pointer">
                   Street{' '}

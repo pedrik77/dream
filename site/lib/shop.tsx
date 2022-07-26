@@ -11,7 +11,7 @@ import { today } from './date'
 import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
-import { useUser } from './auth'
+import { useAuth } from './auth'
 import { db } from './firebase'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
 
@@ -32,14 +32,14 @@ export interface CartItem {
 const saveCart = (cartId: string, cart: any[]) =>
   setDoc(doc(db, 'cart', cartId), { data: cart })
 
-const getCartId = () => {
+const getCartId = (email: string = '') => {
   if (typeof window === 'undefined') return ''
 
   const storedId = localStorage.getItem(CART_STORAGE_KEY)
 
   if (storedId) return storedId
 
-  const cartId = uuid4()
+  const cartId = email || uuid4()
 
   localStorage.setItem(CART_STORAGE_KEY, cartId)
 
@@ -49,7 +49,7 @@ const getCartId = () => {
 export const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))
 
 export const useShop = () => {
-  const { customer, user, setCustomer } = useUser()
+  const { customer, user, setCustomer } = useAuth()
 
   const [cart, setCart] = useState<CartItem[]>([])
 
@@ -60,7 +60,7 @@ export const useShop = () => {
 
   const loading = useLoading(true)
 
-  const cartId = useMemo(() => getCartId(), [])
+  const cartId = useMemo(() => getCartId(customer.email), [customer.email])
 
   useEffect(
     () =>
@@ -96,7 +96,7 @@ export const useShop = () => {
 
     if (inCart && !forceOverride) throw new Error('Already in cart')
 
-    return saveCart(getCartId(), [
+    return saveCart(cartId, [
       ...cart.filter(({ product: { slug } }) => slug !== product.slug),
       {
         product: {
@@ -116,14 +116,14 @@ export const useShop = () => {
 
   const removeFromCart = (productSlug: string) =>
     saveCart(
-      getCartId(),
+      cartId,
       cart.filter(({ product: { slug } }) => slug !== productSlug)
     )
 
   const clearCart = () => {
-    saveCart(getCartId(), []).catch((e) => {})
+    saveCart(cartId, []).catch((e) => {})
 
-    sessionStorage.removeItem(CUSTOMER_STORAGE_KEY)
+    sessionStorage.removeItem(CART_STORAGE_KEY)
   }
 
   const isEmptyCart = () => !cart.length
