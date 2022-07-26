@@ -25,7 +25,11 @@ export default function MenuSidebarView({
                 onClick={() => closeSidebar()}
               >
                 <Link href={l.href}>
-                  <a className={`${router.asPath === l.href ? 'active' : ''}`}>
+                  <a
+                    className={`${s.link} ${
+                      router.asPath === l.href ? s.active : ''
+                    }`}
+                  >
                     {l.label}
                   </a>
                 </Link>
