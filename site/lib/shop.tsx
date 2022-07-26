@@ -48,7 +48,6 @@ type ContextType = {
 const Context = createContext<ContextType>({
   cart: [],
   total: 0,
-  loading: false,
   addToCart: async () => {},
   clearCart: async () => {},
   isInCart: () => false,

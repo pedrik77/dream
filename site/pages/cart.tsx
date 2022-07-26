@@ -1,16 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Text, Container } from '@components/ui'
 import Stepper from '@components/cart/Stepper'
-import {
-  createContext,
-  Dispatch,
-  FormEvent,
-  FormEventHandler,
-  SetStateAction,
-  useContext,
-  useMemo,
-  useState,
-} from 'react'
+import { useMemo, useState } from 'react'
 import { useShopContext } from '@lib/shop'
 import Link from 'next/link'
 import Products from '@components/cart/steps/Products'
