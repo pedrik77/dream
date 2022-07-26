@@ -2,21 +2,15 @@ import cn from 'clsx'
 import Image from 'next/image'
 import s from './ProductView.module.css'
 import { FC, useRef } from 'react'
-import usePrice from '@framework/product/use-price'
-import { WishlistButton } from '@components/wishlist'
 import { ProductSlider, ProductCard } from '@components/product'
 import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
-import ProductTag from '../ProductTag'
 import { Product, useProducts } from '@lib/products'
-import { setOrder } from '@lib/orders'
-import { useAuth } from '@lib/auth'
-import { Timestamp } from 'firebase/firestore'
-import { today } from '@lib/date'
+import { useAuthContext } from '@lib/auth'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
-import { useShop } from '@lib/shop'
+import { useShopContext } from '@lib/shop'
 import { confirm } from '@lib/alerts'
 
 interface ProductViewProps {
@@ -31,13 +25,41 @@ const GLOBAL_ENTRIES = Object.entries({
 })
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
-  const buyCardsRef = useRef<HTMLDivElement>(null)
-  const { user } = useAuth()
+  const scrollToRef = useRef<HTMLDivElement>(null)
+  const { user } = useAuthContext()
   const router = useRouter()
 
-  const { addToCart, isInCart } = useShop()
+  const { addToCart, isInCart } = useShopContext()
 
   const relatedProducts = useProducts()
+
+  const handleScroll = () => {
+    if (!scrollToRef.current) return
+    scrollToRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    })
+  }
+
+  const handleAddToCart = async (ticketCount: number, price: number) => {
+    if (
+      isInCart(product.slug) &&
+      !(await confirm('Produkt uz mate zvoleny. Prajete si prepisat variantu?'))
+    )
+      return router.push('/cart')
+
+    addToCart({
+      product,
+      ticketCount: ticketCount,
+      price,
+      forceOverride: true,
+    })
+      .then(() => {
+        flash('V košíku!', 'success')
+        router.push('/cart')
+      })
+      .catch(handleErrorFlash)
+  }
 
   return (
     <>
@@ -64,25 +86,16 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             </div>
           </div>
 
-          <ProductSidebar
-            product={product}
-            onJoinNow={() => {
-              if (!buyCardsRef.current) return
-              buyCardsRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-              })
-            }}
-          />
+          <ProductSidebar product={product} onJoinNow={handleScroll} />
 
           {/* TODO: ADD WYSIYG EDITOR */}
           <div className={s.descContainer}>
             <Text variant="pageHeading">Toto dostaneš</Text>
             <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
           </div>
+          <div ref={scrollToRef}></div>
         </div>
 
-        <div ref={buyCardsRef}></div>
         <section className={s.buySection}>
           <Text variant="myHeading" className="text-center">
             Buy tickets now
@@ -94,22 +107,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                 <span className={s.tickets}>Tiketov</span>
                 <Button
                   className={s.btn}
-                  onClick={async () => {
-                    if (
-                      isInCart(product.slug) &&
-                      !(await confirm(
-                        'Produkt uz mate zvoleny. Prajete si prepisat variantu?'
-                      ))
-                    )
-                      return router.push('/cart')
-
-                    addToCart(product, Number(ticketCount), price, true)
-                      .then(() => {
-                        flash('V košíku!', 'success')
-                        router.push('/cart')
-                      })
-                      .catch(handleErrorFlash)
-                  }}
+                  onClick={() => handleAddToCart(Number(ticketCount), price)}
                 >
                   {price} €
                 </Button>

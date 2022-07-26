@@ -7,7 +7,6 @@ export interface State {
   displayModal: boolean
   sidebarView: string
   modalView: string
-  userAvatar: string
 }
 
 const initialState = {
@@ -16,7 +15,6 @@ const initialState = {
   displayModal: false,
   modalView: 'LOGIN_VIEW',
   sidebarView: 'CART_VIEW',
-  userAvatar: '',
 }
 
 type Action =
@@ -45,10 +43,6 @@ type Action =
   | {
       type: 'SET_SIDEBAR_VIEW'
       view: SIDEBAR_VIEWS
-    }
-  | {
-      type: 'SET_USER_AVATAR'
-      value: string
     }
 
 type MODAL_VIEWS =
@@ -115,12 +109,6 @@ function uiReducer(state: State, action: Action) {
         sidebarView: action.view,
       }
     }
-    case 'SET_USER_AVATAR': {
-      return {
-        ...state,
-        userAvatar: action.value,
-      }
-    }
   }
 }
 
@@ -165,11 +153,6 @@ export const UIProvider: FC = (props) => {
     [dispatch]
   )
 
-  const setUserAvatar = useCallback(
-    (value: string) => dispatch({ type: 'SET_USER_AVATAR', value }),
-    [dispatch]
-  )
-
   const setModalView = useCallback(
     (view: MODAL_VIEWS) => dispatch({ type: 'SET_MODAL_VIEW', view }),
     [dispatch]
@@ -193,7 +176,6 @@ export const UIProvider: FC = (props) => {
       closeModal,
       setModalView,
       setSidebarView,
-      setUserAvatar,
     }),
     [state]
   )

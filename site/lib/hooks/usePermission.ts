@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useAuth } from '@lib/auth'
+import { useAuthContext } from '@lib/auth'
 
 interface usePermissionArgs {
   permission?: string
@@ -11,7 +11,7 @@ export function usePermission({
   permission,
   redirect,
 }: usePermissionArgs = {}) {
-  const { hasAdminPermission } = useAuth()
+  const { hasAdminPermission } = useAuthContext()
   const router = useRouter()
 
   const [allowed, setAllowed] = useState(false)

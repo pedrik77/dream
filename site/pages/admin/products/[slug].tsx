@@ -6,6 +6,7 @@ import { inputDateFormat } from '@lib/date'
 import { deleteFile } from '@lib/files'
 import useLoading from '@lib/hooks/useLoading'
 import {
+  getDonorsCount,
   getProduct,
   Product,
   ProductImage,
@@ -17,7 +18,13 @@ import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
+import React, {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { setCategory as createCategory } from '@lib/categories'
 import _ from 'lodash'
 import { confirm } from '@lib/alerts'
@@ -54,12 +61,27 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   )
   const [gallery, setGallery] = useState<ProductImage[]>(product?.gallery || [])
 
+  const [donors, setDonors] = useState(0)
+
   const loading = useLoading()
   const uploading = useLoading()
+  const loadingDonors = useLoading()
 
   const { categories } = useCategories()
 
   const router = useRouter()
+
+  useEffect(() => {
+    if (!product) return
+
+    loadingDonors.start()
+
+    getDonorsCount(product.slug)
+      .then(setDonors)
+      .catch((e) => {})
+      .finally(loadingDonors.stop)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product])
 
   const categoryToSelect = (c?: Category) => ({
     value: c?.slug || '',
@@ -159,7 +181,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               checked={show_donors}
               onChange={(e) => setShowDonors(e.target.checked)}
             />{' '}
-            Show donors number
+            Show donors number ({loadingDonors.pending ? '...' : donors})
           </label>
         </fieldset>
         <fieldset className="flex">
