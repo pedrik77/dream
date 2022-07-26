@@ -1,8 +1,8 @@
 .root {
   @apply bg-secondary text-accent-0 cursor-pointer inline-flex
-  px-3 sm:px-6 md:px-10 lg:px-12 py-1 sm:py-2 md:py-5 lg:py-7 leading-6 transition ease-in-out duration-150
+  px-10 lg:px-12 py-5 lg:py-7 leading-6 transition ease-in-out duration-150
   shadow-sm text-center justify-center uppercase
-  border-transparent border-[2px] items-center text-[0.65rem] sm:text-xs md:text-sm lg:text-lg font-semibold
+  border-transparent border-[2px] items-center font-semibold
   tracking-wide;
   max-height: 64px;
 }
@@ -33,6 +33,10 @@
 
 .ghost:hover {
   @apply border border-secondary text-secondary bg-transparent;
+}
+
+.banner {
+  @apply px-3 sm:px-6 md:px-10 lg:px-12 py-1 sm:py-2 md:py-5 lg:py-7 text-[0.65rem] sm:text-xs md:text-sm lg:text-lg;
 }
 
 .naked {

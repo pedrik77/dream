@@ -31,6 +31,7 @@ const Banner: React.FC<{
         <div className="flex">
           <Button
             aria-label={buttonText}
+            variant="banner"
             type="button"
             className={s.button}
             disabled={false}
