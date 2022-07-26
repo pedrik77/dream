@@ -31,7 +31,7 @@ const GLOBAL_ENTRIES = Object.entries({
 })
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
-  const scrollToRef = useRef<HTMLDivElement>(null)
+  const scrollToRef = useRef<HTMLElement>(null)
   const { user } = useAuthContext()
   const router = useRouter()
 
@@ -41,9 +41,15 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
   const handleScroll = () => {
     if (!scrollToRef.current) return
-    scrollToRef.current.scrollIntoView({
+
+    const element = scrollToRef.current
+    const offset = 111
+    const elementPosition = element.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.pageYOffset - offset
+
+    window.scrollTo({
+      top: offsetPosition,
       behavior: 'smooth',
-      block: 'end',
     })
   }
 
@@ -99,10 +105,9 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             <Text variant="pageHeading">Toto dostaneš</Text>
             <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
           </div>
-          <div ref={scrollToRef}></div>
         </div>
 
-        <section className={s.buySection}>
+        <section className={s.buySection} ref={scrollToRef}>
           <Text variant="myHeading" className="text-center">
             Buy tickets now
           </Text>
