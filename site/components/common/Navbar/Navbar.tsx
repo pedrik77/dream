@@ -33,7 +33,7 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
               <Link href={l.href} key={l.href}>
                 <a
                   className={`${s.link} ${
-                    router.asPath === l.href ? 'active' : ''
+                    router.asPath === l.href ? s.active : ''
                   }`}
                 >
                   {l.label}
