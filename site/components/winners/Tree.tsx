@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import s from './Tree.module.css'
 
 interface TreeProps {
   links: string[]
@@ -7,7 +8,7 @@ interface TreeProps {
   linkGenerator: (link: string) => string
   labelGenerator?: (link: string) => string
   customClass?: string
-  level?: number
+  customLinkClass?: string
 }
 
 export default function Tree({
@@ -16,28 +17,18 @@ export default function Tree({
   linkGenerator,
   labelGenerator = (link) => link,
   customClass = '',
-  level = 1,
+  customLinkClass = '',
 }: TreeProps) {
-  const treeClass =
-    'flex flex-row gap-4 justify-center items-center text-lg md:text-xl'
-
-  const getLinkClass = (active: boolean) => {
-    if (level === 1) {
-      return active
-        ? 'border-b-2 border-primary border-opacity-70'
-        : 'text-primary hover:border-b-2 border-secondary'
-    }
-
-    return active
-      ? 'border-b-2 text-sm border-primary border-opacity-70'
-      : 'text-accent-6 text-sm hover:text-primary'
-  }
-
   return (
-    <div className={`${treeClass} ${customClass}`}>
+    <div className={`${s.root} ${customClass}`}>
       {links.map((link) => (
         <Link key={link} href={linkGenerator(link)} scroll={false}>
-          <a title={link} className={getLinkClass(active === link)}>
+          <a
+            title={link}
+            className={`${s.link} ${
+              active === link ? s.active : ''
+            } ${customLinkClass}`}
+          >
             {labelGenerator(link)}
           </a>
         </Link>

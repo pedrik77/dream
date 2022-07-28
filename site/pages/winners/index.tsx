@@ -85,9 +85,6 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     return [yearTree[currentYear][currentMonth], monthName(currentMonth)]
   }, [yearTree, currentMonth, currentYear, allProducts])
 
-  const treeClass =
-    'flex flex-row gap-4 justify-center items-center text-lg md:text-xl'
-
   return (
     <Container clean>
       <PageBanner img="/assets/page_banner.jpg" />
@@ -114,8 +111,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
                   `/winners?date=${currentYear}-${month}`
                 }
                 labelGenerator={monthName}
-                customClass="pl-5 text-sm"
-                level={2}
+                customLinkClass="text-sm"
               />
             )}
           </div>
