@@ -68,11 +68,13 @@ const SignUpView = () => {
           type="password"
           placeholder="Heslo"
           onChange={setPassword}
+          value={password}
         />
         <label className="text-sm">
           <input
             className="mr-2"
             type="checkbox"
+            checked={newsletter}
             onChange={(e) => setNewsletter(e.target.checked)}
           />{' '}
           Newsletter

@@ -151,14 +151,14 @@ export const useShopContext = () => useContext(Context)
 const saveCart = (cartId: string, cart: any[]) =>
   setDoc(doc(db, 'cart', cartId), { data: cart })
 
-const getCartId = () => {
+const getCartId = (email: string = '') => {
   if (typeof window === 'undefined') return ''
 
   const storedId = localStorage.getItem(CART_STORAGE_KEY)
 
   if (storedId) return storedId
 
-  const cartId = uuid4()
+  const cartId = email || uuid4()
 
   localStorage.setItem(CART_STORAGE_KEY, cartId)
 

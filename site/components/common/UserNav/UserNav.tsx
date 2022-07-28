@@ -26,7 +26,6 @@ const UserNav: React.FC<{
   const { isLoggedIn } = useAuthContext()
   const {
     toggleSidebar,
-    closeSidebarIfPresent,
     openModal,
     setSidebarView,
     openSidebar,
