@@ -6,6 +6,10 @@
   @apply flex justify-between border-t-0 border-primary;
 }
 
+.sidebar .total {
+  @apply py-4;
+}
+
 .toCartBtn {
   @apply flex justify-center items-center my-8;
 }

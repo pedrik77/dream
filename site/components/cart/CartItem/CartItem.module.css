@@ -3,7 +3,7 @@
 }
 
 .sidebar {
-  @apply col-span-12 border-b my-4 py-12;
+  @apply col-span-12 border-b my-4 py-8;
 }
 
 .productDiv {
