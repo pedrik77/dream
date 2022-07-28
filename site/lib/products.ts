@@ -5,6 +5,7 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
+  orderBy as queryOrderBy,
   query,
   QueryConstraint,
   setDoc,
@@ -45,6 +46,15 @@ export interface Product {
   winner?: Winner
 }
 
+interface UseProductOptions {
+  category?: string
+  onlyActive?: boolean
+  onlyPast?: boolean
+  orderBy?: keyof Product
+  orderDirection?: 'asc' | 'desc'
+  onError?: (e: any) => void
+}
+
 export async function getProduct(slug: string) {
   const productData = await getDoc(doc(db, 'products', slug))
 
@@ -67,13 +77,10 @@ export function useProducts({
   category = '',
   onlyActive = false,
   onlyPast = false,
+  orderBy,
+  orderDirection = 'asc',
   onError = (e) => {},
-}: {
-  category?: string
-  onlyActive?: boolean
-  onlyPast?: boolean
-  onError?: (e: any) => void
-} = {}) {
+}: UseProductOptions = {}) {
   const [products, setProducts] = useState<Product[]>([])
 
   const queries: QueryConstraint[] = useMemo(() => {
@@ -91,8 +98,12 @@ export function useProducts({
       queries.push(where('closing_date', '<=', Timestamp.fromDate(new Date())))
     }
 
+    if (orderBy) {
+      queries.push(queryOrderBy(orderBy, orderDirection))
+    }
+
     return queries
-  }, [category, onlyActive, onlyPast])
+  }, [category, onlyActive, onlyPast, orderBy, orderDirection])
 
   try {
     useEffect(

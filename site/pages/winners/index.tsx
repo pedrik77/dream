@@ -31,7 +31,9 @@ interface WinnersPageProps {
 }
 
 export default function Winners({ date = '' }: WinnersPageProps) {
-  const allProducts = useProducts()
+  const allProducts = useProducts({
+    orderBy: 'closing_date',
+  })
 
   const currentMonth = date.split('-')[1]
   const currentYear = date.split('-')[0]
