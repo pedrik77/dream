@@ -20,7 +20,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <NextNProgress color="#f5b612" />
+      <NextNProgress color="#f5b612" options={{ showSpinner: false }} />
       <Head />
       <ManagedUIContext>
         <Layout pageProps={pageProps}>
