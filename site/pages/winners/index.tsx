@@ -9,6 +9,7 @@ import { inputDateFormat } from '@lib/date'
 import { Product, useProducts } from '@lib/products'
 import { ProductCard } from '@components/product'
 import PageBanner from '@components/ui/PageBanner'
+import Tree from '@components/winners/Tree'
 
 const MONTHS = [
   'január',
@@ -84,9 +85,6 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     return [yearTree[currentYear][currentMonth], monthName(currentMonth)]
   }, [yearTree, currentMonth, currentYear, allProducts])
 
-  const treeClass =
-    'flex flex-row gap-4 justify-center items-center text-lg md:text-xl'
-
   return (
     <Container clean>
       <PageBanner img="/assets/page_banner.jpg" />
@@ -98,44 +96,23 @@ export default function Winners({ date = '' }: WinnersPageProps) {
                 <a>Víťazi</a>
               </Link>
             </Text>
-            <div className={treeClass}>
-              {Object.keys(yearTree).map((year) => (
-                <Link key={year} href={`/winners?date=${year}`} scroll={false}>
-                  <a
-                    title={year}
-                    className={
-                      currentYear === year
-                        ? 'border-b-2 border-primary border-opacity-70'
-                        : 'text-primary hover:border-b-2 border-secondary'
-                    }
-                  >
-                    {year}
-                  </a>
-                </Link>
-              ))}
-            </div>
+
+            <Tree
+              links={Object.keys(yearTree)}
+              active={currentYear}
+              linkGenerator={(year) => `/winners?date=${year}`}
+            />
 
             {monthTree && (
-              <div className={treeClass + ' pl-5 text-sm'}>
-                {Object.keys(monthTree).map((month) => (
-                  <Link
-                    href={`/winners?date=${currentYear}-${month}`}
-                    key={`${month}/${currentYear}`}
-                    scroll={false}
-                  >
-                    <a
-                      title={month}
-                      className={
-                        currentMonth === month
-                          ? 'border-b-2 text-sm border-primary border-opacity-70'
-                          : 'text-accent-6 text-sm hover:text-primary'
-                      }
-                    >
-                      {monthName(month)}
-                    </a>
-                  </Link>
-                ))}
-              </div>
+              <Tree
+                links={Object.keys(monthTree)}
+                active={currentMonth}
+                linkGenerator={(month) =>
+                  `/winners?date=${currentYear}-${month}`
+                }
+                labelGenerator={monthName}
+                customLinkClass="text-sm"
+              />
             )}
           </div>
 
