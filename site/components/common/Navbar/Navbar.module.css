@@ -12,17 +12,20 @@
 }
 
 .link {
-  @apply inline-flex items-center leading-6
-  transition ease-in-out duration-75 cursor-pointer
+  @apply relative inline-flex items-center leading-6
+  cursor-pointer
   text-accent-0 font-bold;
 }
 
-.link:hover {
-  @apply text-secondary;
+.link::after {
+  @apply absolute bottom-[-0.25rem] left-0 h-[2px] w-full rounded-sm overflow-hidden bg-secondary scale-x-0 origin-left ease-in-out duration-200;
+  content: '';
 }
 
-.link:focus {
-  @apply outline-none text-secondary;
+.link:hover::after,
+.link:focus::after,
+.active::after {
+  @apply scale-x-100;
 }
 
 .logo {

@@ -41,9 +41,9 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   }, [product])
 
   return (
-    <div className={s.sidebar}>
+    <div className={s.root}>
       {category && (
-        <Link href={`/category/${category.slug}`}>
+        <Link href={`/products?category=${category.slug}`}>
           <a>
             <h5 className={s.category}>{category.title}</h5>
           </a>
@@ -51,7 +51,8 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
       )}
       <ProductTag>{product.title_1}</ProductTag>
       <h4 className={s.subtitle}>{product.title_2}</h4>
-      <h4>
+      <h4 className={s.countUp}>
+        {product.show_donors ? ' Prispelo už ' : 'Výhra v hodnote '}
         <CountUp end={countUpValue} duration={1.25} />{' '}
         {product.show_donors ? ' donorov' : ' €'}
       </h4>

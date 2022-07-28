@@ -16,7 +16,7 @@ const Banner: React.FC<{
           src={img}
           alt="alt"
           width="1440"
-          height="810"
+          height="910"
           layout="responsive"
           quality="100"
         />
@@ -31,6 +31,7 @@ const Banner: React.FC<{
         <div className="flex">
           <Button
             aria-label={buttonText}
+            variant="banner"
             type="button"
             className={s.button}
             disabled={false}

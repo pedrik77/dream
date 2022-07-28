@@ -15,7 +15,7 @@
 }
 
 .myHeading {
-  @apply pt-2 pb-3 text-6xl font-black leading-none tracking-tight;
+  @apply pt-2 pb-3 px-2 text-4xl sm:text-5xl font-black tracking-normal;
 }
 
 /* Apply base font sizes and styles for typography markup (h2, h2, ul, p, etc.).

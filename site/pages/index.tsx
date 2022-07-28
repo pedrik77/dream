@@ -44,24 +44,24 @@ export default function Home({
     <>
       {/* TO DO EDIT PICS, TEXT, BUTTON */}
       <Banner
-        primaryTitle="Dessert dragée"
+        primaryTitle="vysnivaj.si"
         secondaryTitle="Cupcake ipsum"
         subtitle=" Soufflé bonbon caramels jelly beans. "
-        img="/assets/tesla1_1440x810.jpg"
+        img="/assets/tesla1_1440x910.jpg"
         buttonText="Join Now"
       />
       <Banner
-        primaryTitle="Dessert dragée"
+        primaryTitle="vysnivaj.si"
         secondaryTitle="Cupcake ipsum"
         subtitle=" Soufflé bonbon caramels jelly beans. "
-        img="/assets/tesla1_1440x810.jpg"
+        img="/assets/tesla1_1440x910.jpg"
         buttonText="Join Now"
       />
       <Banner
-        primaryTitle="Dessert dragée"
+        primaryTitle="vysnivaj.si"
         secondaryTitle="Cupcake ipsum"
         subtitle=" Soufflé bonbon caramels jelly beans. "
-        img="/assets/tesla1_1440x810.jpg"
+        img="/assets/tesla1_1440x910.jpg"
         buttonText="Join Now"
       />
       <Hero

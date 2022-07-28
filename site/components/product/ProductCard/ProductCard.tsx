@@ -73,9 +73,6 @@ const ProductCard: FC<Props> = ({
               </div>
             )}
             <div className={s.textContainer}>
-              {/* <Text variant="sectionHeading" className="text-left">
-                {product.title_1}
-              </Text> */}
               <ProductTag className="text-left">{product.title_1}</ProductTag>
 
               <span className="text-base m-0 text-left">{product.title_2}</span>

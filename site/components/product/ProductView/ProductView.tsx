@@ -11,12 +11,12 @@ import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
 import { Product, useProducts } from '@lib/products'
 import { setOrder } from '@lib/orders'
-import { useUser } from '@lib/auth'
+import { useAuthContext } from '@lib/auth'
 import { Timestamp } from 'firebase/firestore'
 import { today } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
-import { useShop } from '@lib/shop'
+import { useShopContext } from '@lib/shop'
 import { confirm } from '@lib/alerts'
 
 interface ProductViewProps {
@@ -31,13 +31,47 @@ const GLOBAL_ENTRIES = Object.entries({
 })
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
-  const buyCardsRef = useRef<HTMLDivElement>(null)
-  const { user } = useUser()
+  const scrollToRef = useRef<HTMLElement>(null)
+  const { user } = useAuthContext()
   const router = useRouter()
 
-  const { addToCart, isInCart } = useShop()
+  const { addToCart, isInCart } = useShopContext()
 
   const relatedProducts = useProducts()
+
+  const handleScroll = () => {
+    if (!scrollToRef.current) return
+
+    const element = scrollToRef.current
+    const offset = 111
+    const elementPosition = element.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.pageYOffset - offset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    })
+  }
+
+  const handleAddToCart = async (ticketCount: number, price: number) => {
+    if (
+      isInCart(product.slug) &&
+      !(await confirm('Produkt uz mate zvoleny. Prajete si prepisat variantu?'))
+    )
+      return router.push('/cart')
+
+    addToCart({
+      product,
+      ticketCount: ticketCount,
+      price,
+      forceOverride: true,
+    })
+      .then(() => {
+        flash('V košíku!', 'success')
+        router.push('/cart')
+      })
+      .catch(handleErrorFlash)
+  }
 
   return (
     <>
@@ -64,24 +98,16 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             </div>
           </div>
 
-          <ProductSidebar
-            product={product}
-            onJoinNow={() => {
-              if (!buyCardsRef.current) return
-              buyCardsRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-              })
-            }}
-          />
+          <ProductSidebar product={product} onJoinNow={handleScroll} />
+
+          {/* TODO: ADD WYSIYG EDITOR */}
+          <div className={s.descContainer}>
+            <Text variant="pageHeading">Toto dostaneš</Text>
+            <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
+          </div>
         </div>
-        <hr className="mt-7 border-primary" />
 
-        {/* TODO: ADD WYSIYG EDITOR */}
-        <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
-
-        <div ref={buyCardsRef}></div>
-        <section className={s.buySection}>
+        <section className={s.buySection} ref={scrollToRef}>
           <Text variant="myHeading" className="text-center">
             Buy tickets now
           </Text>
@@ -92,22 +118,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                 <span className={s.tickets}>Tiketov</span>
                 <Button
                   className={s.btn}
-                  onClick={async () => {
-                    if (
-                      isInCart(product.slug) &&
-                      !(await confirm(
-                        'Produkt uz mate zvoleny. Prajete si prepisat variantu?'
-                      ))
-                    )
-                      return router.push('/cart')
-
-                    addToCart(product, Number(ticketCount), price, true)
-                      .then(() => {
-                        flash('V košíku!', 'success')
-                        router.push('/cart')
-                      })
-                      .catch(handleErrorFlash)
-                  }}
+                  onClick={() => handleAddToCart(Number(ticketCount), price)}
                 >
                   {price} €
                 </Button>
@@ -119,17 +130,14 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <Text variant="myHeading">Related Products</Text>
           <div className={s.relatedProductsGrid}>
             {relatedProducts.map((p) => (
-              <div
-                key={p.slug}
-                className="animated fadeIn bg-accent-0 border border-accent-2"
-              >
+              <div key={p.slug} className="animated fadeIn bg-accent-0">
                 <ProductCard
                   product={p}
                   key={p.slug}
                   variant="simple"
                   className="animated fadeIn"
                   imgProps={{
-                    width: 300,
+                    width: 500,
                     height: 300,
                   }}
                 />

@@ -12,22 +12,18 @@ interface ProductsPageProps {
 }
 
 export default function Products({ category = '' }: ProductsPageProps) {
-  const products = useProducts(category)
+  const products = useProducts({ category })
 
   return (
     <Container clean>
-      <PageBanner
-        primaryTitle="Dessert dragée"
-        secondaryTitle="Cupcake ipsum"
-        img="/assets/tesla1_1440x810.jpg"
-      />
+      <PageBanner img="/assets/page_banner.jpg" />
       <Container className="flex gap-8 items-center justify-center my-16">
         <Tab active>Aktuálne</Tab>
         <Tab>Predošlé</Tab>
       </Container>
-      <Container className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-8 justify-center text-center mt-8 mb-16 max-w-6xl">
+      <Container className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-8 jitems-center ustify-center text-center mt-8 mb-16 max-w-6xl">
         {!products.length && (
-          <Text variant="sectionHeading" className="my-4">
+          <Text variant="sectionHeading" className="col-span-full my-8">
             Žiadne produkty v kategórii :(
           </Text>
         )}

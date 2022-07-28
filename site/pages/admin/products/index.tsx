@@ -1,20 +1,20 @@
 import { Layout } from '@components/common'
 import { Button, Container, Text } from '@components/ui'
-import { useUser } from '@lib/auth'
-import Link from 'next/link'
+import { PERMISSIONS } from '@lib/auth'
 import {
   DataGrid,
   GridColDef,
   GridValueFormatterParams,
-  GridValueGetterParams,
 } from '@mui/x-data-grid'
 import AdminPermit from '@components/magic/AdminPermit'
 import { useEffect, useState } from 'react'
-import { deleteProduct, Product, useProducts } from '@lib/products'
+import { deleteProduct, Product, setProduct, useProducts } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { confirm } from '@lib/alerts'
+import { usePermission } from '@lib/hooks/usePermission'
+import { v4 } from 'uuid'
 
 const dateFormatter = (r: GridValueFormatterParams) => basicShowFormat(r.value)
 
@@ -47,15 +47,13 @@ const columns: GridColDef[] = [
 ]
 
 export default function Dashboard() {
-  const { isAdmin, hasAdminPermission } = useUser()
-
   const [selected, setSelected] = useState<string[]>([])
 
-  const products = useProducts()
+  const products = useProducts({ onError: handleErrorFlash })
 
   const router = useRouter()
 
-  if (!isAdmin && !hasAdminPermission('products.list')) return null
+  if (usePermission({ permission: PERMISSIONS.PRODUCTS_LIST })) return null
 
   const handleDeleteSelected = async () => {
     if (!(await confirm('Naozaj?'))) return
@@ -65,15 +63,31 @@ export default function Dashboard() {
       .catch(handleErrorFlash)
   }
 
+  const redirectToAddProduct = () => {
+    router.push('/admin/products/add')
+
+    // const prod = products[0]
+    // if (!prod) return
+    // console.log(prod)
+
+    // Array(16)
+    //   .fill(0)
+    //   .forEach(() => {
+    //     setProduct({ ...prod, slug: v4() })
+    //   })
+  }
+
   return (
     <Container>
       <div>
-        <Button onClick={() => router.push('/admin/products/add')}>New</Button>
+        <AdminPermit permission={PERMISSIONS.PRODUCTS_ADD}>
+          <Button onClick={redirectToAddProduct}>Pridat produkt</Button>
+        </AdminPermit>
         <Button
           className={!!selected.length ? 'visible' : 'invisible'}
           onClick={handleDeleteSelected}
         >
-          Delete {selected.length}
+          Vymazat ({selected.length})
         </Button>
       </div>
       <div className="w-[80%] h-[600px] text-primary">
@@ -86,6 +100,7 @@ export default function Dashboard() {
             setSelected(selected as string[])
           }
           pageSize={6}
+          rowsPerPageOptions={[6, 12, 24]}
           getRowId={(row: Product) => row.slug}
           disableSelectionOnClick
         />

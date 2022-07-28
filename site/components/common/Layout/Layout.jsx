@@ -18,6 +18,9 @@ import { MenuSidebarView } from '@components/common/UserNav'
 import { Flasher } from 'react-universal-flash'
 import { FlashMessage } from '@components/ui/FlashMessage'
 import { useCategories } from '@lib/categories'
+import { useMemo } from 'react'
+import { AuthProvider } from '@lib/auth'
+import { ShopProvider } from '@lib/shop'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -89,45 +92,65 @@ const SidebarUI = ({ links }) => {
   ) : null
 }
 
+const useMenu = () => {
+  const { menu } = useCategories()
+
+  const links = useMemo(() => {
+    return [
+      { label: 'Všetky súťaže', href: '/products' },
+      ,
+      ...menu.map((c) => ({
+        label: c.title,
+        href: `/products?category=${c.slug}`,
+      })),
+      { label: 'Víťazi', href: '/winners', activeRegardsParams: true },
+      { label: 'Kontakt', href: '/contact' },
+    ]
+  }, [menu])
+
+  return links
+}
+
 const Layout = ({ children, pageProps: { ...pageProps } }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
-  const navBarlinks = [
-    { label: 'Vsetkoo', href: '/products' },
-    ,
-    ...useCategories().menu.map((c) => ({
-      label: c.title,
-      href: `/products?category=${c.slug}`,
-    })),
-  ]
+
+  const navBarlinks = useMenu()
 
   return (
     <CommerceProvider locale={locale}>
-      <div className={cn(s.root)}>
-        <Navbar links={navBarlinks} />
-        <main className="fit">{children}</main>
-        <Footer pages={pageProps.pages} />
-        <ModalUI />
-        <Flasher position="custom" customStyles={{ top: 74, width: '100vw' }}>
-          <FlashMessage />
-        </Flasher>
-        <CheckoutProvider>
-          <SidebarUI links={navBarlinks} />
-        </CheckoutProvider>
-        <FeatureBar
-          title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
-          hide={acceptedCookies}
-          action={
-            <Button
-              variant="light"
-              className="mx-5"
-              onClick={() => onAcceptCookies()}
+      <AuthProvider>
+        <ShopProvider>
+          <div className={cn(s.root)}>
+            <Navbar links={navBarlinks} />
+            <main className="fit">{children}</main>
+            <Footer pages={pageProps.pages} />
+            <ModalUI />
+            <Flasher
+              position="custom"
+              customStyles={{ top: 74, width: '100vw' }}
             >
-              Accept cookies
-            </Button>
-          }
-        />
-      </div>
+              <FlashMessage />
+            </Flasher>
+            <CheckoutProvider>
+              <SidebarUI links={navBarlinks} />
+            </CheckoutProvider>
+            <FeatureBar
+              title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
+              hide={acceptedCookies}
+              action={
+                <Button
+                  variant="light"
+                  className="mx-5"
+                  onClick={() => onAcceptCookies()}
+                >
+                  Accept cookies
+                </Button>
+              }
+            />
+          </div>
+        </ShopProvider>
+      </AuthProvider>
     </CommerceProvider>
   )
 }
