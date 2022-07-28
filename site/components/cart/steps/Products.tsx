@@ -49,7 +49,7 @@ export default function Products({
 }
 
 const EmptyCart = () => (
-  <Container className="col-span-full flex flex-col justify-center center text-center my-4">
+  <Container className="col-span-full flex flex-col justify-center items-center text-center my-8">
     <Text variant="sectionHeading" className="my-4">
       Košík je prázdny :(
     </Text>
