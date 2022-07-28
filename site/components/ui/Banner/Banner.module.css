@@ -1,0 +1,87 @@
+.root {
+  @apply text-white bg-secondary;
+}
+
+.bgOverlay {
+  @apply w-screen h-44 sm:h-60 md:h-96 lg:h-[80vh] xl:h-[90vh] flex relative mb-6 lg:mb-8;
+}
+
+.bgOverlay::after {
+  @apply absolute bg-gradient-to-r from-primary opacity-90 top-0 left-0 w-full h-full z-[1];
+  content: '';
+}
+
+.imgContainer {
+  @apply w-full h-full overflow-hidden;
+}
+
+.bannerContainer {
+  @apply container flex flex-col justify-center absolute top-4 sm:top-8 md:top-16 lg:top-20 left-4 sm:left-8 md:left-20 lg:left-24;
+  z-index: 2;
+  width: calc(100vw - 2rem);
+}
+
+.h2 {
+  @apply text-white font-black leading-8 uppercase;
+  font-size: 1.85rem;
+}
+
+.h2 span {
+  @apply text-secondary;
+}
+
+.p {
+  @apply text-white my-1 sm:my-2 md:my-4 lg:my-6;
+  font-size: 0.8rem;
+}
+
+.button {
+  @apply text-white my-2 md:my-4 lg:my-6;
+}
+
+@screen sm {
+  .h2 {
+    font-size: 3rem;
+    line-height: 0.9em;
+  }
+
+  .p {
+    @apply text-lg;
+  }
+}
+
+@screen md {
+  .bannerContainer {
+    width: calc(100vw - 5rem);
+  }
+
+  .h2 {
+    font-size: 4.25rem;
+    line-height: 0.9em;
+  }
+
+  .p {
+    @apply text-xl;
+  }
+}
+
+@screen lg {
+  .bannerContainer {
+    width: calc(100vw - 6rem);
+  }
+  .h2 {
+    font-size: 6.25rem;
+    line-height: 1em;
+  }
+
+  .p {
+    @apply text-3xl;
+  }
+}
+
+@screen xl {
+  .h2 {
+    font-size: 7rem;
+    line-height: 1.25em;
+  }
+}

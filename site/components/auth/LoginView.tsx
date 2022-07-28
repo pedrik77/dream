@@ -1,39 +1,48 @@
-import { FC, useEffect, useState, useCallback } from 'react'
+import { FC, useEffect, useState, useCallback, FormEventHandler } from 'react'
 import { Logo, Button, Input } from '@components/ui'
 import { useUI } from '@components/ui/context'
 import { validate } from 'email-validator'
 import { MIN_PASSWORD_LENGTH } from './SignUpView'
-import { signIn } from '@lib/auth'
+import { signIn, signInVia } from '@lib/auth'
 import { useRouter } from 'next/router'
+import { flash } from '@components/ui/FlashMessage'
+import { StringMap } from '@lib/common-types'
+import useLoading from '@lib/hooks/useLoading'
 
-const LoginView: React.FC = () => {
+const FlashMessages: StringMap = {
+  success: 'Vitajte naspäť, sme radi, že vás tu máme!',
+  'auth/user-not-found': 'Email je nesprávny',
+  'auth/wrong-password': 'Heslo je nesprávne',
+}
+
+const LoginView = () => {
   // Form State
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const [disabled, setDisabled] = useState(false)
+
   const { setModalView, closeModal } = useUI()
+
   const router = useRouter()
 
-  const handleLogin = async (e: React.SyntheticEvent<EventTarget>) => {
+  const loading = useLoading()
+
+  const handleLogin: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    setDisabled(true)
 
-    try {
-      setLoading(true)
-      setMessage('')
-      await signIn(email, password)
-      setLoading(false)
-      closeModal()
-
-      router.push('/account')
-    } catch (e: any) {
-      setDisabled(false)
-      setLoading(false)
-      setMessage(e.message)
-    }
+    loading.start()
+    signIn(email, password)
+      .then(() => {
+        flash(FlashMessages.success, 'success')
+        // router.push('/account')
+        closeModal()
+      })
+      .catch((e) => {
+        flash(FlashMessages[e.code] ?? e.message, 'danger')
+      })
+      .finally(loading.stop)
   }
+
+  const handleFbLogin = () => signInVia('fb')
 
   return (
     <form
@@ -41,40 +50,51 @@ const LoginView: React.FC = () => {
       className="w-80 flex flex-col justify-between p-3"
     >
       <div className="flex justify-center pb-12 ">
-        <Logo width="64px" height="64px" />
+        <Logo />
       </div>
       <div className="flex flex-col space-y-3">
-        {message && (
-          <div className="text-red border border-red p-3">{message}</div>
-        )}
-        <Input type="email" placeholder="Email" onChange={setEmail} />
-        <Input type="password" placeholder="Password" onChange={setPassword} />
+        <Input
+          variant="form"
+          required
+          type="email"
+          placeholder="Email"
+          onChange={setEmail}
+          value={email}
+        />
+        <Input
+          variant="form"
+          required
+          type="password"
+          placeholder="Heslo"
+          onChange={setPassword}
+          value={password}
+        />
 
         <Button
           variant="slim"
           type="submit"
-          loading={loading}
-          disabled={disabled}
+          loading={loading.pending}
+          disabled={loading.pending}
         >
-          Log In
+          Prihlásiť
+        </Button>
+        <Button variant="slim" type="button" onClick={handleFbLogin}>
+          Prihlásiť cez Facebook
         </Button>
         <div className="pt-1 text-center text-sm">
-          <span className="text-accent-7">Don't have an account?</span>
-          {` `}
           <a
-            className="text-accent-9 font-bold hover:underline cursor-pointer"
+            className="text-accent-0 font-bold hover:underline cursor-pointer"
             onClick={() => setModalView('SIGNUP_VIEW')}
           >
-            Sign Up
+            Registrovať
           </a>
         </div>
         <div className="pt-1 text-center text-sm">
-          Did you {` `}
           <a
-            className="text-accent-9 inline font-bold hover:underline cursor-pointer"
+            className="text-accent-0 inline font-bold hover:underline cursor-pointer"
             onClick={() => setModalView('FORGOT_VIEW')}
           >
-            forgot your password?
+            Zabudnuté heslo
           </a>
         </div>
       </div>

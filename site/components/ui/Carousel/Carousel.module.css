@@ -1,0 +1,27 @@
+.root {
+  @apply w-screen my-8 py-8 relative;
+}
+
+.h2 {
+  @apply text-center;
+}
+
+.keenSlider {
+  @apply my-6 text-2xl;
+}
+
+.slide {
+  @apply text-white flex justify-center items-center h-72 md:h-64 lg:h-96;
+}
+
+.leftArrow,
+.rightArrow {
+  @apply absolute top-1/2 bg-opacity-20;
+}
+
+.leftArrow {
+  @apply left-0;
+}
+.rightArrow {
+  @apply right-0;
+}

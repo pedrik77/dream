@@ -1,0 +1,23 @@
+.flashMessage {
+  @apply py-2 px-4 md:px-8 text-center flex items-center justify-between;
+}
+
+.flashTypeInfo {
+  @apply bg-secondary text-primary;
+}
+
+.flashTypeSuccess {
+  @apply bg-success text-accent-9;
+}
+
+.flashTypeDanger {
+  @apply bg-accent-7 text-accent-0;
+}
+
+.close {
+  @apply font-bold px-2 cursor-pointer text-lg;
+}
+
+.close svg {
+  @apply inline-block;
+}

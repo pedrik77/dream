@@ -1,59 +1,82 @@
 .root {
-  @apply relative grid items-start gap-1 grid-cols-1 overflow-x-hidden;
+  @apply relative grid items-center justify-center gap-y-8 grid-cols-1 overflow-x-hidden p-4 sm:p-8;
   min-height: auto;
 }
 
 .main {
-  @apply relative px-0 pb-0 box-border  flex flex-col col-span-1;
-  min-height: 500px;
-}
-
-.sidebar {
-  @apply flex flex-col col-span-1 mx-auto max-w-8xl px-6 py-6 w-full h-full;
+  @apply relative px-0 pb-0 box-border flex flex-col col-span-1 items-center md:items-start justify-start min-h-min;
 }
 
 .sliderContainer {
-  @apply flex items-center justify-center overflow-x-hidden bg-violet;
+  @apply flex flex-col w-full items-center justify-center overflow-x-hidden rounded-lg;
 }
 
 .imageContainer {
-  @apply text-center h-full relative;
+  @apply text-center w-full h-full relative;
 }
 
 .imageContainer > span {
   height: 100% !important;
 }
 
-.sliderContainer .img {
-  @apply w-full h-full max-h-full object-cover;
+/* .sliderContainer .img {
+  @apply max-h-full object-fill;
+} */
+
+.descContainer {
+  @apply my-8 text-base p-0;
 }
 
 .button {
   width: 100%;
 }
 
-.wishlistButton {
-  @apply absolute z-30 top-0 right-0;
+.buySection {
+  @apply my-10 lg:my-20;
+}
+
+.sectionHeading {
+  @apply text-center text-3xl my-4;
+}
+
+.buyCards {
+  @apply flex flex-wrap justify-center gap-4 my-8 px-1 mx-auto max-w-4xl;
+}
+
+.buyCard {
+  @apply text-center flex flex-col gap-2 sm:gap-4 outline-1 outline-secondary outline min-w-[8rem] sm:min-w-[10rem];
+}
+
+.ticketsNo {
+  @apply uppercase font-bold text-4xl sm:text-6xl;
+}
+
+.tickets {
+  @apply text-lg uppercase font-bold;
+}
+
+.btn {
+  @apply block py-4 px-6 text-2xl;
 }
 
 .relatedProductsGrid {
-  @apply grid grid-cols-2 py-2 gap-2 md:grid-cols-4 md:gap-7;
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 my-8 py-2 gap-8;
 }
 
 @screen lg {
   .root {
-    @apply grid-cols-12;
+    @apply grid-cols-12 gap-x-8;
   }
 
   .main {
     @apply mx-0 col-span-8;
   }
 
-  .sidebar {
-    @apply col-span-4 py-6;
-  }
-
   .imageContainer {
     max-height: 600px;
+  }
+
+  .descContainer {
+    @apply col-span-8;
   }
 }

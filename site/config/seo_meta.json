@@ -1,25 +1,25 @@
 {
-  "title": "ACME Storefront | Powered by Next.js Commerce",
-  "titleTemplate": "%s - ACME Storefront",
-  "description": "Next.js Commerce - https://www.nextjs.org/commerce",
+  "title": "vysnivaj.si",
+  "titleTemplate": "%s - vysnivaj.si",
+  "description": "vysnivaj.si - https://vysnivaj.si",
   "openGraph": {
-    "title": "ACME Storefront | Powered by Next.js Commerce",
-    "description": "Next.js Commerce - https://www.nextjs.org/commerce",
+    "title": "vysnivaj.si",
+    "description": "vysnivaj.si - https://vysnivaj.si",
     "type": "website",
-    "url": "https://nextjs.org/commerce",
-    "site_name": "Next.js Commerce",
+    "url": "https://vysnivaj.si",
+    "site_name": "vysnivaj.si",
     "images": [
       {
-        "url": "/card.png",
+        "url": "/logo.jpg",
         "width": "800",
-        "height": "600",
-        "alt": "Next.js Commerce"
+        "height": "800",
+        "alt": "vysnivaj.si"
       }
     ]
   },
   "twitter": {
-    "handle": "@nextjs",
-    "site": "@nextjs",
+    "handle": "@vysnivajsi",
+    "site": "@vysnivajsi",
     "cardType": "summary_large_image"
   }
 }

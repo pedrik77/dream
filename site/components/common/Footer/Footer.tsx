@@ -8,6 +8,9 @@ import { Github, Vercel } from '@components/icons'
 import { Logo, Container } from '@components/ui'
 import { I18nWidget } from '@components/common'
 import s from './Footer.module.css'
+import SocialSection from '../SocialSection'
+import Newsletter from './Newsletter'
+import { useCategories } from '@lib/categories'
 
 interface Props {
   className?: string
@@ -17,8 +20,12 @@ interface Props {
 
 const links = [
   {
-    name: 'Home',
+    name: 'Dom',
     url: '/',
+  },
+  {
+    name: 'Vsetko',
+    url: '/products',
   },
 ]
 
@@ -26,63 +33,61 @@ const Footer: FC<Props> = ({ className, pages }) => {
   const { sitePages } = usePages(pages)
   const rootClassName = cn(s.root, className)
 
+  const categories = useCategories().menu.map((c) => ({
+    name: c.title,
+    url: `/products?category=${c.slug}`,
+  }))
+
   return (
     <footer className={rootClassName}>
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-2 py-12 text-primary bg-primary transition-colors duration-150">
-          <div className="col-span-1 lg:col-span-2">
-            <Link href="/">
-              <a className="flex flex-initial items-center font-bold md:mr-24">
-                <span className="rounded-full border border-accent-6 mr-2">
-                  <Logo />
-                </span>
-                <span>ACME</span>
-              </a>
-            </Link>
-          </div>
-          <div className="col-span-1 lg:col-span-8">
-            <div className="grid md:grid-rows-4 md:grid-cols-3 md:grid-flow-col">
-              {[...links, ...sitePages].map((page) => (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
+          <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
+            <div className="grid md:grid-rows-4 grid-cols-3 md:grid-flow-col">
+              {[...links, ...categories, ...sitePages].map((page) => (
                 <span key={page.url} className="py-3 md:py-0 md:pb-4">
                   <Link href={page.url!}>
-                    <a className="text-accent-9 hover:text-accent-6 transition ease-in-out duration-150">
+                    <a className="text-accent-0 hover:text-secondary transition ease-in-out duration-150">
                       {page.name}
                     </a>
                   </Link>
                 </span>
               ))}
             </div>
+            <div>
+              <Link href="/">
+                <a className="flex flex-initial items-center font-bold md:mr-24 my-4">
+                  <span className="mr-2">
+                    <Logo />
+                  </span>
+                </a>
+              </Link>
+            </div>
           </div>
-          <div className="col-span-1 lg:col-span-2 flex items-start lg:justify-end text-primary">
-            <div className="flex space-x-6 items-center h-10">
-              <a
-                className={s.link}
-                aria-label="Github Repository"
-                href="https://github.com/vercel/commerce"
-              >
-                <Github />
-              </a>
-              <I18nWidget />
+          <div className="col-span-1 lg:col-span-6">
+            <div className="py-4 border-b-2">
+              <Newsletter />
+            </div>
+
+            <div className="py-4">
+              <SocialSection />
             </div>
           </div>
         </div>
-        <div className="pt-6 pb-10 flex flex-col md:flex-row justify-between items-center space-y-4 text-accent-6 text-sm">
+        <div className="pt-6 pb-10 flex flex-col md:flex-row justify-between items-center space-y-4 text-secondary text-sm">
           <div>
-            <span>&copy; 2020 ACME, Inc. All rights reserved.</span>
+            <span>&copy; 2022 vysnivaj.si. All rights reserved.</span>
           </div>
           <div className="flex items-center text-primary text-sm">
-            <span className="text-primary">Created by</span>
+            <span className="text-secondary">Created by</span>
             <a
               rel="noopener noreferrer"
-              href="https://vercel.com"
-              aria-label="Vercel.com Link"
+              href="https://jana.wtf"
+              aria-label="Mlocco link"
               target="_blank"
-              className="text-primary"
+              className="text-secondary"
             >
-              <Vercel
-                className="inline-block h-6 ml-3 text-primary"
-                alt="Vercel.com Logo"
-              />
+              <h3 className="pl-2">MLOCCOCO AGENCY</h3>
             </a>
           </div>
         </div>

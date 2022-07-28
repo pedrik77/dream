@@ -11,17 +11,13 @@ interface ContainerProps {
 const Container: FC<ContainerProps> = ({
   children,
   className,
-  el = 'div',
   clean = false, // Full Width Screen
 }) => {
   const rootClassName = cn(className, {
     'mx-auto max-w-7xl px-6 w-full': !clean,
   })
 
-  let Component: React.ComponentType<React.HTMLAttributes<HTMLDivElement>> =
-    el as any
-
-  return <Component className={rootClassName}>{children}</Component>
+  return <div className={rootClassName}>{children}</div>
 }
 
 export default Container

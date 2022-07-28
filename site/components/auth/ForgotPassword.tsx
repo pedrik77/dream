@@ -3,42 +3,31 @@ import { validate } from 'email-validator'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { resetPassword } from '@lib/auth'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import useLoading from '@lib/hooks/useLoading'
 
 interface Props {}
 
 const ForgotPassword: FC<Props> = () => {
   // Form State
   const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const [dirty, setDirty] = useState(false)
-  const [disabled, setDisabled] = useState(false)
+
+  const loading = useLoading()
 
   const { setModalView, closeModal } = useUI()
 
-  const handleResetPassword = async (e: React.SyntheticEvent<EventTarget>) => {
+  const handleResetPassword = (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
+    loading.start()
 
-    if (!dirty && !disabled) {
-      setDirty(true)
-      handleValidation()
-    }
-
-    await resetPassword(email)
-    setDisabled(true)
-    setMessage('Check your email for a reset link.')
+    resetPassword(email)
+      .then(() => {
+        flash('Email bol odoslaný na zadanú adresu.')
+        closeModal()
+      })
+      .catch(handleErrorFlash)
+      .finally(loading.stop)
   }
-
-  const handleValidation = useCallback(() => {
-    // Unable to send form unless fields are valid.
-    if (dirty) {
-      setDisabled(!validate(email))
-    }
-  }, [email, dirty])
-
-  useEffect(() => {
-    handleValidation()
-  }, [handleValidation])
 
   return (
     <form
@@ -46,33 +35,37 @@ const ForgotPassword: FC<Props> = () => {
       className="w-80 flex flex-col justify-between p-3"
     >
       <div className="flex justify-center pb-12 ">
-        <Logo width="64px" height="64px" />
+        <Logo />
       </div>
       <div className="flex flex-col space-y-4">
-        {message && (
-          <div className="text-red border border-red p-3">{message}</div>
-        )}
+        <div className="py-3 text-accent-0">
+          Prosím zadajte vašu e-mailovú adresu. Pošleme vám e-mail na
+          resetovanie vášho hesla.
+        </div>
 
-        <Input placeholder="Email" onChange={setEmail} type="email" />
+        <Input
+          placeholder="Email"
+          onChange={setEmail}
+          type="email"
+          value={email}
+        />
         <div className="pt-2 w-full flex flex-col">
           <Button
             variant="slim"
             type="submit"
-            loading={loading}
-            disabled={disabled}
+            loading={loading.pending}
+            disabled={loading.pending}
           >
-            Recover Password
+            Odoslať
           </Button>
         </div>
 
         <span className="pt-3 text-center text-sm">
-          <span className="text-accent-7">Do you have an account?</span>
-          {` `}
           <a
-            className="text-accent-9 font-bold hover:underline cursor-pointer"
+            className="text-accent-0 font-bold hover:underline cursor-pointer"
             onClick={() => setModalView('LOGIN_VIEW')}
           >
-            Log In
+            Prihlásiť sa
           </a>
         </span>
       </div>

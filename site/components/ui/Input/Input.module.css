@@ -1,7 +1,19 @@
 .root {
-  @apply bg-primary py-2 px-6 w-full appearance-none transition duration-150 ease-in-out pr-10 border border-accent-3 text-accent-6;
+  @apply bg-primary py-2 px-6 w-full appearance-none transition duration-150 ease-in-out pr-10 border border-primary text-accent-0 shadow-sm;
 }
 
 .root:focus {
   @apply outline-none shadow-outline-normal;
+}
+
+.ghost {
+  @apply bg-transparent text-primary;
+}
+
+.ghost:focus {
+  @apply outline-none shadow-none border-secondary;
+}
+
+.form {
+  @apply border-secondary;
 }

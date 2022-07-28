@@ -15,7 +15,7 @@ import {
 } from '@components/ui'
 
 import type { LineItem } from '@commerce/types/cart'
-import { useUser } from '@lib/auth'
+import { useAuthContext } from '@lib/auth'
 
 const countItem = (count: number, item: LineItem) => count + item.quantity
 
@@ -23,13 +23,13 @@ const UserNav: React.FC<{
   className?: string
 }> = ({ className }) => {
   const { data } = useCart()
-  const { isLoggedIn } = useUser()
+  const { isLoggedIn } = useAuthContext()
   const {
     toggleSidebar,
-    closeSidebarIfPresent,
     openModal,
     setSidebarView,
     openSidebar,
+    setModalView,
   } = useUI()
 
   const itemsCount = data?.lineItems.reduce(countItem, 0) ?? 0
@@ -55,13 +55,17 @@ const UserNav: React.FC<{
         <li className={s.item}>
           <Dropdown>
             <DropdownTrigger>
-              <button
+              <a
                 aria-label="Menu"
                 className={s.avatarButton}
-                onClick={() => (isLoggedIn ? null : openModal())}
+                onClick={() => {
+                  if (isLoggedIn) return
+                  setModalView('LOGIN_VIEW')
+                  openModal()
+                }}
               >
                 <Avatar />
-              </button>
+              </a>
             </DropdownTrigger>
             <CustomerMenuContent />
           </Dropdown>

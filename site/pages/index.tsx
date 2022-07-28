@@ -1,9 +1,11 @@
 import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
-import { ProductCard } from '@components/product'
-import { Grid, Marquee, Hero } from '@components/ui'
+import { Hero } from '@components/ui'
 // import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
+import Banner from '@components/ui/Banner'
+import Carousel from '@components/ui/Carousel'
+import LogosSection from '@components/ui/LogosSection'
 
 export async function getStaticProps({
   preview,
@@ -40,50 +42,36 @@ export default function Home({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
-      <Grid variant="filled">
-        {products.slice(0, 3).map((product: any, i: number) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            imgProps={{
-              width: i === 0 ? 1080 : 540,
-              height: i === 0 ? 1080 : 540,
-              priority: true,
-            }}
-          />
-        ))}
-      </Grid>
-      <Marquee variant="secondary">
-        {products.slice(0, 3).map((product: any, i: number) => (
-          <ProductCard key={product.id} product={product} variant="slim" />
-        ))}
-      </Marquee>
-      <Hero
-        headline=" Dessert dragée halvah croissant."
-        description="Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. Soufflé bonbon caramels jelly beans. Tiramisu sweet roll cheesecake pie carrot cake. "
+      {/* TO DO EDIT PICS, TEXT, BUTTON */}
+      <Banner
+        primaryTitle="vysnivaj.si"
+        secondaryTitle="Cupcake ipsum"
+        subtitle=" Soufflé bonbon caramels jelly beans. "
+        img="/assets/tesla1_1440x910.jpg"
+        buttonText="Join Now"
       />
-      <Grid layout="B" variant="filled">
-        {products.slice(0, 3).map((product: any, i: number) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            imgProps={{
-              width: i === 0 ? 1080 : 540,
-              height: i === 0 ? 1080 : 540,
-            }}
-          />
-        ))}
-      </Grid>
-      <Marquee>
-        {products.slice(3).map((product: any, i: number) => (
-          <ProductCard key={product.id} product={product} variant="slim" />
-        ))}
-      </Marquee>
-      {/* <HomeAllProductsGrid
-        newestProducts={products}
-        categories={categories}
-        brands={brands}
-      /> */}
+      <Banner
+        primaryTitle="vysnivaj.si"
+        secondaryTitle="Cupcake ipsum"
+        subtitle=" Soufflé bonbon caramels jelly beans. "
+        img="/assets/tesla1_1440x910.jpg"
+        buttonText="Join Now"
+      />
+      <Banner
+        primaryTitle="vysnivaj.si"
+        secondaryTitle="Cupcake ipsum"
+        subtitle=" Soufflé bonbon caramels jelly beans. "
+        img="/assets/tesla1_1440x910.jpg"
+        buttonText="Join Now"
+      />
+      <Hero
+        headline=" Dessert dragée"
+        description="Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. Soufflé bonbon caramels jelly beans. Tiramisu sweet roll cheesecake pie carrot cake. Tiramisu sweet roll cheesecake pie carrot cake. Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. "
+      />
+
+      <Carousel />
+
+      <LogosSection />
     </>
   )
 }

@@ -1,43 +1,38 @@
 .root {
-  @apply relative grid items-start gap-1 grid-cols-1 overflow-x-hidden;
+  @apply col-span-4 flex flex-col max-w-8xl px-0 w-full h-full relative overflow-x-hidden;
   min-height: auto;
 }
 
-.main {
-  @apply relative px-0 pb-0 box-border  flex flex-col col-span-1;
-  min-height: 500px;
+.category {
+  @apply uppercase text-sm font-bold text-accent-6 underline mb-4;
 }
 
-.header {
-  @apply transition-colors ease-in-out duration-500
-  absolute top-0 left-0 z-20 pr-16;
+.subtitle {
+  @apply font-bold text-accent-6 text-sm uppercase mb-8;
 }
 
-.header .name {
-  @apply pt-0 max-w-full w-full leading-extra-loose;
-  font-size: 2rem;
-  letter-spacing: 0.4px;
+.countUp {
+  @apply text-lg font-bold;
 }
 
-.header .name span {
-  @apply py-4 px-6 bg-primary text-primary font-bold;
-  font-size: inherit;
-  letter-spacing: inherit;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+.countUp span {
+  @apply text-xl bg-secondary py-1 px-[2px];
 }
 
-.header .price {
-  @apply pt-2 px-6 pb-4 text-sm bg-primary text-accent-9
-  font-semibold inline-block tracking-wide;
+.info {
+  @apply flex flex-col sm:flex-row justify-start lg:justify-between align-top gap-4 md:gap-16 lg:gap-8 sm:my-8;
 }
 
-.sidebar {
-  @apply flex flex-col col-span-1 mx-auto max-w-8xl px-6 py-6 w-full h-full;
+.info div {
+  @apply flex flex-col items-start;
+}
+
+.infoTitle {
+  @apply text-lg font-bold;
 }
 
 .sliderContainer {
-  @apply flex items-center justify-center overflow-x-hidden bg-violet;
+  @apply flex items-center justify-center overflow-x-hidden;
 }
 
 .imageContainer {
@@ -57,27 +52,11 @@
   width: 100%;
 }
 
-.wishlistButton {
-  @apply absolute z-30 top-0 right-0;
-}
-
 .relatedProductsGrid {
   @apply grid grid-cols-2 py-2 gap-2 md:grid-cols-4 md:gap-7;
 }
 
 @screen lg {
-  .root {
-    @apply grid-cols-12;
-  }
-
-  .main {
-    @apply mx-0 col-span-8;
-  }
-
-  .sidebar {
-    @apply col-span-4 py-6;
-  }
-
   .imageContainer {
     max-height: 600px;
   }

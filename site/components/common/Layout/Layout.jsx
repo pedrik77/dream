@@ -14,9 +14,13 @@ import PaymentMethodView from '@components/checkout/PaymentMethodView'
 import CheckoutSidebarView from '@components/checkout/CheckoutSidebarView'
 import { CheckoutProvider } from '@components/checkout/context'
 import { MenuSidebarView } from '@components/common/UserNav'
-import type { Page } from '@commerce/types/page'
-import type { Category } from '@commerce/types/site'
-import type { Link as LinkProps } from '../UserNav/MenuSidebarView'
+// @ts-ignore
+import { Flasher } from 'react-universal-flash'
+import { FlashMessage } from '@components/ui/FlashMessage'
+import { useCategories } from '@lib/categories'
+import { useMemo } from 'react'
+import { AuthProvider } from '@lib/auth'
+import { ShopProvider } from '@lib/shop'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -48,17 +52,7 @@ const Modal = dynamic(() => import('@components/ui/Modal'), {
   ssr: false,
 })
 
-interface Props {
-  pageProps: {
-    pages?: Page[]
-    categories: Category[]
-  }
-}
-
-const ModalView: React.FC<{ modalView: string; closeModal(): any }> = ({
-  modalView,
-  closeModal,
-}) => {
+const ModalView = ({ modalView, closeModal }) => {
   return (
     <Modal onClose={closeModal}>
       {modalView === 'LOGIN_VIEW' && <LoginView />}
@@ -68,18 +62,14 @@ const ModalView: React.FC<{ modalView: string; closeModal(): any }> = ({
   )
 }
 
-const ModalUI: React.FC = () => {
+const ModalUI = () => {
   const { displayModal, closeModal, modalView } = useUI()
   return displayModal ? (
     <ModalView modalView={modalView} closeModal={closeModal} />
   ) : null
 }
 
-const SidebarView: React.FC<{
-  sidebarView: string
-  closeSidebar(): any
-  links: LinkProps[]
-}> = ({ sidebarView, closeSidebar, links }) => {
+const SidebarView = ({ sidebarView, closeSidebar, links }) => {
   return (
     <Sidebar onClose={closeSidebar}>
       {sidebarView === 'CART_VIEW' && <CartSidebarView />}
@@ -91,7 +81,7 @@ const SidebarView: React.FC<{
   )
 }
 
-const SidebarUI: React.FC<{ links: LinkProps[] }> = ({ links }) => {
+const SidebarUI = ({ links }) => {
   const { displaySidebar, closeSidebar, sidebarView } = useUI()
   return displaySidebar ? (
     <SidebarView
@@ -102,37 +92,65 @@ const SidebarUI: React.FC<{ links: LinkProps[] }> = ({ links }) => {
   ) : null
 }
 
-const Layout: React.FC<Props> = ({
-  children,
-  pageProps: { categories = [], ...pageProps },
-}) => {
+const useMenu = () => {
+  const { menu } = useCategories()
+
+  const links = useMemo(() => {
+    return [
+      { label: 'Všetky súťaže', href: '/products' },
+      ,
+      ...menu.map((c) => ({
+        label: c.title,
+        href: `/products?category=${c.slug}`,
+      })),
+      { label: 'Víťazi', href: '/winners', activeRegardsParams: true },
+      { label: 'Kontakt', href: '/contact' },
+    ]
+  }, [menu])
+
+  return links
+}
+
+const Layout = ({ children, pageProps: { ...pageProps } }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
-  const navBarlinks = categories.slice(0, 2).map((c) => ({
-    label: c.name,
-    href: `/search/${c.slug}`,
-  }))
+
+  const navBarlinks = useMenu()
 
   return (
     <CommerceProvider locale={locale}>
-      <div className={cn(s.root)}>
-        <Navbar links={navBarlinks} />
-        <main className="fit">{children}</main>
-        <Footer pages={pageProps.pages} />
-        <ModalUI />
-        <CheckoutProvider>
-          <SidebarUI links={navBarlinks} />
-        </CheckoutProvider>
-        <FeatureBar
-          title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
-          hide={acceptedCookies}
-          action={
-            <Button className="mx-5" onClick={() => onAcceptCookies()}>
-              Accept cookies
-            </Button>
-          }
-        />
-      </div>
+      <AuthProvider>
+        <ShopProvider>
+          <div className={cn(s.root)}>
+            <Navbar links={navBarlinks} />
+            <main className="fit">{children}</main>
+            <Footer pages={pageProps.pages} />
+            <ModalUI />
+            <Flasher
+              position="custom"
+              customStyles={{ top: 74, width: '100vw' }}
+            >
+              <FlashMessage />
+            </Flasher>
+            <CheckoutProvider>
+              <SidebarUI links={navBarlinks} />
+            </CheckoutProvider>
+            <FeatureBar
+              title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
+              hide={acceptedCookies}
+              action={
+                <Button
+                  variant="light"
+                  className="mx-5"
+                  onClick={() => onAcceptCookies()}
+                >
+                  Accept cookies
+                </Button>
+              }
+            />
+          </div>
+        </ShopProvider>
+      </AuthProvider>
     </CommerceProvider>
   )
 }

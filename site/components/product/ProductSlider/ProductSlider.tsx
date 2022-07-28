@@ -101,7 +101,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
         })}
       </div>
 
-      <a.div className={s.album} ref={thumbsContainerRef}>
+      {/* <a.div className={s.album} ref={thumbsContainerRef}>
         {slider &&
           Children.map(children, (child, idx) => {
             if (isValidElement(child)) {
@@ -121,7 +121,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
             }
             return child
           })}
-      </a.div>
+      </a.div> */}
     </div>
   )
 }

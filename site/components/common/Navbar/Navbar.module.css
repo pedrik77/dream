@@ -4,7 +4,7 @@
 }
 
 .nav {
-  @apply relative flex flex-row justify-between py-4 md:py-4;
+  @apply relative flex flex-row items-center justify-end gap-8 py-2;
 }
 
 .navMenu {
@@ -12,27 +12,22 @@
 }
 
 .link {
-  @apply inline-flex items-center leading-6
-  transition ease-in-out duration-75 cursor-pointer
-  text-accent-5;
+  @apply relative inline-flex items-center leading-6
+  cursor-pointer
+  text-accent-0 font-bold;
 }
 
-.link:hover {
-  @apply text-accent-9;
+.link::after {
+  @apply absolute bottom-[-0.25rem] left-0 h-[2px] w-full rounded-sm overflow-hidden bg-secondary scale-x-0 origin-left ease-in-out duration-200;
+  content: '';
 }
 
-.link:focus {
-  @apply outline-none text-accent-8;
-}
-
-.account {
+.link:hover::after,
+.link:focus::after,
+.active::after {
+  @apply scale-x-100;
 }
 
 .logo {
-  @apply cursor-pointer rounded-full border transform duration-100 ease-in-out;
-
-  &:hover {
-    @apply shadow-md;
-    transform: scale(1.05);
-  }
+  @apply cursor-pointer justify-self-start flex-grow;
 }

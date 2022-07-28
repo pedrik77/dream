@@ -2,12 +2,12 @@
   @apply flex flex-col py-16 mx-auto;
 }
 
-.title {
-  @apply text-accent-0 font-extrabold text-4xl leading-none tracking-tight;
+.h2 {
+  @apply text-secondary;
 }
 
 .description {
-  @apply mt-4 text-xl leading-8 text-accent-2 mb-1 lg:max-w-4xl;
+  @apply mt-4 text-xl leading-8 text-accent-0 mb-1 lg:max-w-4xl;
 }
 
 @screen lg {

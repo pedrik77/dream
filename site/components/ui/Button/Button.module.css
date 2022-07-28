@@ -1,18 +1,18 @@
 .root {
-  @apply bg-accent-9 text-accent-0 cursor-pointer inline-flex
-  px-10 py-5 leading-6 transition ease-in-out duration-150
+  @apply bg-secondary text-accent-0 cursor-pointer inline-flex
+  px-10 lg:px-12 py-5 lg:py-7 leading-6 transition ease-in-out duration-150
   shadow-sm text-center justify-center uppercase
-  border border-transparent items-center text-sm font-semibold
+  border-transparent border-[2px] items-center font-semibold
   tracking-wide;
   max-height: 64px;
 }
 
 .root:hover {
-  @apply border-accent-9 bg-accent-6;
+  @apply border-primary text-accent-0 bg-primary;
 }
 
 .root:focus {
-  @apply shadow-outline-normal outline-none;
+  @apply outline-none;
 }
 
 .root[data-active] {
@@ -20,7 +20,7 @@
 }
 
 .loading {
-  @apply bg-accent-1 text-accent-3 border-accent-2 cursor-not-allowed;
+  @apply bg-accent-1 text-primary border-primary cursor-not-allowed;
 }
 
 .slim {
@@ -28,11 +28,15 @@
 }
 
 .ghost {
-  @apply border border-accent-2 bg-accent-0 text-accent-9 text-sm;
+  @apply border border-primary bg-transparent text-primary text-sm;
 }
 
 .ghost:hover {
-  @apply border-accent-9 bg-accent-9 text-accent-0;
+  @apply border border-secondary text-secondary bg-transparent;
+}
+
+.banner {
+  @apply px-3 sm:px-6 md:px-10 lg:px-12 py-1 sm:py-2 md:py-5 lg:py-7 text-[0.65rem] sm:text-xs md:text-sm lg:text-lg;
 }
 
 .naked {
@@ -41,17 +45,24 @@
 
 .naked:hover,
 .naked:focus {
-  @apply bg-transparent border-none;
+  @apply bg-transparent text-secondary;
+}
+
+.light {
+  @apply bg-secondary text-primary border-solid border-secondary border-2 items-center text-xs md:text-sm font-semibold
+  tracking-wide;
+}
+
+.light:hover,
+.light:focus {
+  @apply bg-transparent text-secondary border-secondary;
 }
 
 .disabled,
 .disabled:hover {
-  @apply text-accent-4 border-accent-2 bg-accent-1 cursor-not-allowed;
+  @apply border-gray-400 text-accent-0 bg-gray-400 cursor-not-allowed;
   filter: grayscale(1);
   -webkit-transform: translateZ(0);
   -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
-}
-
-.progress {
 }

@@ -1,0 +1,39 @@
+.root {
+  @apply text-white bg-secondary;
+}
+
+.bgOverlay {
+  @apply w-screen h-[20vh] sm:h-[35vh] md:h-[50vh] lg:h-[65vh] flex relative mb-6 lg:mb-8;
+}
+
+.bgOverlay::after {
+  @apply bg-gradient-to-r from-primary opacity-90;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.imgContainer {
+  @apply w-full h-full overflow-hidden;
+}
+
+.textSection {
+  @apply flex align-middle items-start;
+}
+
+.textContainer {
+  @apply flex flex-col justify-center absolute top-4 sm:top-12 md:top-16 lg:top-20 left-4 sm:left-8 md:left-20 lg:left-24;
+  z-index: 2;
+}
+
+.h2 {
+  @apply text-white font-black text-3xl sm:text-6xl md:text-7xl lg:text-8xl uppercase;
+}
+
+.h2 span {
+  @apply text-secondary;
+}

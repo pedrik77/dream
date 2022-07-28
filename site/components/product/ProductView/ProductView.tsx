@@ -1,86 +1,140 @@
 import cn from 'clsx'
 import Image from 'next/image'
 import s from './ProductView.module.css'
-import { FC } from 'react'
-import type { Product } from '@commerce/types/product'
-import usePrice from '@framework/product/use-price'
-import { WishlistButton } from '@components/wishlist'
+import { FC, useRef } from 'react'
 import { ProductSlider, ProductCard } from '@components/product'
-import { Container, Text } from '@components/ui'
+import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
-import ProductTag from '../ProductTag'
+import { Product, useProducts } from '@lib/products'
+import { setOrder } from '@lib/orders'
+import { useAuthContext } from '@lib/auth'
+import { Timestamp } from 'firebase/firestore'
+import { today } from '@lib/date'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import { useRouter } from 'next/router'
+import { useShopContext } from '@lib/shop'
+import { confirm } from '@lib/alerts'
+
 interface ProductViewProps {
   product: Product
-  relatedProducts: Product[]
 }
 
-const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
-  const { price } = usePrice({
-    amount: product.price.value,
-    baseAmount: product.price.retailPrice,
-    currencyCode: product.price.currencyCode!,
-  })
+const GLOBAL_ENTRIES = Object.entries({
+  1: 1,
+  4: 2,
+  15: 5,
+  50: 10,
+})
+
+const ProductView: FC<ProductViewProps> = ({ product }) => {
+  const scrollToRef = useRef<HTMLElement>(null)
+  const { user } = useAuthContext()
+  const router = useRouter()
+
+  const { addToCart, isInCart } = useShopContext()
+
+  const relatedProducts = useProducts()
+
+  const handleScroll = () => {
+    if (!scrollToRef.current) return
+
+    const element = scrollToRef.current
+    const offset = 111
+    const elementPosition = element.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.pageYOffset - offset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    })
+  }
+
+  const handleAddToCart = async (ticketCount: number, price: number) => {
+    if (
+      isInCart(product.slug) &&
+      !(await confirm('Produkt uz mate zvoleny. Prajete si prepisat variantu?'))
+    )
+      return router.push('/cart')
+
+    addToCart({
+      product,
+      ticketCount: ticketCount,
+      price,
+      forceOverride: true,
+    })
+      .then(() => {
+        flash('V košíku!', 'success')
+        router.push('/cart')
+      })
+      .catch(handleErrorFlash)
+  }
 
   return (
     <>
       <Container className="max-w-none w-full" clean>
         <div className={cn(s.root, 'fit')}>
           <div className={cn(s.main, 'fit')}>
-            <ProductTag
-              name={product.name}
-              price={`${price} ${product.price?.currencyCode}`}
-              fontSize={32}
-            />
             <div className={s.sliderContainer}>
-              <ProductSlider key={product.id}>
-                {product.images.map((image, i) => (
-                  <div key={image.url} className={s.imageContainer}>
+              <ProductSlider key={product.slug}>
+                {product.gallery.map((image, i) => (
+                  <div key={image.path} className={s.imageContainer}>
                     <Image
                       className={s.img}
-                      src={image.url!}
-                      alt={image.alt || 'Product Image'}
-                      width={600}
+                      src={image.src}
+                      alt={product.title_1}
+                      layout="responsive"
+                      width={800}
                       height={600}
                       priority={i === 0}
-                      quality="85"
+                      quality="100"
                     />
                   </div>
                 ))}
               </ProductSlider>
             </div>
-            {process.env.COMMERCE_WISHLIST_ENABLED && (
-              <WishlistButton
-                className={s.wishlistButton}
-                productId={product.id}
-                variant={product.variants[0]}
-              />
-            )}
           </div>
 
-          <ProductSidebar
-            key={product.id}
-            product={product}
-            className={s.sidebar}
-          />
+          <ProductSidebar product={product} onJoinNow={handleScroll} />
+
+          {/* TODO: ADD WYSIYG EDITOR */}
+          <div className={s.descContainer}>
+            <Text variant="pageHeading">Toto dostaneš</Text>
+            <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
+          </div>
         </div>
-        <hr className="mt-7 border-accent-2" />
-        <section className="py-12 px-6 mb-10">
-          <Text variant="sectionHeading">Related Products</Text>
+
+        <section className={s.buySection} ref={scrollToRef}>
+          <Text variant="myHeading" className="text-center">
+            Buy tickets now
+          </Text>
+          <div className={s.buyCards}>
+            {GLOBAL_ENTRIES.map(([ticketCount, price]) => (
+              <div key={price} className={s.buyCard}>
+                <h5 className={s.ticketsNo}>{ticketCount}</h5>
+                <span className={s.tickets}>Tiketov</span>
+                <Button
+                  className={s.btn}
+                  onClick={() => handleAddToCart(Number(ticketCount), price)}
+                >
+                  {price} €
+                </Button>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section className="py-12 px-6 mb-10 text-center">
+          <Text variant="myHeading">Related Products</Text>
           <div className={s.relatedProductsGrid}>
             {relatedProducts.map((p) => (
-              <div
-                key={p.path}
-                className="animated fadeIn bg-accent-0 border border-accent-2"
-              >
+              <div key={p.slug} className="animated fadeIn bg-accent-0">
                 <ProductCard
-                  noNameTag
                   product={p}
-                  key={p.path}
+                  key={p.slug}
                   variant="simple"
                   className="animated fadeIn"
                   imgProps={{
-                    width: 300,
+                    width: 500,
                     height: 300,
                   }}
                 />
@@ -90,18 +144,18 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
         </section>
       </Container>
       <SEO
-        title={product.name}
-        description={product.description}
+        title={product.title_1}
+        description={product.short_desc}
         openGraph={{
           type: 'website',
-          title: product.name,
-          description: product.description,
+          title: product.title_1,
+          description: product.short_desc,
           images: [
             {
-              url: product.images[0]?.url!,
+              url: product.gallery[0]?.src, // TODO
               width: '800',
               height: '600',
-              alt: product.name,
+              alt: product.title_1,
             },
           ],
         }}

@@ -1,86 +1,84 @@
 import s from './ProductSidebar.module.css'
 import { useAddItem } from '@framework/cart'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { ProductOptions } from '@components/product'
-import type { Product } from '@commerce/types/product'
 import { Button, Text, Rating, Collapse, useUI } from '@components/ui'
 import {
   getProductVariant,
   selectDefaultOptionFromProduct,
   SelectedOptions,
 } from '../helpers'
+import ProductTag from '../ProductTag'
+import Link from 'next/link'
+import { getDonorsCount, Product } from '@lib/products'
+import { basicShowFormat } from '@lib/date'
+import { Category, getCategory } from '@lib/categories'
+import CountUp from 'react-countup'
+import { handleErrorFlash } from '@components/ui/FlashMessage'
 
 interface ProductSidebarProps {
   product: Product
-  className?: string
+  onJoinNow?: () => void
 }
 
-const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
-  const addItem = useAddItem()
-  const { openSidebar } = useUI()
-  const [loading, setLoading] = useState(false)
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({})
+const ProductSidebar: FC<ProductSidebarProps> = ({
+  product,
+  onJoinNow = () => {},
+}) => {
+  const [category, setCategory] = useState<Category | null>(null)
+  const [countUpValue, setCountUpValue] = useState(0)
 
   useEffect(() => {
-    selectDefaultOptionFromProduct(product, setSelectedOptions)
+    if (product.category) {
+      getCategory(product.category).then(setCategory)
+    }
+  }, [product.category])
+
+  useEffect(() => {
+    if (!product.show_donors) return setCountUpValue(product.price ?? 0)
+
+    getDonorsCount(product.slug).then(setCountUpValue).catch(handleErrorFlash)
   }, [product])
 
-  const variant = getProductVariant(product, selectedOptions)
-  const addToCart = async () => {
-    setLoading(true)
-    try {
-      await addItem({
-        productId: String(product.id),
-        variantId: String(variant ? variant.id : product.variants[0]?.id),
-      })
-      openSidebar()
-      setLoading(false)
-    } catch (err) {
-      setLoading(false)
-    }
-  }
-
   return (
-    <div className={className}>
-      <ProductOptions
-        options={product.options}
-        selectedOptions={selectedOptions}
-        setSelectedOptions={setSelectedOptions}
-      />
+    <div className={s.root}>
+      {category && (
+        <Link href={`/products?category=${category.slug}`}>
+          <a>
+            <h5 className={s.category}>{category.title}</h5>
+          </a>
+        </Link>
+      )}
+      <ProductTag>{product.title_1}</ProductTag>
+      <h4 className={s.subtitle}>{product.title_2}</h4>
+      <h4 className={s.countUp}>
+        {product.show_donors ? ' Prispelo už ' : 'Výhra v hodnote '}
+        <CountUp end={countUpValue} duration={1.25} />{' '}
+        {product.show_donors ? ' donorov' : ' €'}
+      </h4>
       <Text
         className="pb-4 break-words w-full max-w-xl"
-        html={product.descriptionHtml || product.description}
+        html={product.short_desc}
       />
-      <div className="flex flex-row justify-between items-center">
-        <Rating value={4} />
-        <div className="text-accent-6 pr-1 font-medium text-sm">36 reviews</div>
+      <div className={s.info}>
+        <div>
+          <span className={s.infoTitle}>Closes</span>
+          <span>{basicShowFormat(product.closing_date)}</span>
+        </div>
+        <div>
+          <span className={s.infoTitle}>Winner Announcement</span>
+          <span>{basicShowFormat(product.winner_announce_date)}</span>
+        </div>
       </div>
-      <div>
-        {process.env.COMMERCE_CART_ENABLED && (
-          <Button
-            aria-label="Add to Cart"
-            type="button"
-            className={s.button}
-            onClick={addToCart}
-            loading={loading}
-            disabled={variant?.availableForSale === false}
-          >
-            {variant?.availableForSale === false
-              ? 'Not Available'
-              : 'Add To Cart'}
-          </Button>
-        )}
-      </div>
-      <div className="mt-6">
-        <Collapse title="Care">
-          This is a limited edition production run. Printing starts when the
-          drop ends.
-        </Collapse>
-        <Collapse title="Details">
-          This is a limited edition production run. Printing starts when the
-          drop ends. Reminder: Bad Boys For Life. Shipping may take 10+ days due
-          to COVID-19.
-        </Collapse>
+      {/* TODO Toto ten button neviem */}
+      <div className="flex justify-center">
+        <Button
+          onClick={onJoinNow}
+          type="button"
+          className={(s.button, 'my-5')}
+        >
+          Join now
+        </Button>
       </div>
     </div>
   )
