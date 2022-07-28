@@ -125,6 +125,7 @@ export const UIProvider: FC = (props) => {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router])
 
   const openSidebar = useCallback(
@@ -189,6 +190,7 @@ export const UIProvider: FC = (props) => {
       setModalView,
       setSidebarView,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]
   )
 
