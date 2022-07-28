@@ -62,8 +62,11 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     return tree
   }, [allProducts])
 
-  const monthTree = useMemo(
-    () => (currentYear ? yearTree[currentYear] : null),
+  const months = useMemo(
+    () =>
+      currentYear && yearTree[currentYear]
+        ? Object.keys(yearTree[currentYear])
+        : [],
     [yearTree, currentYear]
   )
 
@@ -105,17 +108,13 @@ export default function Winners({ date = '' }: WinnersPageProps) {
               linkGenerator={(year) => `/winners?date=${year}`}
             />
 
-            {monthTree && (
-              <Tree
-                links={Object.keys(monthTree)}
-                active={currentMonth}
-                linkGenerator={(month) =>
-                  `/winners?date=${currentYear}-${month}`
-                }
-                labelGenerator={monthName}
-                customLinkClass="text-sm"
-              />
-            )}
+            <Tree
+              links={months}
+              active={currentMonth}
+              linkGenerator={(month) => `/winners?date=${currentYear}-${month}`}
+              labelGenerator={monthName}
+              customLinkClass="text-sm"
+            />
           </div>
 
           <div className="">
