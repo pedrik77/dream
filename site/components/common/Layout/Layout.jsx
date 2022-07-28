@@ -103,7 +103,7 @@ const useMenu = () => {
         label: c.title,
         href: `/products?category=${c.slug}`,
       })),
-      { label: 'Víťazi', href: '/winners' },
+      { label: 'Víťazi', href: '/winners', activeRegardsParams: true },
       { label: 'Kontakt', href: '/contact' },
     ]
   }, [menu])

@@ -17,10 +17,10 @@
   @apply flex align-top py-2;
 }
 
-.checkbox {
-  @apply mr-2 text-accent-0 py-0;
+.text {
+  @apply text-xs cursor-pointer;
 }
 
-.text {
-  @apply text-xs;
+.checkbox {
+  @apply mr-2 text-white py-0 pl-0;
 }

@@ -10,6 +10,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+
   const [street, setStreet] = useState('')
   const [city, setCity] = useState('')
   const [zip, setZip] = useState('')

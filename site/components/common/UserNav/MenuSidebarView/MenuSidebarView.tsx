@@ -11,7 +11,7 @@ export default function MenuSidebarView({
   links?: LinkProps[]
 }) {
   const { closeSidebar } = useUI()
-  const router = useRouter()
+  const { pathname: withoutParams, asPath: withParams } = useRouter()
 
   return (
     <SidebarLayout handleClose={() => closeSidebar()}>
@@ -27,7 +27,10 @@ export default function MenuSidebarView({
                 <Link href={l.href}>
                   <a
                     className={`${s.link} ${
-                      router.asPath === l.href ? s.active : ''
+                      (l.activeRegardsParams ? withoutParams : withParams) ===
+                      l.href
+                        ? s.active
+                        : ''
                     }`}
                   >
                     {l.label}
