@@ -3,7 +3,7 @@ import React from 'react'
 
 interface TreeProps {
   links: string[]
-  current?: string
+  active?: string
   linkGenerator: (link: string) => string
   labelGenerator?: (link: string) => string
   customClass?: string
@@ -12,7 +12,7 @@ interface TreeProps {
 
 export default function Tree({
   links,
-  current,
+  active,
   linkGenerator,
   labelGenerator = (link) => link,
   customClass = '',
@@ -37,7 +37,7 @@ export default function Tree({
     <div className={`${treeClass} ${customClass}`}>
       {links.map((link) => (
         <Link key={link} href={linkGenerator(link)} scroll={false}>
-          <a title={link} className={getLinkClass(current === link)}>
+          <a title={link} className={getLinkClass(active === link)}>
             {labelGenerator(link)}
           </a>
         </Link>

@@ -102,14 +102,14 @@ export default function Winners({ date = '' }: WinnersPageProps) {
 
             <Tree
               links={Object.keys(yearTree)}
-              current={currentYear}
+              active={currentYear}
               linkGenerator={(year) => `/winners?date=${year}`}
             />
 
             {monthTree && (
               <Tree
                 links={Object.keys(monthTree)}
-                current={currentMonth}
+                active={currentMonth}
                 linkGenerator={(month) =>
                   `/winners?date=${currentYear}-${month}`
                 }
