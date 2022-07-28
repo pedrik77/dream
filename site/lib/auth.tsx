@@ -60,6 +60,7 @@ export const PERMISSIONS = {
   WINNERS_LIST: 'winners.list',
   PAGES_LIST: 'pages.list',
   PRODUCTS_ADD: 'products.add',
+  CMS: 'cms',
 } as const
 
 type ContextType = {

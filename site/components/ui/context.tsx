@@ -1,5 +1,6 @@
-import React, { FC, useCallback, useMemo } from 'react'
+import React, { FC, useCallback, useEffect, useMemo } from 'react'
 import { ThemeProvider } from 'next-themes'
+import { useRouter } from 'next/router'
 
 export interface State {
   displaySidebar: boolean
@@ -114,6 +115,17 @@ function uiReducer(state: State, action: Action) {
 
 export const UIProvider: FC = (props) => {
   const [state, dispatch] = React.useReducer(uiReducer, initialState)
+  const router = useRouter()
+
+  useEffect(() => {
+    const handleRouteChange = () => closeSidebar()
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router])
 
   const openSidebar = useCallback(
     () => dispatch({ type: 'OPEN_SIDEBAR' }),

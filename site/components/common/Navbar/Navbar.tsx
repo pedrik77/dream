@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 interface Link {
   href: string
   label: string
+  activeRegardsParams?: boolean
 }
 
 interface NavbarProps {
@@ -16,7 +17,7 @@ interface NavbarProps {
 }
 
 const Navbar: FC<NavbarProps> = ({ links }) => {
-  const router = useRouter()
+  const { pathname: withoutParams, asPath: withParams } = useRouter()
 
   return (
     <NavbarRoot>
@@ -33,7 +34,10 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
               <Link href={l.href} key={l.href}>
                 <a
                   className={`${s.link} ${
-                    router.asPath === l.href ? s.active : ''
+                    (l.activeRegardsParams ? withoutParams : withParams) ===
+                    l.href
+                      ? s.active
+                      : ''
                   }`}
                 >
                   {l.label}

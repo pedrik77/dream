@@ -19,7 +19,7 @@ export default function Newsletter() {
     subscribe(email, gdprChecked)
       .then((result) => {
         console.log({ result })
-        flash('Skvelé, vaše prihlásenie prebehlo úspešne!')
+        flash('Skvelé, vaše prihlásenie prebehlo úspešne!', 'success')
         setEmail('')
         setGdprChecked(false)
       })
