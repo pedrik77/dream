@@ -1,7 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Text, Container } from '@components/ui'
 import Stepper from '@components/cart/Stepper'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useShopContext } from '@lib/shop'
 import Link from 'next/link'
 import Products from '@components/cart/steps/Products'
@@ -15,6 +15,7 @@ type StepType = typeof STEPS[number]
 
 export default function Cart() {
   const [active, setActive] = useState<StepType>(STEPS[0])
+  const { isEmptyCart } = useShopContext()
 
   const nextDisabled = useMemo(
     () => active === STEPS[STEPS.length - 1],
@@ -41,6 +42,8 @@ export default function Cart() {
 
   const Step = steps.find((step) => step.title === active)?.component
 
+  const firstStep = () => setActive(STEPS[0])
+
   const onNext = async () => {
     if (nextDisabled) return
 
@@ -51,6 +54,10 @@ export default function Cart() {
     if (prevDisabled) return
     setActive(STEPS[STEPS.indexOf(active) - 1])
   }
+
+  useEffect(() => {
+    if (isEmptyCart()) firstStep()
+  }, [isEmptyCart])
 
   return (
     <section className="grid grid-cols-6 md:grid-cols-12 gap-4 center my-8 mx-auto lg:mx-auto pt-4 px-4 max-w-6xl">
