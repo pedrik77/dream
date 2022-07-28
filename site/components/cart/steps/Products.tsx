@@ -3,6 +3,7 @@ import { useShopContext } from '@lib/shop'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
 import CartItem from '../CartItem'
+import s from './Products.module.css'
 
 export default function Products({
   onNext = () => {},
@@ -17,7 +18,7 @@ export default function Products({
   if (isEmptyCart()) return <EmptyCart />
 
   return (
-    <div>
+    <div className={sidebar ? s.sidebar : ''}>
       {!sidebar && (
         <div className="flex justify-end items-center my-8">
           <Button className="w-36" onClick={handleNext}>
@@ -30,15 +31,15 @@ export default function Products({
       </Text>
       <div>
         {cart.map((item) => (
-          <CartItem key={item.product.slug} {...item} />
+          <CartItem key={item.product.slug} {...item} sidebar={sidebar} />
         ))}
       </div>
-      <div className="flex justify-between border-t-0 border-primary">
+      <div className={s.total}>
         <Text variant="sectionHeading">Spolu</Text>
         <Text variant="sectionHeading">{total} €</Text>
       </div>
       {sidebar && (
-        <div className="flex justify-center items-center my-8">
+        <div className={s.toCartBtn}>
           <Link href="/cart">
             <a onClick={closeSidebar}>Do kosika</a>
           </Link>
@@ -49,7 +50,7 @@ export default function Products({
 }
 
 const EmptyCart = () => (
-  <Container className="col-span-full flex flex-col justify-center center text-center my-4">
+  <Container className={s.emptyContainer}>
     <Text variant="sectionHeading" className="my-4">
       Košík je prázdny :(
     </Text>
