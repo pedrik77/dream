@@ -139,7 +139,11 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
               title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
               hide={acceptedCookies}
               action={
-                <Button className="mx-5" onClick={() => onAcceptCookies()}>
+                <Button
+                  variant="light"
+                  className="mx-5"
+                  onClick={() => onAcceptCookies()}
+                >
                   Accept cookies
                 </Button>
               }
