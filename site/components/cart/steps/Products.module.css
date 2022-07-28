@@ -1,3 +1,19 @@
 .sidebar {
   @apply px-4 text-primary;
 }
+
+.total {
+  @apply flex justify-between border-t-0 border-primary;
+}
+
+.toCartBtn {
+  @apply flex justify-center items-center my-8;
+}
+
+.toCartBtn a {
+  @apply bg-primary text-white font-bold py-4 px-6 text-lg;
+}
+
+.emptyContainer {
+  @apply col-span-full flex flex-col justify-center items-center text-center my-4;
+}

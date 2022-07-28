@@ -34,12 +34,12 @@ export default function Products({
           <CartItem key={item.product.slug} {...item} sidebar={sidebar} />
         ))}
       </div>
-      <div className="flex justify-between border-t-0 border-primary">
+      <div className={s.total}>
         <Text variant="sectionHeading">Spolu</Text>
         <Text variant="sectionHeading">{total} €</Text>
       </div>
       {sidebar && (
-        <div className="flex justify-center items-center my-8">
+        <div className={s.toCartBtn}>
           <Link href="/cart">
             <a onClick={closeSidebar}>Do kosika</a>
           </Link>
@@ -50,7 +50,7 @@ export default function Products({
 }
 
 const EmptyCart = () => (
-  <Container className="col-span-full flex flex-col justify-center center text-center my-4">
+  <Container className={s.emptyContainer}>
     <Text variant="sectionHeading" className="my-4">
       Košík je prázdny :(
     </Text>
