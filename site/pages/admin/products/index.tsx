@@ -49,7 +49,7 @@ const columns: GridColDef[] = [
 export default function Dashboard() {
   const [selected, setSelected] = useState<string[]>([])
 
-  const products = useProducts()
+  const products = useProducts({ onError: handleErrorFlash })
 
   const router = useRouter()
 

@@ -54,6 +54,7 @@ const LoginView = () => {
       </div>
       <div className="flex flex-col space-y-3">
         <Input
+          variant="form"
           required
           type="email"
           placeholder="Email"
@@ -61,6 +62,7 @@ const LoginView = () => {
           value={email}
         />
         <Input
+          variant="form"
           required
           type="password"
           placeholder="Heslo"

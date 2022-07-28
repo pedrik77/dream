@@ -3,7 +3,9 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
+  orderBy as queryOrderBy,
   query,
   QueryConstraint,
   setDoc,
@@ -14,7 +16,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { db } from './firebase'
 import { uploadFile } from './files'
 import { v4 as uuid4 } from 'uuid'
-import { CustomerData } from './auth'
+import { CustomerDataType } from './auth'
 import { Order } from './orders'
 
 export interface ProductImage {
@@ -24,7 +26,7 @@ export interface ProductImage {
 }
 
 export interface Winner {
-  customer: CustomerData
+  customer: CustomerDataType
   order: Order
 }
 
@@ -42,6 +44,15 @@ export interface Product {
   donation_entries: string
   category: string
   winner?: Winner
+}
+
+interface UseProductOptions {
+  category?: string
+  onlyActive?: boolean
+  onlyPast?: boolean
+  orderBy?: keyof Product
+  orderDirection?: 'asc' | 'desc'
+  onError?: (e: any) => void
 }
 
 export async function getProduct(slug: string) {
@@ -66,11 +77,10 @@ export function useProducts({
   category = '',
   onlyActive = false,
   onlyPast = false,
-}: {
-  category?: string
-  onlyActive?: boolean
-  onlyPast?: boolean
-} = {}) {
+  orderBy,
+  orderDirection = 'asc',
+  onError = (e) => {},
+}: UseProductOptions = {}) {
   const [products, setProducts] = useState<Product[]>([])
 
   const queries: QueryConstraint[] = useMemo(() => {
@@ -88,24 +98,32 @@ export function useProducts({
       queries.push(where('closing_date', '<=', Timestamp.fromDate(new Date())))
     }
 
-    return queries
-  }, [category, onlyActive, onlyPast])
+    if (orderBy) {
+      queries.push(queryOrderBy(orderBy, orderDirection))
+    }
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(collection(db, 'products'), ...queries),
-        async (querySnapshot) => {
-          setProducts(
-            await Promise.all(
-              // @ts-ignore
-              querySnapshot.docs.map(transform)
+    return queries
+  }, [category, onlyActive, onlyPast, orderBy, orderDirection])
+
+  try {
+    useEffect(
+      () =>
+        onSnapshot(
+          query(collection(db, 'products'), ...queries),
+          async (querySnapshot) => {
+            setProducts(
+              await Promise.all(
+                // @ts-ignore
+                querySnapshot.docs.map(transform)
+              )
             )
-          )
-        }
-      ),
-    [queries]
-  )
+          }
+        ),
+      [queries]
+    )
+  } catch (e) {
+    onError(e)
+  }
 
   return products
 }
@@ -124,7 +142,13 @@ export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
 }
 
 export async function getDonorsCount(slug: string) {
-  return 4277
+  const snapshot = await getDocs(
+    query(collection(db, 'orders'), where('products', 'array-contains', slug))
+  )
+
+  return snapshot.docs
+    .map((doc) => doc.data().customer.email)
+    .filter((v, i, a) => a.indexOf(v) === i).length
 }
 
 function transform(doc: any): Product {

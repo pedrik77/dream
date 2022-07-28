@@ -5,3 +5,19 @@
 .item {
   @apply text-xl font-bold py-2;
 }
+
+.link {
+  @apply relative inline-flex items-center leading-6
+  cursor-pointer font-bold;
+}
+
+.link::after {
+  @apply absolute bottom-[-0.25rem] left-0 h-[2px] w-full rounded-sm overflow-hidden bg-secondary scale-x-0 origin-left ease-in-out duration-200;
+  content: '';
+}
+
+.link:hover::after,
+.link:focus::after,
+.active::after {
+  @apply scale-x-100;
+}

@@ -1,5 +1,12 @@
-import { useAuth } from '@lib/auth'
-import { useEffect, useMemo, useState, createContext } from 'react'
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import {
   getAuth,
   onAuthStateChanged,
@@ -17,22 +24,32 @@ import { app, db } from './firebase'
 import { doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
+import { Context } from 'vm'
+
+const placeholder = `https://api.lorem.space/image/burger?w=200&h=200`
 
 export const NULL_CUSTOMER_DATA = {
   email: '',
   fullname: '',
   phone: '',
+  avatar: placeholder,
   address: {
     street: '',
     city: '',
     country: '',
     zip: '',
   },
+  company: {
+    name: '',
+    business_id: '',
+    tax_id: '',
+    vat_id: '',
+  },
 }
 
 export type ProviderType = 'fb' | 'google'
 
-export type CustomerData = typeof NULL_CUSTOMER_DATA
+export type CustomerDataType = typeof NULL_CUSTOMER_DATA
 
 export const PERMISSIONS = Object.freeze({
   SUPERADMIN: 'superadmin',
@@ -43,21 +60,32 @@ export const PERMISSIONS = Object.freeze({
   WINNERS_LIST: 'winners.list',
   PAGES_LIST: 'pages.list',
   PRODUCTS_ADD: 'products.add',
-})
+  CMS: 'cms',
+} as const
 
-const auth = getAuth(app)
-
-function getProvider(provider: ProviderType) {
-  if (provider === 'fb') return new FacebookAuthProvider()
-
-  if (provider === 'google') return new GoogleAuthProvider()
-
-  throw new Error('Unknown provider')
+type ContextType = {
+  user?: User
+  customer: CustomerDataType
+  isLoggedIn: boolean
+  adminPermissions: string[]
+  isAdmin: boolean
+  hasAdminPermission: (permission?: string) => boolean
+  setCustomer: (customer: CustomerDataType) => void
 }
 
-export function useAuth() {
+const Context = createContext<ContextType>({
+  user: undefined,
+  customer: NULL_CUSTOMER_DATA,
+  isLoggedIn: false,
+  adminPermissions: [],
+  isAdmin: false,
+  hasAdminPermission: () => false,
+  setCustomer: () => {},
+})
+
+export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | undefined>()
-  const [customer, setCustomer] = useState<CustomerData>(NULL_CUSTOMER_DATA)
+  const [customer, setCustomer] = useState<CustomerDataType>(NULL_CUSTOMER_DATA)
 
   const [permissions, setPermissions] = useState<string[]>([])
 
@@ -96,10 +124,13 @@ export function useAuth() {
     return onSnapshot(
       doc(db, 'customers', user.email),
       (doc) => {
-        const data = { ...doc.data(), email: doc.id }
+        const data = { ...doc.data(), email: doc.id } as CustomerDataType
         console.log('customer data', data)
 
-        setCustomer(data as CustomerData)
+        setCustomer({
+          ...data,
+          avatar: data.avatar || placeholder,
+        })
       },
       (err) => {
         console.error(err)
@@ -123,16 +154,33 @@ export function useAuth() {
       (err) => console.error(err)
     )
   }, [user])
+  return (
+    <Context.Provider
+      value={{
+        user,
+        customer,
+        isLoggedIn,
+        adminPermissions: permissions,
+        isAdmin,
+        hasAdminPermission,
+        setCustomer,
+      }}
+    >
+      {children}
+    </Context.Provider>
+  )
+}
 
-  return {
-    user,
-    customer,
-    isLoggedIn,
-    adminPermissions: permissions,
-    isAdmin,
-    hasAdminPermission,
-    setCustomer,
-  }
+export const useAuthContext = () => useContext(Context)
+
+const auth = getAuth(app)
+
+function getProvider(provider: ProviderType) {
+  if (provider === 'fb') return new FacebookAuthProvider()
+
+  if (provider === 'google') return new GoogleAuthProvider()
+
+  throw new Error('Unknown provider')
 }
 
 export async function signUp(
@@ -144,7 +192,7 @@ export async function signUp(
 
   sendEmailVerification(result.user)
 
-  setCustomerProfile(email, NULL_CUSTOMER_DATA)
+  setCustomerProfile({ ...NULL_CUSTOMER_DATA, email })
 
   if (newsletter) {
     await subscribe(email, true)
@@ -173,7 +221,7 @@ export function signOut() {
   return authSignOut(auth)
 }
 
-export function setCustomerProfile(email: string, data: CustomerData) {
+export function setCustomerProfile({ email, ...customer }: CustomerDataType) {
   const docRef = doc(db, 'customers', email)
-  return setDoc(docRef, data)
+  return setDoc(docRef, customer)
 }

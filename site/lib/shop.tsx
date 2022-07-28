@@ -6,14 +6,12 @@ import {
   setDoc,
   Timestamp,
 } from 'firebase/firestore'
-import { createContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { today } from './date'
-import useLoading from './hooks/useLoading'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
-import { useAuth } from './auth'
+import { useAuthContext } from './auth'
 import { db } from './firebase'
-import { handleErrorFlash } from '@components/ui/FlashMessage'
 
 const CART_STORAGE_KEY = 'cart'
 const CUSTOMER_STORAGE_KEY = 'customer'
@@ -28,6 +26,127 @@ export interface CartItem {
   ticketCount: number
   price: number
 }
+
+type AddToCartParams = {
+  product: Product
+  ticketCount: number
+  price: number
+  forceOverride?: boolean
+}
+
+type ContextType = {
+  cart: CartItem[]
+  total: number
+  addToCart: (args: AddToCartParams) => Promise<void>
+  clearCart: () => Promise<void>
+  isInCart: (productSlug: string) => boolean
+  isEmptyCart: () => boolean
+  removeFromCart: (productSlug: string) => Promise<void>
+  placeOrder: () => Promise<void>
+}
+
+const Context = createContext<ContextType>({
+  cart: [],
+  total: 0,
+  addToCart: async () => {},
+  clearCart: async () => {},
+  isInCart: () => false,
+  isEmptyCart: () => true,
+  removeFromCart: async () => {},
+  placeOrder: async () => {},
+})
+
+export const ShopProvider: React.FC = ({ children }) => {
+  const { customer, user } = useAuthContext()
+
+  const [cart, setCart] = useState<CartItem[]>([])
+
+  const total = useMemo(
+    () => cart.reduce((acc, item) => acc + item.price, 0),
+    [cart]
+  )
+
+  const cartId = useMemo(() => getCartId(), [])
+
+  useEffect(
+    () =>
+      onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
+        setCart(
+          // @ts-ignore
+          querySnapshot.data()?.data || []
+        )
+        // loading.stop()
+      }),
+    [cartId]
+  )
+
+  const addToCart = async ({
+    product: { slug, title_1, title_2, gallery },
+    ticketCount,
+    price,
+    forceOverride = false,
+  }: AddToCartParams) => {
+    const inCart = isInCart(slug)
+
+    if (inCart && !forceOverride) throw new Error('Already in cart')
+
+    return saveCart(cartId, [
+      ...cart.filter(({ product }) => slug !== product.slug),
+      {
+        product: {
+          title_1: title_1,
+          title_2: title_2,
+          slug: slug,
+          image: gallery[0].src,
+        },
+        ticketCount,
+        price,
+      },
+    ])
+  }
+
+  const isInCart = (productSlug: string) =>
+    !!cart.find(({ product: { slug } }) => slug === productSlug)
+
+  const removeFromCart = (productSlug: string) =>
+    saveCart(
+      cartId,
+      cart.filter(({ product: { slug } }) => slug !== productSlug)
+    )
+
+  const clearCart = () => saveCart(cartId, []).catch((e) => {})
+
+  const isEmptyCart = () => !cart.length
+
+  const placeOrder = () =>
+    setOrder({
+      uuid: uuid4(),
+      user_uid: user?.uid || '',
+      items: cart,
+      total_price: total,
+      customer,
+      created_date: Timestamp.fromDate(new Date(today())),
+    })
+
+  return (
+    <Context.Provider
+      value={{
+        cart,
+        total,
+        addToCart,
+        clearCart,
+        isInCart,
+        isEmptyCart,
+        removeFromCart,
+        placeOrder,
+      }}
+    >
+      {children}
+    </Context.Provider>
+  )
+}
+
+export const useShopContext = () => useContext(Context)
 
 const saveCart = (cartId: string, cart: any[]) =>
   setDoc(doc(db, 'cart', cartId), { data: cart })
@@ -47,106 +166,3 @@ const getCartId = (email: string = '') => {
 }
 
 export const deleteCart = (cartId: string) => deleteDoc(doc(db, 'cart', cartId))
-
-export const useShop = () => {
-  const { customer, user, setCustomer } = useAuth()
-
-  const [cart, setCart] = useState<CartItem[]>([])
-
-  const total = useMemo(
-    () => cart.reduce((acc, item) => acc + item.price, 0),
-    [cart]
-  )
-
-  const loading = useLoading(true)
-
-  const cartId = useMemo(() => getCartId(customer.email), [customer.email])
-
-  useEffect(
-    () =>
-      onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
-        setCart(
-          // @ts-ignore
-          querySnapshot.data()?.data || []
-        )
-        loading.stop()
-      }),
-    [cartId, loading]
-  )
-
-  useEffect(() => {
-    const storedCustomer = sessionStorage.getItem(CUSTOMER_STORAGE_KEY)
-
-    if (storedCustomer) setCustomer(JSON.parse(storedCustomer))
-  }, [setCustomer])
-
-  useEffect(
-    () =>
-      sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer)),
-    [customer]
-  )
-
-  const addToCart = async (
-    product: Product,
-    ticketCount: number,
-    price: number,
-    forceOverride = false
-  ) => {
-    const inCart = isInCart(product.slug)
-
-    if (inCart && !forceOverride) throw new Error('Already in cart')
-
-    return saveCart(cartId, [
-      ...cart.filter(({ product: { slug } }) => slug !== product.slug),
-      {
-        product: {
-          title_1: product.title_1,
-          title_2: product.title_2,
-          slug: product.slug,
-          image: product.gallery[0].src,
-        },
-        ticketCount,
-        price,
-      },
-    ])
-  }
-
-  const isInCart = (productSlug: string) =>
-    !!cart.find(({ product: { slug } }) => slug === productSlug)
-
-  const removeFromCart = (productSlug: string) =>
-    saveCart(
-      cartId,
-      cart.filter(({ product: { slug } }) => slug !== productSlug)
-    )
-
-  const clearCart = () => {
-    saveCart(cartId, []).catch((e) => {})
-
-    sessionStorage.removeItem(CART_STORAGE_KEY)
-  }
-
-  const isEmptyCart = () => !cart.length
-
-  const placeOrder = () =>
-    setOrder({
-      uuid: uuid4(),
-      user_uid: user?.uid,
-      items: cart,
-      total_price: total,
-      customer,
-      created_date: Timestamp.fromDate(new Date(today())),
-    })
-
-  return {
-    cart,
-    total,
-    loading: loading.pending,
-    addToCart,
-    clearCart,
-    isInCart,
-    isEmptyCart,
-    removeFromCart,
-    placeOrder,
-  }
-}

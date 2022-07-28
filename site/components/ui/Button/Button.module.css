@@ -1,8 +1,8 @@
 .root {
   @apply bg-secondary text-accent-0 cursor-pointer inline-flex
-  px-3 sm:px-6 md:px-10 lg:px-12 py-1 sm:py-2 md:py-5 lg:py-7 leading-6 transition ease-in-out duration-150
+  px-10 lg:px-12 py-5 lg:py-7 leading-6 transition ease-in-out duration-150
   shadow-sm text-center justify-center uppercase
-  border-transparent border-[2px] items-center text-[0.65rem] sm:text-xs md:text-sm lg:text-lg font-semibold
+  border-transparent border-[2px] items-center font-semibold
   tracking-wide;
   max-height: 64px;
 }
@@ -35,6 +35,10 @@
   @apply border border-secondary text-secondary bg-transparent;
 }
 
+.banner {
+  @apply px-3 sm:px-6 md:px-10 lg:px-12 py-1 sm:py-2 md:py-5 lg:py-7 text-[0.65rem] sm:text-xs md:text-sm lg:text-lg;
+}
+
 .naked {
   @apply bg-transparent font-semibold border-none shadow-none outline-none py-0 px-0;
 }
@@ -42,6 +46,16 @@
 .naked:hover,
 .naked:focus {
   @apply bg-transparent text-secondary;
+}
+
+.light {
+  @apply bg-secondary text-primary border-solid border-secondary border-2 items-center text-xs md:text-sm font-semibold
+  tracking-wide;
+}
+
+.light:hover,
+.light:focus {
+  @apply bg-transparent text-secondary border-secondary;
 }
 
 .disabled,

@@ -13,3 +13,7 @@
 .ghost:focus {
   @apply outline-none shadow-none border-secondary;
 }
+
+.form {
+  @apply border-secondary;
+}

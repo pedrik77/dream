@@ -57,13 +57,14 @@ const SignUpView = () => {
       <div className="flex flex-col space-y-4 text-accent-0">
         <Input
           required
+          variant="form"
           type="email"
           placeholder="Email"
           onChange={setEmail}
-          value={email}
         />
         <Input
           required
+          variant="form"
           type="password"
           placeholder="Heslo"
           onChange={setPassword}
