@@ -51,7 +51,7 @@ export type ProviderType = 'fb' | 'google'
 
 export type CustomerDataType = typeof NULL_CUSTOMER_DATA
 
-export const PERMISSIONS = Object.freeze({
+export const PERMISSIONS = {
   SUPERADMIN: 'superadmin',
   ORDERS_LIST: 'orders.list',
   USERS_LIST: 'users.list',
