@@ -5,7 +5,16 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-export default function CartItem({ product, ticketCount, price }: ICartItem) {
+interface CartItemProps extends ICartItem {
+  sidebar?: boolean
+}
+
+export default function CartItem({
+  product,
+  ticketCount,
+  price,
+  sidebar = false,
+}: CartItemProps) {
   const { removeFromCart } = useShopContext()
 
   const handleRemove = () => removeFromCart(product.slug)

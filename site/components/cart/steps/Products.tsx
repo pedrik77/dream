@@ -3,6 +3,7 @@ import { useShopContext } from '@lib/shop'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
 import CartItem from '../CartItem'
+import s from './Products.module.css'
 
 export default function Products({
   onNext = () => {},
@@ -17,7 +18,7 @@ export default function Products({
   if (isEmptyCart()) return <EmptyCart />
 
   return (
-    <div>
+    <div className={sidebar ? s.sidebar : ''}>
       {!sidebar && (
         <div className="flex justify-end items-center my-8">
           <Button className="w-36" onClick={handleNext}>
@@ -30,7 +31,7 @@ export default function Products({
       </Text>
       <div>
         {cart.map((item) => (
-          <CartItem key={item.product.slug} {...item} />
+          <CartItem key={item.product.slug} {...item} sidebar={sidebar} />
         ))}
       </div>
       <div className="flex justify-between border-t-0 border-primary">
