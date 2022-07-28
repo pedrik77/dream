@@ -1,0 +1,35 @@
+.root {
+  @apply col-span-12 md:grid grid-cols-1 md:grid-cols-12 gap-2 my-4 py-12 items-center justify-between border-b;
+}
+
+.sidebar {
+  @apply col-span-12;
+}
+
+.productDiv {
+  @apply col-span-1 md:col-span-8 grid grid-cols-1 sm:grid-cols-6 gap-y-4 sm:gap-4 md:gap-8 pb-4 md:pb-0 max-w-lg mx-auto;
+}
+
+.imageContainer {
+  @apply col-span-1 sm:col-span-3 w-full h-auto;
+}
+
+.productInfoDiv {
+  @apply col-span-3 flex flex-col justify-center text-left;
+}
+
+.priceDiv {
+  @apply col-span-4 flex gap-4 md:gap-12 items-center justify-center md:justify-end pt-4 md:pt-0;
+}
+
+.sidebar .priceDiv {
+  @apply col-span-12 gap-4 justify-center items-center pt-4;
+}
+
+.crossDiv {
+  @apply flex justify-center items-center border-l-2 border-solid border-primary md:border-none pl-4 md:pl-0;
+}
+
+.sidebar .crossDiv {
+  @apply border-solid border-l-2 border-primary pl-4;
+}
