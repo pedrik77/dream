@@ -1,5 +1,5 @@
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
-import { Button, Input, Text } from '@components/ui'
+import { Button, Input, Text, useUI } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { setCustomerProfile, useAuthContext } from '@lib/auth'
 import { useEffect, useState } from 'react'
@@ -38,6 +38,18 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
     setCompanyTaxId(customer.company?.tax_id || '')
     setCompanyVatId(customer.company?.vat_id || '')
   }, [customer])
+
+  const { setModalView, openModal } = useUI()
+
+  const loginModal = () => {
+    setModalView('LOGIN_VIEW')
+    openModal()
+  }
+
+  const signUpModal = () => {
+    setModalView('SIGNUP_VIEW')
+    openModal()
+  }
 
   const handleNext = async () => {
     if (!fullname || !email || !phone || !street || !city || !zip || !country) {
@@ -86,6 +98,12 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       <Text variant="sectionHeading" className="my-4">
         Personal Informacie
       </Text>
+      {!isLoggedIn && (
+        <div className="flex flex-col align-middle">
+          <Button onClick={signUpModal}>Je libo registrovat?</Button> abo{' '}
+          <Button onClick={loginModal}>Je libo rovno prihlasit?</Button>`
+        </div>
+      )}
       <div className="max-w-3xl my-4 mx-auto">
         <AccountFieldWrapper>
           <div className="flex flex-col col-span-3 divider divide-y">
