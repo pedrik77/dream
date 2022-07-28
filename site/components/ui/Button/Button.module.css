@@ -44,6 +44,16 @@
   @apply bg-transparent text-secondary;
 }
 
+.light {
+  @apply bg-secondary text-primary border-solid border-secondary border-2 items-center text-xs md:text-sm font-semibold
+  tracking-wide;
+}
+
+.light:hover,
+.light:focus {
+  @apply bg-transparent text-secondary border-secondary;
+}
+
 .disabled,
 .disabled:hover {
   @apply border-gray-400 text-accent-0 bg-gray-400 cursor-not-allowed;
