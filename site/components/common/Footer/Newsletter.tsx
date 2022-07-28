@@ -46,14 +46,14 @@ export default function Newsletter() {
         </fieldset>
         <fieldset className={s.gdpr}>
           <Checkbox
-            id="checkbox"
+            id="gdpr-checkbox"
             className={s.checkbox}
             checked={gdprChecked}
             onChange={(e) => setGdprChecked(!!e.target.checked)}
             color="default"
           />
 
-          <label htmlFor="checkbox" className={s.text}>
+          <label htmlFor="gdpr-checkbox" className={s.text}>
             Wafer sweet bonbon dessert cupcake. Muffin apple pie candy oat cake
             liquorice brownie tart. Tiramisu chocolate cake apple pie muffin
             chocolate bar gummi bears sugar plum.
