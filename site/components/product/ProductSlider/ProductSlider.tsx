@@ -23,39 +23,19 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isMounted, setIsMounted] = useState(false)
   const sliderContainerRef = useRef<HTMLDivElement>(null)
-  const thumbsContainerRef = useRef<HTMLDivElement>(null)
 
   const [ref, slider] = useKeenSlider<HTMLDivElement>({
     loop: true,
     slides: { perView: 1 },
     created: () => setIsMounted(true),
-    slideChanged(s) {
-      const slideNumber = s.track.details.rel
-      setCurrentSlide(slideNumber)
-
-      if (thumbsContainerRef.current) {
-        const $el = document.getElementById(`thumb-${slideNumber}`)
-        if (slideNumber >= 3) {
-          thumbsContainerRef.current.scrollLeft = $el!.offsetLeft
-        } else {
-          thumbsContainerRef.current.scrollLeft = 0
-        }
-      }
-    },
+    slideChanged: (s) => setCurrentSlide(s.track.details.rel),
   })
 
-  // Stop the history navigation gesture on touch devices
   useEffect(() => {
     const preventNavigation = (event: TouchEvent) => {
-      // Center point of the touch area
       const touchXPosition = event.touches[0].pageX
-      // Size of the touch area
       const touchXRadius = event.touches[0].radiusX || 0
 
-      // We set a threshold (10px) on both sizes of the screen,
-      // if the touch area overlaps with the screen edges
-      // it's likely to trigger the navigation. We prevent the
-      // touchstart event in that case.
       if (
         touchXPosition - touchXRadius < 10 ||
         touchXPosition + touchXRadius > window.innerWidth - 10
@@ -85,7 +65,6 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
       >
         {slider && <ProductSliderControl onPrev={onPrev} onNext={onNext} />}
         {Children.map(children, (child) => {
-          // Add the keen-slider__slide className to children
           if (isValidElement(child)) {
             return {
               ...child,

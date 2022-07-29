@@ -12,15 +12,9 @@ const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     loop: true,
-    mode: 'free',
     slides: { origin: 'center', perView: 2.5, spacing: 10 },
-    slideChanged(slider) {
-      setCurrentSlide(slider.track.details.rel)
-    },
-    range: {
-      min: -5,
-      max: 5,
-    },
+    slideChanged: (s) => setCurrentSlide(s.track.details.rel),
+
     breakpoints: {
       '(max-width: 768px)': {
         slides: { origin: 'center', perView: 1.5 },
@@ -64,24 +58,6 @@ const Carousel = () => {
       </div>
 
       <ProductSliderControl onPrev={onPrev} onNext={onNext} />
-
-      {instanceRef.current && (
-        <div className={s.dots}>
-          {[
-            ...Array(instanceRef.current.track.details.slides.length).keys(),
-          ].map((idx) => {
-            return (
-              <button
-                key={idx}
-                onClick={() => {
-                  instanceRef.current?.moveToIdx(idx)
-                }}
-                className={s.dot + ' ' + (currentSlide === idx ? s.active : '')}
-              ></button>
-            )
-          })}
-        </div>
-      )}
     </section>
   )
 }
