@@ -3,7 +3,16 @@
 }
 
 .total {
-  @apply flex justify-between border-t-0 border-primary;
+  @apply grid grid-cols-12 gap-2 border-t-0 border-primary text-3xl font-bold pt-4 mb-8;
+}
+
+.totalText,
+.totalPrice {
+  @apply text-right;
+}
+
+.totalText {
+  @apply col-span-10 justify-end;
 }
 
 .sidebar .total {
