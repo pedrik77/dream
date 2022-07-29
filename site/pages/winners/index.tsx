@@ -11,6 +11,7 @@ import { ProductCard } from '@components/product'
 import PageBanner from '@components/ui/PageBanner'
 import Tree from '@components/winners/Tree'
 
+// TODO - add multilang package
 const MONTHS = [
   'január',
   'február',
