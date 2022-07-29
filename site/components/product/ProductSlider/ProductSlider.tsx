@@ -110,10 +110,10 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                     onClick={() => {
                       slider.current?.moveToIdx(idx)
                     }}
-                    className={s.dot + (currentSlide === idx ? ' active' : '')}
-                  >
-                    x
-                  </button>
+                    className={
+                      s.dot + ' ' + (currentSlide === idx ? s.active : '')
+                    }
+                  ></button>
                 )
               }
             )}

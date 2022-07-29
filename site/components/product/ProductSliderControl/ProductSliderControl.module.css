@@ -1,11 +1,11 @@
 .control {
-  @apply absolute flex justify-between h-10 w-full bottom-[40%] z-30 select-none;
+  @apply absolute flex justify-between h-10 w-full bottom-[45%] z-30 select-none;
 }
 
 .leftControl,
 .rightControl {
-  @apply cursor-pointer fill-white opacity-50;
-  transition: color 0.2s ease;
+  @apply cursor-pointer fill-white opacity-60;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .leftControl:hover,
