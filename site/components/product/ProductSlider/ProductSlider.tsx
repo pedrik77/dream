@@ -99,29 +99,27 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
           }
           return child
         })}
-      </div>
 
-      {/* <a.div className={s.album} ref={thumbsContainerRef}>
-        {slider &&
-          Children.map(children, (child, idx) => {
-            if (isValidElement(child)) {
-              return {
-                ...child,
-                props: {
-                  ...child.props,
-                  className: cn(child.props.className, s.thumb, {
-                    [s.selected]: currentSlide === idx,
-                  }),
-                  id: `thumb-${idx}`,
-                  onClick: () => {
-                    slider.current?.moveToIdx(idx)
-                  },
-                },
+        {slider.current && (
+          <div className="dots">
+            {[...Array(slider.current.track.details.slides.length).keys()].map(
+              (idx) => {
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      slider.current?.moveToIdx(idx)
+                    }}
+                    className={'dot' + (currentSlide === idx ? ' active' : '')}
+                  >
+                    x
+                  </button>
+                )
               }
-            }
-            return child
-          })}
-      </a.div> */}
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
