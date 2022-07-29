@@ -1,5 +1,5 @@
 .control {
-  @apply absolute flex justify-between h-10 w-full bottom-[45%] z-30 select-none;
+  @apply absolute flex justify-between h-10 w-full bottom-[45%] z-30 select-none px-2;
 }
 
 .leftControl,

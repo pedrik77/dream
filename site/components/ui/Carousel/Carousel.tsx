@@ -4,8 +4,9 @@ import s from './Carousel.module.css'
 import Image from 'next/image'
 import { ArrowLeft, ArrowRight } from '@components/icons'
 import Button from '../Button'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Text from '../Text'
+import ProductSliderControl from '@components/product/ProductSliderControl'
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -30,6 +31,15 @@ const Carousel = () => {
     },
   })
 
+  const onPrev = React.useCallback(
+    () => instanceRef.current?.prev(),
+    [instanceRef]
+  )
+  const onNext = React.useCallback(
+    () => instanceRef.current?.next(),
+    [instanceRef]
+  )
+
   return (
     <section className={s.root}>
       <Text variant="myHeading" className={s.h2}>
@@ -52,24 +62,26 @@ const Carousel = () => {
           <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
         </div>
       </div>
-      <Button
-        className={s.leftArrow}
-        onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()}
-        disabled={currentSlide === 0}
-      >
-        <ArrowLeft />
-      </Button>
 
-      <Button
-        className={s.rightArrow}
-        onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
-        disabled={
-          currentSlide ===
-          (instanceRef?.current?.track.details.slides.length || 0) - 1
-        }
-      >
-        <ArrowRight />
-      </Button>
+      <ProductSliderControl onPrev={onPrev} onNext={onNext} />
+
+      {instanceRef.current && (
+        <div className={s.dots}>
+          {[
+            ...Array(instanceRef.current.track.details.slides.length).keys(),
+          ].map((idx) => {
+            return (
+              <button
+                key={idx}
+                onClick={() => {
+                  instanceRef.current?.moveToIdx(idx)
+                }}
+                className={s.dot + ' ' + (currentSlide === idx ? s.active : '')}
+              ></button>
+            )
+          })}
+        </div>
+      )}
     </section>
   )
 }

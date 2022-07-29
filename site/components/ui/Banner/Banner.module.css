@@ -3,7 +3,7 @@
 }
 
 .bgOverlay {
-  @apply w-screen h-44 sm:h-60 md:h-96 lg:h-[80vh] xl:h-[90vh] flex relative mb-6 lg:mb-8;
+  @apply w-full h-44 sm:h-60 md:h-96 lg:h-[80vh] xl:h-[90vh] flex relative mb-6 lg:mb-8;
 }
 
 .bgOverlay::after {
@@ -18,7 +18,7 @@
 .bannerContainer {
   @apply container flex flex-col justify-center absolute top-4 sm:top-8 md:top-16 lg:top-20 left-4 sm:left-8 md:left-20 lg:left-24;
   z-index: 2;
-  width: calc(100vw - 2rem);
+  width: calc(100% - 2rem);
 }
 
 .h2 {
@@ -52,7 +52,7 @@
 
 @screen md {
   .bannerContainer {
-    width: calc(100vw - 5rem);
+    width: calc(100% - 5rem);
   }
 
   .h2 {
@@ -67,7 +67,7 @@
 
 @screen lg {
   .bannerContainer {
-    width: calc(100vw - 6rem);
+    width: calc(100% - 7rem);
   }
   .h2 {
     font-size: 6.25rem;
@@ -80,6 +80,10 @@
 }
 
 @screen xl {
+  .bannerContainer {
+    width: calc(100% - 9rem);
+  }
+
   .h2 {
     font-size: 7rem;
     line-height: 1.25em;
