@@ -101,7 +101,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
         })}
 
         {slider.current && (
-          <div className="dots">
+          <div className={s.dots}>
             {[...Array(slider.current.track.details.slides.length).keys()].map(
               (idx) => {
                 return (
@@ -110,7 +110,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                     onClick={() => {
                       slider.current?.moveToIdx(idx)
                     }}
-                    className={'dot' + (currentSlide === idx ? ' active' : '')}
+                    className={s.dot + (currentSlide === idx ? ' active' : '')}
                   >
                     x
                   </button>

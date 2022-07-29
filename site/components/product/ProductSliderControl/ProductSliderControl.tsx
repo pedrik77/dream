@@ -15,18 +15,11 @@ const ProductSliderControl: FC<ProductSliderControl> = ({ onPrev, onNext }) => (
   </div>
 )
 
-function Arrow(props: {
-  disabled?: boolean
-  left?: boolean
-  onClick: (e: any) => void
-}) {
-  const disabled = props.disabled ? ' arrow--disabled' : ''
+function Arrow(props: { left?: boolean; onClick: (e: any) => void }) {
   return (
     <svg
       onClick={props.onClick}
-      className={`arrow ${
-        props.left ? 'arrow--left' : 'arrow--right'
-      } ${disabled}`}
+      className={props.left ? s.leftControl : s.rightControl}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
     >
