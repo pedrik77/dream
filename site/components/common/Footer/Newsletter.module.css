@@ -1,9 +1,9 @@
 .main {
-  @apply inline-flex my-4 border-[1px] border-secondary;
+  @apply inline-flex my-4 outline-1 outline outline-secondary;
 }
 
 .input {
-  @apply h-10 text-accent-0 border-none focus:shadow-none;
+  @apply h-full text-accent-0 border-none focus:shadow-none;
 }
 
 .input::placeholder {
