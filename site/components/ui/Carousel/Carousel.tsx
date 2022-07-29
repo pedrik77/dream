@@ -4,22 +4,17 @@ import s from './Carousel.module.css'
 import Image from 'next/image'
 import { ArrowLeft, ArrowRight } from '@components/icons'
 import Button from '../Button'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Text from '../Text'
+import ProductSliderControl from '@components/product/ProductSliderControl'
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     loop: true,
-    mode: 'free',
     slides: { origin: 'center', perView: 2.5, spacing: 10 },
-    slideChanged(slider) {
-      setCurrentSlide(slider.track.details.rel)
-    },
-    range: {
-      min: -5,
-      max: 5,
-    },
+    slideChanged: (s) => setCurrentSlide(s.track.details.rel),
+
     breakpoints: {
       '(max-width: 768px)': {
         slides: { origin: 'center', perView: 1.5 },
@@ -29,6 +24,15 @@ const Carousel = () => {
       },
     },
   })
+
+  const onPrev = React.useCallback(
+    () => instanceRef.current?.prev(),
+    [instanceRef]
+  )
+  const onNext = React.useCallback(
+    () => instanceRef.current?.next(),
+    [instanceRef]
+  )
 
   return (
     <section className={s.root}>
@@ -52,24 +56,8 @@ const Carousel = () => {
           <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
         </div>
       </div>
-      <Button
-        className={s.leftArrow}
-        onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()}
-        disabled={currentSlide === 0}
-      >
-        <ArrowLeft />
-      </Button>
 
-      <Button
-        className={s.rightArrow}
-        onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
-        disabled={
-          currentSlide ===
-          (instanceRef?.current?.track.details.slides.length || 0) - 1
-        }
-      >
-        <ArrowRight />
-      </Button>
+      <ProductSliderControl onPrev={onPrev} onNext={onNext} />
     </section>
   )
 }
