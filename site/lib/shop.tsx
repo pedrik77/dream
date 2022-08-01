@@ -97,7 +97,7 @@ export const ShopProvider: React.FC = ({ children }) => {
           title_1,
           title_2,
           slug,
-          image,
+          image: image?.src || '',
         },
         ticketCount,
         price,
