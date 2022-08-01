@@ -11,18 +11,34 @@ export function usePermission({
   permission,
   redirect,
 }: usePermissionArgs = {}) {
-  const { hasAdminPermission } = useAuthContext()
+  const { permissions, permissionsLoaded } = useAuthContext()
   const router = useRouter()
 
   const [allowed, setAllowed] = useState(false)
 
   useEffect(() => {
-    if (hasAdminPermission(permission)) return setAllowed(true)
+    const hasAdminPermission = (permission?: string) => {
+      if (!permission && !!permissions.length) {
+        return true
+      }
+
+      if (!permission) return false
+
+      return (
+        permissions.includes(permission) || permissions.includes('superadmin')
+      )
+    }
+
+    if (hasAdminPermission(permission)) {
+      return setAllowed(true)
+    }
 
     setAllowed(false)
 
-    if (redirect) router.push(redirect)
-  }, [permission, redirect, router, hasAdminPermission])
+    if (permissionsLoaded && redirect) {
+      router.replace(redirect)
+    }
+  }, [permission, redirect, router, permissions, permissionsLoaded])
 
   return allowed
 }

@@ -53,7 +53,8 @@ export default function Dashboard() {
 
   const router = useRouter()
 
-  if (!usePermission({ permission: PERMISSIONS.PRODUCTS_LIST })) return null
+  if (!usePermission({ permission: PERMISSIONS.PRODUCTS_LIST, redirect: '/' }))
+    return null
 
   const handleDeleteSelected = async () => {
     if (!(await confirm('Naozaj?'))) return

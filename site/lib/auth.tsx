@@ -66,9 +66,8 @@ type ContextType = {
   user?: User
   customer: CustomerDataType
   isLoggedIn: boolean
-  adminPermissions: string[]
-  isAdmin: boolean
-  hasAdminPermission: (permission?: string) => boolean
+  permissions: string[]
+  permissionsLoaded: boolean
   setCustomer: (customer: CustomerDataType) => void
 }
 
@@ -76,9 +75,8 @@ const Context = createContext<ContextType>({
   user: undefined,
   customer: NULL_CUSTOMER_DATA,
   isLoggedIn: false,
-  adminPermissions: [],
-  isAdmin: false,
-  hasAdminPermission: () => false,
+  permissions: [],
+  permissionsLoaded: false,
   setCustomer: () => {},
 })
 
@@ -87,21 +85,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [customer, setCustomer] = useState<CustomerDataType>(NULL_CUSTOMER_DATA)
 
   const [permissions, setPermissions] = useState<string[]>([])
-
-  const isAdmin = !!permissions.length
-
-  const hasAdminPermission = (permission?: string, orSuperAdmin = true) => {
-    if (!permission && isAdmin) {
-      return true
-    }
-
-    if (!permission) return false
-
-    return (
-      permissions.includes(permission) ||
-      (orSuperAdmin ? permissions.includes('superadmin') : false)
-    )
-  }
+  const [permissionsLoaded, setPermissionsLoaded] = useState(false)
 
   const isLoggedIn = useMemo(() => !!user, [user])
 
@@ -124,7 +108,6 @@ export const AuthProvider: React.FC = ({ children }) => {
       doc(db, 'customers', user.email),
       (doc) => {
         const data = { ...doc.data(), email: doc.id } as CustomerDataType
-        console.log('customer data', data)
 
         setCustomer({
           ...data,
@@ -141,9 +124,12 @@ export const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (!user || !user.email) return
 
+    setPermissionsLoaded(false)
     return onSnapshot(
       doc(db, 'admins', user.email),
       (doc) => {
+        setTimeout(() => setPermissionsLoaded(true))
+
         const data = doc.data()
 
         if (!data) return setPermissions([])
@@ -159,9 +145,8 @@ export const AuthProvider: React.FC = ({ children }) => {
         user,
         customer,
         isLoggedIn,
-        adminPermissions: permissions,
-        isAdmin,
-        hasAdminPermission,
+        permissions,
+        permissionsLoaded,
         setCustomer,
       }}
     >
@@ -195,7 +180,7 @@ export async function signUp(
 
   if (newsletter) {
     await subscribe(email, true)
-      .then(() => console.log('You have been subscribed to our newsletter'))
+      .then(() => console.log('subscribed'))
       .catch((e) => {
         console.error(e)
       })
