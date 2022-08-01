@@ -40,7 +40,7 @@ const ProductCard: FC<Props> = ({
                 <Image
                   alt={product.title_1 || 'Product Image'}
                   className={s.productImage}
-                  src={product.gallery?.[0].src || placeholderImg}
+                  src={product.image?.src || placeholderImg}
                   height={195}
                   width={300}
                   quality="85"
@@ -55,6 +55,7 @@ const ProductCard: FC<Props> = ({
             </div>
           </div>
         )}
+        {console.log(product.image)}
 
         {variant === 'default' && (
           <div className={s.cardContainer}>
@@ -63,7 +64,7 @@ const ProductCard: FC<Props> = ({
                 <Image
                   alt={product.title_1 || 'Product Image'}
                   className={s.productImage}
-                  src={product.gallery?.[0].src || placeholderImg}
+                  src={product.image?.src || placeholderImg}
                   height={195}
                   width={300}
                   quality="85"

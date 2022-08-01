@@ -39,6 +39,7 @@ export interface Product {
   short_desc: string
   closing_date: number
   winner_announce_date: number
+  image: ProductImage | null
   gallery: ProductImage[]
   long_desc: string
   donation_entries: string
@@ -154,9 +155,12 @@ export async function getDonorsCount(slug: string) {
 function transform(doc: any): Product {
   const { closing_date, winner_announce_date, ...data } = doc.data()
 
+  const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
+
   return {
     ...data,
     slug: doc.id,
+    image,
     closing_date: closing_date.seconds,
     winner_announce_date: winner_announce_date.seconds,
   }

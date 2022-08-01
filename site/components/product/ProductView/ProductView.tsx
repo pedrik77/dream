@@ -152,7 +152,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           description: product.short_desc,
           images: [
             {
-              url: product.gallery?.[0].src, // TODO
+              url: product.image?.src, // TODO
               width: '800',
               height: '600',
               alt: product.title_1,

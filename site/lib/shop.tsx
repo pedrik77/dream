@@ -81,7 +81,7 @@ export const ShopProvider: React.FC = ({ children }) => {
   )
 
   const addToCart = async ({
-    product: { slug, title_1, title_2, gallery },
+    product: { slug, title_1, title_2, image },
     ticketCount,
     price,
     forceOverride = false,
@@ -94,10 +94,10 @@ export const ShopProvider: React.FC = ({ children }) => {
       ...cart.filter(({ product }) => slug !== product.slug),
       {
         product: {
-          title_1: title_1,
-          title_2: title_2,
-          slug: slug,
-          image: gallery?.[0].src,
+          title_1,
+          title_2,
+          slug,
+          image,
         },
         ticketCount,
         price,
