@@ -52,13 +52,21 @@ export type CustomerDataType = typeof NULL_CUSTOMER_DATA
 
 export const PERMISSIONS = {
   SUPERADMIN: 'superadmin',
+
   ORDERS_LIST: 'orders.list',
+
   USERS_LIST: 'users.list',
+
   CATEGORIES_LIST: 'categories.list',
-  PRODUCTS_LIST: 'products.list',
+
   WINNERS_LIST: 'winners.list',
+
   PAGES_LIST: 'pages.list',
+
+  PRODUCTS_LIST: 'products.list',
   PRODUCTS_ADD: 'products.add',
+  PRODUCTS_DELETE: 'products.delete',
+
   CMS: 'cms',
 } as const
 

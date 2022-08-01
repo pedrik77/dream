@@ -84,12 +84,14 @@ export default function Dashboard() {
         <AdminPermit permission={PERMISSIONS.PRODUCTS_ADD}>
           <Button onClick={redirectToAddProduct}>Pridat produkt</Button>
         </AdminPermit>
-        <Button
-          className={!!selected.length ? 'visible' : 'invisible'}
-          onClick={handleDeleteSelected}
-        >
-          Vymazat ({selected.length})
-        </Button>
+        <AdminPermit permission={PERMISSIONS.PRODUCTS_DELETE}>
+          <Button
+            className={!!selected.length ? 'visible' : 'invisible'}
+            onClick={handleDeleteSelected}
+          >
+            Vymazat ({selected.length})
+          </Button>
+        </AdminPermit>
       </div>
       <div className="w-[80%] h-[600px] text-primary">
         <DataGrid
