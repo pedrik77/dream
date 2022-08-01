@@ -68,7 +68,7 @@ export default function Orders() {
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={6}
+          pageSize={10}
           getRowId={(row: Order) => row.uuid}
           disableSelectionOnClick
           getRowClassName={() => 'cursor-pointer'}

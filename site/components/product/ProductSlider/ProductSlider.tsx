@@ -78,7 +78,6 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
           }
           return child
         })}
-
         {slider.current && (
           <div className={s.dots}>
             {[...Array(slider.current.track.details.slides.length).keys()].map(

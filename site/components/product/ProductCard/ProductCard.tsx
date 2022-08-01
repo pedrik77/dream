@@ -55,7 +55,6 @@ const ProductCard: FC<Props> = ({
             </div>
           </div>
         )}
-        {console.log(product.image)}
 
         {variant === 'default' && (
           <div className={s.cardContainer}>

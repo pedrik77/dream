@@ -100,8 +100,8 @@ export default function Dashboard() {
           onSelectionModelChange={(selected) =>
             setSelected(selected as string[])
           }
-          pageSize={6}
-          rowsPerPageOptions={[6, 12, 24]}
+          pageSize={10}
+          rowsPerPageOptions={[10, 15, 20]}
           getRowId={(row: Product) => row.slug}
           disableSelectionOnClick
         />
