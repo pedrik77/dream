@@ -68,7 +68,7 @@ export async function setProduct({ slug, ...product }: any) {
 export async function deleteProduct(slug: string | string[]) {
   return await Promise.all(
     (typeof slug === 'string' ? [slug] : slug).map((slug) =>
-      deleteDoc(doc(db, 'product', slug))
+      deleteDoc(doc(db, 'products', slug))
     )
   )
 }
