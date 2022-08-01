@@ -27,7 +27,7 @@
 }
 
 .crossDiv {
-  @apply flex justify-center items-center border-l-2 border-solid border-primary md:border-none pl-4 md:pl-0;
+  @apply flex justify-center items-center border-l-2 border-solid border-primary md:border-none pl-4 md:pl-0 text-primary;
 }
 
 .sidebar .crossDiv {
