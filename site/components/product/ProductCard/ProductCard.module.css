@@ -8,7 +8,7 @@
 }
 
 .imageContainer {
-  @apply w-full max-h-48 overflow-hidden rounded-lg;
+  @apply w-full max-h-56 overflow-hidden rounded-lg;
 }
 
 .productImage {
