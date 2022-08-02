@@ -4,7 +4,7 @@
 }
 
 .root .name {
-  @apply my-2 pt-0 max-w-full w-full leading-relaxed text-2xl md:text-3xl font-bold;
+  @apply my-2 pt-0 max-w-full w-full leading-normal text-2xl md:text-[1.75rem] font-bold;
   letter-spacing: 0.4px;
 }
 

@@ -17,7 +17,7 @@ export default function Products({ category = '' }: ProductsPageProps) {
   return (
     <Container clean>
       <PageBanner img="/assets/page_banner.jpg" />
-      <Container className="flex gap-8 items-center justify-center my-16">
+      <Container className="flex gap-8 items-center justify-center my-10">
         <Tab active>Aktuálne</Tab>
         <Tab>Predošlé</Tab>
       </Container>
