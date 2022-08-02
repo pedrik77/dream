@@ -13,7 +13,7 @@
 
 .productImage {
   @apply mx-auto transform transition-transform duration-500
-  object-cover scale-120;
+  object-contain scale-120;
 }
 
 .textContainer {

@@ -45,24 +45,24 @@ export default function Home({
       {/* TO DO EDIT PICS, TEXT, BUTTON */}
       <Banner
         primaryTitle="vysnivaj.si"
-        secondaryTitle="Cupcake ipsum"
-        subtitle=" Soufflé bonbon caramels jelly beans. "
-        img="/assets/tesla1_1440x910.jpg"
-        buttonText="Join Now"
+        secondaryTitle="Tadžikistan"
+        subtitle="Vysnívaj si dovolenku v tadžických horách."
+        img="/assets/mountains_1440x910.jpg"
+        buttonText="Zapojiť sa"
+      />
+      <Banner
+        primaryTitle="vysnivaj.si"
+        secondaryTitle="Nora Nora"
+        subtitle="Vysnívaj si dovolenku na ostrove Nora Nora."
+        img="/assets/beach_1440x910.jpg"
+        buttonText="Zapojiť sa"
       />
       <Banner
         primaryTitle="vysnivaj.si"
         secondaryTitle="Cupcake ipsum"
         subtitle=" Soufflé bonbon caramels jelly beans. "
-        img="/assets/tesla1_1440x910.jpg"
-        buttonText="Join Now"
-      />
-      <Banner
-        primaryTitle="vysnivaj.si"
-        secondaryTitle="Cupcake ipsum"
-        subtitle=" Soufflé bonbon caramels jelly beans. "
-        img="/assets/tesla1_1440x910.jpg"
-        buttonText="Join Now"
+        img="/assets/truck_1440x910.jpg"
+        buttonText="Zapojiť sa"
       />
       <Hero
         headline=" Dessert dragée"
