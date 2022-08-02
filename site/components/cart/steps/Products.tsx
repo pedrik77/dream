@@ -35,8 +35,12 @@ export default function Products({
         ))}
       </div>
       <div className={s.total}>
-        <Text variant="sectionHeading">Spolu</Text>
-        <Text variant="sectionHeading">{total} €</Text>
+        <div className={s.totalText}>
+          <span>Spolu:</span>
+        </div>
+        <div className={s.totalPrice}>
+          <span>{total} €</span>
+        </div>
       </div>
       {sidebar && (
         <div className={s.toCartBtn}>
