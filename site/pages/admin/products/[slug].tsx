@@ -240,10 +240,10 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
         <fieldset>
           <label>
             Short description <br />
-            <textarea
-              value={short_desc}
-              onChange={(e) => setShortDesc(e.target.value)}
-            />
+            {Editor && (
+              // @ts-ignore
+              <Editor value={short_desc} onChange={setShortDesc} />
+            )}
           </label>
         </fieldset>
         <fieldset>
