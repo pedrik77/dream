@@ -13,11 +13,13 @@ import ProductSliderControl from '../ProductSliderControl'
 
 interface ProductSliderProps {
   children: React.ReactNode[]
+  single?: boolean
   className?: string
 }
 
 const ProductSlider: React.FC<ProductSliderProps> = ({
   children,
+  single = false,
   className = '',
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -63,7 +65,9 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
         ref={ref}
         className={cn(s.slider, { [s.show]: isMounted }, 'keen-slider')}
       >
-        {slider && <ProductSliderControl onPrev={onPrev} onNext={onNext} />}
+        {slider && !single && (
+          <ProductSliderControl onPrev={onPrev} onNext={onNext} />
+        )}
         {Children.map(children, (child) => {
           if (isValidElement(child)) {
             return {
@@ -78,7 +82,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
           }
           return child
         })}
-        {slider.current && (
+        {slider.current && !single && (
           <div className={s.dots}>
             {[...Array(slider.current.track.details.slides.length).keys()].map(
               (idx) => {

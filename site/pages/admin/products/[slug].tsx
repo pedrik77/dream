@@ -67,7 +67,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const uploading = useLoading()
   const loadingDonors = useLoading()
 
-  const { categories } = useCategories()
+  const categories = useCategories()
 
   const router = useRouter()
 
@@ -208,7 +208,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                   createCategory({
                     title,
                     slug: _.kebabCase(title),
-                    menu_position: -1,
                   })
                     .then(() => setCategory(_.kebabCase(title)))
                     .catch(handleErrorFlash)

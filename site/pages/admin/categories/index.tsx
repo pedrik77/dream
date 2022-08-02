@@ -20,27 +20,19 @@ import React, { useEffect, useState } from 'react'
 const columns: GridColDef[] = [
   { field: 'slug', headerName: 'Slug' },
   { field: 'title', headerName: 'Title', editable: true },
-  {
-    field: 'menu_position',
-    headerName: 'Menu position',
-    editable: true,
-    type: 'number',
-  },
 ]
 
 export default function Categories() {
-  const { categories } = useCategories()
+  const categories = useCategories()
 
   const [slug, setSlug] = useState('')
   const [title, setTitle] = useState('')
-  const [menuPosition, setMenuPosition] = useState(-1)
 
   const [selected, setSelected] = useState<string[]>([])
 
   const reset = () => {
     setSlug('')
     setTitle('')
-    setMenuPosition(-1)
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -48,7 +40,7 @@ export default function Categories() {
 
     if (!slug || !title) return flash('Vyplňte všetky polia', 'danger')
 
-    setCategory({ slug, title, menu_position: menuPosition })
+    setCategory({ slug, title })
       .then(() => {
         reset()
         flash('Kategória vytvorená')

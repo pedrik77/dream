@@ -211,14 +211,14 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
                 </AccountField>
                 <AccountField>
                   <label htmlFor="fullname" className="cursor-pointer">
-                    DIČ
+                    IČ DPH
                   </label>
                   <Input
                     required
                     id="vatId"
                     variant="ghost"
                     value={companyVatId}
-                    placeholder="DIČ"
+                    placeholder="IČ DPH"
                     onChange={setCompanyVatId}
                   />
                 </AccountField>

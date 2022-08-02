@@ -21,6 +21,7 @@ import { useCategories } from '@lib/categories'
 import { useMemo } from 'react'
 import { AuthProvider } from '@lib/auth'
 import { ShopProvider } from '@lib/shop'
+import { useMenu } from '@lib/menu'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -92,21 +93,18 @@ const SidebarUI = ({ links }) => {
   ) : null
 }
 
-const useMenu = () => {
-  const { menu } = useCategories()
+const useMenuLinks = () => {
+  const { main } = useMenu()
 
   const links = useMemo(() => {
     return [
       { label: 'Všetky súťaže', href: '/products' },
       ,
-      ...menu.map((c) => ({
-        label: c.title,
-        href: `/products?category=${c.slug}`,
-      })),
+      ...main,
       { label: 'Víťazi', href: '/winners', activeRegardsParams: true },
-      { label: 'Kontakt', href: '/contact' },
+      // { label: 'Kontakt', href: '/contact' },
     ]
-  }, [menu])
+  }, [main])
 
   return links
 }
@@ -115,7 +113,7 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
 
-  const navBarlinks = useMenu()
+  const navBarlinks = useMenuLinks()
 
   return (
     <CommerceProvider locale={locale}>

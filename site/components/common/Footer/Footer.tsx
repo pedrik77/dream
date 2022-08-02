@@ -11,6 +11,7 @@ import s from './Footer.module.css'
 import SocialSection from '../SocialSection'
 import Newsletter from './Newsletter'
 import { useCategories } from '@lib/categories'
+import { useMenu } from '@lib/menu'
 
 interface Props {
   className?: string
@@ -20,23 +21,20 @@ interface Props {
 
 const links = [
   {
-    name: 'Dom',
-    url: '/',
+    label: 'Dom',
+    href: '/',
   },
   {
-    name: 'Vsetko',
-    url: '/products',
+    label: 'Vsetko',
+    href: '/products',
   },
 ]
 
 const Footer: FC<Props> = ({ className, pages }) => {
-  const { sitePages } = usePages(pages)
+  // const { sitePages } = usePages(pages)
   const rootClassName = cn(s.root, className)
 
-  const categories = useCategories().menu.map((c) => ({
-    name: c.title,
-    url: `/products?category=${c.slug}`,
-  }))
+  const { main } = useMenu()
 
   return (
     <footer className={rootClassName}>
@@ -44,11 +42,11 @@ const Footer: FC<Props> = ({ className, pages }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
           <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
             <div className="grid md:grid-rows-4 grid-cols-3 md:grid-flow-col">
-              {[...links, ...categories, ...sitePages].map((page) => (
-                <span key={page.url} className="py-3 md:py-0 md:pb-4">
-                  <Link href={page.url!}>
+              {[...links, ...main].map((page) => (
+                <span key={page.href} className="py-3 md:py-0 md:pb-4">
+                  <Link href={page.href!}>
                     <a className="text-accent-0 hover:text-secondary transition ease-in-out duration-150">
-                      {page.name}
+                      {page.label}
                     </a>
                   </Link>
                 </span>
