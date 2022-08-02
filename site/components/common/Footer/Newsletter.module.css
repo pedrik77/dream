@@ -14,7 +14,7 @@
   @apply h-10 bg-secondary text-primary border-0 border-none shadow-none transition-none hover:shadow-none hover:bg-secondary hover:text-accent-0 outline-1 outline outline-secondary;
 }
 .gdpr {
-  @apply flex align-top py-2;
+  @apply flex align-top py-2 lg:flex-row-reverse lg:gap-4;
 }
 
 .text {
@@ -22,5 +22,5 @@
 }
 
 .checkbox {
-  @apply mr-2 text-white py-0 pl-0;
+  @apply mr-2 lg:mr-0 text-white py-0 pl-0;
 }
