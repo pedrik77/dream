@@ -7,7 +7,7 @@
 }
 
 .item {
-  @apply h-8 w-8 ml-6 cursor-pointer relative transition ease-in-out
+  @apply sm:h-8 w-8 ml-2 sm:ml-4 cursor-pointer relative transition ease-in-out
   duration-100 flex items-center outline-none text-white;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .mobileMenu {
-  @apply flex lg:hidden ml-6 text-white;
+  @apply flex lg:hidden ml-2 sm:ml-4 text-white;
 }
 
 .avatarButton:focus,
