@@ -19,3 +19,7 @@
 .textContainer {
   @apply flex flex-col;
 }
+
+.subtitle {
+  @apply text-accent-6 uppercase font-bold m-0 text-left;
+}

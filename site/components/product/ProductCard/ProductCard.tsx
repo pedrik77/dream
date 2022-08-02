@@ -53,9 +53,7 @@ const ProductCard: FC<Props> = ({
               <ProductTag className="text-left" fontSize={20}>
                 {product.title_1}
               </ProductTag>
-              <span className="text-secondary uppercase font-bold m-0 text-left">
-                {product.title_2}
-              </span>
+              <span className={s.subtitle}>{product.title_2}</span>
             </div>
           </div>
         )}
@@ -79,7 +77,7 @@ const ProductCard: FC<Props> = ({
             <div className={s.textContainer}>
               <ProductTag className="text-left">{product.title_1}</ProductTag>
 
-              <span className="text-base m-0 text-left">{product.title_2}</span>
+              <span className={s.subtitle}>{product.title_2}</span>
             </div>
           </div>
         )}
