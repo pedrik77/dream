@@ -25,7 +25,7 @@ import { doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
 
-const placeholder = `https://api.lorem.space/image/burger?w=200&h=200`
+const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`
 
 export const NULL_CUSTOMER_DATA = {
   email: '',

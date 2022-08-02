@@ -79,7 +79,10 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <div className={cn(s.main, 'fit')}>
             <div className={s.sliderContainer}>
               {!!product.gallery.length && (
-                <ProductSlider key={product.slug}>
+                <ProductSlider
+                  key={product.slug}
+                  single={product.gallery.length === 1}
+                >
                   {product.gallery.map((image, i) => (
                     <div key={image.path} className={s.imageContainer}>
                       <Image
