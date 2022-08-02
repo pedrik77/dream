@@ -63,9 +63,12 @@ export default function Orders() {
 
   return (
     <AccountLayout current="orders">
-      <Text variant="pageHeading">My Orders</Text>
+      <Text variant="heading" className="mt-0 md:mt-8">
+        My Orders
+      </Text>
       <div className="w-full h-[600px]">
         <DataGrid
+          className="border-none"
           rows={rows}
           columns={columns}
           pageSize={10}
