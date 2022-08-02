@@ -1,10 +1,9 @@
 .root {
-  @apply sticky top-0 bg-primary z-40 transition-all duration-150;
-  min-height: 74px;
+  @apply sticky top-0 bg-primary z-40 transition-all duration-150 sm:min-h-[74px];
 }
 
 .nav {
-  @apply relative flex flex-row items-center justify-end gap-8 py-2;
+  @apply relative flex flex-row items-center justify-end gap-4 md:gap-8 py-2;
 }
 
 .navMenu {
