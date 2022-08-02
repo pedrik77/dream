@@ -49,8 +49,7 @@ export interface Product {
 
 interface UseProductOptions {
   category?: string
-  onlyActive?: boolean
-  onlyPast?: boolean
+  showClosed?: boolean | null
   orderBy?: keyof Product
   orderDirection?: 'asc' | 'desc'
   onError?: (e: any) => void
@@ -76,8 +75,7 @@ export async function deleteProduct(slug: string | string[]) {
 
 export function useProducts({
   category = '',
-  onlyActive = false,
-  onlyPast = false,
+  showClosed = false,
   orderBy,
   orderDirection = 'asc',
   onError = (e) => {},
@@ -91,11 +89,11 @@ export function useProducts({
       queries.push(where('category', '==', category))
     }
 
-    if (onlyActive) {
+    if (showClosed === false) {
       queries.push(where('closing_date', '>', Timestamp.fromDate(new Date())))
     }
 
-    if (onlyPast) {
+    if (showClosed === true) {
       queries.push(where('closing_date', '<=', Timestamp.fromDate(new Date())))
     }
 
@@ -104,7 +102,7 @@ export function useProducts({
     }
 
     return queries
-  }, [category, onlyActive, onlyPast, orderBy, orderDirection])
+  }, [category, showClosed, orderBy, orderDirection])
 
   try {
     useEffect(

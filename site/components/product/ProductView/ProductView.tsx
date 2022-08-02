@@ -34,7 +34,9 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
   const { addToCart, isInCart } = useShopContext()
 
-  const relatedProducts = useProducts()
+  const relatedProducts = useProducts({
+    category: product.category,
+  })
 
   const handleScroll = () => {
     if (!scrollToRef.current) return
