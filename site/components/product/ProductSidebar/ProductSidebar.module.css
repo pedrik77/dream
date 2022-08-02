@@ -1,6 +1,5 @@
 .root {
-  @apply col-span-4 flex flex-col max-w-8xl px-0 w-full h-full relative overflow-x-hidden;
-  min-height: auto;
+  @apply col-span-4 flex flex-col max-w-8xl px-0 w-full h-full lg:sticky top-[90px];
 }
 
 .category {
