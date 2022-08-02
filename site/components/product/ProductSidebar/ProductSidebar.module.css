@@ -12,7 +12,7 @@
 }
 
 .countUp {
-  @apply text-lg font-bold;
+  @apply text-lg font-bold mb-2;
 }
 
 .countUp span {

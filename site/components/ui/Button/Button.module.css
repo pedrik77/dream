@@ -39,6 +39,11 @@
   @apply px-3 sm:px-6 md:px-10 lg:px-12 py-1 sm:py-2 md:py-5 lg:py-7 text-[0.65rem] sm:text-xs md:text-sm lg:text-lg;
 }
 
+.banner:hover,
+.banner:focus {
+  @apply text-secondary border-secondary;
+}
+
 .naked {
   @apply bg-transparent font-semibold border-none shadow-none outline-none py-0 px-0;
 }
