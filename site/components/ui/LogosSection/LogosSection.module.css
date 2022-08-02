@@ -13,3 +13,12 @@
 .logos {
   @apply max-w-full flex flex-wrap gap-8 justify-center items-center m-8;
 }
+
+.logo {
+  @apply cursor-pointer;
+  filter: saturate(0%);
+}
+
+.logo:hover {
+  filter: saturate(100%);
+}

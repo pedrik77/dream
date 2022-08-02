@@ -42,30 +42,30 @@ export default function Home({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
-      {/* TO DO EDIT PICS, TEXT, BUTTON */}
+      {/* TO DO EDIT PICS, TEXT, BUTTON link*/}
       <Banner
         primaryTitle="vysnivaj.si"
         secondaryTitle="Tadžikistan"
-        subtitle="Vysnívaj si dovolenku v tadžických horách."
+        subtitle="Vysnívaj si magický pobyt v tadžických horách."
         img="/assets/mountains_1440x910.jpg"
         buttonText="Zapojiť sa"
       />
       <Banner
         primaryTitle="vysnivaj.si"
         secondaryTitle="Nora Nora"
-        subtitle="Vysnívaj si dovolenku na ostrove Nora Nora."
+        subtitle="Vysnívaj si luxusnú dovolenku na ostrove Nora Nora."
         img="/assets/beach_1440x910.jpg"
         buttonText="Zapojiť sa"
       />
       <Banner
         primaryTitle="vysnivaj.si"
-        secondaryTitle="Cupcake ipsum"
-        subtitle=" Soufflé bonbon caramels jelly beans. "
+        secondaryTitle="Traktar 4000"
+        subtitle="Vyhrajte jedinečný Traktar 4000"
         img="/assets/truck_1440x910.jpg"
         buttonText="Zapojiť sa"
       />
       <Hero
-        headline=" Dessert dragée"
+        headline="vysnívaj.si"
         description="Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. Soufflé bonbon caramels jelly beans. Tiramisu sweet roll cheesecake pie carrot cake. Tiramisu sweet roll cheesecake pie carrot cake. Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. "
       />
 

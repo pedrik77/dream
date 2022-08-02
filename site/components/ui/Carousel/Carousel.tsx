@@ -37,7 +37,7 @@ const Carousel = () => {
   return (
     <section className={s.root}>
       <Text variant="myHeading" className={s.h2}>
-        Check this dessert
+        Video sekcia
       </Text>
       <div className={`keen-slider ${s.keenSlider}`} ref={sliderRef}>
         <div className={`keen-slider__slide ${s.slide}`}>
