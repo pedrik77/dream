@@ -3,11 +3,8 @@ import cn from 'clsx'
 import Link from 'next/link'
 import s from './ProductCard.module.css'
 import Image, { ImageProps } from 'next/image'
-import WishlistButton from '@components/wishlist/WishlistButton'
-import usePrice from '@framework/product/use-price'
 import ProductTag from '../ProductTag'
 import { Product } from '@lib/products'
-import { Text } from '@components/ui'
 
 interface Props {
   className?: string

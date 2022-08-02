@@ -44,7 +44,8 @@
 }
 
 .buyCard {
-  @apply text-center flex flex-col gap-2 sm:gap-4 outline-1 outline-secondary outline min-w-[8rem] sm:min-w-[10rem];
+  @apply text-center flex flex-col gap-2 sm:gap-4 outline outline-1 outline-secondary hover:outline-primary rounded-lg overflow-hidden min-w-[8rem] sm:min-w-[10rem];
+  transition: ease-in-out 200ms;
 }
 
 .ticketsNo {
