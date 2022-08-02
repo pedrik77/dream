@@ -36,7 +36,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
   const relatedProducts = useProducts({
     category: product.category,
-  })
+  }).filter(({ slug }) => slug !== product.slug)
 
   const handleScroll = () => {
     if (!scrollToRef.current) return
@@ -127,25 +127,27 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             ))}
           </div>
         </section>
-        <section className="py-12 px-6 mb-10 text-center">
-          <Text variant="myHeading">Related Products</Text>
-          <div className={s.relatedProductsGrid}>
-            {relatedProducts.map((p) => (
-              <div key={p.slug} className="animated fadeIn bg-accent-0">
-                <ProductCard
-                  product={p}
-                  key={p.slug}
-                  variant="simple"
-                  className="animated fadeIn"
-                  imgProps={{
-                    width: 500,
-                    height: 300,
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        </section>
+        {!!relatedProducts.length && (
+          <section className="py-12 px-6 mb-10 text-center">
+            <Text variant="myHeading">Related Products</Text>
+            <div className={s.relatedProductsGrid}>
+              {relatedProducts.map((p) => (
+                <div key={p.slug} className="animated fadeIn bg-accent-0">
+                  <ProductCard
+                    product={p}
+                    key={p.slug}
+                    variant="simple"
+                    className="animated fadeIn"
+                    imgProps={{
+                      width: 500,
+                      height: 300,
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </Container>
       <SEO
         title={product.title_1}
