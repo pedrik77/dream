@@ -12,14 +12,20 @@ interface ProductsPageProps {
 }
 
 export default function Products({ category = '' }: ProductsPageProps) {
-  const products = useProducts({ category })
+  const [showClosed, setShowClosed] = React.useState(false)
+
+  const products = useProducts({ category, showClosed })
 
   return (
     <Container clean>
       <PageBanner img="/assets/page_banner.jpg" />
       <Container className="flex gap-8 items-center justify-center my-10">
-        <Tab active>Aktuálne</Tab>
-        <Tab>Predošlé</Tab>
+        <Tab active={!showClosed} onClick={() => setShowClosed(false)}>
+          Aktuálne
+        </Tab>
+        <Tab active={showClosed} onClick={() => setShowClosed(true)}>
+          Predošlé
+        </Tab>
       </Container>
       <Container className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-8 jitems-center ustify-center text-center mt-8 mb-16 max-w-6xl">
         {!products.length && (

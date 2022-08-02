@@ -3,11 +3,12 @@ import s from './Tab.module.css'
 
 interface TabProps {
   active?: boolean
+  onClick?: () => void
 }
 
-export const Tab: React.FC<TabProps> = ({ active, children }) => {
+export const Tab: React.FC<TabProps> = ({ active, onClick, children }) => {
   return (
-    <button className={`${s.root} ${active ? s.active : ''}`}>
+    <button onClick={onClick} className={`${s.root} ${active ? s.active : ''}`}>
       {children}
     </button>
   )
