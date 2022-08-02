@@ -21,7 +21,7 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
 
   return (
     <NavbarRoot>
-      <Container clean className="mx-auto max-w-95% sm:max-w-[90%]">
+      <Container clean className={s.navContainer}>
         <div className={s.nav}>
           <Link href="/">
             <a className={s.logo} aria-label="Logo">

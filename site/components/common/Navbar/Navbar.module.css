@@ -2,6 +2,10 @@
   @apply sticky top-0 bg-primary z-40 transition-all duration-150 sm:min-h-[74px];
 }
 
+.navContainer {
+  @apply mx-auto max-w-95% sm:max-w-[90%];
+}
+
 .nav {
   @apply relative flex flex-row items-center justify-end gap-4 md:gap-8 py-2;
 }
