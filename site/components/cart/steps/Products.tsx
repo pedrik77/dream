@@ -49,7 +49,7 @@ export default function Products({
       {sidebar && (
         <div className={s.toCartBtn}>
           <Link href="/cart">
-            <a onClick={closeSidebar}>Do kosika</a>
+            <a onClick={closeSidebar}>Do košíka</a>
           </Link>
         </div>
       )}
