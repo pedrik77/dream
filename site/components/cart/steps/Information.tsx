@@ -169,7 +169,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
               checked={asCompany}
               onChange={(e) => setAsCompany(e.target.checked)}
             />
-            kupujem na firmu{' '}
+            nakupujem na firmu{' '}
           </label>
           )
         </Text>
