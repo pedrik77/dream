@@ -37,6 +37,7 @@ export interface Product {
   price?: number
   show_donors?: boolean
   short_desc: string
+  created_date: number
   closing_date: number
   winner_announce_date: number
   image: ProductImage | null
@@ -151,7 +152,8 @@ export async function getDonorsCount(slug: string) {
 }
 
 function transform(doc: any): Product {
-  const { closing_date, winner_announce_date, ...data } = doc.data()
+  const { created_date, closing_date, winner_announce_date, ...data } =
+    doc.data()
 
   const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
 
@@ -159,6 +161,7 @@ function transform(doc: any): Product {
     ...data,
     slug: doc.id,
     image,
+    created_date: created_date ? created_date.seconds : 0,
     closing_date: closing_date.seconds,
     winner_announce_date: winner_announce_date.seconds,
   }
