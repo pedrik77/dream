@@ -165,7 +165,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
             Firemné údaje (
             <Checkbox
               color="default"
-              className="text-primary pr-2"
+              className="text-primary pr-2 pl-1"
               checked={asCompany}
               onChange={(e) => setAsCompany(e.target.checked)}
             />
