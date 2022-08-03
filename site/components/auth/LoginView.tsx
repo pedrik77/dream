@@ -33,7 +33,6 @@ const LoginView = () => {
     signIn(email, password)
       .then(() => {
         flash(FlashMessages.success, 'success')
-        // router.push('/account')
         closeModal()
       })
       .catch((e) => {

@@ -38,7 +38,6 @@ const SignUpView = () => {
       .then(() => {
         flash(FlashMessages.confirm, 'info')
         closeModal()
-        router.push('/account')
       })
       .catch((e) => flash(FlashMessages[e.code] ?? e.message, 'danger'))
       .finally(loading.stop)

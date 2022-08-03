@@ -60,7 +60,6 @@ export default function CustomerMenuContent() {
           onClick={async () => {
             await signOut()
             flash('Boli ste úspešne odhlásený', 'success')
-            router.push('/')
           }}
         >
           Logout
