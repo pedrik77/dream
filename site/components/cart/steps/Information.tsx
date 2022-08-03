@@ -89,19 +89,19 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
     <div>
       <div className="flex justify-end items-center my-8 gap-4">
         <Button className="w-36" onClick={onPrev} variant="ghost">
-          Spat
+          Späť
         </Button>
         <Button className="w-36" onClick={handleNext}>
-          Pokracovat
+          Pokračovať
         </Button>
       </div>
       <Text variant="sectionHeading" className="my-4">
-        Personal Informacie
+        Osobné Informácie
       </Text>
       {!isLoggedIn && (
         <div className="flex flex-col align-middle">
-          <Button onClick={signUpModal}>Je libo registrovat?</Button> abo{' '}
-          <Button onClick={loginModal}>Je libo rovno prihlasit?</Button>`
+          <Button onClick={signUpModal}>Zaregistrovať sa</Button> alebo{' '}
+          <Button onClick={loginModal}>Prihlásiť sa</Button>`
         </div>
       )}
       <div className="max-w-3xl my-4 mx-auto">
@@ -138,7 +138,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
             <AccountField>
               <label htmlFor="phone" className="cursor-pointer">
-                Phone{' '}
+                Telefón{' '}
               </label>
               <Input
                 required
@@ -156,7 +156,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       <div>
         <Text variant="sectionHeading" className="my-4">
           <label>
-            Firemne udaje (kupujem na firmu{' '}
+            Firemné údaje (kupujem na firmu{' '}
             <input
               type="checkbox"
               checked={asCompany}
@@ -231,7 +231,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       </div>
       <div>
         <Text variant="sectionHeading" className="my-4">
-          Adresne Informacie
+          Adresa
         </Text>
         <div className="max-w-3xl my-4 mx-auto">
           <AccountFieldWrapper>
@@ -267,7 +267,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
               <AccountField>
                 <label htmlFor="zip" className="cursor-pointer">
-                  Zip{' '}
+                  PSČ{' '}
                 </label>
                 <Input
                   required
@@ -282,7 +282,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
               <AccountField>
                 <label htmlFor="country" className="cursor-pointer">
-                  Country{' '}
+                  Krajina{' '}
                 </label>
                 <Input
                   required
