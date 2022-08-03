@@ -83,7 +83,7 @@ export default function Menu() {
       renderCell: (r) => (r.row.menu_position === null ? '(x) ' : '') + r.value,
       width: 130,
     },
-    { field: 'href', headerName: 'Href', sortable: false, width: 130 },
+    { field: 'href', headerName: 'Link', sortable: false, width: 130 },
     {
       field: 'menu_position',
       headerName: 'Pozícia',
