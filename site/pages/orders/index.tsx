@@ -30,13 +30,31 @@ export async function getStaticProps({
 }
 
 const columns: GridColDef[] = [
-  { field: 'date', headerName: 'Date', sortable: true, filterable: true },
+  {
+    field: 'date',
+    headerName: 'Dátum',
+    sortable: true,
+    filterable: true,
+    width: 150,
+    cellClassName: 'font-bold',
+    headerClassName: 'text-[1rem] font-bold uppercase',
+  },
   {
     field: 'total_price',
-    headerName: 'Total price',
+    headerName: 'Suma',
+    width: 150,
+    cellClassName: '',
+    headerClassName: 'text-[1rem] font-bold uppercase',
+
     valueFormatter: (r) => `${r.value} €`,
   },
-  { field: 'product_count', headerName: 'Pocet sutazi' },
+
+  {
+    field: 'product_count',
+    headerName: 'Počet súťaží',
+    width: 150,
+    headerClassName: 'text-[1rem] text font-bold uppercase',
+  },
 ]
 
 export default function Orders() {
@@ -66,9 +84,9 @@ export default function Orders() {
       <Text variant="heading" className="mt-0 md:mt-8">
         My Orders
       </Text>
-      <div className="w-full h-[600px]">
+      <div className="w-full h-[600px] my-4">
         <DataGrid
-          className="border-none"
+          className="border-none font-[Raleway] text-base"
           rows={rows}
           columns={columns}
           pageSize={10}
