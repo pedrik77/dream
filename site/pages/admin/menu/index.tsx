@@ -84,8 +84,9 @@ export default function Menu() {
       headerName: 'Label (click to edit)',
       sortable: false,
       renderCell: (r) => (r.row.menu_position === null ? '(x) ' : '') + r.value,
+      width: 130,
     },
-    { field: 'href', headerName: 'Href', sortable: false },
+    { field: 'href', headerName: 'Href', sortable: false, width: 130 },
     {
       field: 'menu_position',
       headerName: 'Pozícia',
@@ -233,7 +234,7 @@ export default function Menu() {
           'Hlavné menu': menu.main,
           'Legal menu': menu.legal,
         }).map(([label, items]) => (
-          <div key={label} className="h-[500px] flex-1">
+          <div key={label} className="h-[500px] flex-1 mb-16">
             <h3>{label}</h3>
             <DataGrid
               key={label}
