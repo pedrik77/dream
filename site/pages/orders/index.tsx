@@ -90,6 +90,7 @@ export default function Orders() {
           rows={rows}
           columns={columns}
           pageSize={10}
+          rowsPerPageOptions={[10, 15, 20]}
           getRowId={(row: Order) => row.uuid}
           disableSelectionOnClick
           getRowClassName={() => 'cursor-pointer'}

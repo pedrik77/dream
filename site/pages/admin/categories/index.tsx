@@ -114,6 +114,7 @@ export default function Categories() {
           rows={categories}
           columns={columns}
           pageSize={10}
+          rowsPerPageOptions={[10, 15, 20]}
           checkboxSelection
           onSelectionModelChange={(selected) =>
             setSelected(selected as string[])

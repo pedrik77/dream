@@ -11,7 +11,7 @@ import s from './Footer.module.css'
 import SocialSection from '../SocialSection'
 import Newsletter from './Newsletter'
 import { useCategories } from '@lib/categories'
-import { useMenu } from '@lib/menu'
+import { Link as LinkType, useMenu } from '@lib/menu'
 
 interface Props {
   className?: string
@@ -19,22 +19,11 @@ interface Props {
   pages?: Page[]
 }
 
-const links = [
-  {
-    label: 'Dom',
-    href: '/',
-  },
-  {
-    label: 'Vsetko',
-    href: '/products',
-  },
-]
-
 const Footer: FC<Props> = ({ className, pages }) => {
   // const { sitePages } = usePages(pages)
   const rootClassName = cn(s.root, className)
 
-  const { main } = useMenu()
+  const { main, legal } = useMenu()
 
   return (
     <footer className={rootClassName}>
@@ -42,15 +31,9 @@ const Footer: FC<Props> = ({ className, pages }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
           <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
             <div className="grid md:grid-rows-4 grid-cols-3 md:grid-flow-col">
-              {[...links, ...main].map((page) => (
-                <span key={page.href} className="py-3 md:py-0 md:pb-4">
-                  <Link href={page.href!}>
-                    <a className="text-accent-0 hover:text-secondary transition ease-in-out duration-150">
-                      {page.label}
-                    </a>
-                  </Link>
-                </span>
-              ))}
+              {main.map(renderLink)}
+              <span>legal</span>
+              {legal.map(renderLink)}
             </div>
             <div>
               <Link href="/">
@@ -93,6 +76,16 @@ const Footer: FC<Props> = ({ className, pages }) => {
     </footer>
   )
 }
+
+const renderLink = (link: LinkType) => (
+  <span key={link.href} className="py-3 md:py-0 md:pb-4">
+    <Link href={'/' + link.href}>
+      <a className="text-accent-0 hover:text-secondary transition ease-in-out duration-150">
+        {link.label}
+      </a>
+    </Link>
+  </span>
+)
 
 function usePages(pages?: Page[]) {
   const { locale } = useRouter()

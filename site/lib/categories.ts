@@ -55,3 +55,12 @@ export function useCategories() {
 
   return categories
 }
+
+export const categoryHref = (categorySlug: string) =>
+  `products?category=${categorySlug}`
+
+export const categoryToSelect = (c?: Category) => ({
+  value: c?.slug || '',
+  label: c?.title || '',
+  type: 'category',
+})
