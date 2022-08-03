@@ -55,10 +55,13 @@ export default function Menu() {
   const [href, setHref] = useState('')
   const [label, setLabel] = useState('')
   const [isLegal, setIsLegal] = useState(false)
+  const [menuPosition, setMenuPosition] = useState<number | null>(null)
 
   const [selected, setSelected] = useState<string[]>([])
 
   const [isCustom, setIsCustom] = useState(true)
+
+  const [isEditing, setIsEditing] = useState(false)
 
   const customLinkOptions = useMemo(
     () => [
@@ -107,15 +110,26 @@ export default function Menu() {
     setHref('')
     setLabel('')
     setIsLegal(false)
+    setMenuPosition(null)
+
     setIsCustom(true)
+    setIsEditing(false)
   }
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
 
     if (!href || !label) return flash('Vyplňte všetky polia', 'danger')
 
-    setMenuItem({ href, label, is_legal: isLegal, menu_position: null })
+    if (menu.all.map((i) => i.href).includes(href) && !isEditing) {
+      const confirmed = await confirm(
+        'Rovnaký link už existuje, prajete si ho prepísať?'
+      )
+
+      if (!confirmed) return
+    }
+
+    setMenuItem({ href, label, is_legal: isLegal, menu_position: menuPosition })
       .then(() => {
         reset()
         flash('Link uložený', 'success')
@@ -138,9 +152,12 @@ export default function Menu() {
 
     if (!item) return
 
+    setIsEditing(true)
+
     setHref(item.href)
     setLabel(item.label)
     setIsLegal(!!item.is_legal)
+    setMenuPosition(item.menu_position)
 
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -160,7 +177,7 @@ export default function Menu() {
             value={href}
             placeholder="Link"
             onChange={setHref}
-            disabled={!isCustom}
+            disabled={!isCustom || isEditing}
           />
         </fieldset>
         <fieldset>
