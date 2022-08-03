@@ -118,7 +118,7 @@ export default function Account() {
       >
         <AccountFieldWrapper>
           <Text variant="sectionHeading">Osobné informácie</Text>
-          <div className="flex flex-col md:col-span-2 divide-secondary divide-y">
+          <div className="flex flex-col md:col-span-2 divide-y">
             <AccountField>
               <Label>Emailová adresa</Label>
               <span>{customer.email}</span>
@@ -157,7 +157,7 @@ export default function Account() {
         </AccountFieldWrapper>
         <AccountFieldWrapper>
           <Text variant="sectionHeading">Adresa</Text>
-          <div className="flex flex-col col-span-2 divide-secondary divide-y">
+          <div className="flex flex-col col-span-2 divide-y">
             <AccountField>
               <label htmlFor="street" className="cursor-pointer">
                 Ulica
@@ -204,7 +204,7 @@ export default function Account() {
         </AccountFieldWrapper>
         <AccountFieldWrapper>
           <Text variant="sectionHeading">Prihlasovanie a bezpečnosť</Text>
-          <div className="flex flex-col col-span-2 divide-primary divide-y border-opacity-50">
+          <div className="flex flex-col col-span-2 divide-y border-opacity-50">
             <div className="flex flex-row justify-end space-x-4 py-10 font-bold">
               <Button
                 disabled={resetMailSending.pending}

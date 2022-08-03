@@ -1,0 +1,17 @@
+.link {
+  @apply relative;
+}
+
+.link::after {
+  @apply absolute bottom-[-0.25rem] left-0 h-[2px] w-full rounded-sm overflow-hidden bg-accent-6 scale-x-0 origin-left ease-in-out duration-200;
+  content: '';
+}
+
+.link:focus::after,
+.active::after {
+  @apply scale-x-100;
+}
+
+.link:hover::after {
+  @apply bg-primary scale-x-100;
+}
