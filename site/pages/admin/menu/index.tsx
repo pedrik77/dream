@@ -228,19 +228,19 @@ export default function Menu() {
       <div className={!!selected.length ? 'visible' : 'invisible'}>
         <Button onClick={handleDeleteSelected}>Delete {selected.length}</Button>
       </div>
-      <div>
+      <div className="flex ">
         {Object.entries({
           'Hlavné menu': menu.main,
           'Legal menu': menu.legal,
         }).map(([label, items]) => (
-          <div key={label} className="h-[500px] mb-16">
+          <div key={label} className="h-[500px] flex-1">
             <h3>{label}</h3>
             <DataGrid
               key={label}
               rows={items}
               columns={columns}
               pageSize={10}
-              rowsPerPageOptions={[10, 15, 20]}
+              rowsPerPageOptions={[10]}
               checkboxSelection
               onSelectionModelChange={(selected) =>
                 setSelected(selected as string[])
