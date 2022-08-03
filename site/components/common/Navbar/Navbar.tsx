@@ -30,7 +30,7 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
 
           <nav className={s.navMenu}>
             {links?.map((l) => (
-              <Link href={'/' + l.href} key={l.href}>
+              <Link href={l.href} key={l.href}>
                 <a className={`${s.link} ${isActive(l.href) ? s.active : ''}`}>
                   {l.label}
                 </a>

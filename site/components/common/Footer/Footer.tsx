@@ -79,7 +79,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
 
 const renderLink = (link: LinkType) => (
   <span key={link.href} className="py-3 md:py-0 md:pb-4">
-    <Link href={'/' + link.href}>
+    <Link href={link.href}>
       <a className="text-accent-0 hover:text-secondary transition ease-in-out duration-150">
         {link.label}
       </a>

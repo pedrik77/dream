@@ -25,7 +25,7 @@ export default function MenuSidebarView({
                 className={s.item}
                 onClick={() => closeSidebar()}
               >
-                <Link href={'/' + l.href}>
+                <Link href={l.href}>
                   <a
                     className={`${s.link} ${isActive(l.href) ? s.active : ''}`}
                   >

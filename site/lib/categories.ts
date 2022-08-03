@@ -57,7 +57,7 @@ export function useCategories() {
 }
 
 export const categoryHref = (categorySlug: string) =>
-  `products?category=${categorySlug}`
+  `/products?category=${categorySlug}`
 
 export const categoryToSelect = (c?: Category) => ({
   value: c?.slug || '',

@@ -43,7 +43,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   return (
     <div className={s.root}>
       {category && (
-        <Link href={'/' + categoryHref(category.slug)}>
+        <Link href={categoryHref(category.slug)}>
           <a>
             <h5 className={s.category}>{category.title}</h5>
           </a>

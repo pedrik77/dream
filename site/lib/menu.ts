@@ -16,10 +16,10 @@ export type Link = {
   is_legal?: boolean
 }
 
-export const IGNORE_PARAMS = ['winners']
+export const IGNORE_PARAMS = ['/winners']
 
 export async function getMenuItem(href: string): Promise<Link> {
-  const menuItemData = await getDoc(doc(db, 'menu', href))
+  const menuItemData = await getDoc(doc(db, 'menu', hrefTo(href)))
 
   return transform(menuItemData)
 }
@@ -30,7 +30,7 @@ export async function setMenuItem({
   menu_position,
   is_legal,
 }: Link) {
-  return await setDoc(doc(db, 'menu', href), {
+  return await setDoc(doc(db, 'menu', hrefTo(href)), {
     label,
     menu_position,
     is_legal,
@@ -40,7 +40,7 @@ export async function setMenuItem({
 export async function deleteMenuItem(href: string | string[]) {
   return await Promise.all(
     (typeof href === 'string' ? [href] : href).map((href) =>
-      deleteDoc(doc(db, 'menu', href))
+      deleteDoc(doc(db, 'menu', hrefTo(href)))
     )
   )
 }
@@ -91,6 +91,14 @@ function transform(doc: any): Link {
 
   return {
     ...data,
-    href: doc.id,
+    href: hrefFrom(doc.id),
   }
+}
+
+function hrefTo(href: string) {
+  return href.replace('/', '%2F')
+}
+
+function hrefFrom(href: string) {
+  return href.replace('%2F', '/')
 }
