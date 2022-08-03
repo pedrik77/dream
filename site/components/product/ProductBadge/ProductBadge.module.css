@@ -1,5 +1,5 @@
 .badge {
-  @apply absolute z-50 m-2 py-1 px-3 rounded-full;
+  @apply absolute z-10 m-2 py-1 px-3 rounded-full;
 }
 
 .new {

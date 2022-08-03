@@ -39,7 +39,7 @@ export const ProductBadge: React.FC<ProductBadgeProps> = ({ product }) => {
         (1000 * 60 * 60 * 24)
     )
 
-    if (diffNew <= DAYS_FOR_NEW) return setBadge('new')
+    if (Math.abs(diffNew) <= DAYS_FOR_NEW) return setBadge('new')
   }, [product])
 
   const className = cn(s.badge, {
