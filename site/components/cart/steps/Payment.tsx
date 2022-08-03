@@ -32,7 +32,7 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
           <Button className="w-36" onClick={onPrev} variant="ghost">
             Späť
           </Button>
-          <Button className="w-36" onClick={handleNext}>
+          <Button className="w-36" onClick={handleNext} disabled>
             Pokračovať
           </Button>
         </div>
@@ -118,7 +118,7 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
         </div>
 
         <div className="flex justify-center my-12">
-          <Button>Zaplatiť {total} €</Button>
+          <Button onClick={handleNext}>Zaplatiť {total} €</Button>
         </div>
       </Container>
     </Container>
