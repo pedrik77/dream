@@ -1,0 +1,19 @@
+.badge {
+  @apply absolute z-50 m-2 py-1 px-3 rounded-full;
+}
+
+.new {
+  @apply bg-secondary;
+}
+
+.beforeClose {
+  @apply bg-secondary text-primary;
+}
+
+.winnerPending {
+  @apply bg-success text-accent-9;
+}
+
+.closed {
+  @apply bg-accent-7 text-accent-0;
+}

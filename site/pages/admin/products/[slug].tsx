@@ -47,6 +47,11 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const [price, setPrice] = useState(product?.price || 0)
   const [show_donors, setShowDonors] = useState(product?.show_donors || false)
   const [slug, setSlug] = useState(product?.slug || '')
+  const [created_date, setCreatedDate] = useState(
+    inputDateFormat(
+      product?.created_date ? product.created_date : new Date().getTime() / 1000
+    )
+  )
   const [closing_date, setClosingDate] = useState(
     product?.closing_date ? inputDateFormat(product.closing_date) : ''
   )
@@ -122,6 +127,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       show_donors,
       price,
       slug,
+      created_date: Timestamp.fromDate(new Date(created_date)),
       closing_date: Timestamp.fromDate(new Date(closing_date)),
       winner_announce_date: Timestamp.fromDate(new Date(winner_announce_date)),
       gallery,

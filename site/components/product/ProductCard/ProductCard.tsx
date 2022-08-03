@@ -5,6 +5,7 @@ import s from './ProductCard.module.css'
 import Image, { ImageProps } from 'next/image'
 import ProductTag from '../ProductTag'
 import { Product } from '@lib/products'
+import { ProductBadge } from '../ProductBadge/ProductBadge'
 
 interface Props {
   className?: string
@@ -32,20 +33,19 @@ const ProductCard: FC<Props> = ({
       <a className={rootClassName} aria-label={product.title_1}>
         {variant === 'simple' && (
           <div className={s.cardContainer}>
-            {product && (
-              <div className={s.imageContainer}>
-                <Image
-                  alt={product.title_1 || 'Product Image'}
-                  className={s.productImage}
-                  src={product.image?.src || placeholderImg}
-                  height={195}
-                  width={300}
-                  quality="85"
-                  layout="responsive"
-                  {...imgProps}
-                />
-              </div>
-            )}
+            <div className={s.imageContainer}>
+              <ProductBadge product={product} />
+              <Image
+                alt={product.title_1 || 'Product Image'}
+                className={s.productImage}
+                src={product.image?.src || placeholderImg}
+                height={195}
+                width={300}
+                quality="85"
+                layout="responsive"
+                {...imgProps}
+              />
+            </div>
             <div className={s.textContainer}>
               <ProductTag className="text-left" fontSize={20}>
                 {product.title_1}
@@ -57,20 +57,19 @@ const ProductCard: FC<Props> = ({
 
         {variant === 'default' && (
           <div className={s.cardContainer}>
-            {product && (
-              <div className={s.imageContainer}>
-                <Image
-                  alt={product.title_1 || 'Product Image'}
-                  className={s.productImage}
-                  src={product.image?.src || placeholderImg}
-                  height={195}
-                  width={300}
-                  quality="85"
-                  layout="responsive"
-                  {...imgProps}
-                />
-              </div>
-            )}
+            <div className={s.imageContainer}>
+              <ProductBadge product={product} />
+              <Image
+                alt={product.title_1 || 'Product Image'}
+                className={s.productImage}
+                src={product.image?.src || placeholderImg}
+                height={195}
+                width={300}
+                quality="85"
+                layout="responsive"
+                {...imgProps}
+              />
+            </div>
             <div className={s.textContainer}>
               <ProductTag className="text-left">{product.title_1}</ProductTag>
 
