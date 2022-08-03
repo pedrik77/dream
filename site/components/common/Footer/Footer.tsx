@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import type { Page } from '@commerce/types/page'
 import getSlug from '@lib/get-slug'
 import { Github, Vercel } from '@components/icons'
-import { Logo, Container } from '@components/ui'
+import { Logo, Container, Text } from '@components/ui'
 import { I18nWidget } from '@components/common'
 import s from './Footer.module.css'
 import SocialSection from '../SocialSection'
@@ -30,10 +30,13 @@ const Footer: FC<Props> = ({ className, pages }) => {
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
           <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
-            <div className="grid md:grid-rows-4 grid-cols-3 md:grid-flow-col">
-              {main.map(renderLink)}
-              <span>legal</span>
-              {legal.map(renderLink)}
+            <div className="grid md:grid-rows-1 grid-cols-2 md:grid-flow-col">
+              <div className="grid md:grid-rows-3 grid-cols-2 md:grid-flow-col">
+                {main.map(renderLink)}
+              </div>
+              <div className="grid md:grid-rows-3 grid-cols-1 md:grid-flow-col">
+                {legal.map(renderLink)}
+              </div>
             </div>
             <div>
               <Link href="/">
