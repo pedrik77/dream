@@ -1,7 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { Category, useCategories } from '@lib/categories'
+import { Category, categoryToSelect, useCategories } from '@lib/categories'
 import { inputDateFormat } from '@lib/date'
 import { deleteFile } from '@lib/files'
 import useLoading from '@lib/hooks/useLoading'
@@ -82,11 +82,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       .finally(loadingDonors.stop)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product])
-
-  const categoryToSelect = (c?: Category) => ({
-    value: c?.slug || '',
-    label: c?.title || '',
-  })
 
   const handleUpload: ChangeEventHandler<HTMLInputElement> = (e) => {
     const files = e.target.files

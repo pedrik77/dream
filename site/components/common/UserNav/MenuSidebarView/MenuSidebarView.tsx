@@ -3,7 +3,7 @@ import s from './MenuSidebarView.module.css'
 import { useUI } from '@components/ui/context'
 import SidebarLayout from '@components/common/SidebarLayout'
 import type { Link as LinkProps } from './index'
-import { useRouter } from 'next/router'
+import { useIsActiveMenu } from '@lib/useIsActiveMenu'
 
 export default function MenuSidebarView({
   links = [],
@@ -11,7 +11,8 @@ export default function MenuSidebarView({
   links?: LinkProps[]
 }) {
   const { closeSidebar } = useUI()
-  const { pathname: withoutParams, asPath: withParams } = useRouter()
+
+  const isActive = useIsActiveMenu()
 
   return (
     <SidebarLayout handleClose={() => closeSidebar()}>
@@ -24,14 +25,9 @@ export default function MenuSidebarView({
                 className={s.item}
                 onClick={() => closeSidebar()}
               >
-                <Link href={l.href}>
+                <Link href={'/' + l.href}>
                   <a
-                    className={`${s.link} ${
-                      (l.activeRegardsParams ? withoutParams : withParams) ===
-                      l.href
-                        ? s.active
-                        : ''
-                    }`}
+                    className={`${s.link} ${isActive(l.href) ? s.active : ''}`}
                   >
                     {l.label}
                   </a>

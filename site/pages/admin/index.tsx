@@ -18,25 +18,29 @@ export default function Dashboard() {
             <Link href="/admin/orders">Objednávky</Link>
           </AdminPermit>
 
-          <AdminPermit permission={PERMISSIONS.USERS_LIST}>
-            <Link href="/admin/users">Používatelia</Link>
+          {/* <AdminPermit permission={PERMISSIONS.WINNERS_LIST}>
+                <Link href="/admin/winners">Víťazi</Link>
+              </AdminPermit> */}
+
+          <AdminPermit permission={PERMISSIONS.PRODUCTS_LIST}>
+            <Link href="/admin/products">Produkty</Link>
           </AdminPermit>
 
           <AdminPermit permission={PERMISSIONS.CATEGORIES_LIST}>
             <Link href="/admin/categories">Kategórie</Link>
           </AdminPermit>
 
-          <AdminPermit permission={PERMISSIONS.PRODUCTS_LIST}>
-            <Link href="/admin/products">Produkty</Link>
+          <AdminPermit permission={PERMISSIONS.MENU}>
+            <Link href="/admin/menu">Menu</Link>
           </AdminPermit>
 
-          <AdminPermit permission={PERMISSIONS.WINNERS_LIST}>
-            <Link href="/admin/winners">Víťazi</Link>
-          </AdminPermit>
+          {/* <AdminPermit permission={PERMISSIONS.USERS_LIST}>
+                <Link href="/admin/users">Používatelia</Link>
+              </AdminPermit> */}
 
-          <AdminPermit permission={PERMISSIONS.PAGES_LIST}>
-            <Link href="/admin/pages">Stránky</Link>
-          </AdminPermit>
+          {/* <AdminPermit permission={PERMISSIONS.PAGES_LIST}>
+                <Link href="/admin/pages">Stránky</Link>
+              </AdminPermit> */}
         </div>
 
         <div>
