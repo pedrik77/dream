@@ -3,6 +3,7 @@ import { Button, Container, Input, Text, useUI } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { setCustomerProfile, useAuthContext } from '@lib/auth'
 import { useEffect, useState } from 'react'
+import { useShopContext } from '@lib/shop'
 
 export default function Information({ onNext = () => {}, onPrev = () => {} }) {
   const { customer, isLoggedIn } = useAuthContext()
@@ -85,9 +86,15 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       .catch(handleErrorFlash)
   }
 
+  const { cart, total, isEmptyCart } = useShopContext()
+
   return (
     <Container className="col-span-full px-0">
       <div className="flex justify-end items-center my-8 gap-4">
+        <div className="flex gap-4 text-2xl font-bold pr-8">
+          <span>Spolu:</span>
+          <span>{total} €</span>
+        </div>
         <Button className="w-36" onClick={onPrev} variant="ghost">
           Späť
         </Button>

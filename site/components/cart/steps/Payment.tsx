@@ -19,6 +19,10 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
 
   return (
     <Container className="col-span-full px-0">
+      <div className="flex gap-4 text-2xl font-bold pr-8">
+        <span>Spolu:</span>
+        <span>{total} €</span>
+      </div>
       <div className="flex justify-end items-center my-8 gap-4">
         <Button className="w-36" onClick={onPrev} variant="ghost">
           Späť
