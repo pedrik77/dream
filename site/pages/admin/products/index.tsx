@@ -6,7 +6,7 @@ import {
   GridColDef,
   GridValueFormatterParams,
 } from '@mui/x-data-grid'
-import AdminPermit from '@components/magic/AdminPermit'
+import Permit from '@components/common/Permit'
 import { useEffect, useState } from 'react'
 import { deleteProduct, Product, setProduct, useProducts } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
@@ -81,17 +81,17 @@ export default function Dashboard() {
   return (
     <Container>
       <div>
-        <AdminPermit permission={PERMISSIONS.PRODUCTS_ADD}>
+        <Permit permission={PERMISSIONS.PRODUCTS_ADD}>
           <Button onClick={redirectToAddProduct}>Pridat produkt</Button>
-        </AdminPermit>
-        <AdminPermit permission={PERMISSIONS.PRODUCTS_DELETE}>
+        </Permit>
+        <Permit permission={PERMISSIONS.PRODUCTS_DELETE}>
           <Button
             className={!!selected.length ? 'visible' : 'invisible'}
             onClick={handleDeleteSelected}
           >
             Vymazat ({selected.length})
           </Button>
-        </AdminPermit>
+        </Permit>
       </div>
       <div className="w-[80%] h-[600px] text-primary">
         <DataGrid

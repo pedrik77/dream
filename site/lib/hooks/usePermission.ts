@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useAuthContext } from '@lib/auth'
+import { PERMISSIONS, useAuthContext } from '@lib/auth'
 
 interface usePermissionArgs {
   permission?: string
@@ -11,13 +11,15 @@ export function usePermission({
   permission,
   redirect,
 }: usePermissionArgs = {}) {
-  const { permissions, permissionsLoaded } = useAuthContext()
+  const { permissions, permissionsLoaded, isLoggedIn } = useAuthContext()
   const router = useRouter()
 
   const [allowed, setAllowed] = useState(false)
 
   useEffect(() => {
-    const hasAdminPermission = (permission?: string) => {
+    const hasPermission = (permission?: string) => {
+      if (permission === PERMISSIONS.USER) return isLoggedIn
+
       if (!permission && !!permissions.length) {
         return true
       }
@@ -25,11 +27,12 @@ export function usePermission({
       if (!permission) return false
 
       return (
-        permissions.includes(permission) || permissions.includes('superadmin')
+        permissions.includes(permission) ||
+        permissions.includes(PERMISSIONS.SUPERADMIN)
       )
     }
 
-    if (hasAdminPermission(permission)) {
+    if (hasPermission(permission)) {
       return setAllowed(true)
     }
 
@@ -38,7 +41,7 @@ export function usePermission({
     if (permissionsLoaded && redirect) {
       router.replace(redirect)
     }
-  }, [permission, redirect, router, permissions, permissionsLoaded])
+  }, [isLoggedIn, permission, redirect, router, permissions, permissionsLoaded])
 
   return allowed
 }

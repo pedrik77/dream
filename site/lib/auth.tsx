@@ -51,6 +51,8 @@ export type ProviderType = 'fb' | 'google'
 export type CustomerDataType = typeof NULL_CUSTOMER_DATA
 
 export const PERMISSIONS = {
+  USER: 'user',
+
   SUPERADMIN: 'superadmin',
 
   ORDERS_LIST: 'orders.list',

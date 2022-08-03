@@ -1,5 +1,5 @@
 import { Layout } from '@components/common'
-import AdminPermit from '@components/magic/AdminPermit'
+import Permit from '@components/common/Permit'
 import { Button, Container, Text } from '@components/ui'
 import { PERMISSIONS, useAuthContext } from '@lib/auth'
 import { usePermission } from '@lib/hooks/usePermission'
@@ -14,44 +14,44 @@ export default function Dashboard() {
     <div>
       <Container className="grid lg:grid-cols-2 pt-4 gap-20">
         <div className="flex flex-col">
-          <AdminPermit permission={PERMISSIONS.ORDERS_LIST}>
+          <Permit permission={PERMISSIONS.ORDERS_LIST}>
             <Link href="/admin/orders">Objednávky</Link>
-          </AdminPermit>
+          </Permit>
 
-          {/* <AdminPermit permission={PERMISSIONS.WINNERS_LIST}>
+          {/* <Permit permission={PERMISSIONS.WINNERS_LIST}>
                 <Link href="/admin/winners">Víťazi</Link>
-              </AdminPermit> */}
+              </Permit> */}
 
-          <AdminPermit permission={PERMISSIONS.PRODUCTS_LIST}>
+          <Permit permission={PERMISSIONS.PRODUCTS_LIST}>
             <Link href="/admin/products">Produkty</Link>
-          </AdminPermit>
+          </Permit>
 
-          <AdminPermit permission={PERMISSIONS.CATEGORIES_LIST}>
+          <Permit permission={PERMISSIONS.CATEGORIES_LIST}>
             <Link href="/admin/categories">Kategórie</Link>
-          </AdminPermit>
+          </Permit>
 
-          <AdminPermit permission={PERMISSIONS.MENU}>
+          <Permit permission={PERMISSIONS.MENU}>
             <Link href="/admin/menu">Menu</Link>
-          </AdminPermit>
+          </Permit>
 
-          {/* <AdminPermit permission={PERMISSIONS.USERS_LIST}>
+          {/* <Permit permission={PERMISSIONS.USERS_LIST}>
                 <Link href="/admin/users">Používatelia</Link>
-              </AdminPermit> */}
+              </Permit> */}
 
-          {/* <AdminPermit permission={PERMISSIONS.PAGES_LIST}>
+          {/* <Permit permission={PERMISSIONS.PAGES_LIST}>
                 <Link href="/admin/pages">Stránky</Link>
-              </AdminPermit> */}
+              </Permit> */}
         </div>
 
         <div>
           <Text variant="heading">Vitaj {user?.email ?? 'ty'}</Text>
 
           <div className="flex">
-            <AdminPermit permission={PERMISSIONS.PRODUCTS_ADD}>
+            <Permit permission={PERMISSIONS.PRODUCTS_ADD}>
               <Button>
                 <Link href="/admin/products/add">Pridať produkt</Link>
               </Button>
-            </AdminPermit>
+            </Permit>
           </div>
         </div>
       </Container>
