@@ -4,6 +4,7 @@ import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { setCustomerProfile, useAuthContext } from '@lib/auth'
 import { useEffect, useState } from 'react'
 import { useShopContext } from '@lib/shop'
+import { Checkbox } from '@mui/material'
 
 export default function Information({ onNext = () => {}, onPrev = () => {} }) {
   const { customer, isLoggedIn } = useAuthContext()
@@ -158,15 +159,17 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
           </div>
         </AccountFieldWrapper>
       </div>
-      <div>
+      <div className="my-4">
         <Text variant="sectionHeading" className="my-4">
           <label>
-            Firemné údaje (kupujem na firmu{' '}
-            <input
-              type="checkbox"
+            Firemné údaje (
+            <Checkbox
+              color="default"
+              className="text-primary pr-2 pl-1"
               checked={asCompany}
               onChange={(e) => setAsCompany(e.target.checked)}
             />
+            nakupujem na firmu{' '}
           </label>
           )
         </Text>
@@ -235,7 +238,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
         )}
       </div>
       <div>
-        <Text variant="sectionHeading" className="my-4">
+        <Text variant="sectionHeading" className="my-8">
           Adresa
         </Text>
         <div className="max-w-3xl my-4 mx-auto">
