@@ -12,7 +12,7 @@ import ProductTag from '../ProductTag'
 import Link from 'next/link'
 import { getDonorsCount, Product } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
-import { Category, getCategory } from '@lib/categories'
+import { Category, categoryHref, getCategory } from '@lib/categories'
 import CountUp from 'react-countup'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
 
@@ -43,7 +43,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   return (
     <div className={s.root}>
       {category && (
-        <Link href={`/products?category=${category.slug}`}>
+        <Link href={'/' + categoryHref(category.slug)}>
           <a>
             <h5 className={s.category}>{category.title}</h5>
           </a>

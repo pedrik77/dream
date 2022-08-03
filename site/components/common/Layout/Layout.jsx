@@ -98,10 +98,10 @@ const useMenuLinks = () => {
 
   const links = useMemo(() => {
     return [
-      { label: 'Všetky súťaže', href: '/products' },
+      { label: 'Všetky súťaže', href: 'products' },
       ,
       ...main,
-      { label: 'Víťazi', href: '/winners', activeRegardsParams: true },
+      { label: 'Víťazi', href: 'winners', activeRegardsParams: true },
       // { label: 'Kontakt', href: '/contact' },
     ]
   }, [main])
