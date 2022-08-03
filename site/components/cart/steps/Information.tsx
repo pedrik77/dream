@@ -1,8 +1,9 @@
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
-import { Button, Input, Text, useUI } from '@components/ui'
+import { Button, Container, Input, Text, useUI } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { setCustomerProfile, useAuthContext } from '@lib/auth'
 import { useEffect, useState } from 'react'
+import { useShopContext } from '@lib/shop'
 
 export default function Information({ onNext = () => {}, onPrev = () => {} }) {
   const { customer, isLoggedIn } = useAuthContext()
@@ -85,23 +86,29 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       .catch(handleErrorFlash)
   }
 
+  const { cart, total, isEmptyCart } = useShopContext()
+
   return (
-    <div>
+    <Container className="col-span-full px-0">
       <div className="flex justify-end items-center my-8 gap-4">
-        <a href="#" onClick={onPrev} className="underline">
-          Spat
-        </a>
+        <div className="flex gap-4 text-2xl font-bold pr-8">
+          <span>Spolu:</span>
+          <span>{total} €</span>
+        </div>
+        <Button className="w-36" onClick={onPrev} variant="ghost">
+          Späť
+        </Button>
         <Button className="w-36" onClick={handleNext}>
-          Pokracovat
+          Pokračovať
         </Button>
       </div>
       <Text variant="sectionHeading" className="my-4">
-        Personal Informacie
+        Osobné Informácie
       </Text>
       {!isLoggedIn && (
         <div className="flex flex-col align-middle">
-          <Button onClick={signUpModal}>Je libo registrovat?</Button> abo{' '}
-          <Button onClick={loginModal}>Je libo rovno prihlasit?</Button>`
+          <Button onClick={signUpModal}>Zaregistrovať sa</Button> alebo{' '}
+          <Button onClick={loginModal}>Prihlásiť sa</Button>`
         </div>
       )}
       <div className="max-w-3xl my-4 mx-auto">
@@ -138,7 +145,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
             <AccountField>
               <label htmlFor="phone" className="cursor-pointer">
-                Phone{' '}
+                Telefón{' '}
               </label>
               <Input
                 required
@@ -156,7 +163,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       <div>
         <Text variant="sectionHeading" className="my-4">
           <label>
-            Firemne udaje (kupujem na firmu{' '}
+            Firemné údaje (kupujem na firmu{' '}
             <input
               type="checkbox"
               checked={asCompany}
@@ -231,7 +238,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       </div>
       <div>
         <Text variant="sectionHeading" className="my-4">
-          Adresne Informacie
+          Adresa
         </Text>
         <div className="max-w-3xl my-4 mx-auto">
           <AccountFieldWrapper>
@@ -267,7 +274,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
               <AccountField>
                 <label htmlFor="zip" className="cursor-pointer">
-                  Zip{' '}
+                  PSČ{' '}
                 </label>
                 <Input
                   required
@@ -282,7 +289,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
               <AccountField>
                 <label htmlFor="country" className="cursor-pointer">
-                  Country{' '}
+                  Krajina{' '}
                 </label>
                 <Input
                   required
@@ -298,6 +305,6 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
           </AccountFieldWrapper>
         </div>
       </div>
-    </div>
+    </Container>
   )
 }

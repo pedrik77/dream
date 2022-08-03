@@ -1,5 +1,13 @@
+.main {
+  @apply flex justify-end gap-4 items-center my-8;
+}
+
 .sidebar {
   @apply px-4 text-primary;
+}
+
+.totalTop {
+  @apply flex gap-4 text-2xl font-bold pr-8;
 }
 
 .total {
