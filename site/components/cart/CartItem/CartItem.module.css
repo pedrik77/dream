@@ -3,11 +3,15 @@
 }
 
 .sidebar {
-  @apply col-span-12 border-b my-4 py-8;
+  @apply col-span-12 border-b my-4 py-4;
 }
 
 .productDiv {
   @apply col-span-1 md:col-span-8 grid grid-cols-1 sm:grid-cols-6 gap-y-4 sm:gap-4 md:gap-8 pb-4 md:pb-0 max-w-lg mx-auto;
+}
+
+.sidebar .productDiv {
+  @apply grid grid-cols-1 mx-8 gap-3;
 }
 
 .imageContainer {

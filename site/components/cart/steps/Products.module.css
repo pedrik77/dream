@@ -28,7 +28,7 @@
 }
 
 .sidebar .total {
-  @apply py-4;
+  @apply py-4 text-2xl;
 }
 
 .toCartBtn {
