@@ -41,19 +41,59 @@ const Carousel = () => {
       </Text>
       <div className={`keen-slider ${s.keenSlider}`} ref={sliderRef}>
         <div className={`keen-slider__slide ${s.slide}`}>
-          <Image layout="fill" src="/assets/tesla3.jpg" alt="placeholder" />
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/ZKJrQ0iDwEs"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </div>
         <div className={`keen-slider__slide ${s.slide}`}>
-          <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
-        </div>{' '}
-        <div className={`keen-slider__slide ${s.slide}`}>
-          <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
-        </div>{' '}
-        <div className={`keen-slider__slide ${s.slide}`}>
-          <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/B1vHpIpZBU8"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </div>
         <div className={`keen-slider__slide ${s.slide}`}>
-          <Image layout="fill" src="/assets/tesla4.jpg" alt="placeholder" />
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/4dV-J1RbhEs"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+        <div className={`keen-slider__slide ${s.slide}`}>
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/ZKJrQ0iDwEs"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+        <div className={`keen-slider__slide ${s.slide}`}>
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/B1vHpIpZBU8"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </div>
       </div>
 
