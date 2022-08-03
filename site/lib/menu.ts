@@ -12,7 +12,7 @@ import { db } from './firebase'
 export type Link = {
   label: string
   href: string
-  menu_position: number
+  menu_position: number | null
   is_legal?: boolean
 }
 
@@ -25,7 +25,7 @@ export async function getMenuItem(href: string): Promise<Link> {
 export async function setMenuItem({
   href,
   label,
-  menu_position = -1,
+  menu_position,
   is_legal,
 }: Link) {
   return await setDoc(doc(db, 'menu', href), {
@@ -46,7 +46,7 @@ export async function deleteMenuItem(href: string | string[]) {
 export function useMenu(all = false) {
   const [menu, setMenu] = useState<Link[]>([])
 
-  const filter = (item: Link) => item.menu_position > 0
+  const filter = (item: Link) => item.menu_position !== null
 
   const main = useMemo(() => {
     const main = menu.filter((item) => !item.is_legal)
@@ -68,7 +68,14 @@ export function useMenu(all = false) {
           querySnapshot.docs
             .map(transform)
             // @ts-ignore
-            .sort((a, b) => a.menu_position - b.menu_position)
+            .sort((a, b) => {
+              const positionA =
+                a.menu_position !== null ? a.menu_position : Infinity
+              const positionB =
+                b.menu_position !== null ? b.menu_position : Infinity
+
+              return positionA - positionB
+            })
         )
       }),
     []

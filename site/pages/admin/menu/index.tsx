@@ -14,13 +14,6 @@ import { PropsValue } from 'react-select'
 
 const Select = dynamic(import('react-select'), { ssr: false })
 
-const columns: GridColDef[] = [
-  { field: 'label', headerName: 'Label' },
-  { field: 'href', headerName: 'Href' },
-  { field: 'menu_position', headerName: 'Menu position' },
-  { field: 'is_legal', headerName: 'Legal' },
-]
-
 const isLegalOptions = [
   { label: 'Hlavné menu', value: 'main' },
   { label: 'Legal menu', value: 'legal' },
@@ -82,6 +75,34 @@ export default function Menu() {
   if (!usePermission({ permission: PERMISSIONS.MENU, redirect: '/' }))
     return null
 
+  const columns: GridColDef[] = [
+    {
+      field: 'label',
+      headerName: 'Label (click to edit)',
+      sortable: false,
+      renderCell: (r) => (r.row.menu_position === null ? '(x) ' : '') + r.value,
+    },
+    { field: 'href', headerName: 'Href', sortable: false },
+    {
+      field: 'menu_position',
+      headerName: 'Pozícia',
+      sortable: false,
+      filterable: false,
+      hideable: false,
+      renderCell: (row) => {
+        const item = menu.all.find(({ href }) => href === row.row.href)
+
+        if (!item) return ''
+
+        const group = (item?.is_legal ? menu.legal : menu.main).filter(
+          (i) => i.menu_position !== null
+        )
+
+        return <PositionControls item={item} group={group} />
+      },
+    },
+  ]
+
   const reset = () => {
     setHref('')
     setLabel('')
@@ -94,7 +115,7 @@ export default function Menu() {
 
     if (!href || !label) return flash('Vyplňte všetky polia', 'danger')
 
-    setMenuItem({ href, label, is_legal: isLegal, menu_position: -1 })
+    setMenuItem({ href, label, is_legal: isLegal, menu_position: null })
       .then(() => {
         reset()
         flash('Link uložený', 'success')
@@ -207,7 +228,7 @@ export default function Menu() {
               onSelectionModelChange={(selected) =>
                 setSelected(selected as string[])
               }
-              onRowClick={(r) => handleEdit(r.row.href)}
+              onCellClick={(r) => r.field === 'label' && handleEdit(r.row.href)}
               getRowId={(row: Link) => row.href}
               disableSelectionOnClick
             />
@@ -219,3 +240,66 @@ export default function Menu() {
 }
 
 Menu.Layout = Layout
+
+interface PositionControlsProps {
+  item: Link
+  group: Link[]
+}
+
+const PositionControls = ({ item, group }: PositionControlsProps) => {
+  const index = group.indexOf(item)
+
+  // @ts-ignore
+  const positions: number[] = group.map((i) => i.menu_position)
+
+  const swap = (a: Link, b: Link) => {
+    const positionA = a.menu_position
+    const positionB = b.menu_position
+
+    if (positionA === null || positionB === null) return
+
+    Promise.all([
+      setMenuItem({ ...a, menu_position: positionB }),
+      setMenuItem({ ...b, menu_position: positionA }),
+    ]).catch(handleErrorFlash)
+  }
+
+  const onAdd = () =>
+    setMenuItem({
+      ...item,
+      menu_position: positions.length ? Math.max(...positions) + 1 : 1,
+    }).catch(handleErrorFlash)
+
+  const onRemove = () =>
+    setMenuItem({
+      ...item,
+      menu_position: null,
+    }).catch(handleErrorFlash)
+
+  const onUp = () => {
+    if (index === 0) return
+
+    swap(group[index - 1], item)
+  }
+
+  const onDown = () => {
+    if (index === group.length - 1) return
+
+    swap(item, group[index + 1])
+  }
+
+  return (
+    <div className="flex flex-col content-center w-full">
+      {index !== 0 && item.menu_position !== null && (
+        <button onClick={onUp}>Horo</button>
+      )}
+      {index !== group.length - 1 && item.menu_position !== null && (
+        <button onClick={onDown}>Dolo</button>
+      )}
+      {item.menu_position === null && <button onClick={onAdd}>Pridat</button>}
+      {item.menu_position !== null && (
+        <button onClick={onRemove}>Odobrat</button>
+      )}
+    </div>
+  )
+}
