@@ -18,13 +18,13 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
   }
 
   return (
-    <Container>
+    <Container className="col-span-full px-0">
       <div className="flex justify-end items-center my-8 gap-4">
         <Button className="w-36" onClick={onPrev} variant="ghost">
-          Spat
+          Späť
         </Button>
         <Button className="w-36" onClick={handleNext}>
-          Pokracovat
+          Pokračovať
         </Button>
       </div>
       <div className="flex justify-center my-12">

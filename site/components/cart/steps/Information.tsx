@@ -1,5 +1,5 @@
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
-import { Button, Input, Text, useUI } from '@components/ui'
+import { Button, Container, Input, Text, useUI } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { setCustomerProfile, useAuthContext } from '@lib/auth'
 import { useEffect, useState } from 'react'
@@ -86,7 +86,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
   }
 
   return (
-    <div>
+    <Container className="col-span-full px-0">
       <div className="flex justify-end items-center my-8 gap-4">
         <Button className="w-36" onClick={onPrev} variant="ghost">
           Späť
@@ -298,6 +298,6 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
           </AccountFieldWrapper>
         </div>
       </div>
-    </div>
+    </Container>
   )
 }

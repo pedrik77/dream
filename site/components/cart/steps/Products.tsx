@@ -26,7 +26,7 @@ export default function Products({
             <span>{total} €</span>
           </div>
           <Button className="w-36" onClick={handleNext}>
-            Pokracovat
+            Pokračovať
           </Button>
         </div>
       )}
