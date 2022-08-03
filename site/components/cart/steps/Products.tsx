@@ -20,7 +20,11 @@ export default function Products({
   return (
     <div className={sidebar ? s.sidebar : ''}>
       {!sidebar && (
-        <div className="flex justify-end items-center my-8">
+        <div className={s.main}>
+          <div className={s.totalTop}>
+            <span>Spolu:</span>
+            <span>{total} €</span>
+          </div>
           <Button className="w-36" onClick={handleNext}>
             Pokracovat
           </Button>

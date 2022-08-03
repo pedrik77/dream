@@ -20,15 +20,15 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
   return (
     <Container>
       <div className="flex justify-end items-center my-8 gap-4">
-        <a href="#" onClick={onPrev} className="underline">
+        <Button className="w-36" onClick={onPrev} variant="ghost">
           Spat
-        </a>
+        </Button>
         <Button className="w-36" onClick={handleNext}>
-          Zaplatit
+          Pokracovat
         </Button>
       </div>
       <div className="flex justify-center my-12">
-        <Text variant="pageHeading">Cash {total} eur</Text>
+        <Text variant="pageHeading">Spolu {total} €</Text>
       </div>
     </Container>
   )

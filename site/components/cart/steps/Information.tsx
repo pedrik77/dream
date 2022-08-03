@@ -88,9 +88,9 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
   return (
     <div>
       <div className="flex justify-end items-center my-8 gap-4">
-        <a href="#" onClick={onPrev} className="underline">
+        <Button className="w-36" onClick={onPrev} variant="ghost">
           Spat
-        </a>
+        </Button>
         <Button className="w-36" onClick={handleNext}>
           Pokracovat
         </Button>
