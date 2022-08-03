@@ -7,7 +7,7 @@ const SocialSection = () => {
   return (
     <div className="flex flex-col gap-3">
       <h3>FOLLOW US ON</h3>
-      <div className="flex gap-3">
+      <div className="flex gap-3 lg:justify-end">
         {SOCIALS.map((social) => (
           <Link key={social} href={`https://${social}.com`}>
             <a className={s.link}>

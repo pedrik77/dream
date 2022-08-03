@@ -62,7 +62,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
               </Link>
             </div>
           </div>
-          <div className="col-span-1 lg:col-span-6">
+          <div className="col-span-1 lg:col-span-6 lg:text-right">
             <div className="py-4 border-b-2">
               <Newsletter />
             </div>
