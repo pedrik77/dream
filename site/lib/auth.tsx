@@ -136,11 +136,11 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, [user])
 
   useEffect(() => {
-    if (!user || !user.email) return
+    const permissionKey = !!user && user.email ? user.email : 'general'
 
     setPermissionsLoaded(false)
     return onSnapshot(
-      doc(db, 'admins', user.email),
+      doc(db, 'admins', permissionKey),
       (doc) => {
         setTimeout(() => setPermissionsLoaded(true))
 
