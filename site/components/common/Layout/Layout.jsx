@@ -93,27 +93,11 @@ const SidebarUI = ({ links }) => {
   ) : null
 }
 
-const useMenuLinks = () => {
-  const { main } = useMenu()
-
-  const links = useMemo(() => {
-    return [
-      { label: 'Všetky súťaže', href: 'products' },
-      ,
-      ...main,
-      { label: 'Víťazi', href: 'winners', activeRegardsParams: true },
-      // { label: 'Kontakt', href: '/contact' },
-    ]
-  }, [main])
-
-  return links
-}
-
 const Layout = ({ children, pageProps: { ...pageProps } }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
 
-  const navBarlinks = useMenuLinks()
+  const navBarlinks = useMenu().main
 
   return (
     <CommerceProvider locale={locale}>

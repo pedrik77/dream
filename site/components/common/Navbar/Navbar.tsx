@@ -4,12 +4,11 @@ import s from './Navbar.module.css'
 import NavbarRoot from './NavbarRoot'
 import { Logo, Container } from '@components/ui'
 import { Searchbar, UserNav } from '@components/common'
-import { useRouter } from 'next/router'
+import { useIsActiveMenu } from '@lib/useIsActiveMenu'
 
 interface Link {
   href: string
   label: string
-  activeRegardsParams?: boolean
 }
 
 interface NavbarProps {
@@ -17,7 +16,7 @@ interface NavbarProps {
 }
 
 const Navbar: FC<NavbarProps> = ({ links }) => {
-  const { pathname: withoutParams, asPath: withParams } = useRouter()
+  const isActive = useIsActiveMenu()
 
   return (
     <NavbarRoot>
@@ -32,14 +31,7 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
           <nav className={s.navMenu}>
             {links?.map((l) => (
               <Link href={'/' + l.href} key={l.href}>
-                <a
-                  className={`${s.link} ${
-                    (l.activeRegardsParams ? withoutParams : withParams) ===
-                    l.href
-                      ? s.active
-                      : ''
-                  }`}
-                >
+                <a className={`${s.link} ${isActive(l.href) ? s.active : ''}`}>
                   {l.label}
                 </a>
               </Link>

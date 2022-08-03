@@ -23,7 +23,7 @@ const generateHref = (type: string, value: string) => {
 
   if (type === 'category') return categoryHref(value)
 
-  return '/' + value
+  return value
 }
 
 // @ts-ignore
@@ -289,17 +289,21 @@ const PositionControls = ({ item, group }: PositionControlsProps) => {
   }
 
   return (
-    <div className="flex flex-col content-center w-full">
-      {index !== 0 && item.menu_position !== null && (
-        <button onClick={onUp}>Horo</button>
-      )}
-      {index !== group.length - 1 && item.menu_position !== null && (
-        <button onClick={onDown}>Dolo</button>
-      )}
-      {item.menu_position === null && <button onClick={onAdd}>Pridat</button>}
-      {item.menu_position !== null && (
-        <button onClick={onRemove}>Odobrat</button>
-      )}
+    <div className="flex gap-2">
+      <div className="flex flex-col content-center w-full">
+        {index !== 0 && item.menu_position !== null && (
+          <button onClick={onUp}>Horo</button>
+        )}
+        {index !== group.length - 1 && item.menu_position !== null && (
+          <button onClick={onDown}>Dolo</button>
+        )}
+      </div>
+      <div>
+        {item.menu_position === null && <button onClick={onAdd}>Pridat</button>}
+        {item.menu_position !== null && (
+          <button onClick={onRemove}>Odobrat</button>
+        )}
+      </div>
     </div>
   )
 }

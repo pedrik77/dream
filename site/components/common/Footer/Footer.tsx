@@ -19,19 +19,6 @@ interface Props {
   pages?: Page[]
 }
 
-const links: LinkType[] = [
-  {
-    label: 'Dom',
-    href: '',
-    menu_position: -1,
-  },
-  {
-    label: 'Vsetko',
-    href: 'products',
-    menu_position: -1,
-  },
-]
-
 const Footer: FC<Props> = ({ className, pages }) => {
   // const { sitePages } = usePages(pages)
   const rootClassName = cn(s.root, className)
@@ -44,7 +31,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
           <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
             <div className="grid md:grid-rows-4 grid-cols-3 md:grid-flow-col">
-              {[...links, ...main].map(renderLink)}
+              {main.map(renderLink)}
               <span>legal</span>
               {legal.map(renderLink)}
             </div>

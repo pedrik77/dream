@@ -16,6 +16,8 @@ export type Link = {
   is_legal?: boolean
 }
 
+export const IGNORE_PARAMS = ['winners']
+
 export async function getMenuItem(href: string): Promise<Link> {
   const menuItemData = await getDoc(doc(db, 'menu', href))
 
