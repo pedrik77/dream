@@ -28,6 +28,8 @@ import React, {
 import { setCategory as createCategory } from '@lib/categories'
 import _ from 'lodash'
 import { confirm } from '@lib/alerts'
+import Permit from '@components/common/Permit'
+import { PERMISSIONS } from '@lib/auth'
 
 interface ProductEditProps {
   product: Product | null
@@ -137,146 +139,148 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   }
 
   return (
-    <Container>
-      <form onSubmit={handleSubmit}>
-        <fieldset className="flex">
-          <label>
-            Title 1
-            <Input
-              type="text"
-              value={title_1}
-              placeholder="Title 1"
-              onChange={setTitle1}
-            />
-          </label>
-          <label>
-            Slug
-            <Input
-              type="text"
-              value={slug}
-              placeholder="Slug"
-              onChange={setSlug}
-              disabled={isEditing}
-            />
-          </label>
-        </fieldset>
-        <fieldset className="flex">
-          <label>
-            Price
-            <Input
-              type="number"
-              value={price}
-              placeholder="Price"
-              onChange={setPrice}
-            />
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={show_donors}
-              onChange={(e) => setShowDonors(e.target.checked)}
-            />{' '}
-            Show donors number ({loadingDonors.pending ? '...' : donors})
-          </label>
-        </fieldset>
-        <fieldset className="flex">
-          <label>
-            Title 2
-            <Input
-              type="text"
-              value={title_2}
-              placeholder="Title 2"
-              onChange={setTitle2}
-            />
-          </label>
-          <label className="w-full">
-            Category <br />
-            {Select && (
-              // @ts-ignore
-              <Select
-                options={categories.map(categoryToSelect)}
-                onChange={(e: any) => setCategory(e.value)}
-                value={categoryToSelect(
-                  categories.find((c) => c.slug === category)
-                )}
-                onCreateOption={(title) =>
-                  createCategory({
-                    title,
-                    slug: _.kebabCase(title),
-                  })
-                    .then(() => setCategory(_.kebabCase(title)))
-                    .catch(handleErrorFlash)
-                }
+    <Permit permission={PERMISSIONS.PRODUCTS_FORM} redirect="/admin/products">
+      <Container>
+        <form onSubmit={handleSubmit}>
+          <fieldset className="flex">
+            <label>
+              Title 1
+              <Input
+                type="text"
+                value={title_1}
+                placeholder="Title 1"
+                onChange={setTitle1}
               />
-            )}
-          </label>
-        </fieldset>
-        <fieldset className="flex">
-          <label>
-            Closing date
-            <Input
-              type="date"
-              value={closing_date}
-              placeholder="Closing date"
-              onChange={setClosingDate}
-            />
-          </label>
-          <label>
-            Winner announce date
-            <Input
-              type="date"
-              value={winner_announce_date}
-              placeholder="Winner announce date"
-              onChange={setWinnerAnnounceDate}
-            />
-          </label>
-        </fieldset>
-        <fieldset>
-          <label>
-            Short description <br />
-            {Editor && (
-              // @ts-ignore
-              <Editor value={short_desc} onChange={setShortDesc} />
-            )}
-          </label>
-        </fieldset>
-        <fieldset>
-          <label>
-            Long description <br />
-            {Editor && (
-              // @ts-ignore
-              <Editor value={long_desc} onChange={setLongDesc} />
-            )}
-          </label>
-        </fieldset>
-        <fieldset>
-          <label>
-            Gallery (click on image to delete)
-            <br />
-            <input
-              type="file"
-              onChange={handleUpload}
-              multiple
-              disabled={uploading.pending}
-            />
-          </label>
-          {uploading.pending && 'Uploading...'}
-          <div className="flex flex-wrap overflow-y-auto">
-            {gallery.map((image) => (
-              <figure
-                key={image.filename}
-                className="basis-[32%] cursor-pointer"
-                onClick={() => handleDeleteImage(image)}
-              >
-                <img src={image.src} alt={image.filename} />
-              </figure>
-            ))}
-          </div>
-        </fieldset>
+            </label>
+            <label>
+              Slug
+              <Input
+                type="text"
+                value={slug}
+                placeholder="Slug"
+                onChange={setSlug}
+                disabled={isEditing}
+              />
+            </label>
+          </fieldset>
+          <fieldset className="flex">
+            <label>
+              Price
+              <Input
+                type="number"
+                value={price}
+                placeholder="Price"
+                onChange={setPrice}
+              />
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={show_donors}
+                onChange={(e) => setShowDonors(e.target.checked)}
+              />{' '}
+              Show donors number ({loadingDonors.pending ? '...' : donors})
+            </label>
+          </fieldset>
+          <fieldset className="flex">
+            <label>
+              Title 2
+              <Input
+                type="text"
+                value={title_2}
+                placeholder="Title 2"
+                onChange={setTitle2}
+              />
+            </label>
+            <label className="w-full">
+              Category <br />
+              {Select && (
+                // @ts-ignore
+                <Select
+                  options={categories.map(categoryToSelect)}
+                  onChange={(e: any) => setCategory(e.value)}
+                  value={categoryToSelect(
+                    categories.find((c) => c.slug === category)
+                  )}
+                  onCreateOption={(title) =>
+                    createCategory({
+                      title,
+                      slug: _.kebabCase(title),
+                    })
+                      .then(() => setCategory(_.kebabCase(title)))
+                      .catch(handleErrorFlash)
+                  }
+                />
+              )}
+            </label>
+          </fieldset>
+          <fieldset className="flex">
+            <label>
+              Closing date
+              <Input
+                type="date"
+                value={closing_date}
+                placeholder="Closing date"
+                onChange={setClosingDate}
+              />
+            </label>
+            <label>
+              Winner announce date
+              <Input
+                type="date"
+                value={winner_announce_date}
+                placeholder="Winner announce date"
+                onChange={setWinnerAnnounceDate}
+              />
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              Short description <br />
+              {Editor && (
+                // @ts-ignore
+                <Editor value={short_desc} onChange={setShortDesc} />
+              )}
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              Long description <br />
+              {Editor && (
+                // @ts-ignore
+                <Editor value={long_desc} onChange={setLongDesc} />
+              )}
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              Gallery (click on image to delete)
+              <br />
+              <input
+                type="file"
+                onChange={handleUpload}
+                multiple
+                disabled={uploading.pending}
+              />
+            </label>
+            {uploading.pending && 'Uploading...'}
+            <div className="flex flex-wrap overflow-y-auto">
+              {gallery.map((image) => (
+                <figure
+                  key={image.filename}
+                  className="basis-[32%] cursor-pointer"
+                  onClick={() => handleDeleteImage(image)}
+                >
+                  <img src={image.src} alt={image.filename} />
+                </figure>
+              ))}
+            </div>
+          </fieldset>
 
-        <Button disabled={loading.pending}>Uložiť</Button>
-      </form>
-    </Container>
+          <Button disabled={loading.pending}>Uložiť</Button>
+        </form>
+      </Container>
+    </Permit>
   )
 }
 

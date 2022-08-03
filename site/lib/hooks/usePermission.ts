@@ -18,9 +18,9 @@ export function usePermission({
 
   useEffect(() => {
     const hasPermission = (permission?: string) => {
-      if (permission === PERMISSIONS.USER) return isLoggedIn
+      if (!permission || permission === PERMISSIONS.USER) return isLoggedIn
 
-      if (!permission && !!permissions.length) {
+      if (permission === PERMISSIONS.ADMIN && !!permissions.length) {
         return true
       }
 

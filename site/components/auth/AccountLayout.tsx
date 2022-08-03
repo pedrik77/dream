@@ -1,4 +1,5 @@
 import { Avatar } from '@components/common'
+import Permit from '@components/common/Permit'
 import { Container, Text, useUI } from '@components/ui'
 import { flash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/alerts'
@@ -63,39 +64,41 @@ const AccountLayout: React.FC<{
   }
 
   return (
-    <Container className="pt-4 mt-0 md:mt-8">
-      <div className="flex flex-col lg:flex-row gap-3 lg:gap-6">
-        <div className="lg:w-1/3 flex flex-col gap-4 pr-4 pb-8 mx-2 lg:mx-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
-          <div
-            className="flex justify-center align-center h-32 w-32"
-            onClick={handleFileSelect}
-          >
-            <input
-              className="d-none"
-              type="file"
-              ref={fileRef}
-              onChange={handleChangeAvatar}
-            />
-            <Avatar />
+    <Permit redirect="/">
+      <Container className="pt-4 mt-0 md:mt-8">
+        <div className="flex flex-col lg:flex-row gap-3 lg:gap-6">
+          <div className="lg:w-1/3 flex flex-col gap-4 pr-4 pb-8 mx-2 lg:mx-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
+            <div
+              className="flex justify-center align-center h-32 w-32"
+              onClick={handleFileSelect}
+            >
+              <input
+                className="d-none"
+                type="file"
+                ref={fileRef}
+                onChange={handleChangeAvatar}
+              />
+              <Avatar />
+            </div>
+            <Text className="text-xs">(kliknutím zmeníte avatar)</Text>
+            <Text variant="pageHeading">{customer.fullname}</Text>
+            <div className="flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl">
+              {tuples.map(([href, label]) => (
+                <Link key={href} href={'/' + href}>
+                  <a
+                    title={label}
+                    className={`${s.link} ${current === href ? s.active : ''}`}
+                  >
+                    {label}
+                  </a>
+                </Link>
+              ))}
+            </div>
           </div>
-          <Text className="text-xs">(kliknutím zmeníte avatar)</Text>
-          <Text variant="pageHeading">{customer.fullname}</Text>
-          <div className="flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl">
-            {tuples.map(([href, label]) => (
-              <Link key={href} href={'/' + href}>
-                <a
-                  title={label}
-                  className={`${s.link} ${current === href ? s.active : ''}`}
-                >
-                  {label}
-                </a>
-              </Link>
-            ))}
-          </div>
+          <div className="w-full">{children}</div>
         </div>
-        <div className="w-full">{children}</div>
-      </div>
-    </Container>
+      </Container>
+    </Permit>
   )
 }
 export default AccountLayout

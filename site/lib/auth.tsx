@@ -53,6 +53,8 @@ export type CustomerDataType = typeof NULL_CUSTOMER_DATA
 export const PERMISSIONS = {
   USER: 'user',
 
+  ADMIN: 'admin',
+
   SUPERADMIN: 'superadmin',
 
   ORDERS_LIST: 'orders.list',
@@ -60,13 +62,14 @@ export const PERMISSIONS = {
   USERS_LIST: 'users.list',
 
   CATEGORIES_LIST: 'categories.list',
+  CATEGORIES_FORM: 'categories.form',
 
   WINNERS_LIST: 'winners.list',
 
   PAGES_LIST: 'pages.list',
 
   PRODUCTS_LIST: 'products.list',
-  PRODUCTS_ADD: 'products.add',
+  PRODUCTS_FORM: 'products.form',
   PRODUCTS_DELETE: 'products.delete',
 
   CMS: 'cms',

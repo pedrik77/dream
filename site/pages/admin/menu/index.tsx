@@ -1,10 +1,10 @@
 import { Layout } from '@components/common'
+import Permit from '@components/common/Permit'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/alerts'
 import { PERMISSIONS } from '@lib/auth'
 import { categoryHref, categoryToSelect, useCategories } from '@lib/categories'
-import { usePermission } from '@lib/hooks/usePermission'
 import { deleteMenuItem, Link, setMenuItem, useMenu } from '@lib/menu'
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid'
 import _ from 'lodash'
@@ -74,9 +74,6 @@ export default function Menu() {
     ],
     [categories]
   )
-
-  if (!usePermission({ permission: PERMISSIONS.MENU, redirect: '/' }))
-    return null
 
   const columns: GridColDef[] = [
     {
@@ -164,96 +161,102 @@ export default function Menu() {
   }
 
   return (
-    <Container className="flex flex-col gap-4">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
-        <fieldset>
-          <Input
-            type="text"
-            value={label}
-            placeholder="Label"
-            onChange={setLabel}
-          />
-          <Input
-            type="text"
-            value={href}
-            placeholder="Link"
-            onChange={setHref}
-            disabled={!isCustom || isEditing}
-          />
-        </fieldset>
-        <fieldset>
-          {Select && (
-            // @ts-ignore
-            <Select
-              options={isLegalOptions}
-              onChange={(e: any) => setIsLegal(e.value === 'legal')}
-              value={isLegal ? isLegalOptions[1] : isLegalOptions[0]}
+    <Permit permission={PERMISSIONS.MENU} redirect={'/admin'}>
+      <Container className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
+          <fieldset>
+            <Input
+              type="text"
+              value={label}
+              placeholder="Label"
+              onChange={setLabel}
             />
-          )}
+            <Input
+              type="text"
+              value={href}
+              placeholder="Link"
+              onChange={setHref}
+              disabled={!isCustom || isEditing}
+            />
+          </fieldset>
+          <fieldset>
+            {Select && (
+              // @ts-ignore
+              <Select
+                options={isLegalOptions}
+                onChange={(e: any) => setIsLegal(e.value === 'legal')}
+                value={isLegal ? isLegalOptions[1] : isLegalOptions[0]}
+              />
+            )}
 
-          {Select && (
-            // @ts-ignore
-            <Select
-              options={customLinkOptions}
-              onChange={({ type, value, label }: any) => {
-                if (type === 'manual') {
-                  setIsCustom(true)
-                  setLabel('')
-                } else {
-                  setIsCustom(false)
-                  setLabel(label)
-                }
-                setHref(generateHref(type, value))
-              }}
-              value={flattenOptions(customLinkOptions).find(
-                // @ts-ignore
-                (o) => href === generateHref(o.type, o.value)
-              )}
-              defaultValue={customLinkOptions[0]}
-            />
-          )}
-        </fieldset>
-        <fieldset className="h-[100%]">
-          <Button className="h-[100%]">Ulozit</Button>
-          <Button
-            className="h-[100%]"
-            variant="ghost"
-            type="button"
-            onClick={reset}
-          >
-            Cancel
+            {Select && (
+              // @ts-ignore
+              <Select
+                options={customLinkOptions}
+                onChange={({ type, value, label }: any) => {
+                  if (type === 'manual') {
+                    setIsCustom(true)
+                    setLabel('')
+                  } else {
+                    setIsCustom(false)
+                    setLabel(label)
+                  }
+                  setHref(generateHref(type, value))
+                }}
+                value={flattenOptions(customLinkOptions).find(
+                  // @ts-ignore
+                  (o) => href === generateHref(o.type, o.value)
+                )}
+                defaultValue={customLinkOptions[0]}
+              />
+            )}
+          </fieldset>
+          <fieldset className="h-[100%]">
+            <Button className="h-[100%]">Ulozit</Button>
+            <Button
+              className="h-[100%]"
+              variant="ghost"
+              type="button"
+              onClick={reset}
+            >
+              Cancel
+            </Button>
+          </fieldset>
+        </form>
+
+        <div className={!!selected.length ? 'visible' : 'invisible'}>
+          <Button onClick={handleDeleteSelected}>
+            Delete {selected.length}
           </Button>
-        </fieldset>
-      </form>
-
-      <div className={!!selected.length ? 'visible' : 'invisible'}>
-        <Button onClick={handleDeleteSelected}>Delete {selected.length}</Button>
-      </div>
-      <div className="flex ">
-        {Object.entries({
-          'Hlavné menu': menu.main,
-          'Legal menu': menu.legal,
-        }).map(([label, items]) => (
-          <div key={label} className="h-[500px] flex-1 mb-16">
-            <h3>{label}</h3>
-            <DataGrid
-              key={label}
-              rows={items}
-              columns={columns}
-              pageSize={10}
-              rowsPerPageOptions={[10]}
-              checkboxSelection
-              onSelectionModelChange={(selected) =>
-                setSelected(selected as string[])
-              }
-              onCellClick={(r) => r.field === 'label' && handleEdit(r.row.href)}
-              getRowId={(row: Link) => row.href}
-              disableSelectionOnClick
-            />
-          </div>
-        ))}
-      </div>
-    </Container>
+        </div>
+        <div className="flex ">
+          {Object.entries({
+            'Hlavné menu': menu.main,
+            'Legal menu': menu.legal,
+          }).map(([label, items]) => (
+            <div key={label} className="h-[500px] flex-1 mb-16">
+              <h3>{label}</h3>
+              <DataGrid
+                key={label}
+                rows={items}
+                columns={columns}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
+                checkboxSelection
+                onSelectionModelChange={(selected) =>
+                  setSelected(selected as string[])
+                }
+                onCellClick={(r) =>
+                  r.field === 'label' && handleEdit(r.row.href)
+                }
+                getRowId={(row: Link) => row.href}
+                disableSelectionOnClick
+              />
+            </div>
+          ))}
+        </div>
+      </Container>
+    </Permit>
   )
 }
 

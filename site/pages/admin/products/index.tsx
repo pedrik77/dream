@@ -13,7 +13,6 @@ import { basicShowFormat } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { confirm } from '@lib/alerts'
-import { usePermission } from '@lib/hooks/usePermission'
 import { v4 } from 'uuid'
 
 const dateFormatter = (r: GridValueFormatterParams) => basicShowFormat(r.value)
@@ -53,9 +52,6 @@ export default function Dashboard() {
 
   const router = useRouter()
 
-  if (!usePermission({ permission: PERMISSIONS.PRODUCTS_LIST, redirect: '/' }))
-    return null
-
   const handleDeleteSelected = async () => {
     if (!(await confirm('Naozaj?'))) return
 
@@ -79,36 +75,38 @@ export default function Dashboard() {
   }
 
   return (
-    <Container>
-      <div>
-        <Permit permission={PERMISSIONS.PRODUCTS_ADD}>
-          <Button onClick={redirectToAddProduct}>Pridat produkt</Button>
-        </Permit>
-        <Permit permission={PERMISSIONS.PRODUCTS_DELETE}>
-          <Button
-            className={!!selected.length ? 'visible' : 'invisible'}
-            onClick={handleDeleteSelected}
-          >
-            Vymazat ({selected.length})
-          </Button>
-        </Permit>
-      </div>
-      <div className="w-[80%] h-[600px] text-primary">
-        <DataGrid
-          rows={products}
-          columns={columns}
-          checkboxSelection
-          onRowClick={(r) => router.push(`/admin/products/${r.id}`)}
-          onSelectionModelChange={(selected) =>
-            setSelected(selected as string[])
-          }
-          pageSize={10}
-          rowsPerPageOptions={[10, 15, 20]}
-          getRowId={(row: Product) => row.slug}
-          disableSelectionOnClick
-        />
-      </div>
-    </Container>
+    <Permit permission={PERMISSIONS.PRODUCTS_LIST} redirect="/admin">
+      <Container>
+        <div>
+          <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
+            <Button onClick={redirectToAddProduct}>Pridat produkt</Button>
+          </Permit>
+          <Permit permission={PERMISSIONS.PRODUCTS_DELETE}>
+            <Button
+              className={!!selected.length ? 'visible' : 'invisible'}
+              onClick={handleDeleteSelected}
+            >
+              Vymazat ({selected.length})
+            </Button>
+          </Permit>
+        </div>
+        <div className="w-[80%] h-[600px] text-primary">
+          <DataGrid
+            rows={products}
+            columns={columns}
+            checkboxSelection
+            onRowClick={(r) => router.push(`/admin/products/${r.id}`)}
+            onSelectionModelChange={(selected) =>
+              setSelected(selected as string[])
+            }
+            pageSize={10}
+            rowsPerPageOptions={[10, 15, 20]}
+            getRowId={(row: Product) => row.slug}
+            disableSelectionOnClick
+          />
+        </div>
+      </Container>
+    </Permit>
   )
 }
 

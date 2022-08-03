@@ -7,6 +7,8 @@ import { useShopContext } from '@lib/shop'
 
 export default function Information({ onNext = () => {}, onPrev = () => {} }) {
   const { customer, isLoggedIn } = useAuthContext()
+  const { total } = useShopContext()
+  const { setModalView, openModal } = useUI()
 
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
@@ -39,8 +41,6 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
     setCompanyTaxId(customer.company?.tax_id || '')
     setCompanyVatId(customer.company?.vat_id || '')
   }, [customer])
-
-  const { setModalView, openModal } = useUI()
 
   const loginModal = () => {
     setModalView('LOGIN_VIEW')
@@ -85,8 +85,6 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       .then(onNext)
       .catch(handleErrorFlash)
   }
-
-  const { cart, total, isEmptyCart } = useShopContext()
 
   return (
     <Container className="col-span-full px-0">

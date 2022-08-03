@@ -17,6 +17,10 @@ export default function Cart() {
   const [active, setActive] = useState<StepType>(STEPS[0])
   const { isEmptyCart } = useShopContext()
 
+  useEffect(() => {
+    if (isEmptyCart()) firstStep()
+  }, [isEmptyCart])
+
   const nextDisabled = useMemo(
     () => active === STEPS[STEPS.length - 1],
     [active]
@@ -54,10 +58,6 @@ export default function Cart() {
     if (prevDisabled) return
     setActive(STEPS[STEPS.indexOf(active) - 1])
   }
-
-  useEffect(() => {
-    if (isEmptyCart()) firstStep()
-  }, [isEmptyCart])
 
   return (
     <section className="grid grid-cols-6 md:grid-cols-12 gap-4 center my-8 mx-auto lg:mx-auto pt-4 max-w-6xl">
