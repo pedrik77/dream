@@ -1,11 +1,11 @@
 {
     "close": "Zatvoriť",
     "back": "Späť",
-    "signInForm": {
-        "reset.flash": "Zadaná e-mailová adresa nie je registrovaná. Registrovať?",
-        "unknown": "Zadaná e-mailová adresa nie je registrovaná. Registrovať? "
+    "signIn": {
+        "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
+        "signIn": "Registrovať?"
     },
-    "signUpForm.newsletter": "Chcem dostávať novinky e-mailom.",
+    "signUp.newsletter": "Chcem dostávať novinky e-mailom.",
     "navbar": {
         "user": {
             "orders": "Moje objednávky",

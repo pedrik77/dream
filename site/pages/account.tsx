@@ -84,7 +84,7 @@ export default function Account() {
       .then(() => {
         flash(
           ({ deleteFlash }) => (
-            <>
+            <span>
               Poslali sme mail na {customer.email}. Kliknite na link v maile pre
               dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
               <a
@@ -97,7 +97,7 @@ export default function Account() {
               >
                 Poslať znova
               </a>
-            </>
+            </span>
           ),
           'info',
           7

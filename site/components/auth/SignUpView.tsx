@@ -76,7 +76,7 @@ const SignUpView = () => {
             checked={newsletter}
             onChange={(e) => setNewsletter(e.target.checked)}
           />{' '}
-          {t('signUpForm.newsletter')}
+          {t('signUp.newsletter')}
         </label>
         <span className="text-accent-0">
           <span className="inline-block align-middle mr-2">
