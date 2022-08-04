@@ -52,7 +52,8 @@ export default function Orders() {
         <Col
           field="products"
           headerName={t('orders.product')}
-          cellClassName="flex-col"
+          cellClassName="flex-col justify-content-center"
+          align="center"
           renderCell={(r) =>
             r.value.map((product_title: string) => (
               <div key={product_title} className="self-start">
@@ -66,6 +67,7 @@ export default function Orders() {
           field="ticketCount"
           headerName={t('orders.ticketCount')}
           cellClassName="flex-col"
+          align="center"
           renderCell={(r) =>
             r.value.map((count: string, i: number) => (
               <div key={i} className="self-start">
