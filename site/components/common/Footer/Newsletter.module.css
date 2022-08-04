@@ -1,9 +1,9 @@
 .main {
-  @apply flex sm:inline-flex flex-col sm:flex-row gap-2 sm:gap-0 my-4;
+  @apply flex flex-col sm:flex-row gap-2 sm:gap-0 my-4 lg:justify-end;
 }
 
 .input {
-  @apply h-full text-accent-0 border-none focus:shadow-none outline-1 outline outline-secondary;
+  @apply h-full text-accent-0 border-none focus:shadow-none outline-1 outline outline-secondary max-w-xs sm:max-w-md;
 }
 
 .input::placeholder {
@@ -11,7 +11,7 @@
 }
 
 .button {
-  @apply h-10 bg-secondary text-primary border-0 border-none shadow-none transition-none hover:shadow-none hover:bg-secondary hover:text-accent-0 outline-1 outline outline-secondary;
+  @apply h-10 bg-secondary text-primary border-0 border-none shadow-none transition-none hover:shadow-none hover:bg-secondary hover:text-accent-0 outline-1 outline outline-secondary max-w-xs sm:max-w-md;
 }
 .gdpr {
   @apply flex align-top py-2 lg:flex-row-reverse lg:gap-4;
