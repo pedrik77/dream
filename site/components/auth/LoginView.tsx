@@ -9,11 +9,13 @@ import { flash } from '@components/ui/FlashMessage'
 import { StringMap } from '@lib/common-types'
 import useLoading from '@lib/hooks/useLoading'
 import { useTranslation } from 'react-i18next'
-import { UserCredential } from 'firebase/auth'
+import { linkWithPopup, UserCredential } from 'firebase/auth'
 
 const FlashMessages: StringMap = {
   success: 'Vitajte naspäť, sme radi, že vás tu máme!',
   'auth/wrong-password': 'Heslo je nesprávne',
+  'auth/account-exists-with-different-credential':
+    'Účet s daným emailom už existuje, prihláste sa prosím inou metódou',
 }
 
 const LoginView = () => {
