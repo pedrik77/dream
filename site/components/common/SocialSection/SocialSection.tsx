@@ -1,12 +1,14 @@
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 import s from './SocialSection.module.css'
 
 const SOCIALS = ['instagram', 'youtube', 'facebook', 'twitter']
 
 const SocialSection = () => {
+  const { t } = useTranslation()
   return (
     <div className="flex flex-col gap-3">
-      <h3>FOLLOW US ON</h3>
+      <h3>{t('footer.socials')}</h3>
       <div className="flex gap-3 lg:justify-end">
         {SOCIALS.map((social) => (
           <Link key={social} href={`https://${social}.com`}>

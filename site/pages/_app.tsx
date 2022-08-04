@@ -8,6 +8,23 @@ import type { AppProps } from 'next/app'
 import { Head } from '@components/common'
 import { ManagedUIContext } from '@components/ui/context'
 import NextNProgress from 'nextjs-progressbar'
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
+import sk from '../translations/sk.json'
+
+i18n.use(initReactI18next).init({
+  resources: {
+    sk: {
+      translation: sk,
+    },
+  },
+  lng: 'sk',
+  fallbackLng: 'sk',
+
+  interpolation: {
+    escapeValue: false,
+  },
+})
 
 const Noop: FC = ({ children }) => <>{children}</>
 
