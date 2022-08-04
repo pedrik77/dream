@@ -1,4 +1,5 @@
 import { Layout } from '@components/common'
+import { Col, DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
@@ -6,7 +7,7 @@ import { confirm } from '@lib/alerts'
 import { PERMISSIONS } from '@lib/auth'
 import { categoryHref, categoryToSelect, useCategories } from '@lib/categories'
 import { deleteMenuItem, Link, setMenuItem, useMenu } from '@lib/menu'
-import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 import _ from 'lodash'
 import dynamic from 'next/dynamic'
 import React, { useMemo, useRef, useState } from 'react'
@@ -74,35 +75,6 @@ export default function Menu() {
     ],
     [categories]
   )
-
-  const columns: GridColDef[] = [
-    {
-      field: 'label',
-      headerName: 'Label (click to edit)',
-      sortable: false,
-      renderCell: (r) => (r.row.menu_position === null ? '(x) ' : '') + r.value,
-      width: 130,
-    },
-    { field: 'href', headerName: 'Link', sortable: false, width: 130 },
-    {
-      field: 'menu_position',
-      headerName: 'Pozícia',
-      sortable: false,
-      filterable: false,
-      hideable: false,
-      renderCell: (row) => {
-        const item = menu.all.find(({ href }) => href === row.row.href)
-
-        if (!item) return ''
-
-        const group = (item?.is_legal ? menu.legal : menu.main).filter(
-          (i) => i.menu_position !== null
-        )
-
-        return <PositionControls item={item} group={group} />
-      },
-    },
-  ]
 
   const reset = () => {
     setHref('')
@@ -234,14 +206,11 @@ export default function Menu() {
             'Hlavné menu': menu.main,
             'Legal menu': menu.legal,
           }).map(([label, items]) => (
-            <div key={label} className="h-[500px] flex-1 mb-16">
+            <div key={label} className="flex-1">
               <h3>{label}</h3>
               <DataGrid
-                key={label}
                 rows={items}
-                columns={columns}
-                pageSize={10}
-                rowsPerPageOptions={[10]}
+                columns={[]}
                 checkboxSelection
                 onSelectionModelChange={(selected) =>
                   setSelected(selected as string[])
@@ -249,9 +218,36 @@ export default function Menu() {
                 onCellClick={(r) =>
                   r.field === 'label' && handleEdit(r.row.href)
                 }
-                getRowId={(row: Link) => row.href}
-                disableSelectionOnClick
-              />
+                rowIdKey="href"
+              >
+                <Col
+                  field="label"
+                  headerName="Label (click to edit)"
+                  renderCell={(r) =>
+                    (r.row.menu_position === null ? '(x) ' : '') + r.value
+                  }
+                  width={160}
+                />
+                <Col field="href" headerName="Link" width={130} />
+                <Col
+                  field="menu_position"
+                  headerName="Pozícia"
+                  renderCell={(r) => {
+                    const item = menu.all.find(
+                      ({ href }) => href === r.row.href
+                    )
+
+                    if (!item) return ''
+
+                    const group = (
+                      item?.is_legal ? menu.legal : menu.main
+                    ).filter((i) => i.menu_position !== null)
+
+                    return <PositionControls item={item} group={group} />
+                  }}
+                  width={150}
+                />
+              </DataGrid>
             </div>
           ))}
         </div>

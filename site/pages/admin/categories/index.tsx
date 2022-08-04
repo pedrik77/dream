@@ -1,4 +1,5 @@
 import { Layout } from '@components/common'
+import { Col, DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
@@ -11,19 +12,9 @@ import {
   useCategories,
 } from '@lib/categories'
 import { usePermission } from '@lib/hooks/usePermission'
-import {
-  DataGrid,
-  GridColDef,
-  GridEditRowsModel,
-  GridEventListener,
-} from '@mui/x-data-grid'
-import _, { debounce } from 'lodash'
+import { GridEventListener } from '@mui/x-data-grid'
+import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
-
-const columns: GridColDef[] = [
-  { field: 'slug', headerName: 'Slug' },
-  { field: 'title', headerName: 'Title', editable: true },
-]
 
 export default function Categories() {
   const categories = useCategories()
@@ -123,21 +114,19 @@ export default function Categories() {
             Delete {selected.length}
           </Button>
         </div>
-        <div className="h-[500px]">
-          <DataGrid
-            rows={categories}
-            columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10, 15, 20]}
-            checkboxSelection
-            onSelectionModelChange={(selected) =>
-              setSelected(selected as string[])
-            }
-            onCellEditCommit={handleEdit}
-            getRowId={(row: Category) => row.slug}
-            disableSelectionOnClick
-          />
-        </div>
+        <DataGrid
+          rows={categories}
+          columns={[]}
+          checkboxSelection
+          onSelectionModelChange={(selected) =>
+            setSelected(selected as string[])
+          }
+          onCellEditCommit={handleEdit}
+          rowIdKey="slug"
+        >
+          <Col field="slug" headerName="Slug" />
+          <Col field="title" headerName="Názov" editable />
+        </DataGrid>
       </Container>
     </Permit>
   )

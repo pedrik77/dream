@@ -121,7 +121,7 @@ export const ShopProvider: React.FC = ({ children }) => {
   const placeOrder = () =>
     setOrder({
       uuid: uuid4(),
-      user_uid: user?.uid || '',
+      user: user?.email || '',
       items: cart,
       total_price: total,
       customer,

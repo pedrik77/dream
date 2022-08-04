@@ -20,6 +20,10 @@ export default function CustomerMenuContent() {
   }
   const LINKS = [
     {
+      name: t('navbar.user.prizes'),
+      href: '/prizes',
+    },
+    {
       name: t('navbar.user.orders'),
       href: '/orders',
     },

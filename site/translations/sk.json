@@ -1,6 +1,7 @@
 {
     "close": "Zatvoriť",
     "back": "Späť",
+    "date": "Dátum",
     "signIn": {
         "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
         "signIn": "Registrovať?"
@@ -8,6 +9,7 @@
     "signUp.newsletter": "Chcem dostávať novinky e-mailom.",
     "navbar": {
         "user": {
+            "prizes": "Moje súťaže",
             "orders": "Moje objednávky",
             "account": "Môj účet",
             "cart": "Môj košík",
@@ -18,11 +20,16 @@
         "changeAvatar": "Kliknutím nastavíte fotku",
         "contactEmail": "info@vysnivaj.si"
     },
+    "prizes": {
+        "title": "Moje súťaže",
+        "product": "Súťaž",
+        "ticketCount": "Počet ticketov za všetky súťaže"
+    },
     "orders": {
         "title": "Moje objednávky",
         "product": "Súťaž",
-        "ticketCount": "Počet ticketov",
-        "totalPrice": "Cena spolu"
+        "totalPrice": "Cena spolu",
+        "ticketCount": "Počet ticketov"
     },
     "homepage": {
         "product.button": "Chcem vyhrať",
