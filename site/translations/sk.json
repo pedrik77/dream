@@ -11,7 +11,7 @@
             "orders": "Moje objednávky",
             "account": "Môj účet",
             "cart": "Môj košík",
-            "logout": "Odhlásiť"
+            "signOut": "Odhlásiť"
         }
     },
     "account": {
