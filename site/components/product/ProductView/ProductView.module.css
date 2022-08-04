@@ -44,7 +44,7 @@
 }
 
 .buyCard {
-  @apply text-center flex flex-col gap-2 sm:gap-4 outline outline-1 outline-secondary hover:outline-primary rounded-lg min-w-[8rem] sm:min-w-[10rem] overflow-hidden;
+  @apply text-center flex flex-col gap-2 sm:gap-4 outline outline-1 outline-secondary hover:outline-primary rounded-lg min-w-[8rem] sm:min-w-[10rem] overflow-hidden cursor-pointer;
   transition: ease-in-out 200ms;
 }
 

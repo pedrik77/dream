@@ -119,7 +119,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
           <div className="flex flex-col col-span-3 divider divide-y">
             <AccountField>
               <label htmlFor="fullname" className="cursor-pointer">
-                Celé meno
+                Celé meno *
               </label>
               <Input
                 required
@@ -132,7 +132,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
             </AccountField>
             <AccountField>
               <label htmlFor="email" className="cursor-pointer">
-                Email{' '}
+                Email *
               </label>
               <Input
                 required
@@ -148,7 +148,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
             <AccountField>
               <label htmlFor="phone" className="cursor-pointer">
-                Telefón{' '}
+                Telefón *
               </label>
               <Input
                 required
@@ -182,7 +182,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
               <div className="flex flex-col col-span-3 divider divide-y">
                 <AccountField>
                   <label htmlFor="fullname" className="cursor-pointer">
-                    Názov spoločnosti
+                    Názov spoločnosti *
                   </label>
                   <Input
                     required
@@ -195,7 +195,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
                 </AccountField>
                 <AccountField>
                   <label htmlFor="fullname" className="cursor-pointer">
-                    IČO
+                    IČO *
                   </label>
                   <Input
                     required
@@ -208,7 +208,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
                 </AccountField>
                 <AccountField>
                   <label htmlFor="fullname" className="cursor-pointer">
-                    DIČ
+                    DIČ *
                   </label>
                   <Input
                     required
@@ -221,7 +221,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
                 </AccountField>
                 <AccountField>
                   <label htmlFor="fullname" className="cursor-pointer">
-                    IČ DPH
+                    IČ DPH *
                   </label>
                   <Input
                     required
@@ -246,7 +246,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
             <div className="flex flex-col col-span-3 divider divide-y">
               <AccountField>
                 <label htmlFor="street" className="cursor-pointer">
-                  Ulica{' '}
+                  Ulica *
                 </label>
                 <Input
                   required
@@ -260,7 +260,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
               </AccountField>
               <AccountField>
                 <label htmlFor="city" className="cursor-pointer">
-                  Mesto{' '}
+                  Mesto *
                 </label>
                 <Input
                   required
@@ -275,7 +275,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
               <AccountField>
                 <label htmlFor="zip" className="cursor-pointer">
-                  PSČ{' '}
+                  PSČ *
                 </label>
                 <Input
                   required
@@ -290,7 +290,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
               <AccountField>
                 <label htmlFor="country" className="cursor-pointer">
-                  Krajina{' '}
+                  Krajina *
                 </label>
                 <Input
                   required
