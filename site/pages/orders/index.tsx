@@ -49,7 +49,6 @@ export default function Orders() {
       <Text variant="heading" className="mt-0 md:mt-8">
         {t('orders.title')}
       </Text>
-      <div className="start"></div>
       <DataGrid
         rows={rows}
         columns={[]}
