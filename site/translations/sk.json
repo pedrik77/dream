@@ -1,4 +1,6 @@
 {
+    "close": "Zatvoriť",
+    "back": "Späť",
     "signInForm": {
         "reset.flash": "Zadaná e-mailová adresa nie je registrovaná. Registrovať?",
         "unknown": "Zadaná e-mailová adresa nie je registrovaná. Registrovať? "
@@ -31,7 +33,6 @@
         "partners": "Naši partneri"
     },
     "cart": {
-        "close": "Zatvoriť",
         "showProducts": "Pozrieť aktuálne súťaže",
         "empty": "Košík je prázdny :("
     },
