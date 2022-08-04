@@ -56,7 +56,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
       <h4 className={s.subtitle}>{product.title_2}</h4>
       <h4 className={s.countUp}>
         {product.show_donors ? ' Prispelo už ' : 'Výhra v hodnote '}
-        <CountUp end={countUpValue} duration={1.25} />{' '}
+        <CountUp end={countUpValue} duration={1.25} separator=" " />{' '}
         {product.show_donors ? ' donorov' : ' €'}
       </h4>
       <Text
