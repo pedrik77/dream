@@ -31,7 +31,10 @@ export const DataGrid: DataGridComponent = ({
   ...props
 }) => {
   const columns = (Array.isArray(children) ? children : [children]).map(
-    (c) => c.props
+    ({ props }) => ({
+      ...props,
+      sortable: !!props.sortable ? props.sortable : false,
+    })
   )
 
   return (
