@@ -6,6 +6,7 @@ import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import Banner from '@components/ui/Banner'
 import Carousel from '@components/ui/Carousel'
 import LogosSection from '@components/ui/LogosSection'
+import { useTranslation } from 'react-i18next'
 
 export async function getStaticProps({
   preview,
@@ -40,6 +41,10 @@ export async function getStaticProps({
 export default function Home({
   products,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const { t } = useTranslation()
+
+  const productButtonText = t('homepage.product.button')
+
   return (
     <>
       {/* TO DO EDIT PICS, TEXT, BUTTON link*/}
@@ -48,25 +53,25 @@ export default function Home({
         secondaryTitle="Tadžikistan"
         subtitle="Vysnívaj si magický pobyt v tadžických horách."
         img="/assets/mountains_1440x910.jpg"
-        buttonText="Zapojiť sa"
+        buttonText={productButtonText}
       />
       <Banner
         primaryTitle="vysnivaj.si"
         secondaryTitle="Nora Nora"
         subtitle="Vysnívaj si luxusnú dovolenku na ostrove Nora Nora."
         img="/assets/beach_1440x910.jpg"
-        buttonText="Zapojiť sa"
+        buttonText={productButtonText}
       />
       <Banner
         primaryTitle="vysnivaj.si"
         secondaryTitle="Traktar 4000"
         subtitle="Vyhrajte jedinečný Traktar 4000"
         img="/assets/truck_1440x910.jpg"
-        buttonText="Zapojiť sa"
+        buttonText={productButtonText}
       />
       <Hero
-        headline="vysnívaj.si"
-        description="Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. Soufflé bonbon caramels jelly beans. Tiramisu sweet roll cheesecake pie carrot cake. Tiramisu sweet roll cheesecake pie carrot cake. Cupcake ipsum dolor sit amet lemon drops pastry cotton candy. Sweet carrot cake macaroon bonbon croissant fruitcake jujubes macaroon oat cake. "
+        headline={t('homepage.infobox.title')}
+        description={t('homepage.infobox.text')}
       />
 
       <Carousel />

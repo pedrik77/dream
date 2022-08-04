@@ -1,16 +1,14 @@
 import s from './LogosSection.module.css'
 import Image from 'next/image'
 import Text from '../Text'
+import { useTranslation } from 'react-i18next'
 
 const LogosSection = () => {
+  const { t } = useTranslation()
   return (
     <section className={s.main}>
       <Text variant="myHeading" className={s.h2}>
-        Naši partneri
-      </Text>
-      <Text className={s.text}>
-        Check our partners bisquit. Sweet carrot cake macaroon bonbon croissant
-        fruitcake jujubes macaroon oat cake.
+        {t('homepage.partners')}
       </Text>
       <div className={s.logos}>
         <div className={s.logo}>
