@@ -30,19 +30,7 @@ export default function Dashboard() {
       .catch(handleErrorFlash)
   }
 
-  const redirectToAddProduct = () => {
-    router.push('/admin/products/add')
-
-    // const prod = products[0]
-    // if (!prod) return
-    // console.log(prod)
-
-    // Array(16)
-    //   .fill(0)
-    //   .forEach(() => {
-    //     setProduct({ ...prod, slug: v4() })
-    //   })
-  }
+  const redirectToAddProduct = () => router.push('/admin/products/add')
 
   return (
     <Permit permission={PERMISSIONS.PRODUCTS_LIST} redirect="/admin">
