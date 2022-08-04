@@ -89,17 +89,19 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
 
   return (
     <Container className="col-span-full px-0">
-      <div className="flex justify-end items-center my-8 gap-4">
-        <div className="flex gap-4 text-2xl font-bold pr-8">
+      <div className="flex flex-col sm:flex-row justify-end items-center my-8 gap-4">
+        <div className="flex gap-4 text-xl sm:text-2xl font-bold sm:pr-8">
           <span>Spolu:</span>
           <span>{total} €</span>
         </div>
-        <Button className="w-36" onClick={onPrev} variant="ghost">
-          Späť
-        </Button>
-        <Button className="w-36" onClick={handleNext}>
-          Pokračovať
-        </Button>
+        <div className="flex justify-center sm:justify-end gap-4">
+          <Button className="w-36" onClick={onPrev} variant="ghost">
+            Späť
+          </Button>
+          <Button className="w-36" onClick={handleNext}>
+            Pokračovať
+          </Button>
+        </div>
       </div>
       <Text variant="sectionHeading" className="my-4">
         Osobné Informácie

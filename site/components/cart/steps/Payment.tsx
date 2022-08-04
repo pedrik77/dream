@@ -23,12 +23,12 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
 
   return (
     <Container className="col-span-full px-0">
-      <div className="flex justify-end items-center">
-        <div className="flex gap-4 text-2xl font-bold pr-8">
+      <div className="flex flex-col sm:flex-row justify-end items-center my-8 gap-4">
+        <div className="flex gap-4 text-xl sm:text-2xl font-bold sm:pr-8">
           <span>Spolu:</span>
           <span>{total} €</span>
         </div>
-        <div className="flex justify-end items-center my-8 gap-4">
+        <div className="flex justify-center sm:justify-end gap-4">
           <Button className="w-36" onClick={onPrev} variant="ghost">
             Späť
           </Button>
@@ -38,8 +38,8 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
         </div>
       </div>
 
-      <Container className="max-w-full md:max-w-md lg:max-w-xl">
-        <div className="flex justify-center gap-8 my-8">
+      <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0">
+        <div className="flex flex-row flex-wrap justify-center gap-2sm:gap-8 py-8">
           <div className="flex gap-4">
             <Radio id="paymentMastercard" checked />
             <label htmlFor="paymentmastercard">
@@ -86,7 +86,7 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
           </div>
         </div>
 
-        <div className="flex flex-col align-baseline gap-4 mt-8 mb-16 px-4">
+        <div className="flex flex-col align-baseline gap-4 mt-8 mb-16 sm:px-2">
           <div>
             <label htmlFor="cardNumber" className="cursor-pointer">
               Číslo karty{' '}
@@ -95,7 +95,7 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
               Číslo karty
             </Input>
           </div>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="w-full">
               <label htmlFor="cardholderName" className="cursor-pointer">
                 Meno držitela karty
@@ -120,7 +120,7 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
         <div className="flex justify-center my-12">
           <Button onClick={handleNext}>Zaplatiť {total} €</Button>
         </div>
-      </Container>
+      </div>
     </Container>
   )
 }
