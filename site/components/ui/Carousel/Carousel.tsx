@@ -4,6 +4,7 @@ import s from './Carousel.module.css'
 import React, { useState } from 'react'
 import Text from '../Text'
 import ProductSliderControl from '@components/product/ProductSliderControl'
+import { useTranslation } from 'react-i18next'
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -22,6 +23,8 @@ const Carousel = () => {
     },
   })
 
+  const { t } = useTranslation()
+
   const onPrev = React.useCallback(
     () => instanceRef.current?.prev(),
     [instanceRef]
@@ -34,7 +37,7 @@ const Carousel = () => {
   return (
     <section className={s.root}>
       <Text variant="myHeading" className={s.h2}>
-        Video sekcia
+        {t('homepage.carousel')}
       </Text>
       <div className={`keen-slider ${s.keenSlider}`} ref={sliderRef}>
         <div className={`keen-slider__slide ${s.slide}`}>

@@ -9,9 +9,10 @@ interface HeroProps {
   className?: string
   headline: string
   description: string
+  button?: { text: string; href: string }
 }
 
-const Hero: FC<HeroProps> = ({ headline, description }) => {
+const Hero: FC<HeroProps> = ({ headline, description, button }) => {
   return (
     <div className="bg-primary">
       <Container>
@@ -21,12 +22,14 @@ const Hero: FC<HeroProps> = ({ headline, description }) => {
           </Text>
           <div className={s.description}>
             <p>{description}</p>
-            <Link href="/">
-              <a className="flex items-center text-secondary pt-3 font-bold hover:underline cursor-pointer w-max-content">
-                Read it here
-                <ArrowRight width="20" height="20" className="ml-1" />
-              </a>
-            </Link>
+            {!!button && (
+              <Link href={button.href}>
+                <a className="flex items-center text-secondary pt-3 font-bold hover:underline cursor-pointer w-max-content">
+                  {button.text}
+                  <ArrowRight width="20" height="20" className="ml-1" />
+                </a>
+              </Link>
+            )}
           </div>
         </div>
       </Container>

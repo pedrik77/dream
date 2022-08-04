@@ -12,6 +12,7 @@ import { basicShowFormat } from '@lib/date'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
+import { useTranslation } from 'react-i18next'
 
 export async function getStaticProps({
   preview,
@@ -29,40 +30,41 @@ export async function getStaticProps({
   }
 }
 
-const columns: GridColDef[] = [
-  {
-    field: 'date',
-    headerName: 'Dátum',
-    sortable: true,
-    filterable: true,
-    width: 150,
-    cellClassName: 'font-bold',
-    headerClassName: 'text-[1rem] font-bold uppercase',
-  },
-  {
-    field: 'total_price',
-    headerName: 'Suma',
-    width: 150,
-    cellClassName: '',
-    headerClassName: 'text-[1rem] font-bold uppercase',
-
-    valueFormatter: (r) => `${r.value} €`,
-  },
-
-  {
-    field: 'product_count',
-    headerName: 'Počet súťaží',
-    width: 150,
-    headerClassName: 'text-[1rem] text font-bold uppercase',
-  },
-]
-
 export default function Orders() {
   const orders = useOrders()
+  const router = useRouter()
+
+  const { t } = useTranslation()
 
   const [rows, setRows] = useState<any[]>([])
+  // TODO sutaz, tickety, total
+  const columns: GridColDef[] = [
+    {
+      field: 'date',
+      headerName: 'Dátum',
+      sortable: true,
+      filterable: true,
+      width: 150,
+      cellClassName: 'font-bold',
+      headerClassName: 'text-[1rem] font-bold uppercase',
+    },
+    {
+      field: 'total_price',
+      headerName: 'Suma',
+      width: 150,
+      cellClassName: '',
+      headerClassName: 'text-[1rem] font-bold uppercase',
 
-  const router = useRouter()
+      valueFormatter: (r) => `${r.value} €`,
+    },
+
+    {
+      field: 'product_count',
+      headerName: 'Počet súťaží',
+      width: 150,
+      headerClassName: 'text-[1rem] text font-bold uppercase',
+    },
+  ]
 
   useEffect(() => {
     Promise.all(
@@ -82,7 +84,7 @@ export default function Orders() {
   return (
     <AccountLayout current="orders">
       <Text variant="heading" className="mt-0 md:mt-8">
-        My Orders
+        {t('orders.title')}
       </Text>
       <div className="w-full h-[600px] my-4">
         <DataGrid

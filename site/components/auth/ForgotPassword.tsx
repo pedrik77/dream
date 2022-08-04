@@ -5,16 +5,17 @@ import { Logo, Button, Input } from '@components/ui'
 import { resetPassword } from '@lib/auth'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import useLoading from '@lib/hooks/useLoading'
+import { useTranslation } from 'react-i18next'
 
 interface Props {}
 
 const ForgotPassword: FC<Props> = () => {
-  // Form State
-  const [email, setEmail] = useState('')
-
   const loading = useLoading()
-
   const { setModalView, closeModal } = useUI()
+
+  const { t } = useTranslation()
+
+  const [email, setEmail] = useState('')
 
   const handleResetPassword = (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault()
@@ -25,7 +26,29 @@ const ForgotPassword: FC<Props> = () => {
         flash('Email bol odoslaný na zadanú adresu.')
         closeModal()
       })
-      .catch(handleErrorFlash)
+      .catch((e) => {
+        if (e.code === 'auth/user-not-found') {
+          flash(({ deleteFlash }) => {
+            return (
+              <span>
+                {t('signIn.unknown')}{' '}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    deleteFlash()
+                    setModalView('SIGNUP_VIEW')
+                  }}
+                  className="text-bold"
+                >
+                  {t('signIn.signIn')}
+                </a>
+              </span>
+            )
+          }, 'danger')
+        } else {
+          handleErrorFlash(e)
+        }
+      })
       .finally(loading.stop)
   }
 

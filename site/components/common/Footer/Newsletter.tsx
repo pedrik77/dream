@@ -2,8 +2,8 @@ import { Button, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { subscribe } from '@lib/newsletter'
 import { Checkbox } from '@mui/material'
-import Link from 'next/link'
 import React, { FormEventHandler, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import s from './Newsletter.module.css'
 
 export default function Newsletter() {
@@ -11,6 +11,8 @@ export default function Newsletter() {
   const [gdprChecked, setGdprChecked] = useState(false)
 
   const [isSubmitting, setSubmitting] = useState(false)
+
+  const { t } = useTranslation()
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -53,8 +55,7 @@ export default function Newsletter() {
           />
 
           <label htmlFor="gdpr-checkbox" className={s.text}>
-            Súhlasím so spracovaním osobných údajov za účelom zasielania
-            vysnivaj.si newsletterov.
+            {t('footer.newsletter')}
           </label>
         </fieldset>
       </form>

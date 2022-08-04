@@ -2,6 +2,7 @@ import { Button, Container, Text, useUI } from '@components/ui'
 import { useShopContext } from '@lib/shop'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import CartItem from '../CartItem'
 import s from './Products.module.css'
 
@@ -57,13 +58,17 @@ export default function Products({
   )
 }
 
-const EmptyCart = () => (
-  <Container className={s.emptyContainer}>
-    <Text variant="sectionHeading" className="my-4">
-      Košík je prázdny :(
-    </Text>
-    <Link href="/products">
-      <a>Pozriet ponuku</a>
-    </Link>
-  </Container>
-)
+const EmptyCart = () => {
+  const { t } = useTranslation()
+
+  return (
+    <Container className={s.emptyContainer}>
+      <Text variant="sectionHeading" className="my-4">
+        {t('cart.empty')}
+      </Text>
+      <Link href="/products">
+        <a>{t('cart.showProducts')}</a>
+      </Link>
+    </Container>
+  )
+}

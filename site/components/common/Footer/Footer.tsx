@@ -12,6 +12,7 @@ import SocialSection from '../SocialSection'
 import Newsletter from './Newsletter'
 import { useCategories } from '@lib/categories'
 import { Link as LinkType, useMenu } from '@lib/menu'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   className?: string
@@ -24,6 +25,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
   const rootClassName = cn(s.root, className)
 
   const { main, legal } = useMenu()
+  const { t } = useTranslation()
 
   return (
     <footer className={rootClassName}>
@@ -60,7 +62,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
         </div>
         <div className="pt-6 pb-10 flex flex-col md:flex-row justify-between items-center space-y-4 text-secondary text-sm">
           <div>
-            <span>&copy; 2022 vysnivaj.si. All rights reserved.</span>
+            <span>{t('footer.copyright')}</span>
           </div>
           <div className="flex items-center text-primary text-sm">
             <span className="text-secondary">Created by</span>

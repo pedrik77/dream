@@ -15,9 +15,11 @@ import useLoading from '@lib/hooks/useLoading'
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
 import { Label } from '@radix-ui/react-dropdown-menu'
 import { confirm } from '@lib/alerts'
+import { useTranslation } from 'react-i18next'
 
 export default function Account() {
   const { customer } = useAuthContext()
+  const { t } = useTranslation()
 
   const [fullname, setFullname] = useState('')
   const [phone, setPhone] = useState('')
@@ -82,7 +84,7 @@ export default function Account() {
       .then(() => {
         flash(
           ({ deleteFlash }) => (
-            <>
+            <span>
               Poslali sme mail na {customer.email}. Kliknite na link v maile pre
               dokončenie zmeny Vášho hesla. Neprišiel vám e-mail?{' '}
               <a
@@ -95,7 +97,7 @@ export default function Account() {
               >
                 Poslať znova
               </a>
-            </>
+            </span>
           ),
           'info',
           7
@@ -125,8 +127,8 @@ export default function Account() {
             </AccountField>
 
             <span className="text-md font-medium text-accent-600 flex-1 space-x-4 py-8">
-              Pre zmenu vašej mailovej adresy kontaktujte náš tím na adrese
-              info@dream.sk
+              Pre zmenu vašej mailovej adresy kontaktujte náš tím na adrese{' '}
+              {t('account.contactEmail')}
             </span>
 
             <AccountField>

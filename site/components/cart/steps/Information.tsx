@@ -5,11 +5,13 @@ import { setCustomerProfile, useAuthContext } from '@lib/auth'
 import { useEffect, useState } from 'react'
 import { useShopContext } from '@lib/shop'
 import { Checkbox } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export default function Information({ onNext = () => {}, onPrev = () => {} }) {
   const { customer, isLoggedIn } = useAuthContext()
   const { total } = useShopContext()
   const { setModalView, openModal } = useUI()
+  const { t } = useTranslation()
 
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
@@ -104,9 +106,9 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
         </div>
       </div>
       <Text variant="sectionHeading" className="my-4">
-        Osobné Informácie
+        {t('checkout.personal')}
       </Text>
-      {!isLoggedIn && (
+      {!isLoggedIn && false && (
         <div className="flex flex-col align-middle">
           <Button onClick={signUpModal}>Zaregistrovať sa</Button> alebo{' '}
           <Button onClick={loginModal}>Prihlásiť sa</Button>`
@@ -164,19 +166,17 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
       <div className="my-4">
         <Text variant="sectionHeading" className="my-4">
           <label>
-            Firemné údaje (
+            {t('checkout.company')}
             <Checkbox
               color="default"
               className="text-primary pr-2 pl-1"
               checked={asCompany}
               onChange={(e) => setAsCompany(e.target.checked)}
             />
-            nakupujem na firmu{' '}
           </label>
-          )
         </Text>
 
-        {asCompany ? (
+        {asCompany && (
           <div className="max-w-3xl my-4 mx-auto">
             <AccountFieldWrapper>
               <div className="flex flex-col col-span-3 divider divide-y">
@@ -235,20 +235,18 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
               </div>
             </AccountFieldWrapper>
           </div>
-        ) : (
-          'Máte záujem nakúpit na firmu?'
         )}
       </div>
       <div>
         <Text variant="sectionHeading" className="my-8">
-          Adresa
+          {t('checkout.address')}
         </Text>
         <div className="max-w-3xl my-4 mx-auto">
           <AccountFieldWrapper>
             <div className="flex flex-col col-span-3 divider divide-y">
               <AccountField>
                 <label htmlFor="street" className="cursor-pointer">
-                  Street{' '}
+                  Ulica{' '}
                 </label>
                 <Input
                   required
@@ -262,7 +260,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
               </AccountField>
               <AccountField>
                 <label htmlFor="city" className="cursor-pointer">
-                  City{' '}
+                  Mesto{' '}
                 </label>
                 <Input
                   required

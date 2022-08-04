@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { flash } from '@components/ui/FlashMessage'
 import { StringMap } from '@lib/common-types'
 import useLoading from '@lib/hooks/useLoading'
+import { useTranslation } from 'react-i18next'
 
 export const MIN_PASSWORD_LENGTH = 8
 
@@ -19,15 +20,14 @@ const FlashMessages: StringMap = {
 }
 
 const SignUpView = () => {
+  const { setModalView, closeModal } = useUI()
+  const loading = useLoading()
+
+  const { t } = useTranslation()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [newsletter, setNewsletter] = useState(false)
-
-  const loading = useLoading()
-
-  const router = useRouter()
-
-  const { setModalView, closeModal } = useUI()
 
   const handleSignUp: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -76,7 +76,7 @@ const SignUpView = () => {
             checked={newsletter}
             onChange={(e) => setNewsletter(e.target.checked)}
           />{' '}
-          Newsletter
+          {t('signUp.newsletter')}
         </label>
         <span className="text-accent-0">
           <span className="inline-block align-middle mr-2">

@@ -9,29 +9,29 @@ import {
 } from '@components/ui/Dropdown/Dropdown'
 import { signOut } from '@lib/auth'
 import { flash } from '@components/ui/FlashMessage'
-
-const LINKS = [
-  {
-    name: 'My Orders',
-    href: '/orders',
-  },
-  {
-    name: 'My Account',
-    href: '/account',
-  },
-  {
-    name: 'My Cart',
-    href: '/cart',
-  },
-]
+import { useTranslation } from 'react-i18next'
 
 export default function CustomerMenuContent() {
   const router = useRouter()
-  const { theme, setTheme } = useTheme('light')
+  const { t } = useTranslation()
 
   function handleClick(_: React.MouseEvent<HTMLAnchorElement>, href: string) {
     router.push(href)
   }
+  const LINKS = [
+    {
+      name: t('navbar.user.orders'),
+      href: '/orders',
+    },
+    {
+      name: t('navbar.user.account'),
+      href: '/account',
+    },
+    {
+      name: t('navbar.user.cart'),
+      href: '/cart',
+    },
+  ]
 
   return (
     <DropdownContent
@@ -62,7 +62,7 @@ export default function CustomerMenuContent() {
             flash('Boli ste úspešne odhlásený', 'success')
           }}
         >
-          Logout
+          {t('navbar.user.signOut')}
         </a>
       </DropdownMenuItem>
     </DropdownContent>

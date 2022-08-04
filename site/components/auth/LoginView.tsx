@@ -8,23 +8,21 @@ import { useRouter } from 'next/router'
 import { flash } from '@components/ui/FlashMessage'
 import { StringMap } from '@lib/common-types'
 import useLoading from '@lib/hooks/useLoading'
+import { useTranslation } from 'react-i18next'
 
 const FlashMessages: StringMap = {
   success: 'Vitajte naspäť, sme radi, že vás tu máme!',
-  'auth/user-not-found': 'Email je nesprávny',
   'auth/wrong-password': 'Heslo je nesprávne',
 }
 
 const LoginView = () => {
-  // Form State
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
+  const loading = useLoading()
   const { setModalView, closeModal } = useUI()
 
-  const router = useRouter()
+  const { t } = useTranslation()
 
-  const loading = useLoading()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleLogin: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -36,7 +34,27 @@ const LoginView = () => {
         closeModal()
       })
       .catch((e) => {
-        flash(FlashMessages[e.code] ?? e.message, 'danger')
+        if (e.code === 'auth/user-not-found') {
+          flash(({ deleteFlash }) => {
+            return (
+              <span>
+                {t('signIn.unknown')}{' '}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    deleteFlash()
+                    setModalView('SIGNUP_VIEW')
+                  }}
+                  className="text-bold"
+                >
+                  {t('signIn.signIn')}
+                </a>
+              </span>
+            )
+          }, 'danger')
+        } else {
+          flash(FlashMessages[e.code] ?? e.message, 'danger')
+        }
       })
       .finally(loading.stop)
   }
