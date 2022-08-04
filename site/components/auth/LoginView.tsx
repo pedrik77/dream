@@ -9,6 +9,7 @@ import { flash } from '@components/ui/FlashMessage'
 import { StringMap } from '@lib/common-types'
 import useLoading from '@lib/hooks/useLoading'
 import { useTranslation } from 'react-i18next'
+import { UserCredential } from 'firebase/auth'
 
 const FlashMessages: StringMap = {
   success: 'Vitajte naspäť, sme radi, že vás tu máme!',
@@ -24,11 +25,9 @@ const LoginView = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-
+  const login = (callback: () => Promise<UserCredential>) => {
     loading.start()
-    signIn(email, password)
+    callback()
       .then(() => {
         flash(FlashMessages.success, 'success')
         closeModal()
@@ -59,7 +58,12 @@ const LoginView = () => {
       .finally(loading.stop)
   }
 
-  const handleFbLogin = () => signInVia('fb')
+  const handleLogin: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+    login(() => signIn(email, password))
+  }
+
+  const handleFbLogin = () => login(() => signInVia('fb'))
 
   return (
     <form
@@ -95,7 +99,13 @@ const LoginView = () => {
         >
           Prihlásiť
         </Button>
-        <Button variant="slim" type="button" onClick={handleFbLogin}>
+        <Button
+          variant="slim"
+          type="button"
+          onClick={handleFbLogin}
+          loading={loading.pending}
+          disabled={loading.pending}
+        >
           Prihlásiť cez Facebook
         </Button>
         <div className="pt-1 text-center text-sm">

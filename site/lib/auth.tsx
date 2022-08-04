@@ -16,9 +16,9 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
   User,
-  signInWithRedirect,
   FacebookAuthProvider,
   GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth'
 import { app, db } from './firebase'
 import { doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
@@ -208,7 +208,7 @@ export function signIn(email: string, password: string) {
 }
 
 export function signInVia(provider: ProviderType) {
-  return signInWithRedirect(auth, getProvider(provider))
+  return signInWithPopup(auth, getProvider(provider))
 }
 
 export function resetPassword(email: string) {
