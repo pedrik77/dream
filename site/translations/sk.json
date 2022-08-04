@@ -8,6 +8,7 @@
     "signUp.newsletter": "Chcem dostávať novinky e-mailom.",
     "navbar": {
         "user": {
+            "prizes": "Moje súťaže",
             "orders": "Moje objednávky",
             "account": "Môj účet",
             "cart": "Môj košík",
