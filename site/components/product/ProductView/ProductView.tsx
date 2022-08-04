@@ -33,7 +33,9 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
   const relatedProducts = useProducts({
     category: product.category,
-  }).filter(({ slug }) => slug !== product.slug)
+  })
+    .filter(({ slug }) => slug !== product.slug)
+    .slice(0, 3)
 
   const handleScroll = () => {
     if (!scrollToRef.current) return
