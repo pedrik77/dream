@@ -2,13 +2,17 @@ import React from 'react'
 import {
   DataGrid as MuiDG,
   DataGridProps,
+  GridColDef,
   GridValidRowModel,
   skSK,
 } from '@mui/x-data-grid'
 
+interface ICol extends React.FC<GridColDef> {}
+
 interface AdditionalProps<R> {
   rowIdKey: keyof R
   className?: string
+  children?: any
 }
 
 interface DataGridComponent {
@@ -23,8 +27,13 @@ interface DataGridComponent {
 export const DataGrid: DataGridComponent = ({
   className = '',
   rowIdKey,
+  children,
   ...props
 }) => {
+  const columns = (Array.isArray(children) ? children : [children]).map(
+    (c) => c.props
+  )
+
   return (
     <div className={`w-full h-[650px] my-4 ${className}`}>
       <MuiDG
@@ -36,7 +45,10 @@ export const DataGrid: DataGridComponent = ({
         disableSelectionOnClick
         localeText={skSK.components.MuiDataGrid.defaultProps.localeText}
         {...props}
+        columns={columns}
       />
     </div>
   )
 }
+
+export const Col: ICol = () => null

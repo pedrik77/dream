@@ -9,37 +9,18 @@ import { basicShowFormat } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { confirm } from '@lib/alerts'
-import { DataGrid } from '@components/common/DataGrid'
+import { Col, DataGrid } from '@components/common/DataGrid'
+import { useTranslation } from 'react-i18next'
 
 const dateFormatter = (r: GridValueFormatterParams) => basicShowFormat(r.value)
 
-const columns: GridColDef[] = [
-  { field: 'slug', headerName: 'Slug', width: 170 },
-  {
-    field: 'title_1',
-    headerName: 'Title 1',
-    width: 350,
-  },
-  {
-    field: 'closing_date',
-    headerName: 'Closing date',
-    width: 130,
-    valueFormatter: dateFormatter,
-  },
-  {
-    field: 'winner_announce_date',
-    headerName: 'Winner announce date',
-    width: 130,
-    valueFormatter: dateFormatter,
-  },
-]
-
 export default function Dashboard() {
-  const [selected, setSelected] = useState<string[]>([])
-
   const products = useProducts({ showClosed: null, onError: handleErrorFlash })
-
   const router = useRouter()
+
+  const { t } = useTranslation()
+
+  const [selected, setSelected] = useState<string[]>([])
 
   const handleDeleteSelected = async () => {
     if (!(await confirm('Naozaj?'))) return
@@ -81,14 +62,29 @@ export default function Dashboard() {
         </div>
         <DataGrid
           rows={products}
-          columns={columns}
+          columns={[]}
           checkboxSelection
           onRowClick={(r) => router.push(`/admin/products/${r.id}`)}
           onSelectionModelChange={(selected) =>
             setSelected(selected as string[])
           }
           rowIdKey="slug"
-        />
+        >
+          <Col field="slug" headerName="Slug" width={170} />
+          <Col field="title_1" headerName="Názov" width={350} />
+          <Col
+            field="closing_date"
+            headerName={t('product.closing')}
+            valueFormatter={dateFormatter}
+            width={130}
+          />
+          <Col
+            field="winner_announce_date"
+            headerName={t('product.winnerAnnounce')}
+            valueFormatter={dateFormatter}
+            width={130}
+          />
+        </DataGrid>
       </Container>
     </Permit>
   )

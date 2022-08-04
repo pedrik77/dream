@@ -1,5 +1,5 @@
 import { Layout } from '@components/common'
-import { DataGrid } from '@components/common/DataGrid'
+import { Col, DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
@@ -75,36 +75,6 @@ export default function Menu() {
     ],
     [categories]
   )
-
-  const columns: GridColDef[] = [
-    {
-      field: 'label',
-      headerName: 'Label (click to edit)',
-      sortable: false,
-      renderCell: (r) => (r.row.menu_position === null ? '(x) ' : '') + r.value,
-      width: 160,
-    },
-    { field: 'href', headerName: 'Link', sortable: false, width: 130 },
-    {
-      field: 'menu_position',
-      width: 150,
-      headerName: 'Pozícia',
-      sortable: false,
-      filterable: false,
-      hideable: false,
-      renderCell: (row) => {
-        const item = menu.all.find(({ href }) => href === row.row.href)
-
-        if (!item) return ''
-
-        const group = (item?.is_legal ? menu.legal : menu.main).filter(
-          (i) => i.menu_position !== null
-        )
-
-        return <PositionControls item={item} group={group} />
-      },
-    },
-  ]
 
   const reset = () => {
     setHref('')
@@ -240,7 +210,7 @@ export default function Menu() {
               <h3>{label}</h3>
               <DataGrid
                 rows={items}
-                columns={columns}
+                columns={[]}
                 checkboxSelection
                 onSelectionModelChange={(selected) =>
                   setSelected(selected as string[])
@@ -249,7 +219,35 @@ export default function Menu() {
                   r.field === 'label' && handleEdit(r.row.href)
                 }
                 rowIdKey="href"
-              />
+              >
+                <Col
+                  field="label"
+                  headerName="Label (click to edit)"
+                  renderCell={(r) =>
+                    (r.row.menu_position === null ? '(x) ' : '') + r.value
+                  }
+                  width={160}
+                />
+                <Col field="href" headerName="Link" width={130} />
+                <Col
+                  field="menu_position"
+                  headerName="Pozícia"
+                  renderCell={(r) => {
+                    const item = menu.all.find(
+                      ({ href }) => href === r.row.href
+                    )
+
+                    if (!item) return ''
+
+                    const group = (
+                      item?.is_legal ? menu.legal : menu.main
+                    ).filter((i) => i.menu_position !== null)
+
+                    return <PositionControls item={item} group={group} />
+                  }}
+                  width={150}
+                />
+              </DataGrid>
             </div>
           ))}
         </div>

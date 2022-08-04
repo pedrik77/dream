@@ -1,19 +1,14 @@
 import type { GetStaticPropsContext } from 'next'
 import commerce from '@lib/api/commerce'
-import { Bag } from '@components/icons'
 import { Layout } from '@components/common'
-import { Container, Text } from '@components/ui'
 import AccountLayout from '@components/auth/AccountLayout'
-import { Order, useOrders } from '@lib/orders'
-import { GridColDef } from '@mui/x-data-grid'
-import { useEffect, useState } from 'react'
-import { getProduct } from '@lib/products'
+import { useOrders } from '@lib/orders'
 import { basicShowFormat } from '@lib/date'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { handleErrorFlash } from '@components/ui/FlashMessage'
 import { useTranslation } from 'react-i18next'
-import { DataGrid } from '@components/common/DataGrid'
+import { DataGrid, Col } from '@components/common/DataGrid'
+import { Text } from '@components/ui'
+import { useMemo } from 'react'
 
 export async function getStaticProps({
   preview,
@@ -37,62 +32,72 @@ export default function Orders() {
 
   const { t } = useTranslation()
 
-  const [rows, setRows] = useState<any[]>([])
-  // TODO sutaz, tickety, total
-  const columns: GridColDef[] = [
-    {
-      field: 'date',
-      headerName: 'Dátum',
-      sortable: true,
-      filterable: true,
-      width: 150,
-      cellClassName: 'font-bold',
-      headerClassName: 'text-[1rem] font-bold uppercase',
-    },
-    {
-      field: 'total_price',
-      headerName: 'Suma',
-      width: 150,
-      cellClassName: '',
-      headerClassName: 'text-[1rem] font-bold uppercase',
-
-      valueFormatter: (r) => `${r.value} €`,
-    },
-
-    {
-      field: 'product_count',
-      headerName: 'Počet súťaží',
-      width: 150,
-      headerClassName: 'text-[1rem] text font-bold uppercase',
-    },
-  ]
-
-  useEffect(() => {
-    Promise.all(
-      orders.map(async (order) => {
-        return {
-          uuid: order.uuid,
-          total_price: order.total_price,
-          product_count: order.items.length,
-          date: basicShowFormat(order.created_date),
-        }
-      })
-    )
-      .then(setRows)
-      .catch(handleErrorFlash)
-  }, [orders])
+  const rows = useMemo(
+    () =>
+      orders.map(({ uuid, created_date, items, total_price }) => ({
+        uuid,
+        created_date,
+        products: items.map(({ product }) => product.title_1),
+        ticketCount: items.map(({ ticketCount }) => ticketCount),
+        total_price,
+      })),
+    [orders]
+  )
 
   return (
     <AccountLayout current="orders">
       <Text variant="heading" className="mt-0 md:mt-8">
         {t('orders.title')}
       </Text>
+      <div className="start"></div>
       <DataGrid
         rows={rows}
-        columns={columns}
+        columns={[]}
         rowIdKey="uuid"
         onRowClick={(r) => router.push(`/orders/${r.row.uuid}`)}
-      />
+      >
+        <Col
+          field="created_date"
+          headerName="Dátum"
+          valueFormatter={(r) => basicShowFormat(r.value)}
+          width={150}
+          sortable
+          filterable
+        />
+        <Col
+          field="products"
+          headerName="Súťaže"
+          cellClassName="flex-col"
+          renderCell={(r) =>
+            r.value.map((product_title: string) => (
+              <div key={product_title} className="self-start">
+                {product_title}
+              </div>
+            ))
+          }
+          width={400}
+        />
+        <Col
+          field="ticketCount"
+          headerName="Počet tiketov"
+          cellClassName="flex-col"
+          renderCell={(r) =>
+            r.value.map((count: string, i: number) => (
+              <div key={i} className="self-start">
+                {count}
+              </div>
+            ))
+          }
+          width={130}
+        />
+        <Col
+          field="total_price"
+          headerName="Celková suma"
+          valueFormatter={(r) => `${r.value} €`}
+          width={150}
+          sortable
+        />
+      </DataGrid>
     </AccountLayout>
   )
 }
