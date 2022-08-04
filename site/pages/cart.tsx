@@ -70,7 +70,7 @@ export default function Cart() {
       <div className="col-span-full md:col-span-9 align-left items-center">
         <Stepper steps={STEPS} activeStep={active} />
       </div>
-      <div className="col-span-full flex flex-col center justify-between mt-4">
+      <div className="col-span-full flex flex-col center justify-between mt-4 sm:px-4">
         {Step && <Step onNext={onNext} onPrev={onPrev} />}
       </div>
     </section>

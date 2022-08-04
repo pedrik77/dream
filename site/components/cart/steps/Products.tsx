@@ -20,7 +20,7 @@ export default function Products({
   return (
     <div className={sidebar ? s.sidebar : ''}>
       {!sidebar && (
-        <div className={s.main}>
+        <div className={s.top}>
           <div className={s.totalTop}>
             <span>Spolu:</span>
             <span>{total} €</span>

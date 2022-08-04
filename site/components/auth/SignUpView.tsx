@@ -48,7 +48,7 @@ const SignUpView = () => {
   return (
     <form
       onSubmit={handleSignUp}
-      className="w-80 flex flex-col justify-between p-3"
+      className="w-70 sm:w-80 flex flex-col justify-between p-1 sm:p-3"
     >
       <div className="flex justify-center pb-12 ">
         <Logo />
@@ -82,7 +82,7 @@ const SignUpView = () => {
           <span className="inline-block align-middle mr-2">
             <Info width="15" height="15" />
           </span>{' '}
-          <span className="leading-6 text-sm">
+          <span className="leading-6 text-xs sm:text-sm">
             Prečítal/a som si{' '}
             <strong>
               <Link href="/legal">Všeobecné obchodné podmienky</Link>
@@ -94,7 +94,7 @@ const SignUpView = () => {
           <span className="inline-block align-middle mr-2">
             <Info width="15" height="15" />
           </span>{' '}
-          <span className="leading-6 text-sm">
+          <span className="leading-6 text-xs sm:text-sm">
             <strong>
               <Link href="/gdpr">Informácie o spracovaní osobných údajov</Link>
             </strong>{' '}

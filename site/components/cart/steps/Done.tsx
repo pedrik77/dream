@@ -5,13 +5,13 @@ import React from 'react'
 
 export default function Done() {
   return (
-    <Container>
-      <Text variant="pageHeading" className="text-center">
-        Objednavka uspesne odoslana! Dakujeme!
+    <Container className="flex flex-col justify-center text-center my-16">
+      <Text variant="pageHeading" className="my-4">
+        Objednávka úspešne odoslaná! Ďakujeme!
       </Text>
       <Permit>
         <Link href="/orders">
-          <a>Zobrazit objednavky</a>
+          <a className="hover:text-accent-6">Zobraziť objednávky</a>
         </Link>
       </Permit>
     </Container>
