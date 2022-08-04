@@ -9,25 +9,11 @@ import { useTranslation } from 'react-i18next'
 import { DataGrid, Col } from '@components/common/DataGrid'
 import { Text } from '@components/ui'
 import { useMemo } from 'react'
-
-export async function getStaticProps({
-  preview,
-  locale,
-  locales,
-}: GetStaticPropsContext) {
-  const config = { locale, locales }
-  const pagesPromise = commerce.getAllPages({ config, preview })
-  const siteInfoPromise = commerce.getSiteInfo({ config, preview })
-  const { pages } = await pagesPromise
-  const { categories } = await siteInfoPromise
-
-  return {
-    props: { pages, categories },
-  }
-}
+import { useAuthContext } from '@lib/auth'
 
 export default function Orders() {
-  const orders = useOrders()
+  const { user } = useAuthContext()
+  const orders = useOrders({ user: user?.email || '' })
   const router = useRouter()
 
   const { t } = useTranslation()
@@ -53,11 +39,11 @@ export default function Orders() {
         rows={rows}
         columns={[]}
         rowIdKey="uuid"
-        onRowClick={(r) => router.push(`/orders/${r.row.uuid}`)}
+        // onRowClick={(r) => router.push(`/orders/${r.row.uuid}`)}
       >
         <Col
           field="created_date"
-          headerName="Dátum"
+          headerName={t('date')}
           valueFormatter={(r) => basicShowFormat(r.value)}
           width={150}
           sortable
@@ -65,7 +51,7 @@ export default function Orders() {
         />
         <Col
           field="products"
-          headerName="Súťaže"
+          headerName={t('orders.product')}
           cellClassName="flex-col"
           renderCell={(r) =>
             r.value.map((product_title: string) => (
@@ -78,7 +64,7 @@ export default function Orders() {
         />
         <Col
           field="ticketCount"
-          headerName="Počet tiketov"
+          headerName={t('orders.ticketCount')}
           cellClassName="flex-col"
           renderCell={(r) =>
             r.value.map((count: string, i: number) => (
@@ -91,7 +77,7 @@ export default function Orders() {
         />
         <Col
           field="total_price"
-          headerName="Celková suma"
+          headerName={t('orders.totalPrice')}
           valueFormatter={(r) => `${r.value} €`}
           width={150}
           sortable
