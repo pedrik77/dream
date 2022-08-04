@@ -1,4 +1,5 @@
 import { Layout } from '@components/common'
+import { DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
@@ -6,7 +7,7 @@ import { confirm } from '@lib/alerts'
 import { PERMISSIONS } from '@lib/auth'
 import { categoryHref, categoryToSelect, useCategories } from '@lib/categories'
 import { deleteMenuItem, Link, setMenuItem, useMenu } from '@lib/menu'
-import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 import _ from 'lodash'
 import dynamic from 'next/dynamic'
 import React, { useMemo, useRef, useState } from 'react'
@@ -81,11 +82,12 @@ export default function Menu() {
       headerName: 'Label (click to edit)',
       sortable: false,
       renderCell: (r) => (r.row.menu_position === null ? '(x) ' : '') + r.value,
-      width: 130,
+      width: 160,
     },
     { field: 'href', headerName: 'Link', sortable: false, width: 130 },
     {
       field: 'menu_position',
+      width: 150,
       headerName: 'Pozícia',
       sortable: false,
       filterable: false,
@@ -234,14 +236,11 @@ export default function Menu() {
             'Hlavné menu': menu.main,
             'Legal menu': menu.legal,
           }).map(([label, items]) => (
-            <div key={label} className="h-[500px] flex-1 mb-16">
+            <div key={label} className="flex-1">
               <h3>{label}</h3>
               <DataGrid
-                key={label}
                 rows={items}
                 columns={columns}
-                pageSize={10}
-                rowsPerPageOptions={[10]}
                 checkboxSelection
                 onSelectionModelChange={(selected) =>
                   setSelected(selected as string[])
@@ -249,8 +248,7 @@ export default function Menu() {
                 onCellClick={(r) =>
                   r.field === 'label' && handleEdit(r.row.href)
                 }
-                getRowId={(row: Link) => row.href}
-                disableSelectionOnClick
+                rowIdKey="href"
               />
             </div>
           ))}

@@ -5,7 +5,7 @@ import { Layout } from '@components/common'
 import { Container, Text } from '@components/ui'
 import AccountLayout from '@components/auth/AccountLayout'
 import { Order, useOrders } from '@lib/orders'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import { getProduct } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
@@ -13,6 +13,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
 import { useTranslation } from 'react-i18next'
+import { DataGrid } from '@components/common/DataGrid'
 
 export async function getStaticProps({
   preview,
@@ -86,19 +87,12 @@ export default function Orders() {
       <Text variant="heading" className="mt-0 md:mt-8">
         {t('orders.title')}
       </Text>
-      <div className="w-full h-[600px] my-4">
-        <DataGrid
-          className="border-none font-[Raleway] text-base"
-          rows={rows}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10, 15, 20]}
-          getRowId={(row: Order) => row.uuid}
-          disableSelectionOnClick
-          getRowClassName={() => 'cursor-pointer'}
-          onRowClick={(r) => router.push(`/orders/${r.row.uuid}`)}
-        />
-      </div>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        rowIdKey="uuid"
+        onRowClick={(r) => router.push(`/orders/${r.row.uuid}`)}
+      />
     </AccountLayout>
   )
 }

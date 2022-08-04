@@ -1,4 +1,5 @@
 import { Layout } from '@components/common'
+import { DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
@@ -11,12 +12,7 @@ import {
   useCategories,
 } from '@lib/categories'
 import { usePermission } from '@lib/hooks/usePermission'
-import {
-  DataGrid,
-  GridColDef,
-  GridEditRowsModel,
-  GridEventListener,
-} from '@mui/x-data-grid'
+import { GridColDef, GridEventListener } from '@mui/x-data-grid'
 import _, { debounce } from 'lodash'
 import React, { useEffect, useState } from 'react'
 
@@ -123,21 +119,16 @@ export default function Categories() {
             Delete {selected.length}
           </Button>
         </div>
-        <div className="h-[500px]">
-          <DataGrid
-            rows={categories}
-            columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10, 15, 20]}
-            checkboxSelection
-            onSelectionModelChange={(selected) =>
-              setSelected(selected as string[])
-            }
-            onCellEditCommit={handleEdit}
-            getRowId={(row: Category) => row.slug}
-            disableSelectionOnClick
-          />
-        </div>
+        <DataGrid
+          rows={categories}
+          columns={columns}
+          checkboxSelection
+          onSelectionModelChange={(selected) =>
+            setSelected(selected as string[])
+          }
+          onCellEditCommit={handleEdit}
+          rowIdKey="slug"
+        />
       </Container>
     </Permit>
   )
