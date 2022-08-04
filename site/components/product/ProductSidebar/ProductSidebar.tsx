@@ -15,6 +15,7 @@ import { basicShowFormat } from '@lib/date'
 import { Category, categoryHref, getCategory } from '@lib/categories'
 import CountUp from 'react-countup'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
+import { useTranslation } from 'react-i18next'
 
 interface ProductSidebarProps {
   product: Product
@@ -25,6 +26,8 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   product,
   onJoinNow = () => {},
 }) => {
+  const { t } = useTranslation()
+
   const [category, setCategory] = useState<Category | null>(null)
   const [countUpValue, setCountUpValue] = useState(0)
 
@@ -62,11 +65,11 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
       />
       <div className={s.info}>
         <div>
-          <span className={s.infoTitle}>Closes</span>
+          <span className={s.infoTitle}>{t('product.closing')}</span>
           <span>{basicShowFormat(product.closing_date)}</span>
         </div>
         <div>
-          <span className={s.infoTitle}>Winner Announcement</span>
+          <span className={s.infoTitle}>{t('product.winnerAnnounce')}</span>
           <span>{basicShowFormat(product.winner_announce_date)}</span>
         </div>
       </div>
@@ -77,7 +80,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
           type="button"
           className={(s.button, 'my-5')}
         >
-          Join now
+          {t('product.joinNow')}
         </Button>
       </div>
     </div>

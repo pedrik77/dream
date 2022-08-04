@@ -7,14 +7,11 @@ import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
 import { Product, useProducts } from '@lib/products'
-import { setOrder } from '@lib/orders'
-import { useAuthContext } from '@lib/auth'
-import { Timestamp } from 'firebase/firestore'
-import { today } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { useShopContext } from '@lib/shop'
 import { confirm } from '@lib/alerts'
+import { useTranslation } from 'react-i18next'
 
 interface ProductViewProps {
   product: Product
@@ -29,10 +26,10 @@ const GLOBAL_ENTRIES = Object.entries({
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
   const scrollToRef = useRef<HTMLElement>(null)
-  const { user } = useAuthContext()
   const router = useRouter()
 
   const { addToCart, isInCart } = useShopContext()
+  const { t } = useTranslation()
 
   const relatedProducts = useProducts({
     category: product.category,
@@ -113,7 +110,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
         <section className={s.buySection} ref={scrollToRef}>
           <Text variant="myHeading" className="text-center">
-            Buy tickets now
+            {t('product.entry.join')}
           </Text>
           <div className={s.buyCards}>
             {GLOBAL_ENTRIES.map(([ticketCount, price]) => (
@@ -124,7 +121,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                   className={s.btn}
                   onClick={() => handleAddToCart(Number(ticketCount), price)}
                 >
-                  {price} €
+                  {t('product.entry.donate')} {price} €
                 </Button>
               </div>
             ))}
@@ -132,7 +129,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
         </section>
         {!!relatedProducts.length && (
           <section className="py-12 px-6 mb-10 text-center">
-            <Text variant="myHeading">Related Products</Text>
+            <Text variant="myHeading">{t('product.related')}</Text>
             <div className={s.relatedProductsGrid}>
               {relatedProducts.map((p) => (
                 <div key={p.slug} className="animated fadeIn bg-accent-0">
