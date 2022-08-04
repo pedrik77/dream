@@ -53,9 +53,8 @@ export default function Newsletter() {
           />
 
           <label htmlFor="gdpr-checkbox" className={s.text}>
-            Wafer sweet bonbon dessert cupcake. Muffin apple pie candy oat cake
-            liquorice brownie tart. Tiramisu chocolate cake apple pie muffin
-            chocolate bar gummi bears sugar plum.
+            Súhlasím so spracovaním osobných údajov za účelom zasielania
+            vysnivaj.si newsletterov.
           </label>
         </fieldset>
       </form>
