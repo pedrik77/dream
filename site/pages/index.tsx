@@ -53,21 +53,27 @@ export default function Home({
         secondaryTitle="Tadžikistan"
         subtitle="Vysnívaj si magický pobyt v tadžických horách."
         img="/assets/mountains_1440x910.jpg"
-        buttonText={productButtonText}
+        button={{
+          text: productButtonText,
+          link: '/products/magicky-pobyt-v-tadzickych-horach',
+        }}
       />
       <Banner
         primaryTitle="vysnivaj.si"
         secondaryTitle="Nora Nora"
         subtitle="Vysnívaj si luxusnú dovolenku na ostrove Nora Nora."
         img="/assets/beach_1440x910.jpg"
-        buttonText={productButtonText}
+        button={{
+          text: productButtonText,
+          link: '/products/dovolenka-na-ostrove-nora-nora',
+        }}
       />
       <Banner
         primaryTitle="vysnivaj.si"
         secondaryTitle="Traktar 4000"
         subtitle="Vyhrajte jedinečný Traktar 4000"
         img="/assets/truck_1440x910.jpg"
-        buttonText={productButtonText}
+        button={{ text: productButtonText, link: '/products/traktar-4000' }}
       />
       <Hero
         headline={t('homepage.infobox.title')}

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import Button from '../Button'
 import s from './Banner.module.css'
 
@@ -7,8 +8,10 @@ const Banner: React.FC<{
   secondaryTitle: string
   subtitle: string
   img: string
-  buttonText: string
-}> = ({ primaryTitle, secondaryTitle, subtitle, img, buttonText }) => {
+  button?: { text: string; link: string }
+}> = ({ primaryTitle, secondaryTitle, subtitle, img, button }) => {
+  const router = useRouter()
+
   return (
     <div className={s.bgOverlay}>
       <div className={s.imgContainer}>
@@ -28,17 +31,19 @@ const Banner: React.FC<{
           <span className={s.span}>{secondaryTitle}</span>
         </h2>
         <p className={s.p}>{subtitle}</p>
-        <div className="flex">
-          <Button
-            aria-label={buttonText}
-            variant="banner"
-            type="button"
-            className={s.button}
-            disabled={false}
-          >
-            {buttonText}
-          </Button>
-        </div>
+        {!!button && (
+          <div className="flex">
+            <Button
+              aria-label={button.text}
+              variant="banner"
+              type="button"
+              className={s.button}
+              onClick={() => router.push(button.link)}
+            >
+              {button.text}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   )
