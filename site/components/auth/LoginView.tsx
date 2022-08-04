@@ -46,7 +46,7 @@ const LoginView = () => {
   return (
     <form
       onSubmit={handleLogin}
-      className="w-72 sm:w-80 flex flex-col justify-between p-3"
+      className="w-70 sm:w-80 flex flex-col justify-between p-3"
     >
       <div className="flex justify-center pb-12 ">
         <Logo />
