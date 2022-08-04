@@ -19,6 +19,7 @@
         "contactEmail": "info@vysnivaj.si"
     },
     "orders": {
+        "title": "Moje objednávky",
         "product": "Súťaž",
         "ticketCount": "Počet ticketov",
         "totalPrice": "Cena spolu"

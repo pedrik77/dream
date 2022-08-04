@@ -8,12 +8,14 @@ import { uploadFile } from '@lib/files'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { ChangeEventHandler, EventHandler, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { v4 as uuid4 } from 'uuid'
 import s from './AccountLayout.module.css'
 
 const LINKS = {
   account: 'Nastavenie účtu',
-  orders: 'Moje súťaže',
+  prizes: 'Moje súťaže',
+  orders: 'Moje objednávky',
 }
 
 type LinkKey = keyof typeof LINKS
@@ -27,6 +29,8 @@ const AccountLayout: React.FC<{
     : Object.entries(LINKS)
 
   const { customer } = useAuthContext()
+
+  const { t } = useTranslation()
 
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -80,7 +84,7 @@ const AccountLayout: React.FC<{
               />
               <Avatar />
             </div>
-            <Text className="text-xs">(kliknutím zmeníte avatar)</Text>
+            <span className="text-sm">({t('account.changeAvatar')})</span>
             <Text variant="pageHeading">{customer.fullname}</Text>
             <div className="flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl">
               {tuples.map(([href, label]) => (
