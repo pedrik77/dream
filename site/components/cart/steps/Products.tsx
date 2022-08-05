@@ -31,7 +31,7 @@ export default function Products({
           </Button>
         </div>
       )}
-      <Text variant="sectionHeading" className="my-4">
+      <Text variant="sectionHeading" className="my-4 px-4">
         Produkty
       </Text>
       <div>

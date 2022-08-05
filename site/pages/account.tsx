@@ -122,8 +122,8 @@ export default function Account() {
           <Text variant="sectionHeading">Osobné informácie</Text>
           <div className="flex flex-col md:col-span-2 divide-y">
             <AccountField>
-              <Label>Emailová adresa</Label>
-              <span>{customer.email}</span>
+              <Label className="mb-2">Emailová adresa</Label>
+              <span className="text-lg">{customer.email}</span>
             </AccountField>
 
             <span className="text-md font-medium text-accent-600 flex-1 space-x-4 py-8">
@@ -132,7 +132,7 @@ export default function Account() {
             </span>
 
             <AccountField>
-              <label htmlFor="fullname" className="cursor-pointer">
+              <label htmlFor="fullname" className="cursor-pointer mb-2">
                 Celé meno
               </label>
               <Input
@@ -144,7 +144,7 @@ export default function Account() {
             </AccountField>
 
             <AccountField>
-              <label htmlFor="phone" className="cursor-pointer">
+              <label htmlFor="phone" className="cursor-pointer mb-2">
                 Telefónne číslo
               </label>
               <Input
@@ -161,7 +161,7 @@ export default function Account() {
           <Text variant="sectionHeading">Adresa</Text>
           <div className="flex flex-col col-span-2 divide-y">
             <AccountField>
-              <label htmlFor="street" className="cursor-pointer">
+              <label htmlFor="street" className="cursor-pointer mb-2">
                 Ulica
               </label>
               <Input
@@ -173,7 +173,7 @@ export default function Account() {
             </AccountField>
 
             <AccountField>
-              <label htmlFor="city" className="cursor-pointer">
+              <label htmlFor="city" className="cursor-pointer mb-2">
                 Mesto
               </label>
               <Input
@@ -185,7 +185,7 @@ export default function Account() {
             </AccountField>
 
             <AccountField>
-              <label htmlFor="country" className="cursor-pointer">
+              <label htmlFor="country" className="cursor-pointer  mb-2">
                 Krajina
               </label>
               <Input
@@ -197,7 +197,7 @@ export default function Account() {
             </AccountField>
 
             <AccountField>
-              <label htmlFor="zip" className="cursor-pointer">
+              <label htmlFor="zip" className="cursor-pointer  mb-2">
                 PSČ
               </label>
               <Input id="zip" variant="ghost" value={zip} onChange={setZip} />
@@ -207,7 +207,7 @@ export default function Account() {
         <AccountFieldWrapper>
           <Text variant="sectionHeading">Prihlasovanie a bezpečnosť</Text>
           <div className="flex flex-col col-span-2 divide-y border-opacity-50">
-            <div className="flex flex-row justify-end space-x-4 py-10 font-bold">
+            <div className="flex flex-row justify-end py-4 sm:py-10 font-bold">
               <Button
                 disabled={resetMailSending.pending}
                 type="button"

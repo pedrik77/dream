@@ -54,7 +54,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const handleAddToCart = async (ticketCount: number, price: number) => {
     if (
       isInCart(product.slug) &&
-      !(await confirm('Produkt uz mate zvoleny. Prajete si prepisat variantu?'))
+      !(await confirm('Produkt už máte zvolený. Prajete si zmeniť variantu?'))
     )
       return router.push('/cart')
 
