@@ -6,6 +6,8 @@ export const confirm = async (title: string) => {
     confirmButtonText: 'Áno',
     showCancelButton: true,
     cancelButtonText: 'Zrušiť',
+    color: 'var(--text-primary)',
+    confirmButtonColor: 'var(--text-primary)',
   })
   return isConfirmed
 }
