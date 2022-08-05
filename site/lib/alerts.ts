@@ -4,9 +4,10 @@ export const confirm = async (title: string) => {
   const { isConfirmed } = await Swal.fire({
     title,
     confirmButtonText: 'Áno',
-    confirmButtonColor: 'var(--text-primary)',
     showCancelButton: true,
     cancelButtonText: 'Zrušiť',
+    color: 'var(--text-primary)',
+    confirmButtonColor: 'var(--text-primary)',
   })
   return isConfirmed
 }
