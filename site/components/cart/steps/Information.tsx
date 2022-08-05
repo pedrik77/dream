@@ -179,7 +179,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
         {asCompany && (
           <div className="max-w-3xl my-4 mx-auto">
             <AccountFieldWrapper>
-              <div className="flex flex-col col-span-3 divider divide-y">
+              <div className="flex flex-col col-span-3">
                 <AccountField>
                   <label
                     htmlFor="fullname"
