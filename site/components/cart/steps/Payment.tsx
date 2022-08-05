@@ -86,7 +86,7 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
           </div>
         </div>
 
-        <div className="flex flex-col align-baseline gap-4 mt-8 mb-16 sm:px-2">
+        <div className="flex flex-col align-baseline gap-4 mt-8 mb-16 px-4">
           <div>
             <label htmlFor="cardNumber" className="cursor-pointer">
               Číslo karty{' '}

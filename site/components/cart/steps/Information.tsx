@@ -105,7 +105,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
           </Button>
         </div>
       </div>
-      <Text variant="sectionHeading" className="my-4">
+      <Text variant="sectionHeading" className="my-4 pl-2">
         {t('checkout.personal')}
       </Text>
       {!isLoggedIn && false && (
@@ -114,11 +114,11 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
           <Button onClick={loginModal}>Prihlásiť sa</Button>`
         </div>
       )}
-      <div className="max-w-3xl my-4 mx-auto">
+      <div className="max-w-3xl my-4 mx-auto px-4">
         <AccountFieldWrapper>
-          <div className="flex flex-col col-span-3 divider divide-y">
+          <div className="flex flex-col col-span-3 sm:divider sm:divide-y">
             <AccountField>
-              <label htmlFor="fullname" className="cursor-pointer">
+              <label htmlFor="fullname" className="cursor-pointer pb-4 sm:pb-0">
                 Celé meno *
               </label>
               <Input
@@ -131,7 +131,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
               />
             </AccountField>
             <AccountField>
-              <label htmlFor="email" className="cursor-pointer">
+              <label htmlFor="email" className="cursor-pointer pb-4 sm:pb-0">
                 Email *
               </label>
               <Input
@@ -147,7 +147,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
             </AccountField>
 
             <AccountField>
-              <label htmlFor="phone" className="cursor-pointer">
+              <label htmlFor="phone" className="cursor-pointer pb-4 sm:pb-0">
                 Telefón *
               </label>
               <Input
@@ -164,7 +164,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
         </AccountFieldWrapper>
       </div>
       <div className="my-4">
-        <Text variant="sectionHeading" className="my-4">
+        <Text variant="sectionHeading" className="my-4 pl-2">
           <label>
             {t('checkout.company')}
             <Checkbox
@@ -177,11 +177,14 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
         </Text>
 
         {asCompany && (
-          <div className="max-w-3xl my-4 mx-auto">
+          <div className="max-w-3xl my-4 mx-auto px-4">
             <AccountFieldWrapper>
-              <div className="flex flex-col col-span-3 divider divide-y">
+              <div className="flex flex-col col-span-3">
                 <AccountField>
-                  <label htmlFor="fullname" className="cursor-pointer">
+                  <label
+                    htmlFor="fullname"
+                    className="cursor-pointer pb-4 sm:pb-0"
+                  >
                     Názov spoločnosti *
                   </label>
                   <Input
@@ -194,7 +197,10 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
                   />
                 </AccountField>
                 <AccountField>
-                  <label htmlFor="fullname" className="cursor-pointer">
+                  <label
+                    htmlFor="fullname"
+                    className="cursor-pointer pb-4 sm:pb-0"
+                  >
                     IČO *
                   </label>
                   <Input
@@ -207,7 +213,10 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
                   />
                 </AccountField>
                 <AccountField>
-                  <label htmlFor="fullname" className="cursor-pointer">
+                  <label
+                    htmlFor="fullname"
+                    className="cursor-pointer pb-4 sm:pb-0"
+                  >
                     DIČ *
                   </label>
                   <Input
@@ -220,7 +229,10 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
                   />
                 </AccountField>
                 <AccountField>
-                  <label htmlFor="fullname" className="cursor-pointer">
+                  <label
+                    htmlFor="fullname"
+                    className="cursor-pointer pb-4 sm:pb-0"
+                  >
                     IČ DPH *
                   </label>
                   <Input
@@ -238,14 +250,14 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
         )}
       </div>
       <div>
-        <Text variant="sectionHeading" className="my-8">
+        <Text variant="sectionHeading" className="pl-2 my-8">
           {t('checkout.address')}
         </Text>
-        <div className="max-w-3xl my-4 mx-auto">
+        <div className="max-w-3xl my-4 mx-auto px-4">
           <AccountFieldWrapper>
             <div className="flex flex-col col-span-3 divider divide-y">
               <AccountField>
-                <label htmlFor="street" className="cursor-pointer">
+                <label htmlFor="street" className="cursor-pointer pb-4 sm:pb-0">
                   Ulica *
                 </label>
                 <Input
@@ -259,7 +271,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
                 />
               </AccountField>
               <AccountField>
-                <label htmlFor="city" className="cursor-pointer">
+                <label htmlFor="city" className="cursor-pointer pb-4 sm:pb-0">
                   Mesto *
                 </label>
                 <Input
@@ -274,7 +286,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
               </AccountField>
 
               <AccountField>
-                <label htmlFor="zip" className="cursor-pointer">
+                <label htmlFor="zip" className="cursor-pointer pb-4 sm:pb-0">
                   PSČ *
                 </label>
                 <Input
@@ -289,7 +301,10 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
               </AccountField>
 
               <AccountField>
-                <label htmlFor="country" className="cursor-pointer">
+                <label
+                  htmlFor="country"
+                  className="cursor-pointer pb-4 sm:pb-0"
+                >
                   Krajina *
                 </label>
                 <Input
