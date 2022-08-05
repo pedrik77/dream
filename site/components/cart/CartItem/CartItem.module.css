@@ -1,5 +1,5 @@
 .root {
-  @apply col-span-12 md:grid grid-cols-1 md:grid-cols-12 gap-2 my-4 py-4 sm:py-12 items-center justify-between border-b;
+  @apply col-span-12 md:grid grid-cols-1 md:grid-cols-12 gap-2 my-4 py-4 sm:py-12 items-center justify-between border-b px-4;
 }
 
 .sidebar {
