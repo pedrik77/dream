@@ -17,6 +17,7 @@ export default function Stepper({
       className={className}
       activeStep={steps.indexOf(activeStep)}
       alternativeLabel
+      sx={}
     >
       {steps.map((title) => (
         <Step key={title}>
