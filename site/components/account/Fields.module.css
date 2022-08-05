@@ -1,9 +1,9 @@
 .wrapper {
-  @apply grid grid-cols-1 md:grid-cols-3 my-4;
+  @apply grid grid-cols-1 md:grid-cols-3 sm:my-4;
 }
 
 .field {
-  @apply flex flex-col sm:flex-row justify-between space-x-4 py-4 sm:py-10 px-4 font-bold;
+  @apply flex flex-col sm:flex-row justify-between space-x-4 py-4 sm:py-10 sm:px-4 font-bold;
 }
 
 .label {

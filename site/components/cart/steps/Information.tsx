@@ -114,7 +114,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
           <Button onClick={loginModal}>Prihlásiť sa</Button>`
         </div>
       )}
-      <div className="max-w-3xl my-4 mx-auto">
+      <div className="max-w-3xl my-4 mx-auto px-4">
         <AccountFieldWrapper>
           <div className="flex flex-col col-span-3 sm:divider sm:divide-y">
             <AccountField>
@@ -177,7 +177,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
         </Text>
 
         {asCompany && (
-          <div className="max-w-3xl my-4 mx-auto">
+          <div className="max-w-3xl my-4 mx-auto px-4">
             <AccountFieldWrapper>
               <div className="flex flex-col col-span-3">
                 <AccountField>
@@ -253,7 +253,7 @@ export default function Information({ onNext = () => {}, onPrev = () => {} }) {
         <Text variant="sectionHeading" className="pl-2 my-8">
           {t('checkout.address')}
         </Text>
-        <div className="max-w-3xl my-4 mx-auto">
+        <div className="max-w-3xl my-4 mx-auto px-4">
           <AccountFieldWrapper>
             <div className="flex flex-col col-span-3 divider divide-y">
               <AccountField>
