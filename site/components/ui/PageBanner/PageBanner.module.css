@@ -3,7 +3,7 @@
 }
 
 .bgOverlay {
-  @apply w-screen h-[20vh] sm:h-[35vh] md:h-[50vh] lg:h-[65vh] flex relative mb-6 lg:mb-8;
+  @apply w-full h-[20vh] sm:h-[35vh] md:h-[50vh] lg:h-[65vh] flex relative mb-6 lg:mb-8;
 }
 
 .bgOverlay::after {
