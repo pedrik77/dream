@@ -18,6 +18,7 @@ import { uploadFile } from './files'
 import { v4 as uuid4 } from 'uuid'
 import { CustomerDataType } from './auth'
 import { Order } from './orders'
+import { QueryBase } from './types'
 
 export interface ProductImage {
   src: string
@@ -48,12 +49,9 @@ export interface Product {
   winner?: Winner
 }
 
-interface UseProductOptions {
+interface UseProductOptions extends QueryBase<Product> {
   category?: string
   showClosed?: boolean | null
-  orderBy?: keyof Product
-  orderDirection?: 'asc' | 'desc'
-  onError?: (e: any) => void
 }
 
 export async function getProduct(slug: string) {
@@ -77,9 +75,9 @@ export async function deleteProduct(slug: string | string[]) {
 export function useProducts({
   category = '',
   showClosed = false,
-  orderBy,
-  orderDirection = 'asc',
-  onError = (e) => {},
+  orderBy = 'closing_date',
+  orderDirection = 'desc',
+  onError = console.error,
 }: UseProductOptions = {}) {
   const [products, setProducts] = useState<Product[]>([])
 
@@ -105,25 +103,22 @@ export function useProducts({
     return queries
   }, [category, showClosed, orderBy, orderDirection])
 
-  try {
-    useEffect(
-      () =>
-        onSnapshot(
-          query(collection(db, 'products'), ...queries),
-          async (querySnapshot) => {
-            setProducts(
-              await Promise.all(
-                // @ts-ignore
-                querySnapshot.docs.map(transform)
-              )
+  useEffect(
+    () =>
+      onSnapshot(
+        query(collection(db, 'products'), ...queries),
+        async (querySnapshot) => {
+          setProducts(
+            await Promise.all(
+              // @ts-ignore
+              querySnapshot.docs.map(transform)
             )
-          }
-        ),
-      [queries]
-    )
-  } catch (e) {
-    onError(e)
-  }
+          )
+        },
+        onError
+      ),
+    [queries, onError]
+  )
 
   return products
 }

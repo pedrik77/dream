@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { CustomerDataType, useAuthContext } from './auth'
 import { db } from './firebase'
 import { CartItem } from './shop'
+import { QueryBase } from './types'
 
 export interface Order {
   uuid: string
@@ -23,10 +24,8 @@ export interface Order {
   created_date: number
 }
 
-interface UseOrdersOptions {
+interface UseOrdersOptions extends QueryBase<Order> {
   user?: string
-  orderBy?: keyof Order
-  orderDirection?: 'asc' | 'desc'
 }
 
 export async function getOrder(uuid: string): Promise<Order> {
@@ -44,8 +43,9 @@ export async function setOrder({ uuid, ...order }: any) {
 
 export function useOrders({
   user,
-  orderBy,
-  orderDirection = 'asc',
+  orderBy = 'created_date',
+  orderDirection = 'desc',
+  onError = console.error,
 }: UseOrdersOptions = {}) {
   const [orders, setOrders] = useState<Order[]>([])
 
@@ -72,9 +72,10 @@ export function useOrders({
             // @ts-ignore
             querySnapshot.docs.map(transform)
           )
-        }
+        },
+        onError
       ),
-    [queries]
+    [queries, onError]
   )
 
   return orders
@@ -84,31 +85,37 @@ export function usePrizes() {
   const { user } = useAuthContext()
   const orders = useOrders({
     user: user?.email || '',
-    orderBy: 'created_date',
-    orderDirection: 'desc',
   })
 
   return useMemo(() => {
-    const productMap: { [index: string]: any } = {}
+    const productMap: {
+      [index: string]: {
+        product: string
+        ticket_count: number
+        last_order_date: number
+      }
+    } = {}
 
     orders.forEach((order) => {
       order.items.forEach((item) => {
         if (!productMap[item.product.slug]) {
           productMap[item.product.slug] = {
             product: item.product.title_1,
-            ticketCount: item.ticketCount,
+            ticket_count: item.ticketCount,
+            last_order_date: order.created_date,
           }
         } else {
-          productMap[item.product.slug].ticketCount += item.ticketCount
+          productMap[item.product.slug].ticket_count += item.ticketCount
         }
       })
     })
 
     return Object.entries(productMap).map(
-      ([slug, { product, ticketCount }]) => ({
+      ([slug, { product, ticket_count, last_order_date }]) => ({
         slug,
         product,
-        ticketCount,
+        ticket_count,
+        last_order_date,
       })
     )
   }, [orders])

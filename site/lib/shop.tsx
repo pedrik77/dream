@@ -70,13 +70,17 @@ export const ShopProvider: React.FC = ({ children }) => {
 
   useEffect(
     () =>
-      onSnapshot(doc(db, 'cart', cartId), (querySnapshot) => {
-        setCart(
-          // @ts-ignore
-          querySnapshot.data()?.data || []
-        )
-        // loading.stop()
-      }),
+      onSnapshot(
+        doc(db, 'cart', cartId),
+        (querySnapshot) => {
+          setCart(
+            // @ts-ignore
+            querySnapshot.data()?.data || []
+          )
+          // loading.stop()
+        },
+        console.error
+      ),
     [cartId]
   )
 
