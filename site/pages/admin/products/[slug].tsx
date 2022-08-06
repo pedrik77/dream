@@ -296,7 +296,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const isEditing = params && params?.slug != 'add'
 
   const product = isEditing
-    ? await getProduct((params?.slug as string) || '')
+    ? await getProduct((params?.slug as string) || '').catch(console.error)
     : null
 
   if (isEditing && !product) return { notFound: true }
