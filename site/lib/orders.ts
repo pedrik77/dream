@@ -4,12 +4,13 @@ import {
   getDoc,
   onSnapshot,
   query,
+  orderBy as queryOrderBy,
   QueryConstraint,
   setDoc,
   where,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
-import { CustomerDataType } from './auth'
+import { CustomerDataType, useAuthContext } from './auth'
 import { db } from './firebase'
 import { CartItem } from './shop'
 
@@ -24,6 +25,8 @@ export interface Order {
 
 interface UseOrdersOptions {
   user?: string
+  orderBy?: keyof Order
+  orderDirection?: 'asc' | 'desc'
 }
 
 export async function getOrder(uuid: string): Promise<Order> {
@@ -39,7 +42,11 @@ export async function setOrder({ uuid, ...order }: any) {
   })
 }
 
-export function useOrders({ user }: UseOrdersOptions = {}) {
+export function useOrders({
+  user,
+  orderBy,
+  orderDirection = 'asc',
+}: UseOrdersOptions = {}) {
   const [orders, setOrders] = useState<Order[]>([])
 
   const queries: QueryConstraint[] = useMemo(() => {
@@ -49,8 +56,12 @@ export function useOrders({ user }: UseOrdersOptions = {}) {
       queries.push(where('user', '==', user))
     }
 
+    if (orderBy) {
+      queries.push(queryOrderBy(orderBy, orderDirection))
+    }
+
     return queries
-  }, [user])
+  }, [user, orderBy, orderDirection])
 
   useEffect(
     () =>
@@ -67,6 +78,40 @@ export function useOrders({ user }: UseOrdersOptions = {}) {
   )
 
   return orders
+}
+
+export function usePrizes() {
+  const { user } = useAuthContext()
+  const orders = useOrders({
+    user: user?.email || '',
+    orderBy: 'created_date',
+    orderDirection: 'desc',
+  })
+
+  return useMemo(() => {
+    const productMap: { [index: string]: any } = {}
+
+    orders.forEach((order) => {
+      order.items.forEach((item) => {
+        if (!productMap[item.product.slug]) {
+          productMap[item.product.slug] = {
+            product: item.product.title_1,
+            ticketCount: item.ticketCount,
+          }
+        } else {
+          productMap[item.product.slug].ticketCount += item.ticketCount
+        }
+      })
+    })
+
+    return Object.entries(productMap).map(
+      ([slug, { product, ticketCount }]) => ({
+        slug,
+        product,
+        ticketCount,
+      })
+    )
+  }, [orders])
 }
 
 function transform(doc: any): Order {
