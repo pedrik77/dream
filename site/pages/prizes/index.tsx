@@ -30,7 +30,7 @@ export default function Prizes() {
         <Col
           field="ticket_count"
           headerName={t('prizes.ticketCount')}
-          width={270}
+          width={290}
         />
         <Col
           field="last_order_date"
