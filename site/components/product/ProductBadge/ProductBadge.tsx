@@ -51,10 +51,22 @@ export const ProductBadge: React.FC<ProductBadgeProps> = ({ product }) => {
 
   if (badge === 'none') return null
 
+  const remains = (days: number) => {
+    if (days > 1 && days < 5) return 'Zostávajú'
+    return 'Zostáva'
+  }
+
+  const days = (days: number) => {
+    if (days === 1) return 'deň'
+    if (days > 1 && days < 5) return 'dni'
+    return 'dní'
+  }
+
   return (
     <div className={className}>
       {badge === 'new' && 'Nové'}
-      {badge === 'closing' && 'Zostáva ' + daysLeft + ' dní'}
+      {badge === 'closing' &&
+        `${remains(daysLeft)} ${daysLeft} ${days(daysLeft)}`}
       {badge === 'pending' && 'Žrebujeme výhercu'}
       {badge === 'closed' && 'Pozrite si výhercu'}
     </div>
