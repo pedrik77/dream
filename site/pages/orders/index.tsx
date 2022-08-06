@@ -54,7 +54,7 @@ export default function Orders() {
         <Col
           field="products"
           headerName={t('orders.product')}
-          cellClassName="flex-col justify-content-center"
+          cellClassName="flex-col"
           align="center"
           renderCell={(r) =>
             r.value.map((product_title: string) => (
