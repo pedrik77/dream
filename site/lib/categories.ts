@@ -9,15 +9,20 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
+import { noop } from './common'
 import { db } from './firebase'
-import { QueryBase } from './types'
+import { AnyClosure, QueryBase } from './types'
 
 export interface Category {
   slug: string
   title: string
 }
 
-interface UseCategoryOptions extends QueryBase<Category> {}
+interface UseCategoriesOptions extends QueryBase<Category> {}
+interface UseCategoryOptions {
+  slug?: string
+  onError?: AnyClosure
+}
 
 export async function getCategory(slug: string): Promise<Category> {
   const categoryData = await getDoc(doc(db, 'categories', slug))
@@ -39,9 +44,20 @@ export async function deleteCategory(slug: string | string[]) {
   )
 }
 
+export function useCategory({ slug, onError = noop }: UseCategoryOptions) {
+  const [category, setCategory] = useState<Category>()
+
+  useEffect(() => {
+    if (!slug) return
+    getCategory(slug).then(setCategory).catch(onError)
+  }, [slug, onError])
+
+  return category
+}
+
 export function useCategories({
   onError = console.error,
-}: UseCategoryOptions = {}) {
+}: UseCategoriesOptions = {}) {
   const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(

@@ -1,20 +1,26 @@
 import { Layout } from '@components/common'
 import { ProductCard } from '@components/product'
 import { Button, Container, Text } from '@components/ui'
+import { handleErrorFlash } from '@components/ui/FlashMessage'
 import PageBanner from '@components/ui/PageBanner'
 import { Tab } from '@components/ui/Tab/Tab'
+import { useCategory } from '@lib/categories'
 import { useProducts } from '@lib/products'
 import { GetServerSideProps } from 'next'
 import React from 'react'
 
 interface ProductsPageProps {
-  category?: string
+  categorySlug?: string
 }
 
-export default function Products({ category = '' }: ProductsPageProps) {
+export default function Products({ categorySlug = '' }: ProductsPageProps) {
   const [showClosed, setShowClosed] = React.useState(false)
 
-  const products = useProducts({ category, showClosed })
+  const products = useProducts({ categorySlug, showClosed })
+  const category = useCategory({
+    slug: categorySlug,
+    onError: handleErrorFlash,
+  })
 
   return (
     <Container clean>
@@ -42,7 +48,7 @@ export default function Products({ category = '' }: ProductsPageProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => ({
-  props: { category: query.category || '' },
+  props: { categorySlug: query.category || '' },
 })
 
 Products.Layout = Layout

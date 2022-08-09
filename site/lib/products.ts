@@ -49,8 +49,8 @@ export interface Product {
   winner?: Winner
 }
 
-interface UseProductOptions extends QueryBase<Product> {
-  category?: string
+interface UseProductsOptions extends QueryBase<Product> {
+  categorySlug?: string
   showClosed?: boolean | null
 }
 
@@ -73,19 +73,19 @@ export async function deleteProduct(slug: string | string[]) {
 }
 
 export function useProducts({
-  category = '',
+  categorySlug = '',
   showClosed = false,
   orderBy = 'closing_date',
   orderDirection = 'desc',
   onError = console.error,
-}: UseProductOptions = {}) {
+}: UseProductsOptions = {}) {
   const [products, setProducts] = useState<Product[]>([])
 
   const queries: QueryConstraint[] = useMemo(() => {
     const queries: QueryConstraint[] = []
 
-    if (category) {
-      queries.push(where('category', '==', category))
+    if (categorySlug) {
+      queries.push(where('category', '==', categorySlug))
     }
 
     if (showClosed === false) {
@@ -101,7 +101,7 @@ export function useProducts({
     }
 
     return queries
-  }, [category, showClosed, orderBy, orderDirection])
+  }, [categorySlug, showClosed, orderBy, orderDirection])
 
   useEffect(
     () =>
