@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import s from './Quantity.module.css'
 import { Cross, Plus, Minus } from '@components/icons'
 import cn from 'clsx'
+import { noop } from '@lib/common'
 export interface QuantityProps {
   value: number
   increase: () => any
@@ -28,7 +29,7 @@ const Quantity: FC<QuantityProps> = ({
         <input
           className={s.input}
           onChange={(e) =>
-            Number(e.target.value) < max + 1 ? handleChange(e) : () => {}
+            Number(e.target.value) < max + 1 ? handleChange(e) : noop
           }
           value={value}
           type="number"

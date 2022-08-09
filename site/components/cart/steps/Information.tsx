@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react'
 import { useShopContext } from '@lib/shop'
 import { Checkbox } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { noop } from '@lib/common'
 
-export default function Information({ onNext = () => {}, onPrev = () => {} }) {
+export default function Information({ onNext = noop, onPrev = noop }) {
   const { customer, isLoggedIn } = useAuthContext()
   const { total } = useShopContext()
   const { setModalView, openModal } = useUI()

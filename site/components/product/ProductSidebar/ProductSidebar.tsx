@@ -16,6 +16,7 @@ import { Category, categoryHref, getCategory } from '@lib/categories'
 import CountUp from 'react-countup'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
 import { useTranslation } from 'react-i18next'
+import { noop } from '@lib/common'
 
 interface ProductSidebarProps {
   product: Product
@@ -24,7 +25,7 @@ interface ProductSidebarProps {
 
 const ProductSidebar: FC<ProductSidebarProps> = ({
   product,
-  onJoinNow = () => {},
+  onJoinNow = noop,
 }) => {
   const { t } = useTranslation()
 
