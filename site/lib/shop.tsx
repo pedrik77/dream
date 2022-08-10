@@ -66,7 +66,7 @@ export const ShopProvider: React.FC = ({ children }) => {
     [cart]
   )
 
-  const cartId = useMemo(() => getCartId(), [])
+  const cartId = useMemo(getCartId, [])
 
   useEffect(
     () =>
