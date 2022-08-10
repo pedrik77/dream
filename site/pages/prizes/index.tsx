@@ -35,10 +35,11 @@ export default function Prizes() {
         <Col
           field="last_order_date"
           headerName={t('prizes.lastOrder')}
-          valueFormatter={(r) => basicShowFormat(r.value)}
           width={180}
           sortable
-        />
+        >
+          {(r) => basicShowFormat(r.value)}
+        </Col>
       </DataGrid>
     </AccountLayout>
   )

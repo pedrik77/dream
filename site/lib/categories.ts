@@ -16,11 +16,12 @@ import { AnyClosure, QueryBase } from './types'
 export interface Category {
   slug: string
   title: string
+  banner?: string
 }
 
 interface UseCategoriesOptions extends QueryBase<Category> {}
 interface UseCategoryOptions {
-  slug?: string
+  slug: string
   onError?: AnyClosure
 }
 
@@ -30,9 +31,10 @@ export async function getCategory(slug: string): Promise<Category> {
   return { slug: categoryData.id, ...categoryData.data() } as Category
 }
 
-export async function setCategory({ slug, title }: Category) {
+export async function setCategory({ slug, title, banner }: Category) {
   return await setDoc(doc(db, 'categories', slug), {
     title,
+    banner,
   })
 }
 
@@ -48,8 +50,12 @@ export function useCategory({ slug, onError = noop }: UseCategoryOptions) {
   const [category, setCategory] = useState<Category>()
 
   useEffect(() => {
-    if (!slug) return
-    getCategory(slug).then(setCategory).catch(onError)
+    getCategory(slug)
+      .then(setCategory)
+      .catch((e) => {
+        setCategory(undefined)
+        onError(e)
+      })
   }, [slug, onError])
 
   return category

@@ -1,9 +1,8 @@
 import { Layout } from '@components/common'
 import { Button, Container, Text } from '@components/ui'
 import { PERMISSIONS } from '@lib/auth'
-import { GridColDef, GridValueFormatterParams } from '@mui/x-data-grid'
 import Permit from '@components/common/Permit'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { deleteProduct, Product, setProduct, useProducts } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
@@ -11,8 +10,6 @@ import { useRouter } from 'next/router'
 import { confirm } from '@lib/alerts'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import { useTranslation } from 'react-i18next'
-
-const dateFormatter = (r: GridValueFormatterParams) => basicShowFormat(r.value)
 
 export default function Dashboard() {
   const products = useProducts({ showClosed: null, onError: handleErrorFlash })
@@ -63,15 +60,17 @@ export default function Dashboard() {
           <Col
             field="closing_date"
             headerName={t('product.closing')}
-            valueFormatter={dateFormatter}
             width={130}
-          />
+          >
+            {(r) => basicShowFormat(r.value)}
+          </Col>
           <Col
             field="winner_announce_date"
             headerName={t('product.winnerAnnounce')}
-            valueFormatter={dateFormatter}
             width={130}
-          />
+          >
+            {(r) => basicShowFormat(r.value)}
+          </Col>
         </DataGrid>
       </Container>
     </Permit>

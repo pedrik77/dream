@@ -223,16 +223,15 @@ export default function Menu() {
                 <Col
                   field="label"
                   headerName="Label (click to edit)"
-                  renderCell={(r) =>
+                  width={160}
+                >
+                  {(r) =>
                     (r.row.menu_position === null ? '(x) ' : '') + r.value
                   }
-                  width={160}
-                />
+                </Col>
                 <Col field="href" headerName="Link" width={130} />
-                <Col
-                  field="menu_position"
-                  headerName="Pozícia"
-                  renderCell={(r) => {
+                <Col field="menu_position" headerName="Pozícia" width={150}>
+                  {(r) => {
                     const item = menu.all.find(
                       ({ href }) => href === r.row.href
                     )
@@ -245,8 +244,7 @@ export default function Menu() {
 
                     return <PositionControls item={item} group={group} />
                   }}
-                  width={150}
-                />
+                </Col>
               </DataGrid>
             </div>
           ))}

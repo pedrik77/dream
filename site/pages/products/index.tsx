@@ -13,18 +13,21 @@ interface ProductsPageProps {
   categorySlug?: string
 }
 
+const fallbackBanner = '/assets/page_banner.jpg'
+
 export default function Products({ categorySlug = '' }: ProductsPageProps) {
   const [showClosed, setShowClosed] = React.useState(false)
 
   const products = useProducts({ categorySlug, showClosed })
   const category = useCategory({
     slug: categorySlug,
-    onError: handleErrorFlash,
   })
+
+  const banner = category?.banner || fallbackBanner
 
   return (
     <Container clean>
-      <PageBanner img="/assets/page_banner.jpg" />
+      <PageBanner img={banner} />
       <Container className="flex gap-8 items-center justify-center my-10">
         <Tab active={!showClosed} onClick={() => setShowClosed(false)}>
           Aktuálne

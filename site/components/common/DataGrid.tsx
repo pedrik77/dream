@@ -3,6 +3,7 @@ import {
   DataGrid as MuiDG,
   DataGridProps,
   GridColDef,
+  GridRenderCellParams,
   GridRowSpacing,
   GridValidRowModel,
   skSK,
@@ -26,6 +27,8 @@ interface DataGridComponent {
   ): JSX.Element
   propTypes?: any
 }
+
+type ColChidren = (r: GridRenderCellParams) => any
 
 export const DataGrid: DataGridComponent = ({
   rowIdKey,
@@ -60,12 +63,17 @@ export const DataGrid: DataGridComponent = ({
   )
 }
 
-export const Col: React.FC<GridColDef> = () => null
+export const Col: React.FC<GridColDef & { children?: ColChidren }> = () => null
 
 const modifyColProps = ({
   sortable = false,
+  renderCell,
+  children,
   ...props
-}: GridColDef): GridColDef => ({
+}: GridColDef & {
+  children?: ColChidren
+}): GridColDef => ({
   ...props,
   sortable,
+  renderCell: renderCell || children,
 })
