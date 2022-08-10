@@ -1,4 +1,3 @@
-import React from 'react'
 import Done from './Done'
 import Information from './Information'
 import Payment from './Payment'
