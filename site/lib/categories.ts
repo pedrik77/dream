@@ -16,7 +16,7 @@ import { AnyClosure, QueryBase } from './types'
 export interface Category {
   slug: string
   title: string
-  banner?: string
+  banner: string | null
 }
 
 interface UseCategoriesOptions extends QueryBase<Category> {}
@@ -31,7 +31,7 @@ export async function getCategory(slug: string): Promise<Category> {
   return { slug: categoryData.id, ...categoryData.data() } as Category
 }
 
-export async function setCategory({ slug, title, banner }: Category) {
+export async function setCategory({ slug, title, banner = null }: Category) {
   return await setDoc(doc(db, 'categories', slug), {
     title,
     banner,

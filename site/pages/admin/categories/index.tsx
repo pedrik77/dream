@@ -38,7 +38,7 @@ export default function Categories() {
 
     if (!slug || !title) return flash('Vyplňte všetky polia', 'danger')
 
-    setCategory({ slug, title })
+    setCategory({ slug, title, banner: null })
       .then(() => {
         reset()
         flash('Kategória vytvorená')
