@@ -15,7 +15,7 @@ import {
 import { useEffect, useMemo, useState } from 'react'
 import { db } from './firebase'
 import { uploadFile } from './files'
-import { v4 as uuid4 } from 'uuid'
+import * as uuid from 'uuid'
 import { CustomerDataType } from './auth'
 import { Order } from './orders'
 import { QueryBase } from './types'
@@ -126,7 +126,7 @@ export function useProducts({
 export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
   const uploaded = await Promise.all(
     Array.from(files).map(async (file) => {
-      const filename = `${uuid4()}_${file.name}`
+      const filename = `${uuid.v4()}_${file.name}`
       const path = `products/${filename}`
       const src = await uploadFile(path, file)
 
