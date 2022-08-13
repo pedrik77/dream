@@ -1,11 +1,11 @@
-.MuiStep-root {
+/* .MuiStep-root {
   @apply p-0;
-}
-.MuiStepLabel-label {
+} */
+/* .MuiStepLabel-label {
   @apply text-primary md:text-lg;
-}
+} */
 
-.MuiStepLabel-label.Mui-active,
+/* .MuiStepLabel-label.Mui-active,
 .MuiStepLabel-label.Mui-completed {
   @apply text-primary;
 }
@@ -24,4 +24,4 @@
 
 .MuiStepConnector-line {
   @apply border border-primary;
-}
+} */
