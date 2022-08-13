@@ -36,7 +36,7 @@ export default function NotFound() {
         />
       </div>
       <Text variant="heading">Ľutujeme...</Text>
-      <Text className="text-lg">Tu si nič nevysnívate.</Text>
+      <Text className="text-lg">Tu si nič nevysnívate...</Text>
     </div>
   )
 }
