@@ -17,13 +17,6 @@ const theme = createTheme({
         },
       },
     },
-    MuiStepLabel: {
-      styleOverrides: {
-        label: {
-          color: 'var(--primary)',
-        },
-      },
-    },
 
     MuiStepIcon: {
       styleOverrides: {
