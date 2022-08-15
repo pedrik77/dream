@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  createMuiTheme,
-  createTheme,
-  Step,
-  StepLabel,
-  Stepper as MuiStepper,
-} from '@mui/material'
+import { Step, StepLabel, Stepper as MuiStepper } from '@mui/material'
 
 interface StepperProps {
   steps: Readonly<string[]>
@@ -23,28 +17,10 @@ export default function Stepper({
       className={className}
       activeStep={steps.indexOf(activeStep)}
       alternativeLabel
-      sx={{
-        padding: 0,
-        color: 'var(--primary)',
-      }}
     >
       {steps.map((title) => (
-        <Step
-          key={title}
-          sx={{
-            color: 'var(--primary)',
-            fontSize: 14,
-            fill: 'var(--primary)',
-          }}
-        >
-          <StepLabel
-            sx={{
-              color: '#491239',
-              fontSize: 14,
-            }}
-          >
-            {title}
-          </StepLabel>
+        <Step key={title}>
+          <StepLabel>{title}</StepLabel>
         </Step>
       ))}
     </MuiStepper>

@@ -1,5 +1,4 @@
 import { createTheme, ThemeProvider } from '@mui/material'
-import { yellow } from '@mui/material/colors'
 
 const theme = createTheme({
   components: {
