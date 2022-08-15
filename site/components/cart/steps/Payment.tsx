@@ -38,7 +38,7 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
         </div>
       </div>
 
-      <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0">
+      <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0  mx-auto">
         <div className="flex flex-row flex-wrap justify-center gap-2sm:gap-8 py-8">
           <div className="flex gap-4">
             <Radio id="paymentMastercard" checked />
