@@ -10,11 +10,14 @@ import {
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
 import { db } from './firebase'
+import { QueryBase } from './types'
 
 export interface Category {
   slug: string
   title: string
 }
+
+interface UseCategoryOptions extends QueryBase<Category> {}
 
 export async function getCategory(slug: string): Promise<Category> {
   const categoryData = await getDoc(doc(db, 'categories', slug))
@@ -36,21 +39,27 @@ export async function deleteCategory(slug: string | string[]) {
   )
 }
 
-export function useCategories() {
+export function useCategories({
+  onError = console.error,
+}: UseCategoryOptions = {}) {
   const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(
     () =>
-      onSnapshot(collection(db, 'categories'), (querySnapshot) => {
-        setCategories(
-          // @ts-ignore
-          querySnapshot.docs.map((doc) => ({
-            slug: doc.id,
-            ...doc.data(),
-          }))
-        )
-      }),
-    []
+      onSnapshot(
+        collection(db, 'categories'),
+        (querySnapshot) => {
+          setCategories(
+            // @ts-ignore
+            querySnapshot.docs.map((doc) => ({
+              slug: doc.id,
+              ...doc.data(),
+            }))
+          )
+        },
+        onError
+      ),
+    [onError]
   )
 
   return categories

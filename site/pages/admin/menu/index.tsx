@@ -51,7 +51,7 @@ const flattenOptions = (options) => {
 
 export default function Menu() {
   const categories = useCategories()
-  const menu = useMenu(true)
+  const menu = useMenu({ withHidden: true })
 
   const [href, setHref] = useState('')
   const [label, setLabel] = useState('')

@@ -8,12 +8,17 @@ import {
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
 import { db } from './firebase'
+import { QueryBase } from './types'
 
 export type Link = {
   label: string
   href: string
   menu_position: number | null
   is_legal?: boolean
+}
+
+interface UseMenuOptions extends QueryBase<Link> {
+  withHidden?: boolean
 }
 
 export const IGNORE_PARAMS = ['/winners']
@@ -45,7 +50,10 @@ export async function deleteMenuItem(href: string | string[]) {
   )
 }
 
-export function useMenu(all = false) {
+export function useMenu({
+  withHidden = false,
+  onError = console.error,
+}: UseMenuOptions = {}) {
   const [menu, setMenu] = useState<Link[]>([])
 
   const filter = (item: Link) => item.menu_position !== null
@@ -53,34 +61,38 @@ export function useMenu(all = false) {
   const main = useMemo(() => {
     const main = menu.filter((item) => !item.is_legal)
 
-    return all ? main : main.filter(filter)
-  }, [menu, all])
+    return withHidden ? main : main.filter(filter)
+  }, [menu, withHidden])
 
   const legal = useMemo(() => {
     const legal = menu.filter((item) => item.is_legal)
 
-    return all ? legal : legal.filter(filter)
-  }, [menu, all])
+    return withHidden ? legal : legal.filter(filter)
+  }, [menu, withHidden])
 
   useEffect(
     () =>
-      onSnapshot(collection(db, 'menu'), (querySnapshot) => {
-        setMenu(
-          // @ts-ignore
-          querySnapshot.docs
-            .map(transform)
+      onSnapshot(
+        collection(db, 'menu'),
+        (querySnapshot) => {
+          setMenu(
             // @ts-ignore
-            .sort((a, b) => {
-              const positionA =
-                a.menu_position !== null ? a.menu_position : Infinity
-              const positionB =
-                b.menu_position !== null ? b.menu_position : Infinity
+            querySnapshot.docs
+              .map(transform)
+              // @ts-ignore
+              .sort((a, b) => {
+                const positionA =
+                  a.menu_position !== null ? a.menu_position : Infinity
+                const positionB =
+                  b.menu_position !== null ? b.menu_position : Infinity
 
-              return positionA - positionB
-            })
-        )
-      }),
-    []
+                return positionA - positionB
+              })
+          )
+        },
+        onError
+      ),
+    [onError]
   )
 
   return { main, legal, all: menu }

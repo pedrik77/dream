@@ -23,7 +23,8 @@
     "prizes": {
         "title": "Moje súťaže",
         "product": "Súťaž",
-        "ticketCount": "Počet ticketov za všetky súťaže"
+        "ticketCount": "Počet ticketov za všetky objednávky",
+        "lastOrder": "Posledná objednávka"
     },
     "orders": {
         "title": "Moje objednávky",

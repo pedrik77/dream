@@ -13,7 +13,9 @@ import { useAuthContext } from '@lib/auth'
 
 export default function Orders() {
   const { user } = useAuthContext()
-  const orders = useOrders({ user: user?.email || '' })
+  const orders = useOrders({
+    user: user?.email || '',
+  })
   const router = useRouter()
 
   const { t } = useTranslation()
@@ -52,7 +54,7 @@ export default function Orders() {
         <Col
           field="products"
           headerName={t('orders.product')}
-          cellClassName="flex-col justify-content-center"
+          cellClassName="flex-col"
           align="center"
           renderCell={(r) =>
             r.value.map((product_title: string) => (
