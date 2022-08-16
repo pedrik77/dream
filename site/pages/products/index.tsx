@@ -13,7 +13,7 @@ interface ProductsPageProps {
   categorySlug?: string
 }
 
-const fallbackBanner = '/assets/page_banner.jpg'
+const fallbackBanner = '/assets/category_fallback_banner.jpg'
 
 export default function Products({ categorySlug = '' }: ProductsPageProps) {
   const [showClosed, setShowClosed] = React.useState(false)
