@@ -18,5 +18,5 @@
 }
 
 .text {
-  @apply text-xs cursor-pointer;
+  @apply text-sm cursor-pointer;
 }
