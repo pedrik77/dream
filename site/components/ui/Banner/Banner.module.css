@@ -57,7 +57,7 @@
 
   .h2 {
     font-size: 4.25rem;
-    line-height: 0.9em;
+    line-height: 1em;
   }
 
   .p {
@@ -71,7 +71,7 @@
   }
   .h2 {
     font-size: 6.25rem;
-    line-height: 1em;
+    line-height: 1.2em;
   }
 
   .p {
@@ -85,7 +85,7 @@
   }
 
   .h2 {
-    font-size: 7rem;
+    font-size: 7.5rem;
     line-height: 1.25em;
   }
 }
