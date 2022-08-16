@@ -5,6 +5,7 @@ import NavbarRoot from './NavbarRoot'
 import { Logo, Container } from '@components/ui'
 import { Searchbar, UserNav } from '@components/common'
 import { useIsActiveMenu } from '@lib/useIsActiveMenu'
+import { Skeleton } from '@mui/material'
 
 interface Link {
   href: string
@@ -15,7 +16,7 @@ interface NavbarProps {
   links?: Link[]
 }
 
-const Navbar: FC<NavbarProps> = ({ links }) => {
+const Navbar: FC<NavbarProps> = ({ links = [] }) => {
   const isActive = useIsActiveMenu()
 
   return (
@@ -29,13 +30,19 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
           </Link>
 
           <nav className={s.navMenu}>
-            {links?.map((l) => (
-              <Link href={l.href} key={l.href}>
-                <a className={`${s.link} ${isActive(l.href) ? s.active : ''}`}>
-                  {l.label}
-                </a>
-              </Link>
-            ))}
+            {!links.length
+              ? Skeletons
+              : links.map((l) => (
+                  <Link href={l.href} key={l.href}>
+                    <a
+                      className={`${s.link} ${
+                        isActive(l.href) ? s.active : ''
+                      }`}
+                    >
+                      {l.label}
+                    </a>
+                  </Link>
+                ))}
           </nav>
           <UserNav />
         </div>
@@ -49,5 +56,17 @@ const Navbar: FC<NavbarProps> = ({ links }) => {
     </NavbarRoot>
   )
 }
+
+const Skeletons = Array(5)
+  .fill(null)
+  .map((_, i) => (
+    <Skeleton
+      key={i}
+      className={s.link}
+      width={77}
+      height={32}
+      animation="pulse"
+    />
+  ))
 
 export default Navbar
