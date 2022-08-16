@@ -72,7 +72,7 @@ export default function Home({
         primaryTitle="vysnivaj.si"
         secondaryTitle="Traktar 4000"
         subtitle="Vyhrajte jedinečný Traktar 4000"
-        img="/assets/truck_2560x1440.jpg"
+        img="/assets/car_2560x1440.jpg"
         button={{ text: productButtonText, link: '/products/traktar-4000' }}
       />
       <Hero
