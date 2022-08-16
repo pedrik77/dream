@@ -3,7 +3,7 @@
 }
 
 .bgOverlay {
-  @apply w-full h-44 sm:h-60 md:h-96 lg:h-[80vh] xl:h-[90vh] flex relative mb-6 lg:mb-8;
+  @apply w-full h-60 md:h-96 lg:h-[90vh] xl:h-[95vh] flex relative mb-4 md:mb-6 lg:mb-8;
 }
 
 .bgOverlay::after {
@@ -16,14 +16,14 @@
 }
 
 .bannerContainer {
-  @apply container flex flex-col justify-center absolute top-4 sm:top-8 md:top-16 lg:top-20 left-4 sm:left-8 md:left-20 lg:left-24;
+  @apply container flex flex-col justify-center absolute top-6 sm:top-8 md:top-16 lg:top-20 left-4 sm:left-8 md:left-20 lg:left-24;
   z-index: 2;
   width: calc(100% - 2rem);
 }
 
 .h2 {
-  @apply text-white font-black leading-8 uppercase;
-  font-size: 1.85rem;
+  @apply text-white font-black leading-10 uppercase;
+  font-size: 2.25rem;
 }
 
 .h2 span {
@@ -32,7 +32,7 @@
 
 .p {
   @apply text-white my-1 sm:my-2 md:my-4 lg:my-6;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .button {

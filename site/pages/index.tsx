@@ -52,7 +52,7 @@ export default function Home({
         primaryTitle="vysnivaj.si"
         secondaryTitle="Tadžikistan"
         subtitle="Vysnívaj si magický pobyt v tadžických horách."
-        img="/assets/mountains_1440x910.jpg"
+        img="/assets/mountains_2560x1440.jpg"
         button={{
           text: productButtonText,
           link: '/products/magicky-pobyt-v-tadzickych-horach',
@@ -62,7 +62,7 @@ export default function Home({
         primaryTitle="vysnivaj.si"
         secondaryTitle="Nora Nora"
         subtitle="Vysnívaj si luxusnú dovolenku na ostrove Nora Nora."
-        img="/assets/beach_1440x910.jpg"
+        img="/assets/beach_2560x1440.jpg"
         button={{
           text: productButtonText,
           link: '/products/dovolenka-na-ostrove-nora-nora',
@@ -72,7 +72,7 @@ export default function Home({
         primaryTitle="vysnivaj.si"
         secondaryTitle="Traktar 4000"
         subtitle="Vyhrajte jedinečný Traktar 4000"
-        img="/assets/truck_1440x910.jpg"
+        img="/assets/truck_2560x1440.jpg"
         button={{ text: productButtonText, link: '/products/traktar-4000' }}
       />
       <Hero

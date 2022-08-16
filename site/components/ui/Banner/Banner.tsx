@@ -19,10 +19,11 @@ const Banner: React.FC<{
         <Image
           src={img}
           alt="alt"
-          width="1440"
-          height="910"
-          layout="responsive"
+          width="2560"
+          height="1440"
+          layout="fill"
           quality="100"
+          objectFit="cover"
         />
       </div>
       <div className={s.bannerContainer}>
