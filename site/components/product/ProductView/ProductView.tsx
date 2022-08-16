@@ -32,7 +32,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const { t } = useTranslation()
 
   const relatedProducts = useProducts({
-    category: product.category,
+    categorySlug: product.category,
   })
     .filter(({ slug }) => slug !== product.slug)
     .slice(0, 3)
