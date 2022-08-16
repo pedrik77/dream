@@ -18,7 +18,7 @@ export default function Products({ category = '' }: ProductsPageProps) {
 
   return (
     <Container clean>
-      <PageBanner img="/assets/page_banner.jpg" />
+      <PageBanner img="/assets/category_fallback_banner.jpg" />
       <Container className="flex gap-8 items-center justify-center my-10">
         <Tab active={!showClosed} onClick={() => setShowClosed(false)}>
           Aktuálne
