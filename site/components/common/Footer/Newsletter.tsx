@@ -51,7 +51,8 @@ export default function Newsletter() {
             checked={gdprChecked}
             onChange={(e) => setGdprChecked(!!e.target.checked)}
             color="default"
-            className="mr-2 lg:mr-0 text-white py-0 pl-0"
+            className="mr-2 lg:mr-0 text-white py-0 pl-0 items-start"
+            size="small"
           />
 
           <label htmlFor="gdpr-checkbox" className={s.text}>
