@@ -95,7 +95,7 @@ const SidebarUI = ({ links }) => {
 }
 
 const Layout = ({ children, pageProps: { ...pageProps } }) => {
-  const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
+  const { acceptedCookies, acceptCookies, rejectCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
 
   const navBarlinks = useMenu().main
@@ -121,15 +121,24 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
               </CheckoutProvider>
               <FeatureBar
                 title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
-                hide={acceptedCookies}
+                hide={acceptedCookies !== undefined}
                 action={
-                  <Button
-                    variant="light"
-                    className="mx-5"
-                    onClick={() => onAcceptCookies()}
-                  >
-                    Accept cookies
-                  </Button>
+                  <>
+                    <Button
+                      variant="light"
+                      className="mx-5"
+                      onClick={rejectCookies}
+                    >
+                      Reject cookies
+                    </Button>
+                    <Button
+                      variant="light"
+                      className="mx-5"
+                      onClick={acceptCookies}
+                    >
+                      Accept cookies
+                    </Button>
+                  </>
                 }
               />
             </div>
