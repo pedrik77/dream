@@ -2,7 +2,6 @@ import { FC, useEffect, useState, useCallback, FormEventHandler } from 'react'
 import { Logo, Button, Input } from '@components/ui'
 import { useUI } from '@components/ui/context'
 import { validate } from 'email-validator'
-import { MIN_PASSWORD_LENGTH } from './SignUpView'
 import { signIn, signInVia } from '@lib/auth'
 import { useRouter } from 'next/router'
 import { flash } from '@components/ui/FlashMessage'
@@ -10,6 +9,8 @@ import { StringMap } from '@lib/common-types'
 import useLoading from '@lib/hooks/useLoading'
 import { useTranslation } from 'react-i18next'
 import { linkWithPopup, UserCredential } from 'firebase/auth'
+import { z, ZodError } from 'zod'
+import { LoginSchema } from '@lib/zod-schemas'
 
 const FlashMessages: StringMap = {
   success: 'Vitajte naspäť, sme radi, že vás tu máme!',
@@ -29,40 +30,46 @@ const LoginView = () => {
 
   const login = (callback: () => Promise<UserCredential>) => {
     loading.start()
-    callback()
-      .then(() => {
+    try {
+      callback().then(() => {
         flash(FlashMessages.success, 'success')
         closeModal()
       })
-      .catch((e) => {
-        if (e.code === 'auth/user-not-found') {
-          flash(({ deleteFlash }) => {
-            return (
-              <span>
-                {t('signIn.unknown')}{' '}
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    deleteFlash()
-                    setModalView('SIGNUP_VIEW')
-                  }}
-                  className="text-bold"
-                >
-                  {t('signIn.signIn')}
-                </a>
-              </span>
-            )
-          }, 'danger')
-        } else {
-          flash(FlashMessages[e.code] ?? e.message, 'danger')
-        }
-      })
-      .finally(loading.stop)
+    } catch (e: any) {
+      if (e instanceof ZodError) {
+        e.issues.map((i) => flash(i.message, 'danger'))
+      } else if (e.code === 'auth/user-not-found') {
+        flash(({ deleteFlash }) => {
+          return (
+            <span>
+              {t('signIn.unknown')}{' '}
+              <a
+                href="#"
+                onClick={(e) => {
+                  deleteFlash()
+                  setModalView('SIGNUP_VIEW')
+                }}
+                className="text-bold"
+              >
+                {t('signIn.signIn')}
+              </a>
+            </span>
+          )
+        }, 'danger')
+      } else {
+        flash(FlashMessages[e.code] ?? e.message, 'danger')
+      }
+    } finally {
+      loading.stop()
+    }
   }
 
   const handleLogin: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    login(() => signIn(email, password))
+    login(() => {
+      LoginSchema.parse({ email, password })
+      return signIn(email, password)
+    })
   }
 
   const handleFbLogin = () => login(() => signInVia('fb'))
