@@ -79,7 +79,7 @@ export function useProducts({
   orderDirection = 'desc',
   onError = console.error,
 }: UseProductsOptions = {}) {
-  const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<Product[]>()
 
   const queries: QueryConstraint[] = useMemo(() => {
     const queries: QueryConstraint[] = []
@@ -103,24 +103,21 @@ export function useProducts({
     return queries
   }, [categorySlug, showClosed, orderBy, orderDirection])
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(collection(db, 'products'), ...queries),
-        async (querySnapshot) => {
-          setProducts(
-            await Promise.all(
-              // @ts-ignore
-              querySnapshot.docs.map(transform)
-            )
-          )
-        },
-        onError
-      ),
-    [queries, onError]
-  )
+  useEffect(() => {
+    setProducts()
+    return onSnapshot(
+      query(collection(db, 'products'), ...queries),
+      async (querySnapshot) => {
+        setProducts(querySnapshot.docs.map(transform))
+      },
+      onError
+    )
+  }, [queries, onError])
 
-  return products
+  return {
+    products: products || [],
+    loading: !products,
+  }
 }
 
 export async function uploadGallery(files: FileList): Promise<ProductImage[]> {

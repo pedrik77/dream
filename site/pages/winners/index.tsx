@@ -32,7 +32,7 @@ interface WinnersPageProps {
 }
 
 export default function Winners({ date = '' }: WinnersPageProps) {
-  const allProducts = useProducts({
+  const { products: allProducts } = useProducts({
     showClosed: true,
     orderBy: 'closing_date',
   })
