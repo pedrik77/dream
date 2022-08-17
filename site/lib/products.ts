@@ -104,7 +104,7 @@ export function useProducts({
   }, [categorySlug, showClosed, orderBy, orderDirection])
 
   useEffect(() => {
-    setProducts()
+    setProducts(undefined)
     return onSnapshot(
       query(collection(db, 'products'), ...queries),
       async (querySnapshot) => {
