@@ -22,6 +22,7 @@ import { useMemo } from 'react'
 import { AuthProvider } from '@lib/auth'
 import { ShopProvider } from '@lib/shop'
 import { useMenu } from '@lib/menu'
+import { MuiThemeProvider } from '@lib/mui-theme'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -94,7 +95,7 @@ const SidebarUI = ({ links }) => {
 }
 
 const Layout = ({ children, pageProps: { ...pageProps } }) => {
-  const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
+  const { acceptedCookies, acceptCookies, rejectCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
 
   const navBarlinks = useMenu().main
@@ -103,34 +104,45 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
     <CommerceProvider locale={locale}>
       <AuthProvider>
         <ShopProvider>
-          <div className={cn(s.root)}>
-            <Navbar links={navBarlinks} />
-            <main className="fit">{children}</main>
-            <Footer pages={pageProps.pages} />
-            <ModalUI />
-            <Flasher
-              position="custom"
-              customStyles={{ top: 74, width: '100vw' }}
-            >
-              <FlashMessage />
-            </Flasher>
-            <CheckoutProvider>
-              <SidebarUI links={navBarlinks} />
-            </CheckoutProvider>
-            <FeatureBar
-              title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
-              hide={acceptedCookies}
-              action={
-                <Button
-                  variant="light"
-                  className="mx-5"
-                  onClick={() => onAcceptCookies()}
-                >
-                  Accept cookies
-                </Button>
-              }
-            />
-          </div>
+          <MuiThemeProvider>
+            <div className={cn(s.root)}>
+              <Navbar links={navBarlinks} />
+              <main className="fit">{children}</main>
+              <Footer pages={pageProps.pages} />
+              <ModalUI />
+              <Flasher
+                position="custom"
+                customStyles={{ top: 74, width: '100vw' }}
+              >
+                <FlashMessage />
+              </Flasher>
+              <CheckoutProvider>
+                <SidebarUI links={navBarlinks} />
+              </CheckoutProvider>
+              <FeatureBar
+                title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
+                hide={acceptedCookies !== undefined}
+                action={
+                  <>
+                    <Button
+                      variant="light"
+                      className="mx-5"
+                      onClick={rejectCookies}
+                    >
+                      Reject cookies
+                    </Button>
+                    <Button
+                      variant="light"
+                      className="mx-5"
+                      onClick={acceptCookies}
+                    >
+                      Accept cookies
+                    </Button>
+                  </>
+                }
+              />
+            </div>
+          </MuiThemeProvider>
         </ShopProvider>
       </AuthProvider>
     </CommerceProvider>

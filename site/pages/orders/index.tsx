@@ -13,7 +13,9 @@ import { useAuthContext } from '@lib/auth'
 
 export default function Orders() {
   const { user } = useAuthContext()
-  const orders = useOrders({ user: user?.email || '' })
+  const orders = useOrders({
+    user: user?.email || '',
+  })
   const router = useRouter()
 
   const { t } = useTranslation()
@@ -44,46 +46,50 @@ export default function Orders() {
         <Col
           field="created_date"
           headerName={t('date')}
-          valueFormatter={(r) => basicShowFormat(r.value)}
           width={150}
           sortable
           filterable
-        />
+        >
+          {(r) => basicShowFormat(r.value)}
+        </Col>
         <Col
           field="products"
           headerName={t('orders.product')}
-          cellClassName="flex-col justify-content-center"
+          cellClassName="flex-col"
           align="center"
-          renderCell={(r) =>
+          width={400}
+        >
+          {(r) =>
             r.value.map((product_title: string) => (
               <div key={product_title} className="self-start">
                 {product_title}
               </div>
             ))
           }
-          width={400}
-        />
+        </Col>
         <Col
           field="ticketCount"
           headerName={t('orders.ticketCount')}
           cellClassName="flex-col"
           align="center"
-          renderCell={(r) =>
+          width={130}
+        >
+          {(r) =>
             r.value.map((count: string, i: number) => (
               <div key={i} className="self-start">
                 {count}
               </div>
             ))
           }
-          width={130}
-        />
+        </Col>
         <Col
           field="total_price"
           headerName={t('orders.totalPrice')}
-          valueFormatter={(r) => `${r.value} €`}
           width={150}
           sortable
-        />
+        >
+          {(r) => `${r.value} €`}
+        </Col>
       </DataGrid>
     </AccountLayout>
   )

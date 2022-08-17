@@ -9,7 +9,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { ChangeEventHandler, EventHandler, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { v4 as uuid4 } from 'uuid'
 import s from './AccountLayout.module.css'
 
 const LINKS = {
@@ -71,7 +70,7 @@ const AccountLayout: React.FC<{
     <Permit redirect="/">
       <Container className="pt-4 mt-0 md:mt-8">
         <div className="flex flex-col lg:flex-row gap-3 lg:gap-6">
-          <div className="lg:w-1/3 flex flex-col gap-4 pr-4 pb-8 mx-2 lg:mx-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
+          <div className="lg:w-1/3 flex flex-col gap-4 sm:pr-4 pb-8 mx-2 lg:mx-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
             <div
               className="flex justify-center align-center h-32 w-32 cursor-pointer"
               onClick={handleFileSelect}
@@ -86,7 +85,7 @@ const AccountLayout: React.FC<{
             </div>
             <span className="text-sm">({t('account.changeAvatar')})</span>
             <Text variant="pageHeading">{customer.fullname}</Text>
-            <div className="flex flex-row lg:flex-col gap-4 justify-center items-center text-lg md:text-xl">
+            <div className="flex flex-row lg:flex-col gap-4 justify-center items-center text-[1rem] sm:text-lg md:text-xl">
               {tuples.map(([href, label]) => (
                 <Link key={href} href={'/' + href}>
                   <a

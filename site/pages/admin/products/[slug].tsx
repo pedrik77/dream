@@ -16,7 +16,6 @@ import {
 import { Timestamp } from 'firebase/firestore'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, {
   ChangeEventHandler,
@@ -212,6 +211,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                     createCategory({
                       title,
                       slug: _.kebabCase(title),
+                      banner: '',
                     })
                       .then(() => setCategory(_.kebabCase(title)))
                       .catch(handleErrorFlash)
@@ -296,7 +296,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const isEditing = params && params?.slug != 'add'
 
   const product = isEditing
-    ? await getProduct((params?.slug as string) || '')
+    ? await getProduct((params?.slug as string) || '').catch(console.error)
     : null
 
   if (isEditing && !product) return { notFound: true }

@@ -3,14 +3,13 @@ import { Info } from '@components/icons'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { signInVia, signUp } from '@lib/auth'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { flash } from '@components/ui/FlashMessage'
 import { StringMap } from '@lib/common-types'
 import useLoading from '@lib/hooks/useLoading'
 import { useTranslation } from 'react-i18next'
-
-export const MIN_PASSWORD_LENGTH = 8
+import { z, ZodError } from 'zod'
+import { LoginSchema } from '@lib/zod-schemas'
 
 const FlashMessages: StringMap = {
   confirm:
@@ -29,18 +28,27 @@ const SignUpView = () => {
   const [password, setPassword] = useState('')
   const [newsletter, setNewsletter] = useState(false)
 
-  const handleSignUp: FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSignUp: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
 
     loading.start()
 
-    signUp(email, password, newsletter)
-      .then(() => {
+    try {
+      LoginSchema.parse({ email, password })
+
+      signUp(email, password, newsletter).then(() => {
         flash(FlashMessages.confirm, 'info')
         closeModal()
       })
-      .catch((e) => flash(FlashMessages[e.code] ?? e.message, 'danger'))
-      .finally(loading.stop)
+    } catch (e: any) {
+      if (e instanceof ZodError) {
+        e.issues.map((i) => flash(i.message, 'danger'))
+      } else {
+        flash(FlashMessages[e.code] ?? e.message, 'danger')
+      }
+    } finally {
+      loading.stop()
+    }
   }
 
   const handleFbSignUp = () => signInVia('fb')

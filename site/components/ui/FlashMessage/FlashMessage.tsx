@@ -5,6 +5,8 @@ import s from './FlashMessage.module.css'
 import cn from 'clsx'
 import { Cross } from '@components/icons'
 
+const DEFAULT_FLASH_SECONDS = 4
+
 export type FlashType = 'success' | 'danger' | 'warning' | 'info'
 
 type MessageType = string | JSX.Element
@@ -49,7 +51,7 @@ export const FlashMessage: React.FC<Props> = ({
 export const flash = (
   message: MessageCallbackType | MessageType,
   type: FlashType = 'info',
-  seconds = 4
+  seconds = DEFAULT_FLASH_SECONDS
 ) => reactFlash(message, seconds * 1000, type)
 
 export const handleErrorFlash = (e: any) => flash(e.message, 'danger')

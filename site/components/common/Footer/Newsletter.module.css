@@ -18,9 +18,5 @@
 }
 
 .text {
-  @apply text-xs cursor-pointer;
-}
-
-.checkbox {
-  @apply mr-2 lg:mr-0 text-white py-0 pl-0;
+  @apply text-sm cursor-pointer;
 }

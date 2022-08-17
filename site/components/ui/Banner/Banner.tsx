@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Button from '../Button'
 import s from './Banner.module.css'
@@ -18,10 +19,11 @@ const Banner: React.FC<{
         <Image
           src={img}
           alt="alt"
-          width="1440"
-          height="910"
-          layout="responsive"
+          width="2560"
+          height="1440"
+          layout="fill"
           quality="100"
+          objectFit="cover"
         />
       </div>
       <div className={s.bannerContainer}>
@@ -33,15 +35,18 @@ const Banner: React.FC<{
         <p className={s.p}>{subtitle}</p>
         {!!button && (
           <div className="flex">
-            <Button
-              aria-label={button.text}
-              variant="banner"
-              type="button"
-              className={s.button}
-              onClick={() => router.push(button.link)}
-            >
-              {button.text}
-            </Button>
+            <Link href={button.link} passHref>
+              <Button
+                aria-label={button.text}
+                variant="banner"
+                type="button"
+                className={s.button}
+                Component="a"
+                // onClick={() => router.push(button.link)}
+              >
+                {button.text}
+              </Button>
+            </Link>
           </div>
         )}
       </div>

@@ -1,9 +1,4 @@
-import type {
-  GetServerSideProps,
-  GetStaticPathsContext,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next'
+import type { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
@@ -28,7 +23,9 @@ ProductDetail.Layout = Layout
 export const getServerSideProps: GetServerSideProps<
   ProductDetailProps
 > = async ({ params }) => {
-  const product = await getProduct((params?.slug as string) || '')
+  const product = await getProduct((params?.slug as string) || '').catch(
+    console.error
+  )
 
   if (!product) return { notFound: true }
 

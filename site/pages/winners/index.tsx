@@ -32,7 +32,7 @@ interface WinnersPageProps {
 }
 
 export default function Winners({ date = '' }: WinnersPageProps) {
-  const allProducts = useProducts({
+  const { products: allProducts } = useProducts({
     showClosed: true,
     orderBy: 'closing_date',
   })
@@ -94,7 +94,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
 
   return (
     <Container clean>
-      <PageBanner img="/assets/page_banner.jpg" />
+      <PageBanner img="/assets/winners_banner.jpg" />
       <Container className="py-8 mt-0 md:mt-8 items-center justify-center">
         <div className="flex flex-col gap-3 lg:gap-6 max-w-lg md:max-w-2xl mx-auto lg:max-w-6xl items-center justify-center">
           <div className="flex flex-col gap-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
@@ -120,11 +120,9 @@ export default function Winners({ date = '' }: WinnersPageProps) {
           </div>
 
           <div className="">
-            {date && (
-              <Text variant="pageHeading">
-                {currentMonthName} {currentYear}
-              </Text>
-            )}
+            <Text variant="pageHeading">
+              {date ? `${currentMonthName} ${currentYear}` : 'Všetko'}
+            </Text>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-8 py-2 gap-4 md:gap-8">
               {products.map((product) => (
                 <ProductCard

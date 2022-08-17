@@ -1,6 +1,7 @@
 import { AccountField } from '@components/account/Fields'
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import { noop } from '@lib/common'
 import { useShopContext } from '@lib/shop'
 import { FormControl, InputLabel, Radio, RadioGroup } from '@mui/material'
 import Image from 'next/image'
@@ -8,7 +9,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { handleInputChange } from 'react-select/dist/declarations/src/utils'
 
-export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
+export default function Payment({ onNext = noop, onPrev = noop }) {
   const { total, placeOrder, clearCart } = useShopContext()
 
   const handleNext = async () => {
@@ -38,7 +39,7 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
         </div>
       </div>
 
-      <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0">
+      <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0  mx-auto">
         <div className="flex flex-row flex-wrap justify-center gap-2sm:gap-8 py-8">
           <div className="flex gap-4">
             <Radio id="paymentMastercard" checked />
@@ -86,7 +87,7 @@ export default function Payment({ onNext = () => {}, onPrev = () => {} }) {
           </div>
         </div>
 
-        <div className="flex flex-col align-baseline gap-4 mt-8 mb-16 sm:px-2">
+        <div className="flex flex-col align-baseline gap-4 mt-8 mb-16 px-4">
           <div>
             <label htmlFor="cardNumber" className="cursor-pointer">
               Číslo karty{' '}
