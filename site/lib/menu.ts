@@ -108,9 +108,9 @@ function transform(doc: any): Link {
 }
 
 function hrefTo(href: string) {
-  return href.replace('/', '%2F')
+  return href.replaceAll('/', '%2F')
 }
 
 function hrefFrom(href: string) {
-  return href.replace('%2F', '/')
+  return href.replaceAll('%2F', '/')
 }

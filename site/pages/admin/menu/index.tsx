@@ -175,10 +175,12 @@ export default function Menu() {
                   }
                   setHref(generateHref(type, value))
                 }}
-                value={flattenOptions(customLinkOptions).find(
-                  // @ts-ignore
-                  (o) => href === generateHref(o.type, o.value)
-                )}
+                value={
+                  flattenOptions(customLinkOptions).find(
+                    // @ts-ignore
+                    (o) => href === generateHref(o.type, o.value)
+                  ) || customLinkOptions[0]
+                }
                 defaultValue={customLinkOptions[0]}
               />
             )}

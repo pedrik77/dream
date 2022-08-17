@@ -11,13 +11,17 @@ import {
   setCategory,
   useCategories,
 } from '@lib/categories'
+import { uploadFile } from '@lib/files'
 import { usePermission } from '@lib/hooks/usePermission'
-import { GridEventListener } from '@mui/x-data-grid'
+import { GridEventListener, GridValidRowModel } from '@mui/x-data-grid'
 import _ from 'lodash'
-import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 
 export default function Categories() {
   const categories = useCategories()
+  const router = useRouter()
 
   const [slug, setSlug] = useState('')
   const [title, setTitle] = useState('')
@@ -73,6 +77,34 @@ export default function Categories() {
       .catch(handleErrorFlash)
   }
 
+  const handleNewBanner = async (
+    category: Category,
+    files: FileList | null
+  ) => {
+    const file = files?.item(0)
+
+    if (!file) return
+
+    const proceed = await confirm('Nahrať nový banner?')
+
+    if (!proceed) return
+
+    flash('Nahrávam avatar...', 'success')
+
+    const path = `banner/${category.slug}`
+
+    try {
+      const src = await uploadFile(path, file)
+
+      await setCategory({ ...category, banner: src })
+
+      flash('Banner bude čoskoro nahradeny', 'success')
+    } catch (e) {
+      console.error(e)
+      flash('Nastala chyba, skúste to prosīm znova', 'danger')
+    }
+  }
+
   useEffect(() => setSlug(_.kebabCase(title)), [title])
 
   return (
@@ -126,6 +158,27 @@ export default function Categories() {
         >
           <Col field="slug" headerName="Slug" />
           <Col field="title" headerName="Názov" editable />
+          <Col field="banner" headerName="Banner" width={300}>
+            {(r) => (
+              <div className="flex flex-col">
+                <label>
+                  Nahrať nový banner
+                  <input
+                    style={{ display: 'none' }}
+                    type="file"
+                    onChange={(e) =>
+                      handleNewBanner(r.row as Category, e.target.files)
+                    }
+                  />
+                </label>
+                {!!r.row.banner && (
+                  <a target="_blank" href={r.row.banner} rel="noreferrer">
+                    Zobraziť banner
+                  </a>
+                )}
+              </div>
+            )}
+          </Col>
         </DataGrid>
       </Container>
     </Permit>

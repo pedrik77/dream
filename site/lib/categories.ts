@@ -3,6 +3,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
@@ -23,6 +24,12 @@ interface UseCategoriesOptions extends QueryBase<Category> {}
 interface UseCategoryOptions {
   slug: string
   onError?: AnyClosure
+}
+
+export async function getAllSlugs(): Promise<string[]> {
+  const snapshot = await getDocs(collection(db, 'categories'))
+
+  return snapshot.docs.map((doc) => doc.id)
 }
 
 export async function getCategory(slug: string): Promise<Category> {
@@ -72,11 +79,13 @@ export function useCategories({
         collection(db, 'categories'),
         (querySnapshot) => {
           setCategories(
-            // @ts-ignore
-            querySnapshot.docs.map((doc) => ({
-              slug: doc.id,
-              ...doc.data(),
-            }))
+            querySnapshot.docs.map(
+              (doc) =>
+                ({
+                  slug: doc.id,
+                  ...doc.data(),
+                } as Category)
+            )
           )
         },
         onError
@@ -88,7 +97,7 @@ export function useCategories({
 }
 
 export const categoryHref = (categorySlug: string) =>
-  `/products?category=${categorySlug}`
+  `/products/category/${categorySlug}`
 
 export const categoryToSelect = (c?: Category) => ({
   value: c?.slug || '',
