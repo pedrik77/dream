@@ -3,21 +3,34 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
+import { noop } from './common'
 import { db } from './firebase'
-import { QueryBase } from './types'
+import { AnyClosure, QueryBase } from './types'
 
 export interface Category {
   slug: string
   title: string
+  banner: string | null
 }
 
-interface UseCategoryOptions extends QueryBase<Category> {}
+interface UseCategoriesOptions extends QueryBase<Category> {}
+interface UseCategoryOptions {
+  slug: string
+  onError?: AnyClosure
+}
+
+export async function getAllSlugs(): Promise<string[]> {
+  const snapshot = await getDocs(collection(db, 'categories'))
+
+  return snapshot.docs.map((doc) => doc.id)
+}
 
 export async function getCategory(slug: string): Promise<Category> {
   const categoryData = await getDoc(doc(db, 'categories', slug))
@@ -25,9 +38,10 @@ export async function getCategory(slug: string): Promise<Category> {
   return { slug: categoryData.id, ...categoryData.data() } as Category
 }
 
-export async function setCategory({ slug, title }: Category) {
+export async function setCategory({ slug, title, banner = null }: Category) {
   return await setDoc(doc(db, 'categories', slug), {
     title,
+    banner,
   })
 }
 
@@ -39,9 +53,24 @@ export async function deleteCategory(slug: string | string[]) {
   )
 }
 
+export function useCategory({ slug, onError = noop }: UseCategoryOptions) {
+  const [category, setCategory] = useState<Category>()
+
+  useEffect(() => {
+    getCategory(slug)
+      .then(setCategory)
+      .catch((e) => {
+        setCategory(undefined)
+        onError(e)
+      })
+  }, [slug, onError])
+
+  return category
+}
+
 export function useCategories({
   onError = console.error,
-}: UseCategoryOptions = {}) {
+}: UseCategoriesOptions = {}) {
   const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(
@@ -50,11 +79,13 @@ export function useCategories({
         collection(db, 'categories'),
         (querySnapshot) => {
           setCategories(
-            // @ts-ignore
-            querySnapshot.docs.map((doc) => ({
-              slug: doc.id,
-              ...doc.data(),
-            }))
+            querySnapshot.docs.map(
+              (doc) =>
+                ({
+                  slug: doc.id,
+                  ...doc.data(),
+                } as Category)
+            )
           )
         },
         onError
@@ -66,7 +97,7 @@ export function useCategories({
 }
 
 export const categoryHref = (categorySlug: string) =>
-  `/products?category=${categorySlug}`
+  `/products/category/${categorySlug}`
 
 export const categoryToSelect = (c?: Category) => ({
   value: c?.slug || '',

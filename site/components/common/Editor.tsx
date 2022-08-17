@@ -1,6 +1,7 @@
+import { noop } from '@lib/common'
 import { Editor as TinyMCE } from '@tinymce/tinymce-react'
 
-export default function Editor({ value = '', onChange = () => {} }) {
+export default function Editor({ value = '', onChange = noop }) {
   return (
     // @ts-ignore
     <TinyMCE

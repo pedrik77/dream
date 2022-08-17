@@ -9,7 +9,7 @@ import {
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { today } from './date'
 import { setOrder } from './orders'
-import { v4 as uuid4 } from 'uuid'
+import * as uuid from 'uuid'
 import { useAuthContext } from './auth'
 import { db } from './firebase'
 
@@ -66,7 +66,7 @@ export const ShopProvider: React.FC = ({ children }) => {
     [cart]
   )
 
-  const cartId = useMemo(() => getCartId(), [])
+  const cartId = useMemo(getCartId, [])
 
   useEffect(
     () =>
@@ -124,7 +124,7 @@ export const ShopProvider: React.FC = ({ children }) => {
 
   const placeOrder = () =>
     setOrder({
-      uuid: uuid4(),
+      uuid: uuid.v4(),
       user: user?.email || '',
       items: cart,
       total_price: total,
@@ -162,7 +162,7 @@ const getCartId = (email: string = '') => {
 
   if (storedId) return storedId
 
-  const cartId = email || uuid4()
+  const cartId = email || uuid.v4()
 
   localStorage.setItem(CART_STORAGE_KEY, cartId)
 

@@ -31,9 +31,11 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const { addToCart, isInCart } = useShopContext()
   const { t } = useTranslation()
 
-  const relatedProducts = useProducts({
-    category: product.category,
+  const { products } = useProducts({
+    categorySlug: product.category,
   })
+
+  const relatedProducts = products
     .filter(({ slug }) => slug !== product.slug)
     .slice(0, 3)
 

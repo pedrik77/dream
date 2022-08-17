@@ -15,7 +15,7 @@ import {
 import { useEffect, useMemo, useState } from 'react'
 import { db } from './firebase'
 import { uploadFile } from './files'
-import { v4 as uuid4 } from 'uuid'
+import * as uuid from 'uuid'
 import { CustomerDataType } from './auth'
 import { Order } from './orders'
 import { QueryBase } from './types'
@@ -49,8 +49,8 @@ export interface Product {
   winner?: Winner
 }
 
-interface UseProductOptions extends QueryBase<Product> {
-  category?: string
+interface UseProductsOptions extends QueryBase<Product> {
+  categorySlug?: string
   showClosed?: boolean | null
 }
 
@@ -73,19 +73,19 @@ export async function deleteProduct(slug: string | string[]) {
 }
 
 export function useProducts({
-  category = '',
+  categorySlug = '',
   showClosed = false,
   orderBy = 'closing_date',
   orderDirection = 'desc',
   onError = console.error,
-}: UseProductOptions = {}) {
-  const [products, setProducts] = useState<Product[]>([])
+}: UseProductsOptions = {}) {
+  const [products, setProducts] = useState<Product[]>()
 
   const queries: QueryConstraint[] = useMemo(() => {
     const queries: QueryConstraint[] = []
 
-    if (category) {
-      queries.push(where('category', '==', category))
+    if (categorySlug) {
+      queries.push(where('category', '==', categorySlug))
     }
 
     if (showClosed === false) {
@@ -101,32 +101,29 @@ export function useProducts({
     }
 
     return queries
-  }, [category, showClosed, orderBy, orderDirection])
+  }, [categorySlug, showClosed, orderBy, orderDirection])
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(collection(db, 'products'), ...queries),
-        async (querySnapshot) => {
-          setProducts(
-            await Promise.all(
-              // @ts-ignore
-              querySnapshot.docs.map(transform)
-            )
-          )
-        },
-        onError
-      ),
-    [queries, onError]
-  )
+  useEffect(() => {
+    setProducts(undefined)
+    return onSnapshot(
+      query(collection(db, 'products'), ...queries),
+      async (querySnapshot) => {
+        setProducts(querySnapshot.docs.map(transform))
+      },
+      onError
+    )
+  }, [queries, onError])
 
-  return products
+  return {
+    products: products || [],
+    loading: !products,
+  }
 }
 
 export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
   const uploaded = await Promise.all(
     Array.from(files).map(async (file) => {
-      const filename = `${uuid4()}_${file.name}`
+      const filename = `${uuid.v4()}_${file.name}`
       const path = `products/${filename}`
       const src = await uploadFile(path, file)
 

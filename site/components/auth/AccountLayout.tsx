@@ -9,7 +9,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { ChangeEventHandler, EventHandler, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { v4 as uuid4 } from 'uuid'
 import s from './AccountLayout.module.css'
 
 const LINKS = {

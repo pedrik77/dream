@@ -1,4 +1,5 @@
 import { Button, Container, Text, useUI } from '@components/ui'
+import { noop } from '@lib/common'
 import { useShopContext } from '@lib/shop'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
@@ -7,8 +8,8 @@ import CartItem from '../CartItem'
 import s from './Products.module.css'
 
 export default function Products({
-  onNext = () => {},
-  onPrev = () => {},
+  onNext = noop,
+  onPrev = noop,
   sidebar = false,
 }) {
   const { cart, total, isEmptyCart } = useShopContext()
