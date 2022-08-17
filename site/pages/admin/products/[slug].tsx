@@ -189,7 +189,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
           </fieldset>
           <fieldset className="flex">
             <label>
-              Title 2
+              A podporte
               <Input
                 type="text"
                 value={title_2}
