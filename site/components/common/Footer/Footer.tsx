@@ -32,11 +32,14 @@ const Footer: FC<Props> = ({ className, pages }) => {
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
           <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
-            <div className="grid md:grid-rows-1 grid-cols-2 md:grid-flow-col">
-              <div className="grid md:grid-rows-3 grid-cols-2 md:grid-flow-col">
+            <div className="grid grid-cols-1 md:grid-flow-col max-w-lg gap-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-4 gap-x-4">
+                <h3 className="uppercase font-bold md:col-span-2 ">Menu</h3>
+
                 {main.map(renderLink)}
               </div>
-              <div className="grid md:grid-rows-3 grid-cols-1 md:grid-flow-col">
+              <div className="grid grid-cols-1 md:grid-rows-4 gap-x-4">
+                <h3 className="uppercase font-bold">Užitočné linky</h3>
                 {legal.map(renderLink)}
               </div>
             </div>
