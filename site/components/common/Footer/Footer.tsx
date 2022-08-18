@@ -30,7 +30,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
   return (
     <footer className={rootClassName}>
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
           <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
             <div className="grid grid-cols-1 md:grid-flow-col max-w-lg gap-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-4 gap-x-4">
