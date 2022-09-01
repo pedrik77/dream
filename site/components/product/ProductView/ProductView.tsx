@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import { useShopContext } from '@lib/shop'
 import { confirm } from '@lib/alerts'
 import { useTranslation } from 'react-i18next'
+import CmsBlock from '@components/cms/CmsBlock'
 
 interface ProductViewProps {
   product: Product
@@ -105,10 +106,10 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
           <ProductSidebar product={product} onJoinNow={handleScroll} />
 
-          {/* TODO: ADD WYSIYG EDITOR */}
           <div className={s.descContainer}>
             <Text variant="pageHeading">Toto dostaneš</Text>
             <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
+            <CmsBlock id={`product-${product.slug}`} onlyEdit />
           </div>
         </div>
 
