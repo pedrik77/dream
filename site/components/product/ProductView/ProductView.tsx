@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 import { useShopContext } from '@lib/shop'
 import { confirm } from '@lib/alerts'
 import { useTranslation } from 'react-i18next'
-import CmsBlock from '@components/cms/CmsBlock'
+import { Components } from '@components/cms/Components'
 
 interface ProductViewProps {
   product: Product
@@ -109,7 +109,9 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <div className={s.descContainer}>
             <Text variant="pageHeading">Toto dostaneš</Text>
             <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
-            <CmsBlock id={`product-${product.slug}`} onlyEdit />
+            {product.cmsBlock && (
+              <Components>{product.cmsBlock.components}</Components>
+            )}
           </div>
         </div>
 
