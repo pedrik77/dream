@@ -7,7 +7,7 @@ import { AnyClosure } from './types'
 const type = 'text'
 const value: { [index: string]: any } | string = ''
 
-const DEFAULT_BLOCK = {
+export const DEFAULT_BLOCK = {
   components: [
     {
       type,

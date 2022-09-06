@@ -58,11 +58,11 @@ interface UseProductsOptions extends QueryBase<Product> {
 
 export async function getProduct(
   slug: string,
-  options = { withTransform: true }
+  options = { withCmsBlock: true }
 ) {
   const productData = await getDoc(doc(db, 'products', slug))
 
-  return await getTransform(options.withTransform)(productData)
+  return await getTransform(options.withCmsBlock)(productData)
 }
 
 export async function setProduct({ slug, ...product }: any) {
@@ -151,6 +151,10 @@ export async function getDonorsCount(slug: string) {
     .filter((v, i, a) => a.indexOf(v) === i).length
 }
 
+export function getProductCmsId(slug: string) {
+  return `product__${slug}`
+}
+
 const getTransform =
   (withCmsBlock = false) =>
   async (doc: any) => {
@@ -162,7 +166,7 @@ const getTransform =
     let cmsBlock = null
 
     if (withCmsBlock)
-      cmsBlock = await getCmsBlock(`product__${slug}`).catch(console.error)
+      cmsBlock = await getCmsBlock(getProductCmsId(slug)).catch(console.error)
 
     return {
       ...data,

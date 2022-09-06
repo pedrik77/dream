@@ -8,6 +8,7 @@ import useLoading from '@lib/hooks/useLoading'
 import {
   getDonorsCount,
   getProduct,
+  getProductCmsId,
   Product,
   ProductImage,
   setProduct,
@@ -29,6 +30,8 @@ import _ from 'lodash'
 import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
+import { Components, useSaveTrigger } from '@components/cms/Components'
+import { DEFAULT_BLOCK } from '@lib/components'
 
 interface ProductEditProps {
   product: Product | null
@@ -59,8 +62,11 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       ? inputDateFormat(product.winner_announce_date)
       : ''
   )
+
   const [short_desc, setShortDesc] = useState(product?.short_desc || '')
   const [long_desc, setLongDesc] = useState(product?.long_desc || '')
+  const [cmsBlock, setCmsBlock] = useState(product?.cmsBlock || DEFAULT_BLOCK)
+
   const [category, setCategory] = useState(product?.category || '')
   const [donation_entries, setDonationEntries] = useState(
     product?.donation_entries || ''
@@ -74,6 +80,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const loadingDonors = useLoading()
 
   const categories = useCategories()
+
+  const { triggerSave, addTriggers } = useSaveTrigger()
 
   const router = useRouter()
 
@@ -114,6 +122,10 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
+
+    triggerSave()
+
+    return
 
     if (!slug || !title_1 || !title_2 || !category)
       return flash('Vyplňte všetky polia', 'danger')
@@ -257,6 +269,13 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                 <Editor value={long_desc} onChange={setLongDesc} />
               )}
             </label>
+            <Components
+              blockId={getProductCmsId(slug)}
+              isEditing
+              addTriggers={addTriggers}
+            >
+              {cmsBlock.components}
+            </Components>
           </fieldset>
           <fieldset>
             <label>
