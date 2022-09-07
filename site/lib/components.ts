@@ -56,7 +56,7 @@ export function useCmsBlock({ id, onError = noop }: UseCmsBlockOptions) {
     [id, onError]
   )
 
-  return block || DEFAULT_BLOCK
+  return block || { components: [] }
 }
 
 function transform(doc: DocumentSnapshot): CmsBlockData {

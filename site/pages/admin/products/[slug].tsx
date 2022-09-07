@@ -258,12 +258,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
           <fieldset>
             <label>
               Long description <br />
-              {Editor && (
-                // @ts-ignore
-                <Editor value={long_desc} onChange={setLongDesc} />
-              )}
             </label>
-            <Components>{cmsBlock.components}</Components>
+            <Components forceEdit>{cmsBlock.components}</Components>
           </fieldset>
           <fieldset>
             <label>

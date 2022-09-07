@@ -4,10 +4,11 @@ import { PERMISSIONS, useAuthContext } from '@lib/auth'
 import { ComponentData, setCmsBlock, useCmsBlock } from '@lib/components'
 import { usePermission } from '@lib/hooks/usePermission'
 import _ from 'lodash'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { uploadFile } from '@lib/files'
 import { v4 as uuid4 } from 'uuid'
 import { HeroProps } from '@components/ui/Hero/Hero'
+import Editor from '@components/common/Editor'
 
 interface Changeable {
   onChange: (value: any) => void
@@ -21,19 +22,22 @@ interface ComponentsProps {
   blockId?: string
   children: ComponentData[]
   forceEdit?: boolean
+  forbidEdit?: boolean
 }
 
-type ChangableComponent = ComponentData & Changeable
+type ChangableComponent = ComponentData & Changeable & { forceEdit?: boolean }
 
 export function Components({
   blockId,
   children,
   forceEdit = false,
+  forbidEdit = false,
 }: ComponentsProps) {
   const { adminEditingMode, adminWasChange } = useAuthContext()
   const canEdit =
     usePermission({ permission: PERMISSIONS.CMS }) &&
-    (adminEditingMode || forceEdit)
+    (adminEditingMode || forceEdit) &&
+    !forbidEdit
 
   return (
     <>
@@ -41,14 +45,19 @@ export function Components({
         <React.Fragment key={i}>
           {canEdit && (
             <ComponentEditorItem
-              onChange={(componentValue) => {
+              forceEdit={forceEdit}
+              onChange={(value) => {
                 adminWasChange()
                 setCmsBlock({
                   id: blockId,
                   components: children.map((c, j) =>
-                    i === j ? { ...c, value: componentValue } : c
+                    i === j
+                      ? {
+                          ...c,
+                          value,
+                        }
+                      : c
                   ),
-                  order: c.order,
                 })
               }}
               {...c}
@@ -71,7 +80,8 @@ function Component({ type, value }: ComponentData) {
   // @ts-ignore
   if ('hero' === type) return <Hero {...value} />
 
-  if ('wysiwyg' === type) return <Text html={value} />
+  // @ts-ignore
+  if ('wysiwyg' === type) return <Text {...value} />
 
   if ('text' === type) return <>{value}</>
 
@@ -86,7 +96,12 @@ function ImageComponent({ src = '', alt = 'image' }) {
   return <img src={src} alt={alt} />
 }
 
-function ComponentEditorItem({ type, value, onChange }: ChangableComponent) {
+function ComponentEditorItem({
+  type,
+  value,
+  onChange,
+  forceEdit = false,
+}: ChangableComponent) {
   const [data, setData] = useState(value)
   const [isEditing, setIsEditing] = useState(false)
 
@@ -104,24 +119,41 @@ function ComponentEditorItem({ type, value, onChange }: ChangableComponent) {
     return null
   }, [type])
 
+  useEffect(() => {
+    if (forceEdit) setIsEditing(true)
+  }, [forceEdit])
+
   if (!Editor) return null
 
-  if (!isEditing)
-    return <Button onClick={() => setIsEditing(true)}>Edit</Button>
-
   return (
-    <>
-      <Button
-        onClick={() => {
-          onChange(data)
-          setIsEditing(false)
-        }}
-      >
-        Save
-      </Button>
+    <div className="flex flex-col">
+      <div className="flex">
+        <Button className="mr-4" type="button">
+          Insert component
+        </Button>
+        {forceEdit ? (
+          <></>
+        ) : isEditing ? (
+          <>
+            <Button
+              onClick={() => {
+                onChange(data)
+                setIsEditing(false)
+              }}
+              type="button"
+            >
+              Save
+            </Button>
+          </>
+        ) : (
+          <Button type="button" onClick={() => setIsEditing(true)}>
+            Edit
+          </Button>
+        )}
+      </div>
       {/* @ts-ignore */}
-      <Editor {...data} setData={setData} />
-    </>
+      {isEditing && <Editor {...data} setData={setData} />}
+    </div>
   )
 }
 
@@ -211,20 +243,14 @@ function ImageEditor({
   return (
     <div>
       <input type="file" onChange={handleUpload} />
-      <img src={image} alt={alt} />
+      <img src={image} alt={alt} className="max-w-sm" />
     </div>
   )
 }
 
-function WysiwygEditor({ value }: { value: string }) {
-  const [html, setHtml] = useState(value)
-
-  return (
-    <div>
-      <Input value={html} onChange={setHtml} />
-      <div dangerouslySetInnerHTML={{ __html: html }} />
-    </div>
-  )
+function WysiwygEditor({ html, setData }: { html: string } & Settable) {
+  // @ts-ignore
+  return <Editor value={html} onChange={(html) => setData({ html })} />
 }
 
 function TextEditor({ value }: { value: string }) {

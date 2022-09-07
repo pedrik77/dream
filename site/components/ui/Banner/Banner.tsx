@@ -19,8 +19,6 @@ const Banner: React.FC<BannerProps> = ({
   img,
   button,
 }) => {
-  const router = useRouter()
-
   return (
     <div className={s.bgOverlay}>
       <div className={s.imgContainer}>
