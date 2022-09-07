@@ -128,9 +128,6 @@ function ComponentEditorItem({
   return (
     <div className="flex flex-col">
       <div className="flex">
-        <Button className="mr-4" type="button">
-          Insert component
-        </Button>
         {forceEdit ? (
           <></>
         ) : isEditing ? (
@@ -146,10 +143,23 @@ function ComponentEditorItem({
             </Button>
           </>
         ) : (
-          <Button type="button" onClick={() => setIsEditing(true)}>
+          <Button
+            className="mr-4"
+            type="button"
+            onClick={() => setIsEditing(true)}
+          >
             Edit
           </Button>
         )}
+        <Button className="mr-4" type="button">
+          Move this component
+        </Button>
+        <Button className="mr-4" type="button">
+          Insert component before
+        </Button>
+        <Button className="mr-4" type="button">
+          Remove this component
+        </Button>
       </div>
       {/* @ts-ignore */}
       {isEditing && <Editor {...data} setData={setData} />}
@@ -259,7 +269,6 @@ function TextEditor({ value }: { value: string }) {
   return (
     <div>
       <Input value={text} onChange={setText} />
-      <div>{text}</div>
     </div>
   )
 }
