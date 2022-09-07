@@ -12,19 +12,56 @@ import { AnyClosure } from './types'
 
 const type = 'text'
 const value: { [index: string]: any } | string = ''
+const order = -1
 
-export const DEFAULT_BLOCK = {
+export const TextStarter = {
   components: [
     {
       type,
       value,
-      order: -1,
+      order,
     },
   ],
 }
 
-export type CmsBlockData = typeof DEFAULT_BLOCK
-export type ComponentData = typeof DEFAULT_BLOCK.components[0]
+export const WysiwygStarter = {
+  components: [
+    {
+      type: 'wysiwyg',
+      value: { html: '' },
+      order,
+    },
+  ],
+}
+
+export const BannerStarter = {
+  components: [
+    {
+      type: 'banner',
+      value: {
+        primaryTitle: '',
+        secondaryTitle: '',
+        subtitle: '',
+        img: '',
+        button: {
+          text: '',
+          link: '',
+        },
+      },
+      order,
+    },
+  ],
+}
+
+export type CmsBlockData =
+  | typeof TextStarter
+  | typeof WysiwygStarter
+  | typeof BannerStarter
+
+export type ComponentData =
+  | typeof TextStarter.components[0]
+  | typeof WysiwygStarter.components[0]
+  | typeof BannerStarter.components[0]
 
 interface UseCmsBlockOptions {
   id: string
@@ -37,10 +74,11 @@ export async function getCmsBlock(id: string) {
   return transform(cmsBlockData)
 }
 
-export async function setCmsBlock({ id, ...block }: any) {
+export async function setCmsBlock({ id, ...block }: any, onError = noop) {
+  if (!id) throw new Error('ID is required')
   return await setDoc(doc(db, 'cms', id), {
     ...block,
-  })
+  }).catch(onError)
 }
 
 export function useCmsBlock({ id, onError = noop }: UseCmsBlockOptions) {

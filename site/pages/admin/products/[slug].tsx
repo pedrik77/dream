@@ -22,7 +22,6 @@ import React, {
   ChangeEventHandler,
   FormEventHandler,
   useEffect,
-  useMemo,
   useState,
 } from 'react'
 import { setCategory as createCategory } from '@lib/categories'
@@ -31,7 +30,7 @@ import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
 import { Components } from '@components/cms/Components'
-import { DEFAULT_BLOCK } from '@lib/components'
+import { WysiwygStarter } from '@lib/components'
 
 interface ProductEditProps {
   product: Product | null
@@ -64,8 +63,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   )
 
   const [short_desc, setShortDesc] = useState(product?.short_desc || '')
-  const [long_desc, setLongDesc] = useState(product?.long_desc || '')
-  const [cmsBlock, setCmsBlock] = useState(product?.cmsBlock || DEFAULT_BLOCK)
 
   const [category, setCategory] = useState(product?.category || '')
   const [donation_entries, setDonationEntries] = useState(
@@ -74,6 +71,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const [gallery, setGallery] = useState<ProductImage[]>(product?.gallery || [])
 
   const [donors, setDonors] = useState(0)
+
+  const cmsBlock = product?.cmsBlock || WysiwygStarter
 
   const loading = useLoading()
   const uploading = useLoading()
@@ -137,7 +136,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       winner_announce_date: Timestamp.fromDate(new Date(winner_announce_date)),
       gallery,
       short_desc,
-      long_desc,
       category,
       donation_entries,
     })
@@ -259,7 +257,11 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
             <label>
               Long description <br />
             </label>
-            <Components forceEdit>{cmsBlock.components}</Components>
+            {isEditing && (
+              <Components blockId={getProductCmsId(slug)} forceEdit>
+                {cmsBlock.components}
+              </Components>
+            )}
           </fieldset>
           <fieldset>
             <label>

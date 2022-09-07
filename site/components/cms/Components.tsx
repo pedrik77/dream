@@ -4,11 +4,12 @@ import { PERMISSIONS, useAuthContext } from '@lib/auth'
 import { ComponentData, setCmsBlock, useCmsBlock } from '@lib/components'
 import { usePermission } from '@lib/hooks/usePermission'
 import _ from 'lodash'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { uploadFile } from '@lib/files'
 import { v4 as uuid4 } from 'uuid'
 import { HeroProps } from '@components/ui/Hero/Hero'
 import Editor from '@components/common/Editor'
+import { noop } from '@lib/common'
 
 interface Changeable {
   onChange: (value: any) => void
@@ -25,7 +26,11 @@ interface ComponentsProps {
   forbidEdit?: boolean
 }
 
-type ChangableComponent = ComponentData & Changeable & { forceEdit?: boolean }
+type ChangableComponent = ComponentData &
+  Changeable & {
+    parentArray: ComponentData[]
+    forceEdit?: boolean
+  }
 
 export function Components({
   blockId,
@@ -39,6 +44,20 @@ export function Components({
     (adminEditingMode || forceEdit) &&
     !forbidEdit
 
+  const saveComponents = useCallback(
+    (components: ComponentData[]) => {
+      setCmsBlock({
+        id: blockId,
+        components,
+      })
+    },
+    [blockId]
+  )
+
+  useEffect(() => {
+    saveComponents(children.map((c, i) => ({ ...c, order: i })))
+  }, [children, saveComponents])
+
   return (
     <>
       {children.map((c, i) => (
@@ -46,19 +65,19 @@ export function Components({
           {canEdit && (
             <ComponentEditorItem
               forceEdit={forceEdit}
+              parentArray={children}
               onChange={(value) => {
                 adminWasChange()
-                setCmsBlock({
-                  id: blockId,
-                  components: children.map((c, j) =>
+                saveComponents(
+                  children.map((c, j) =>
                     i === j
                       ? {
                           ...c,
                           value,
                         }
                       : c
-                  ),
-                })
+                  )
+                )
               }}
               {...c}
             />
@@ -100,6 +119,7 @@ function ComponentEditorItem({
   type,
   value,
   onChange,
+  parentArray,
   forceEdit = false,
 }: ChangableComponent) {
   const [data, setData] = useState(value)
@@ -123,6 +143,10 @@ function ComponentEditorItem({
     if (forceEdit) setIsEditing(true)
   }, [forceEdit])
 
+  useEffect(() => () => {
+    if (forceEdit) onChange(data)
+  })
+
   if (!Editor) return null
 
   return (
@@ -133,6 +157,7 @@ function ComponentEditorItem({
         ) : isEditing ? (
           <>
             <Button
+              className="mr-4"
               onClick={() => {
                 onChange(data)
                 setIsEditing(false)
