@@ -119,7 +119,7 @@ export function Components({
       // @ts-ignore
       if (!component) return
 
-      if (key === undefined) return setComponents([component, ...components])
+      if (key === undefined) return setComponents([...components, component])
 
       const newComponents = [...components]
 
@@ -132,14 +132,20 @@ export function Components({
     [components]
   )
 
-  useEffect(() => {
-    setComponents(children.map((c, i) => ({ ...c, order: i })))
-  }, [children])
+  useEffect(() => setComponents(children), [children])
+
+  useEffect(() => saveComponents(components), [components, saveComponents])
 
   return (
     <>
-      {!components.length && canEdit && (
-        <Button type="button" onClick={() => insertNew()}></Button>
+      {canEdit && (
+        <Button
+          className="rounded-br-lg"
+          type="button"
+          onClick={() => insertNew()}
+        >
+          Add
+        </Button>
       )}
       {components.map((c, i) => (
         <div key={blockId + c.type + i} className={canEdit ? 'shadow-md' : ''}>
@@ -150,7 +156,22 @@ export function Components({
               moveSelf={() => {
                 if (moving === i) return setMoving(-1)
 
-                setMoving(i)
+                if (moving === -1) return setMoving(i)
+
+                const newComponents = [...components].filter(
+                  (c, j) => j !== moving
+                )
+                const movingComponent = components[moving]
+
+                const slice = i > moving ? i - 1 : i
+
+                setComponents(
+                  newComponents
+                    .slice(0, slice)
+                    .concat([movingComponent], newComponents.slice(slice))
+                )
+
+                setMoving(-1)
               }}
               movingSelf={moving === i}
               isMoving={moving > -1}
@@ -160,7 +181,6 @@ export function Components({
                 confirm('Are you sure?').then((res) => {
                   if (!res) return
 
-                  saveComponents(c)
                   setComponents(c)
                 })
               }}
@@ -175,7 +195,6 @@ export function Components({
                 )
 
                 setComponents(newComponents)
-                saveComponents(newComponents)
               }}
               {...c}
             />
