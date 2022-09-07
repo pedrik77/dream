@@ -1,4 +1,5 @@
-import { Input } from '@components/ui'
+import { Hero, Input, Text } from '@components/ui'
+import Banner from '@components/ui/Banner'
 import { PERMISSIONS } from '@lib/auth'
 import { ComponentData, useCmsBlock } from '@lib/components'
 import { usePermission } from '@lib/hooks/usePermission'
@@ -12,18 +13,12 @@ import React, {
   useState,
 } from 'react'
 
-type Trigger = () => void
-type Triggers = { save: Trigger }
-type RemoveTriggers = () => void
-type AddTriggers = (triggers: Triggers, key?: string) => RemoveTriggers
-
 interface ComponentsProps {
   blockId?: string
   children: ComponentData[]
   multiple?: boolean
   isEditing?: boolean
   activeLoading?: boolean
-  addTriggers?: AddTriggers
 }
 
 interface ComponentProps extends ComponentData {
@@ -32,56 +27,22 @@ interface ComponentProps extends ComponentData {
 
 const Context = createContext<{
   blockId?: string
-  addTriggers?: AddTriggers
+  isEditing?: boolean
 }>({})
 
 const useCmsContext = () => useContext(Context)
-
-export const useSaveTrigger = () => {
-  const [triggers, setTriggers] = useState<{ [index: string]: Trigger }>({})
-
-  const addTriggers = ({ save }: Triggers, key = '') => {
-    setTriggers((triggers) => ({ ...triggers, [key]: save }))
-
-    return () => setTriggers((triggers) => _.omit(triggers, key))
-  }
-
-  const triggerSave = () =>
-    Object.values(triggers).forEach((trigger) => trigger())
-
-  return { triggerSave, addTriggers }
-}
-
-export const useSaveAction = (key: string, save: () => void) => {
-  const { addTriggers } = useCmsContext()
-  const triggerAdded = useRef(false)
-
-  useEffect(() => {
-    if (triggerAdded.current || !addTriggers) return
-    triggerAdded.current = true
-    return addTriggers({ save }, key)
-  }, [addTriggers, save, key])
-}
 
 export function Components({
   blockId,
   isEditing = false,
   multiple = false,
   children,
-  addTriggers,
 }: ComponentsProps) {
   const canEdit = usePermission({ permission: PERMISSIONS.CMS })
 
-  useSaveAction('key', () => console.log('save'))
-
-  const displayEditor = useMemo(
-    () => isEditing && canEdit && !!blockId,
-    [isEditing, canEdit, blockId]
-  )
-
   return (
-    <Context.Provider value={{ blockId, addTriggers }}>
-      {displayEditor ? (
+    <Context.Provider value={{ blockId, isEditing: isEditing && canEdit }}>
+      {isEditing && canEdit ? (
         <ComponentEditor>{children}</ComponentEditor>
       ) : (
         children.map((c, i) => <Component key={i} {...c} />)
@@ -95,37 +56,18 @@ function Component({ type, value }: ComponentProps) {
   if ('image' === type) return <ImageComponent {...value} />
 
   // @ts-ignore
-  if ('banner' === type) return <BannerComponent {...value} />
+  if ('banner' === type) return <Banner {...value} />
 
-  if ('wysiwyg' === type)
-    return <div dangerouslySetInnerHTML={{ __html: value }} />
+  // @ts-ignore
+  if ('hero' === type) return <Hero {...value} />
+
+  if ('wysiwyg' === type) return <Text html={value} />
 
   if ('text' === type) return <>{value}</>
 
   console.log('unknown type', type)
 
   return <></>
-}
-
-function BannerComponent({
-  image,
-  title,
-  subtitle,
-}: {
-  image: string
-  title: string
-  subtitle: string
-}) {
-  return (
-    <div className="relative">
-      <img src={image} alt={title} className="w-full" />
-      <div className="absolute inset-0 bg-black bg-opacity-50" />
-      <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
-        <h1 className="text-4xl font-bold">{title}</h1>
-        <h2 className="text-2xl">{subtitle}</h2>
-      </div>
-    </div>
-  )
 }
 
 function ImageComponent({ src = '', alt = 'image' }) {
@@ -144,9 +86,15 @@ function ComponentEditor({ children }: { children: ComponentData[] }) {
   )
 }
 
-function ComponentEditorItem({ type, value }: ComponentProps) {
+function ComponentEditorItem({ type, value, onChange }: ComponentProps) {
   // @ts-ignore
   if ('image' === type) return <ImageComponentEditor {...value} />
+
+  // @ts-ignore
+  if ('banner' === type) return <BannerEditor {...value} />
+
+  // @ts-ignore
+  if ('hero' === type) return <Hero {...value} />
 
   if ('wysiwyg' === type) return <WysiwygEditor value={value} />
 
@@ -157,7 +105,17 @@ function ComponentEditorItem({ type, value }: ComponentProps) {
   return <></>
 }
 
-function ImageComponentEditor({ src = '', alt = 'image' }) {
+function BannerEditor() {}
+
+function ImageComponentEditor({
+  src,
+  alt = 'image',
+  onChange = () => {},
+}: {
+  src: string
+  alt?: string
+  onChange?: (file: File) => void
+}) {
   const [image, setImage] = useState(src)
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -172,6 +130,7 @@ function ImageComponentEditor({ src = '', alt = 'image' }) {
     }
 
     reader.readAsDataURL(file)
+    onChange(file)
   }
 
   return (

@@ -1,4 +1,10 @@
-import { doc, getDoc, onSnapshot } from 'firebase/firestore'
+import {
+  doc,
+  DocumentSnapshot,
+  getDoc,
+  onSnapshot,
+  setDoc,
+} from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { noop } from './common'
 import { db } from './firebase'
@@ -12,6 +18,7 @@ export const DEFAULT_BLOCK = {
     {
       type,
       value,
+      order: -1,
     },
   ],
 }
@@ -30,6 +37,12 @@ export async function getCmsBlock(id: string) {
   return transform(cmsBlockData)
 }
 
+export async function setOrder({ id, ...block }: any) {
+  return await setDoc(doc(db, 'cms', id), {
+    ...block,
+  })
+}
+
 export function useCmsBlock({ id, onError = noop }: UseCmsBlockOptions) {
   const [block, setBlock] = useState<CmsBlockData>()
 
@@ -37,7 +50,7 @@ export function useCmsBlock({ id, onError = noop }: UseCmsBlockOptions) {
     () =>
       onSnapshot(
         doc(db, 'cms', id),
-        (doc) => setBlock(doc.data() as CmsBlockData),
+        (doc) => setBlock(transform(doc)),
         onError
       ),
     [id, onError]
@@ -46,8 +59,10 @@ export function useCmsBlock({ id, onError = noop }: UseCmsBlockOptions) {
   return block || DEFAULT_BLOCK
 }
 
-function transform(doc: any): CmsBlockData {
+function transform(doc: DocumentSnapshot): CmsBlockData {
+  if (!doc.exists()) throw new Error('Document does not exist')
+
   const { ...data } = doc.data()
 
-  return data
+  return data as CmsBlockData
 }

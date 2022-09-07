@@ -30,7 +30,7 @@ import _ from 'lodash'
 import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
-import { Components, useSaveTrigger } from '@components/cms/Components'
+import { Components } from '@components/cms/Components'
 import { DEFAULT_BLOCK } from '@lib/components'
 
 interface ProductEditProps {
@@ -81,8 +81,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   const categories = useCategories()
 
-  const { triggerSave, addTriggers } = useSaveTrigger()
-
   const router = useRouter()
 
   useEffect(() => {
@@ -122,10 +120,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
-
-    triggerSave()
-
-    return
 
     if (!slug || !title_1 || !title_2 || !category)
       return flash('Vyplňte všetky polia', 'danger')
@@ -269,11 +263,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                 <Editor value={long_desc} onChange={setLongDesc} />
               )}
             </label>
-            <Components
-              blockId={getProductCmsId(slug)}
-              isEditing
-              addTriggers={addTriggers}
-            >
+            <Components blockId={getProductCmsId(slug)} isEditing>
               {cmsBlock.components}
             </Components>
           </fieldset>
