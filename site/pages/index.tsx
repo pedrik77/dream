@@ -30,9 +30,7 @@ export default function Home({
     <>
       {/* TO DO EDIT PICS, TEXT, BUTTON link*/}
       {cmsBlock && (
-        <Components blockId={CMS_ID}>
-          {cmsBlock.components.sort((a, b) => a.order - b.order)}
-        </Components>
+        <Components blockId={CMS_ID}>{cmsBlock.components}</Components>
       )}
 
       <Carousel />

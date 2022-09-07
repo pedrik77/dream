@@ -30,7 +30,7 @@ import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
 import { Components } from '@components/cms/Components'
-import { WysiwygStarter } from '@lib/components'
+import { getWysiwygStarter } from '@lib/components'
 
 interface ProductEditProps {
   product: Product | null
@@ -72,7 +72,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   const [donors, setDonors] = useState(0)
 
-  const cmsBlock = product?.cmsBlock || WysiwygStarter
+  const cmsBlock = product?.cmsBlock || { ...getWysiwygStarter() }
 
   const loading = useLoading()
   const uploading = useLoading()

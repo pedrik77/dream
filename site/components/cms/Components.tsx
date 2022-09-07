@@ -1,15 +1,63 @@
 import { Button, Hero, Input, Text } from '@components/ui'
 import Banner, { BannerProps } from '@components/ui/Banner'
 import { PERMISSIONS, useAuthContext } from '@lib/auth'
-import { ComponentData, setCmsBlock, useCmsBlock } from '@lib/components'
+import {
+  BannerComponent,
+  ComponentData,
+  getBannerStarter,
+  getHeroStarter,
+  getImageStarter,
+  getTextStarter,
+  getWysiwygStarter,
+  HeroComponent,
+  ImageComponent,
+  setCmsBlock,
+  TextComponent,
+  WysiwygComponent,
+} from '@lib/components'
 import { usePermission } from '@lib/hooks/usePermission'
 import _ from 'lodash'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { uploadFile } from '@lib/files'
 import { v4 as uuid4 } from 'uuid'
 import { HeroProps } from '@components/ui/Hero/Hero'
 import Editor from '@components/common/Editor'
-import { noop } from '@lib/common'
+import { useRouter } from 'next/router'
+import Swal from 'sweetalert2'
+import { confirm } from '@lib/alerts'
+
+import NextImage from 'next/image'
+
+const selectType = async () =>
+  await Swal.fire({
+    title: 'Insert new component',
+    input: 'select',
+    inputOptions: {
+      text: 'Text',
+      wysiwyg: 'Wysiwyg',
+      // image: 'Image',
+      banner: 'Banner',
+      hero: 'Hero',
+    },
+    inputPlaceholder: 'Select a component',
+    showCancelButton: true,
+  })
+
+const getInputs = async (type: string) => {
+  await Swal.fire({
+    title: 'Insert new component',
+    input: 'select',
+    inputOptions: {
+      text: 'Text',
+      wysiwyg: 'Wysiwyg',
+      image: 'Image',
+      banner: 'Banner',
+      hero: 'Hero',
+    },
+    inputPlaceholder: 'Select a component',
+    showCancelButton: true,
+  })
+}
 
 interface Changeable {
   onChange: (value: any) => void
@@ -28,7 +76,8 @@ interface ComponentsProps {
 
 type ChangableComponent = ComponentData &
   Changeable & {
-    parentArray: ComponentData[]
+    insertNew: (key?: number) => Promise<void>
+    removeSelf: () => void
     forceEdit?: boolean
   }
 
@@ -38,7 +87,9 @@ export function Components({
   forceEdit = false,
   forbidEdit = false,
 }: ComponentsProps) {
-  const { adminEditingMode, adminWasChange } = useAuthContext()
+  const { adminEditingMode } = useAuthContext()
+  const [components, setComponents] = useState<ComponentData[]>([])
+
   const canEdit =
     usePermission({ permission: PERMISSIONS.CMS }) &&
     (adminEditingMode || forceEdit) &&
@@ -54,30 +105,82 @@ export function Components({
     [blockId]
   )
 
+  const insertNew = useCallback(
+    async (key?: number) => {
+      const componentType = (await selectType()).value
+
+      if (!componentType) return
+
+      let component: ComponentData
+
+      if ('text' === componentType)
+        component = { ...getTextStarter().components[0] }
+
+      if ('wysiwyg' === componentType)
+        component = { ...getWysiwygStarter().components[0] }
+
+      if ('image' === componentType)
+        component = { ...getImageStarter().components[0] }
+
+      if ('banner' === componentType)
+        component = { ...getBannerStarter().components[0] }
+
+      if ('hero' === componentType)
+        component = { ...getHeroStarter().components[0] }
+
+      // @ts-ignore
+      if (!component) return
+
+      if (key === undefined) return setComponents([component, ...components])
+
+      const newComponents = [...components]
+
+      setComponents(
+        newComponents
+          .slice(0, key)
+          .concat([component], newComponents.slice(key))
+      )
+    },
+    [components]
+  )
+
   useEffect(() => {
-    saveComponents(children.map((c, i) => ({ ...c, order: i })))
-  }, [children, saveComponents])
+    setComponents(children.map((c, i) => ({ ...c, order: i })))
+  }, [children])
 
   return (
     <>
-      {children.map((c, i) => (
-        <React.Fragment key={i}>
+      {!components.length && canEdit && (
+        <Button type="button" onClick={() => insertNew()}></Button>
+      )}
+      {components.map((c, i) => (
+        <React.Fragment key={blockId + c.type + i}>
           {canEdit && (
             <ComponentEditorItem
               forceEdit={forceEdit}
-              parentArray={children}
+              insertNew={() => insertNew(i)}
+              removeSelf={() => {
+                const c = components.filter((_, j) => j !== i)
+
+                confirm('Are you sure?').then((res) => {
+                  if (!res) return
+
+                  saveComponents(c)
+                  setComponents(c)
+                })
+              }}
               onChange={(value) => {
-                adminWasChange()
-                saveComponents(
-                  children.map((c, j) =>
-                    i === j
-                      ? {
-                          ...c,
-                          value,
-                        }
-                      : c
-                  )
+                const newComponents = components.map((c, j) =>
+                  i === j
+                    ? {
+                        ...c,
+                        value,
+                      }
+                    : c
                 )
+
+                setComponents(newComponents)
+                saveComponents(newComponents)
               }}
               {...c}
             />
@@ -91,7 +194,7 @@ export function Components({
 
 function Component({ type, value }: ComponentData) {
   // @ts-ignore
-  if ('image' === type) return <ImageComponent {...value} />
+  if ('image' === type) return <Image alt="" {...value} />
 
   // @ts-ignore
   if ('banner' === type) return <Banner {...value} />
@@ -102,25 +205,27 @@ function Component({ type, value }: ComponentData) {
   // @ts-ignore
   if ('wysiwyg' === type) return <Text {...value} />
 
-  if ('text' === type) return <>{value}</>
+  // @ts-ignore
+  if ('text' === type) return <div>{value.text}</div>
 
   console.log('unknown type', type)
 
   return <></>
 }
 
-function ImageComponent({ src = '', alt = 'image' }) {
+function Image({ src = '', alt = 'image' }) {
   if (!src) return null
 
-  return <img src={src} alt={alt} />
+  return <NextImage src={src} alt={alt} />
 }
 
 function ComponentEditorItem({
   type,
   value,
   onChange,
-  parentArray,
+  insertNew,
   forceEdit = false,
+  removeSelf,
 }: ChangableComponent) {
   const [data, setData] = useState(value)
   const [isEditing, setIsEditing] = useState(false)
@@ -166,23 +271,32 @@ function ComponentEditorItem({
             >
               Save
             </Button>
+            <Button
+              className="mr-4"
+              onClick={() => setIsEditing(false)}
+              type="button"
+            >
+              Cancel
+            </Button>
           </>
         ) : (
-          <Button
-            className="mr-4"
-            type="button"
-            onClick={() => setIsEditing(true)}
-          >
-            Edit
-          </Button>
+          <>
+            <Button
+              className="mr-4"
+              type="button"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit
+            </Button>
+          </>
         )}
         <Button className="mr-4" type="button">
           Move this component
         </Button>
-        <Button className="mr-4" type="button">
-          Insert component before
+        <Button className="mr-4" type="button" onClick={() => insertNew()}>
+          Insert component before me
         </Button>
-        <Button className="mr-4" type="button">
+        <Button className="mr-4" type="button" onClick={removeSelf}>
           Remove this component
         </Button>
       </div>
@@ -197,10 +311,12 @@ function HeroEditor({ setData: setHero, ...hero }: HeroProps & Settable) {
     <>
       <Input
         value={hero.headline}
+        placeholder={'hero.headline'}
         onChange={(headline) => setHero({ ...hero, headline })}
       />
       <Input
         value={hero.description}
+        placeholder={'hero.description'}
         onChange={(description) => setHero({ ...hero, description })}
       />
     </>
@@ -239,27 +355,22 @@ function BannerEditor({
       <Input value={banner.img} readOnly />
       <ImageEditor
         src={banner.img}
-        onChange={(file) => {
-          uploadFile('cms/banners/' + uuid4(), file).then((img) =>
-            setBanner({ ...banner, img })
-          )
-        }}
+        pathBase="cms/banners/"
+        setData={({ img }) => setBanner({ ...banner, img })}
       />
     </>
   )
 }
 
 function ImageEditor({
-  src,
-  alt = 'image',
-  onChange = () => {},
+  setData: setImage,
+  pathBase = '',
+  ...image
 }: {
   src: string
   alt?: string
-  onChange?: (file: File) => void
-}) {
-  const [image, setImage] = useState(src)
-
+  pathBase?: string
+} & Settable) {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return
 
@@ -272,13 +383,13 @@ function ImageEditor({
     }
 
     reader.readAsDataURL(file)
-    onChange(file)
+    uploadFile(pathBase + uuid4(), file).then((img) => setImage({ img }))
   }
 
   return (
     <div>
       <input type="file" onChange={handleUpload} />
-      <img src={image} alt={alt} className="max-w-sm" />
+      <img src={image.src} alt={image.alt} className="max-w-sm" />
     </div>
   )
 }
@@ -288,12 +399,10 @@ function WysiwygEditor({ html, setData }: { html: string } & Settable) {
   return <Editor value={html} onChange={(html) => setData({ html })} />
 }
 
-function TextEditor({ value }: { value: string }) {
-  const [text, setText] = useState(value)
-
+function TextEditor({ text, setData }: { text: string } & Settable) {
   return (
     <div>
-      <Input value={text} onChange={setText} />
+      <Input value={text} onChange={(text) => setData({ text })} />
     </div>
   )
 }

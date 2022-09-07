@@ -22,15 +22,17 @@ const Banner: React.FC<BannerProps> = ({
   return (
     <div className={s.bgOverlay}>
       <div className={s.imgContainer}>
-        <Image
-          src={img}
-          alt="alt"
-          width="2560"
-          height="1440"
-          layout="fill"
-          quality="100"
-          objectFit="cover"
-        />
+        {img && (
+          <Image
+            src={img}
+            alt="alt"
+            width="2560"
+            height="1440"
+            layout="fill"
+            quality="100"
+            objectFit="cover"
+          />
+        )}
       </div>
       <div className={s.bannerContainer}>
         <h2 className={s.h2}>

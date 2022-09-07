@@ -88,7 +88,6 @@ type ContextType = {
   adminEditingMode: boolean
   adminStartEditing: () => void
   adminStopEditing: () => void
-  adminWasChange: () => void
 }
 
 const Context = createContext<ContextType>({
@@ -101,7 +100,6 @@ const Context = createContext<ContextType>({
   adminEditingMode: false,
   adminStartEditing: () => {},
   adminStopEditing: () => {},
-  adminWasChange: () => {},
 })
 
 export const AuthProvider: React.FC = ({ children }) => {
@@ -114,16 +112,11 @@ export const AuthProvider: React.FC = ({ children }) => {
   const isLoggedIn = useMemo(() => !!user, [user])
 
   const [adminEditingMode, setAdminEditingMode] = useState(false)
-  const [adminWasChange, setAdminWasChange] = useState(false)
 
   const adminStartEditing = () => setAdminEditingMode(true)
 
-  const router = useRouter()
-
   const adminStopEditing = async () => {
     setAdminEditingMode(false)
-    setAdminWasChange(false)
-    if (adminWasChange) router.reload()
   }
 
   useEffect(
@@ -189,7 +182,6 @@ export const AuthProvider: React.FC = ({ children }) => {
         adminEditingMode,
         adminStartEditing,
         adminStopEditing,
-        adminWasChange: () => setAdminWasChange(true),
       }}
     >
       {children}

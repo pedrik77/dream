@@ -59,16 +59,6 @@ export default function CustomerMenuContent() {
           </a>
         </DropdownMenuItem>
       ))}
-      {!!permissions.length && (
-        <DropdownMenuItem>
-          <a
-            className={s.link}
-            onClick={adminEditingMode ? adminStopEditing : adminStartEditing}
-          >
-            {adminEditingMode ? 'adminStopEditing' : 'adminStartEditing'}
-          </a>
-        </DropdownMenuItem>
-      )}
       <DropdownMenuItem></DropdownMenuItem>
       <DropdownMenuItem>
         <a
