@@ -43,22 +43,6 @@ const selectType = async () =>
     showCancelButton: true,
   })
 
-const getInputs = async (type: string) => {
-  await Swal.fire({
-    title: 'Insert new component',
-    input: 'select',
-    inputOptions: {
-      text: 'Text',
-      wysiwyg: 'Wysiwyg',
-      image: 'Image',
-      banner: 'Banner',
-      hero: 'Hero',
-    },
-    inputPlaceholder: 'Select a component',
-    showCancelButton: true,
-  })
-}
-
 interface Changeable {
   onChange: (value: any) => void
 }
@@ -77,7 +61,10 @@ interface ComponentsProps {
 type ChangableComponent = ComponentData &
   Changeable & {
     insertNew: (key?: number) => Promise<void>
+    moveSelf: () => void
     removeSelf: () => void
+    movingSelf: boolean
+    isMoving: boolean
     forceEdit?: boolean
   }
 
@@ -89,6 +76,7 @@ export function Components({
 }: ComponentsProps) {
   const { adminEditingMode } = useAuthContext()
   const [components, setComponents] = useState<ComponentData[]>([])
+  const [moving, setMoving] = useState(-1)
 
   const canEdit =
     usePermission({ permission: PERMISSIONS.CMS }) &&
@@ -154,11 +142,18 @@ export function Components({
         <Button type="button" onClick={() => insertNew()}></Button>
       )}
       {components.map((c, i) => (
-        <React.Fragment key={blockId + c.type + i}>
+        <div key={blockId + c.type + i} className={canEdit ? 'shadow-md' : ''}>
           {canEdit && (
             <ComponentEditorItem
               forceEdit={forceEdit}
               insertNew={() => insertNew(i)}
+              moveSelf={() => {
+                if (moving === i) return setMoving(-1)
+
+                setMoving(i)
+              }}
+              movingSelf={moving === i}
+              isMoving={moving > -1}
               removeSelf={() => {
                 const c = components.filter((_, j) => j !== i)
 
@@ -186,7 +181,7 @@ export function Components({
             />
           )}
           <Component {...c} />
-        </React.Fragment>
+        </div>
       ))}
     </>
   )
@@ -224,6 +219,9 @@ function ComponentEditorItem({
   value,
   onChange,
   insertNew,
+  moveSelf,
+  movingSelf,
+  isMoving,
   forceEdit = false,
   removeSelf,
 }: ChangableComponent) {
@@ -256,13 +254,13 @@ function ComponentEditorItem({
 
   return (
     <div className="flex flex-col">
-      <div className="flex">
+      <div className="flex justify-end mt-2 shadow-inner">
         {forceEdit ? (
           <></>
         ) : isEditing ? (
           <>
             <Button
-              className="mr-4"
+              className="mr-4 rounded-t-lg"
               onClick={() => {
                 onChange(data)
                 setIsEditing(false)
@@ -272,7 +270,7 @@ function ComponentEditorItem({
               Save
             </Button>
             <Button
-              className="mr-4"
+              className="mr-4 rounded-t-lg"
               onClick={() => setIsEditing(false)}
               type="button"
             >
@@ -282,7 +280,7 @@ function ComponentEditorItem({
         ) : (
           <>
             <Button
-              className="mr-4"
+              className="mr-4 rounded-t-lg"
               type="button"
               onClick={() => setIsEditing(true)}
             >
@@ -290,14 +288,22 @@ function ComponentEditorItem({
             </Button>
           </>
         )}
-        <Button className="mr-4" type="button">
-          Move this component
+        <Button className="mr-4 rounded-t-lg" type="button" onClick={moveSelf}>
+          {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
         </Button>
-        <Button className="mr-4" type="button" onClick={() => insertNew()}>
+        <Button
+          className="mr-4 rounded-t-lg"
+          type="button"
+          onClick={() => insertNew()}
+        >
           Insert component before me
         </Button>
-        <Button className="mr-4" type="button" onClick={removeSelf}>
-          Remove this component
+        <Button
+          className="mr-4 rounded-t-lg"
+          type="button"
+          onClick={removeSelf}
+        >
+          Remove
         </Button>
       </div>
       {/* @ts-ignore */}
