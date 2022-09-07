@@ -67,6 +67,7 @@ const SignUpView = () => {
           variant="form"
           type="email"
           placeholder="Email"
+          autoComplete="on"
           onChange={setEmail}
         />
         <Input
@@ -75,6 +76,7 @@ const SignUpView = () => {
           type="password"
           placeholder="Heslo"
           onChange={setPassword}
+          autoComplete="on"
           value={password}
         />
         <label className="text-sm">

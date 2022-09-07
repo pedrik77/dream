@@ -12,11 +12,7 @@ import { getCmsBlock } from '@lib/components'
 
 const CMS_ID = 'static_page__home'
 
-export async function getStaticProps({
-  preview,
-  locale,
-  locales,
-}: GetStaticPropsContext) {
+export async function getStaticProps() {
   const cmsBlock = (await getCmsBlock(CMS_ID).catch(console.error)) ?? null
 
   return {
@@ -29,10 +25,6 @@ export default function Home({
   cmsBlock,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { t } = useTranslation()
-
-  const productButtonText = t('homepage.product.button')
-
-  console.log(cmsBlock)
 
   return (
     <>

@@ -25,6 +25,7 @@ import { doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
 import { confirm } from './alerts'
+import { useRouter } from 'next/router'
 
 const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`
 
@@ -87,6 +88,7 @@ type ContextType = {
   adminEditingMode: boolean
   adminStartEditing: () => void
   adminStopEditing: () => void
+  adminWasChange: () => void
 }
 
 const Context = createContext<ContextType>({
@@ -99,6 +101,7 @@ const Context = createContext<ContextType>({
   adminEditingMode: false,
   adminStartEditing: () => {},
   adminStopEditing: () => {},
+  adminWasChange: () => {},
 })
 
 export const AuthProvider: React.FC = ({ children }) => {
@@ -111,12 +114,16 @@ export const AuthProvider: React.FC = ({ children }) => {
   const isLoggedIn = useMemo(() => !!user, [user])
 
   const [adminEditingMode, setAdminEditingMode] = useState(false)
+  const [adminWasChange, setAdminWasChange] = useState(false)
 
   const adminStartEditing = () => setAdminEditingMode(true)
 
+  const router = useRouter()
+
   const adminStopEditing = async () => {
-    // await confirm('Are you ready to save?')
     setAdminEditingMode(false)
+    setAdminWasChange(false)
+    if (adminWasChange) router.reload()
   }
 
   useEffect(
@@ -182,6 +189,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         adminEditingMode,
         adminStartEditing,
         adminStopEditing,
+        adminWasChange: () => setAdminWasChange(true),
       }}
     >
       {children}

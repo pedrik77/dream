@@ -37,7 +37,7 @@ export async function getCmsBlock(id: string) {
   return transform(cmsBlockData)
 }
 
-export async function setOrder({ id, ...block }: any) {
+export async function setCmsBlock({ id, ...block }: any) {
   return await setDoc(doc(db, 'cms', id), {
     ...block,
   })

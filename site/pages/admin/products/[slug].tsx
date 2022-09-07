@@ -263,9 +263,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                 <Editor value={long_desc} onChange={setLongDesc} />
               )}
             </label>
-            <Components blockId={getProductCmsId(slug)} isEditing>
-              {cmsBlock.components}
-            </Components>
+            <Components>{cmsBlock.components}</Components>
           </fieldset>
           <fieldset>
             <label>

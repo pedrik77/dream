@@ -1,57 +1,67 @@
-import { Hero, Input, Text } from '@components/ui'
-import Banner from '@components/ui/Banner'
-import { PERMISSIONS } from '@lib/auth'
-import { ComponentData, useCmsBlock } from '@lib/components'
+import { Button, Hero, Input, Text } from '@components/ui'
+import Banner, { BannerProps } from '@components/ui/Banner'
+import { PERMISSIONS, useAuthContext } from '@lib/auth'
+import { ComponentData, setCmsBlock, useCmsBlock } from '@lib/components'
 import { usePermission } from '@lib/hooks/usePermission'
 import _ from 'lodash'
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useMemo, useState } from 'react'
+import { uploadFile } from '@lib/files'
+import { v4 as uuid4 } from 'uuid'
+import { HeroProps } from '@components/ui/Hero/Hero'
+
+interface Changeable {
+  onChange: (value: any) => void
+}
+
+interface Settable {
+  setData: (data: any) => void
+}
 
 interface ComponentsProps {
   blockId?: string
   children: ComponentData[]
-  multiple?: boolean
-  isEditing?: boolean
-  activeLoading?: boolean
+  forceEdit?: boolean
 }
 
-interface ComponentProps extends ComponentData {
-  onChange?: (value: string) => void
-}
-
-const Context = createContext<{
-  blockId?: string
-  isEditing?: boolean
-}>({})
-
-const useCmsContext = () => useContext(Context)
+type ChangableComponent = ComponentData & Changeable
 
 export function Components({
   blockId,
-  isEditing = false,
-  multiple = false,
   children,
+  forceEdit = false,
 }: ComponentsProps) {
-  const canEdit = usePermission({ permission: PERMISSIONS.CMS })
+  const { adminEditingMode, adminWasChange } = useAuthContext()
+  const canEdit =
+    usePermission({ permission: PERMISSIONS.CMS }) &&
+    (adminEditingMode || forceEdit)
 
   return (
-    <Context.Provider value={{ blockId, isEditing: isEditing && canEdit }}>
-      {isEditing && canEdit ? (
-        <ComponentEditor>{children}</ComponentEditor>
-      ) : (
-        children.map((c, i) => <Component key={i} {...c} />)
-      )}
-    </Context.Provider>
+    <>
+      {children.map((c, i) => (
+        <React.Fragment key={i}>
+          {canEdit && (
+            <ComponentEditorItem
+              onChange={(componentValue) => {
+                adminWasChange()
+                setCmsBlock({
+                  id: blockId,
+                  components: children.map((c, j) =>
+                    i === j ? { ...c, value: componentValue } : c
+                  ),
+                  order: c.order,
+                })
+              }}
+              {...c}
+            />
+          )}
+          <Component {...c} />
+        </React.Fragment>
+      ))}
+    </>
   )
 }
 
-function Component({ type, value }: ComponentProps) {
+function Component({ type, value }: ComponentData) {
   // @ts-ignore
   if ('image' === type) return <ImageComponent {...value} />
 
@@ -76,38 +86,103 @@ function ImageComponent({ src = '', alt = 'image' }) {
   return <img src={src} alt={alt} />
 }
 
-function ComponentEditor({ children }: { children: ComponentData[] }) {
+function ComponentEditorItem({ type, value, onChange }: ChangableComponent) {
+  const [data, setData] = useState(value)
+  const [isEditing, setIsEditing] = useState(false)
+
+  const Editor = useMemo(() => {
+    if ('image' === type) return ImageEditor
+
+    if ('banner' === type) return BannerEditor
+
+    if ('hero' === type) return HeroEditor
+
+    if ('wysiwyg' === type) return WysiwygEditor
+
+    if ('text' === type) return TextEditor
+
+    return null
+  }, [type])
+
+  if (!Editor) return null
+
+  if (!isEditing)
+    return <Button onClick={() => setIsEditing(true)}>Edit</Button>
+
   return (
     <>
-      {children.map((c, i) => (
-        <ComponentEditorItem key={i} {...c} />
-      ))}
+      <Button
+        onClick={() => {
+          onChange(data)
+          setIsEditing(false)
+        }}
+      >
+        Save
+      </Button>
+      {/* @ts-ignore */}
+      <Editor {...data} setData={setData} />
     </>
   )
 }
 
-function ComponentEditorItem({ type, value, onChange }: ComponentProps) {
-  // @ts-ignore
-  if ('image' === type) return <ImageComponentEditor {...value} />
-
-  // @ts-ignore
-  if ('banner' === type) return <BannerEditor {...value} />
-
-  // @ts-ignore
-  if ('hero' === type) return <Hero {...value} />
-
-  if ('wysiwyg' === type) return <WysiwygEditor value={value} />
-
-  if ('text' === type) return <TextEditor value={value} />
-
-  console.log('unknown type', type)
-
-  return <></>
+function HeroEditor({ setData: setHero, ...hero }: HeroProps & Settable) {
+  return (
+    <>
+      <Input
+        value={hero.headline}
+        onChange={(headline) => setHero({ ...hero, headline })}
+      />
+      <Input
+        value={hero.description}
+        onChange={(description) => setHero({ ...hero, description })}
+      />
+    </>
+  )
 }
 
-function BannerEditor() {}
+function BannerEditor({
+  setData: setBanner,
+  ...banner
+}: BannerProps & Settable) {
+  return (
+    <>
+      <Input
+        value={banner.primaryTitle}
+        onChange={(primaryTitle) => setBanner({ ...banner, primaryTitle })}
+      />
+      <Input
+        value={banner.secondaryTitle}
+        onChange={(secondaryTitle) => setBanner({ ...banner, secondaryTitle })}
+      />
+      <Input
+        value={banner.button?.text || ''}
+        onChange={(text) =>
+          setBanner({
+            ...banner,
+            button: { link: '', ...banner.button, text },
+          })
+        }
+      />
+      <Input
+        value={banner.button?.link || ''}
+        onChange={(link) =>
+          setBanner({ ...banner, button: { text: '', ...banner.button, link } })
+        }
+      />
+      <Input value={banner.img} readOnly />
+      <ImageEditor
+        src={banner.img}
+        onChange={(file) => {
+          uploadFile('cms/banners/' + uuid4(), file).then((img) =>
+            setBanner({ ...banner, img })
+          )
+        }}
+      />
+    </>
+  )
+}
 
-function ImageComponentEditor({
+function ImageEditor({
   src,
   alt = 'image',
   onChange = () => {},

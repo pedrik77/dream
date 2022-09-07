@@ -4,13 +4,21 @@ import { useRouter } from 'next/router'
 import Button from '../Button'
 import s from './Banner.module.css'
 
-const Banner: React.FC<{
+export interface BannerProps {
   primaryTitle: string
   secondaryTitle: string
   subtitle: string
   img: string
   button?: { text: string; link: string }
-}> = ({ primaryTitle, secondaryTitle, subtitle, img, button }) => {
+}
+
+const Banner: React.FC<BannerProps> = ({
+  primaryTitle,
+  secondaryTitle,
+  subtitle,
+  img,
+  button,
+}) => {
   const router = useRouter()
 
   return (
