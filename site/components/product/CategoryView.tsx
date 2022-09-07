@@ -14,7 +14,7 @@ interface CategoryViewProps {
   categorySlug?: string
 }
 
-const Skeletons = Array(6)
+const Skeletons = Array(3)
   .fill(null)
   .map((_, i) => (
     <Skeleton

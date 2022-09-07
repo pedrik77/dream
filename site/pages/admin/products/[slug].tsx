@@ -8,6 +8,7 @@ import useLoading from '@lib/hooks/useLoading'
 import {
   getDonorsCount,
   getProduct,
+  getProductCmsId,
   Product,
   ProductImage,
   setProduct,
@@ -21,7 +22,6 @@ import React, {
   ChangeEventHandler,
   FormEventHandler,
   useEffect,
-  useMemo,
   useState,
 } from 'react'
 import { setCategory as createCategory } from '@lib/categories'
@@ -29,6 +29,8 @@ import _ from 'lodash'
 import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
+import { Components } from '@components/cms/Components'
+import { getWysiwygStarter } from '@lib/components'
 
 interface ProductEditProps {
   product: Product | null
@@ -59,8 +61,9 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       ? inputDateFormat(product.winner_announce_date)
       : ''
   )
+
   const [short_desc, setShortDesc] = useState(product?.short_desc || '')
-  const [long_desc, setLongDesc] = useState(product?.long_desc || '')
+
   const [category, setCategory] = useState(product?.category || '')
   const [donation_entries, setDonationEntries] = useState(
     product?.donation_entries || ''
@@ -68,6 +71,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const [gallery, setGallery] = useState<ProductImage[]>(product?.gallery || [])
 
   const [donors, setDonors] = useState(0)
+
+  const cmsBlock = product?.cmsBlock || { ...getWysiwygStarter() }
 
   const loading = useLoading()
   const uploading = useLoading()
@@ -131,7 +136,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       winner_announce_date: Timestamp.fromDate(new Date(winner_announce_date)),
       gallery,
       short_desc,
-      long_desc,
       category,
       donation_entries,
     })
@@ -252,11 +256,12 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
           <fieldset>
             <label>
               Long description <br />
-              {Editor && (
-                // @ts-ignore
-                <Editor value={long_desc} onChange={setLongDesc} />
-              )}
             </label>
+            {isEditing && (
+              <Components blockId={getProductCmsId(slug)} forceEdit>
+                {cmsBlock.components}
+              </Components>
+            )}
           </fieldset>
           <fieldset>
             <label>

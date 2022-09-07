@@ -7,13 +7,15 @@ import {
   DropdownContent,
   DropdownMenuItem,
 } from '@components/ui/Dropdown/Dropdown'
-import { signOut } from '@lib/auth'
+import { signOut, useAuthContext } from '@lib/auth'
 import { flash } from '@components/ui/FlashMessage'
 import { useTranslation } from 'react-i18next'
 
 export default function CustomerMenuContent() {
   const router = useRouter()
   const { t } = useTranslation()
+  const { adminEditingMode, adminStartEditing, adminStopEditing, permissions } =
+    useAuthContext()
 
   function handleClick(_: React.MouseEvent<HTMLAnchorElement>, href: string) {
     router.push(href)

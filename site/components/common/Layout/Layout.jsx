@@ -23,6 +23,7 @@ import { AuthProvider } from '@lib/auth'
 import { ShopProvider } from '@lib/shop'
 import { useMenu } from '@lib/menu'
 import { MuiThemeProvider } from '@lib/mui-theme'
+import AdminWidget from '../AdminWidget'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -141,6 +142,7 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
                   </>
                 }
               />
+              <AdminWidget />
             </div>
           </MuiThemeProvider>
         </ShopProvider>

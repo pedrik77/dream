@@ -19,6 +19,7 @@ import * as uuid from 'uuid'
 import { CustomerDataType } from './auth'
 import { Order } from './orders'
 import { QueryBase } from './types'
+import { CmsBlockData, getCmsBlock } from './components'
 
 export interface ProductImage {
   src: string
@@ -44,6 +45,7 @@ export interface Product {
   image: ProductImage | null
   gallery: ProductImage[]
   long_desc: string
+  cmsBlock?: CmsBlockData | null
   donation_entries: string
   category: string
   winner?: Winner
@@ -54,10 +56,13 @@ interface UseProductsOptions extends QueryBase<Product> {
   showClosed?: boolean | null
 }
 
-export async function getProduct(slug: string) {
+export async function getProduct(
+  slug: string,
+  options = { withCmsBlock: true }
+) {
   const productData = await getDoc(doc(db, 'products', slug))
 
-  return transform(productData)
+  return await getTransform(options.withCmsBlock)(productData)
 }
 
 export async function setProduct({ slug, ...product }: any) {
@@ -108,7 +113,10 @@ export function useProducts({
     return onSnapshot(
       query(collection(db, 'products'), ...queries),
       async (querySnapshot) => {
-        setProducts(querySnapshot.docs.map(transform))
+        const products = await Promise.all(
+          querySnapshot.docs.map(getTransform())
+        )
+        setProducts(products)
       },
       onError
     )
@@ -143,18 +151,30 @@ export async function getDonorsCount(slug: string) {
     .filter((v, i, a) => a.indexOf(v) === i).length
 }
 
-function transform(doc: any): Product {
-  const { created_date, closing_date, winner_announce_date, ...data } =
-    doc.data()
-
-  const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
-
-  return {
-    ...data,
-    slug: doc.id,
-    image,
-    created_date: created_date ? created_date.seconds : 0,
-    closing_date: closing_date.seconds,
-    winner_announce_date: winner_announce_date.seconds,
-  }
+export function getProductCmsId(slug: string) {
+  return `product__${slug}`
 }
+
+const getTransform =
+  (withCmsBlock = false) =>
+  async (doc: any) => {
+    const { created_date, closing_date, winner_announce_date, ...data } =
+      doc.data()
+
+    const slug = doc.id
+    const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
+    let cmsBlock = null
+
+    if (withCmsBlock)
+      cmsBlock = await getCmsBlock(getProductCmsId(slug)).catch(console.error)
+
+    return {
+      ...data,
+      slug,
+      image,
+      cmsBlock: cmsBlock || null,
+      created_date: created_date ? created_date.seconds : 0,
+      closing_date: closing_date.seconds,
+      winner_announce_date: winner_announce_date.seconds,
+    } as Product
+  }
