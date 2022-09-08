@@ -138,15 +138,6 @@ export function Components({
 
   return (
     <>
-      {canEdit && (
-        <Button
-          className="rounded-br-lg"
-          type="button"
-          onClick={() => insertNew()}
-        >
-          Add
-        </Button>
-      )}
       {components.map((c, i) => (
         <div key={blockId + c.type + i} className={canEdit ? 'shadow-md' : ''}>
           {canEdit && (
@@ -273,7 +264,7 @@ function ComponentEditorItem({
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-end mt-2 shadow-inner">
+      <div className="flex justify-end absolute top-20 right-0 mt-2 shadow-inner z-50">
         {forceEdit ? (
           <></>
         ) : isEditing ? (
