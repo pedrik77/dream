@@ -352,14 +352,17 @@ function BannerEditor({
   return (
     <>
       <Input
+        variant="cms"
         value={banner.primaryTitle}
         onChange={(primaryTitle) => setBanner({ ...banner, primaryTitle })}
       />
       <Input
+        variant="cms"
         value={banner.secondaryTitle}
         onChange={(secondaryTitle) => setBanner({ ...banner, secondaryTitle })}
       />
       <Input
+        variant="cms"
         value={banner.button?.text || ''}
         onChange={(text) =>
           setBanner({
@@ -369,12 +372,13 @@ function BannerEditor({
         }
       />
       <Input
+        variant="cms"
         value={banner.button?.link || ''}
         onChange={(link) =>
           setBanner({ ...banner, button: { text: '', ...banner.button, link } })
         }
       />
-      <Input value={banner.img} readOnly />
+      <Input variant="cms" value={banner.img} readOnly />
       <ImageEditor
         src={banner.img}
         pathBase="cms/banners/"

@@ -19,9 +19,9 @@
 }
 
 .cms {
-  @apply bg-transparent text-primary;
+  @apply bg-transparent text-white border-white m-4 max-w-lg;
 }
 
-.ghost:focus {
+.cms:focus {
   @apply outline-none shadow-none border-secondary;
 }
