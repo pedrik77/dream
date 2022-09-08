@@ -17,3 +17,11 @@
 .form {
   @apply border-secondary;
 }
+
+.cms {
+  @apply bg-transparent text-primary;
+}
+
+.ghost:focus {
+  @apply outline-none shadow-none border-secondary;
+}

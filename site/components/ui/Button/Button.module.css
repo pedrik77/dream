@@ -71,3 +71,10 @@
   -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
 }
+.cms {
+  @apply px-5 py-3 text-xs bg-accent-6;
+}
+
+.cms:hover {
+  @apply border-accent-6 text-accent-6 bg-transparent;
+}

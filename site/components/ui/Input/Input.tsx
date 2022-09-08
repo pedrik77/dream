@@ -4,7 +4,7 @@ import React, { InputHTMLAttributes } from 'react'
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
-  variant?: 'dark' | 'ghost' | 'form'
+  variant?: 'dark' | 'ghost' | 'form' | 'cms'
   onChange?: (...args: any[]) => any
 }
 
@@ -16,6 +16,7 @@ const Input: React.FC<InputProps> = (props) => {
     {
       [s.ghost]: variant === 'ghost',
       [s.form]: variant === 'form',
+      [s.cms]: variant === 'cms',
     },
     className
   )

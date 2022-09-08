@@ -275,13 +275,13 @@ function ComponentEditorItem({
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-end absolute top-20 right-0 mt-2 shadow-inner z-50">
+      <div className="flex justify-end gap-2 absolute top-30 right-4 mt-2 shadow-inner z-30">
         {forceEdit ? (
           <></>
         ) : isEditing ? (
           <>
             <Button
-              className="mr-4 rounded-t-lg"
+              variant="cms"
               onClick={() => {
                 onChange(data)
                 setIsEditing(false)
@@ -291,7 +291,7 @@ function ComponentEditorItem({
               Save
             </Button>
             <Button
-              className="mr-4 rounded-t-lg"
+              variant="cms"
               onClick={() => setIsEditing(false)}
               type="button"
             >
@@ -301,27 +301,29 @@ function ComponentEditorItem({
         ) : (
           <>
             <Button
-              className="mr-4 rounded-t-lg"
+              variant="cms"
               type="button"
               onClick={() => setIsEditing(true)}
             >
               Edit
             </Button>
+            <Button variant="cms" type="button" onClick={moveSelf}>
+              {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
+            </Button>
+            <Button variant="cms" type="button" onClick={removeSelf}>
+              Remove
+            </Button>
           </>
         )}
-        <Button className="mr-4 rounded-t-lg" type="button" onClick={moveSelf}>
-          {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
-        </Button>
-        <Button
-          className="mr-4 rounded-t-lg"
-          type="button"
-          onClick={removeSelf}
-        >
-          Remove
-        </Button>
       </div>
-      {/* @ts-ignore */}
-      {isEditing && <Editor {...data} setData={setData} />}
+      {isEditing && (
+        <div className="fixed w-full flex justify-center bg-primary z-20 py-12">
+          <div className="max-w-5xl">
+            {/* @ts-ignore */}
+            <Editor {...data} setData={setData} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
