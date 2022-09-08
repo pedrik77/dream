@@ -295,7 +295,7 @@ function ComponentEditorItem({
         )}
       </div>
       {isEditing && (
-        <div className="fixed w-full flex justify-center bg-primary z-20 py-12">
+        <div className="fixed top-20 w-full flex justify-center bg-primary z-20 py-12 h-5/6 overflow-y-scroll">
           <div className="max-w-5xl">
             {!forceEdit && isEditing && (
               <>
