@@ -276,29 +276,7 @@ function ComponentEditorItem({
   return (
     <div className="flex flex-col">
       <div className="flex justify-end gap-2 absolute top-30 right-4 mt-2 shadow-inner z-30">
-        {forceEdit ? (
-          <></>
-        ) : isEditing ? (
-          <>
-            <Button
-              variant="cms"
-              onClick={() => {
-                onChange(data)
-                setIsEditing(false)
-              }}
-              type="button"
-            >
-              Save
-            </Button>
-            <Button
-              variant="cms"
-              onClick={() => setIsEditing(false)}
-              type="button"
-            >
-              Cancel
-            </Button>
-          </>
-        ) : (
+        {!forceEdit && !isEditing && (
           <>
             <Button
               variant="cms"
@@ -319,6 +297,27 @@ function ComponentEditorItem({
       {isEditing && (
         <div className="fixed w-full flex justify-center bg-primary z-20 py-12">
           <div className="max-w-5xl">
+            {!forceEdit && isEditing && (
+              <>
+                <Button
+                  variant="cms"
+                  onClick={() => {
+                    onChange(data)
+                    setIsEditing(false)
+                  }}
+                  type="button"
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="cms"
+                  onClick={() => setIsEditing(false)}
+                  type="button"
+                >
+                  Cancel
+                </Button>
+              </>
+            )}
             {/* @ts-ignore */}
             <Editor {...data} setData={setData} />
           </div>
