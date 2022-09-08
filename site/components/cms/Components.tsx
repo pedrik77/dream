@@ -60,7 +60,6 @@ interface ComponentsProps {
 
 type ChangableComponent = ComponentData &
   Changeable & {
-    insertNew: (key?: number) => Promise<void>
     moveSelf: () => void
     removeSelf: () => void
     movingSelf: boolean
@@ -136,62 +135,75 @@ export function Components({
 
   useEffect(() => saveComponents(components), [components, saveComponents])
 
+  const PlusButton = ({ position = 0 }: { position: number }) =>
+    canEdit ? (
+      <div>
+        <Button onClick={() => insertNew(position)}>+</Button>
+      </div>
+    ) : null
+
   return (
     <>
+      <PlusButton position={0} />
       {components.map((c, i) => (
-        <div key={blockId + c.type + i} className={canEdit ? 'shadow-md' : ''}>
-          {canEdit && (
-            <ComponentEditorItem
-              forceEdit={forceEdit}
-              insertNew={() => insertNew(i)}
-              moveSelf={() => {
-                if (moving === i) return setMoving(-1)
+        <>
+          <div
+            key={blockId + c.type + i}
+            className={canEdit ? 'shadow-md' : ''}
+          >
+            {canEdit && (
+              <ComponentEditorItem
+                forceEdit={forceEdit}
+                moveSelf={() => {
+                  if (moving === i) return setMoving(-1)
 
-                if (moving === -1) return setMoving(i)
+                  if (moving === -1) return setMoving(i)
 
-                const newComponents = [...components].filter(
-                  (c, j) => j !== moving
-                )
-                const movingComponent = components[moving]
+                  const newComponents = [...components].filter(
+                    (c, j) => j !== moving
+                  )
+                  const movingComponent = components[moving]
 
-                const slice = i > moving ? i - 1 : i
+                  const slice = i > moving ? i - 1 : i
 
-                setComponents(
-                  newComponents
-                    .slice(0, slice)
-                    .concat([movingComponent], newComponents.slice(slice))
-                )
+                  setComponents(
+                    newComponents
+                      .slice(0, slice)
+                      .concat([movingComponent], newComponents.slice(slice))
+                  )
 
-                setMoving(-1)
-              }}
-              movingSelf={moving === i}
-              isMoving={moving > -1}
-              removeSelf={() => {
-                const c = components.filter((_, j) => j !== i)
+                  setMoving(-1)
+                }}
+                movingSelf={moving === i}
+                isMoving={moving > -1}
+                removeSelf={() => {
+                  const c = components.filter((_, j) => j !== i)
 
-                confirm('Are you sure?').then((res) => {
-                  if (!res) return
+                  confirm('Are you sure?').then((res) => {
+                    if (!res) return
 
-                  setComponents(c)
-                })
-              }}
-              onChange={(value) => {
-                const newComponents = components.map((c, j) =>
-                  i === j
-                    ? {
-                        ...c,
-                        value,
-                      }
-                    : c
-                )
+                    setComponents(c)
+                  })
+                }}
+                onChange={(value) => {
+                  const newComponents = components.map((c, j) =>
+                    i === j
+                      ? {
+                          ...c,
+                          value,
+                        }
+                      : c
+                  )
 
-                setComponents(newComponents)
-              }}
-              {...c}
-            />
-          )}
-          <Component {...c} />
-        </div>
+                  setComponents(newComponents)
+                }}
+                {...c}
+              />
+            )}
+            <Component {...c} />
+          </div>
+          <PlusButton position={i} />
+        </>
       ))}
     </>
   )
@@ -228,7 +240,6 @@ function ComponentEditorItem({
   type,
   value,
   onChange,
-  insertNew,
   moveSelf,
   movingSelf,
   isMoving,
@@ -300,13 +311,6 @@ function ComponentEditorItem({
         )}
         <Button className="mr-4 rounded-t-lg" type="button" onClick={moveSelf}>
           {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
-        </Button>
-        <Button
-          className="mr-4 rounded-t-lg"
-          type="button"
-          onClick={() => insertNew()}
-        >
-          Insert component before me
         </Button>
         <Button
           className="mr-4 rounded-t-lg"
