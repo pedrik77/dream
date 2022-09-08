@@ -17,7 +17,7 @@ import {
 } from '@lib/components'
 import { usePermission } from '@lib/hooks/usePermission'
 import _ from 'lodash'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { uploadFile } from '@lib/files'
 import { v4 as uuid4 } from 'uuid'
 import { HeroProps } from '@components/ui/Hero/Hero'
@@ -27,6 +27,7 @@ import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
 
 import NextImage from 'next/image'
+import { useScrollDisable } from '@lib/hooks/useScrollDIsable'
 
 const selectType = async () =>
   await Swal.fire({
@@ -271,11 +272,17 @@ function ComponentEditorItem({
     if (forceEdit) onChange(data)
   })
 
+  const editorRef = useRef(null)
+  useScrollDisable(isEditing ? editorRef.current : null)
+
   if (!Editor) return null
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-end gap-2 absolute top-30 right-4 mt-2 shadow-inner z-30">
+      <div
+        className="flex justify-end gap-2 absolute top-30 right-4 mt-2 shadow-inner z-30"
+        ref={editorRef}
+      >
         {!forceEdit && !isEditing && (
           <>
             <Button

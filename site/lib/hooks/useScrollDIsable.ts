@@ -2,7 +2,7 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { useCallback, useEffect } from 'react'
 
 export const useScrollDisable = (
-  target: HTMLElement | Element,
+  target: HTMLElement | Element | null,
   onClose = () => {}
 ) => {
   const handleKey = useCallback(
