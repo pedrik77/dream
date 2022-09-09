@@ -10,7 +10,9 @@ export default function AdminWidget() {
   return (
     <div
       className={`fixed cursor-pointer h-16 w-16 right-12 bottom-12 rounded-2xl z-50 hidden md:block ${
-        adminEditingMode ? 'bg-primary' : 'bg-secondary'
+        adminEditingMode
+          ? 'bg-primary border-2 border-secondary'
+          : 'bg-secondary'
       }`}
       onClick={adminEditingMode ? adminStopEditing : adminStartEditing}
     ></div>
