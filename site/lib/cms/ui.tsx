@@ -283,6 +283,10 @@ export function Components({
   )
 
   useEffect(() => {
+    if (!adminEditingMode) setMoving(-1)
+  }, [adminEditingMode])
+
+  useEffect(() => {
     loaded.current = true
     if (!!children) return setComponents(children)
 
