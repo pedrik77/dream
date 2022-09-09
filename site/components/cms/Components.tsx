@@ -358,9 +358,11 @@ function ComponentEditorItem({
                 {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
               </Button>
             )}
-            <Button variant="cms" type="button" onClick={removeSelf}>
-              Remove
-            </Button>
+            {!single && (
+              <Button variant="cms" type="button" onClick={removeSelf}>
+                Remove
+              </Button>
+            )}
           </>
         )}
       </div>
