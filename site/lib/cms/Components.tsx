@@ -142,6 +142,29 @@ export function Components({
     [components, componentTypes]
   )
 
+  const PlusButton = useCallback(
+    ({ position = 0 }: { position: number }) =>
+      canEdit && !atMax ? (
+        <div
+          className={`flex justify-center my-2 ${
+            isMoving && (moving === position || moving === position - 1)
+              ? 'invisible'
+              : ''
+          }`}
+        >
+          <Button
+            className="rounded-3xl"
+            onClick={
+              isMoving ? () => move(position) : () => insertNew(position)
+            }
+          >
+            {isMoving ? 'Move here' : '+'}
+          </Button>
+        </div>
+      ) : null,
+    [canEdit, atMax, isMoving, moving, insertNew, move]
+  )
+
   useEffect(() => {
     loaded.current = true
     if (!!children) return setComponents(children)
@@ -160,18 +183,6 @@ export function Components({
 
     saveComponents(components)
   }, [components, saveComponents])
-
-  const PlusButton = ({ position = 0 }: { position: number }) =>
-    canEdit && !atMax ? (
-      <div className="flex justify-center my-2">
-        <Button
-          className=" rounded-3xl"
-          onClick={isMoving ? () => move(position) : () => insertNew(position)}
-        >
-          {isMoving ? 'Move here' : '+'}
-        </Button>
-      </div>
-    ) : null
 
   return (
     <>
