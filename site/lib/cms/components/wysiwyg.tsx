@@ -13,7 +13,7 @@ const config: ComponentConfig<WysiwygProps> = {
   name: 'Wysiwyg',
   Component: Text,
   Editor: WysiwygEditor,
-  getStarter: () => ({
+  getStarter: async () => ({
     type,
     draft: true,
     value: {

@@ -11,7 +11,7 @@ const config: ComponentConfig<PageBannerProps> = {
     <PageBanner img={img} width={2000} height={610} alt="banner" />
   ),
   Editor: PageBannerEditor,
-  getStarter: () => ({
+  getStarter: async () => ({
     type,
     draft: true,
     value: {

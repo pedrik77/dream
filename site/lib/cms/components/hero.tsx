@@ -9,7 +9,7 @@ const config: ComponentConfig<HeroProps> = {
   name: 'Hero',
   Component: Hero,
   Editor: HeroEditor,
-  getStarter: () => ({
+  getStarter: async () => ({
     type,
     draft: true,
     value: {

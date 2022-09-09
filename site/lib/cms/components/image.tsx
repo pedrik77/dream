@@ -8,8 +8,8 @@ const type = 'image'
 
 interface ImageProps {
   src: string
-  width?: number
-  height?: number
+  width: number
+  height: number
   alt?: string
   pathBase?: string
   onlySrc?: boolean
@@ -20,11 +20,13 @@ const config: ComponentConfig<ImageProps> = {
   name: 'Image',
   Component: ({ pathBase, onlySrc, ...img }) => <NextImage {...img} />,
   Editor: ImageEditor,
-  getStarter: () => ({
+  getStarter: async () => ({
     type,
     draft: true,
     value: {
       src: 'https://firebasestorage.googleapis.com/v0/b/dream-38748.appspot.com/o/cms%2Fpage_banners%2F09d422b7-a49d-4dd6-9ffc-38a1c3e1b382?alt=media&token=20db2e45-008d-4796-9d97-ccebb22a7f4b',
+      width: 2000,
+      height: 610,
     },
   }),
 }

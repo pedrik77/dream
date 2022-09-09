@@ -7,7 +7,7 @@ export type ComponentConfig<T> = {
   name: string
   Component: React.FC<T>
   Editor: (props: Settable<T>) => JSX.Element
-  getStarter: () => StarterCommon<T>
+  getStarter: () => Promise<StarterCommon<T>>
 }
 
 export interface StarterCommon<T = any> {

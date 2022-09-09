@@ -31,6 +31,7 @@ import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
 import { Components } from '@lib/cms'
 import { getComponentStarter } from '@lib/cms/getters'
+import { CmsBlockData } from '@lib/cms/types'
 
 interface ProductEditProps {
   product: Product | null
@@ -72,9 +73,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   const [donors, setDonors] = useState(0)
 
-  const cmsBlock = product?.cmsBlock || {
-    components: [getComponentStarter('wysiwyg')],
-  }
+  const [cmsBlock, setCmsBlock] = useState<CmsBlockData | null>(null)
 
   const loading = useLoading()
   const uploading = useLoading()
@@ -83,6 +82,16 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const categories = useCategories()
 
   const router = useRouter()
+
+  useEffect(() => {
+    if (!product?.cmsBlock) {
+      getComponentStarter('wysiwyg').then((c) =>
+        setCmsBlock({ components: [c] })
+      )
+    } else {
+      setCmsBlock(product.cmsBlock)
+    }
+  }, [product])
 
   useEffect(() => {
     if (!product) return

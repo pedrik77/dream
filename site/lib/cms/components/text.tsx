@@ -12,7 +12,7 @@ const config: ComponentConfig<TextProps> = {
   name: 'Text',
   Component: ({ text = '' }) => <div>{text}</div>,
   Editor: TextEditor,
-  getStarter: () => ({
+  getStarter: async () => ({
     type,
     draft: true,
     value: {

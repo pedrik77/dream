@@ -89,7 +89,7 @@ export function Components({
 
       if (!componentType) return
 
-      const starter = getComponentStarter(componentType)
+      const starter = await getComponentStarter(componentType)
 
       // @ts-ignore
       if (!starter) return

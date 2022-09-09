@@ -10,7 +10,7 @@ const config: ComponentConfig<BannerProps> = {
   name: 'Banner',
   Component: Banner,
   Editor: BannerEditor,
-  getStarter: () => ({
+  getStarter: async () => ({
     type,
     draft: true,
     value: {

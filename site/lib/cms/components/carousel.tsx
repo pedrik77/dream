@@ -27,7 +27,7 @@ const config: ComponentConfig<CarouselProps> = {
     </Carousel>
   ),
   Editor: CarouselEditor,
-  getStarter: () => ({
+  getStarter: async () => ({
     type,
     draft: true,
     value: {
