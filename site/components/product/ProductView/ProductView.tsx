@@ -6,12 +6,13 @@ import { ProductSlider, ProductCard } from '@components/product'
 import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
-import { Product, useProducts } from '@lib/products'
+import { getProductCmsId, Product, useProducts } from '@lib/products'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { useShopContext } from '@lib/shop'
 import { confirm } from '@lib/alerts'
 import { useTranslation } from 'react-i18next'
+import { Components } from '@components/cms/Components'
 
 interface ProductViewProps {
   product: Product
@@ -105,10 +106,13 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
 
           <ProductSidebar product={product} onJoinNow={handleScroll} />
 
-          {/* TODO: ADD WYSIYG EDITOR */}
           <div className={s.descContainer}>
             <Text variant="pageHeading">Toto dostaneš</Text>
-            <div dangerouslySetInnerHTML={{ __html: product.long_desc }} />
+            {product.cmsBlock && (
+              <Components blockId={getProductCmsId(product.slug)} forbidEdit>
+                {product.cmsBlock.components}
+              </Components>
+            )}
           </div>
         </div>
 

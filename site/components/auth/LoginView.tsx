@@ -89,6 +89,7 @@ const LoginView = () => {
           type="email"
           placeholder="Email"
           onChange={setEmail}
+          autoComplete="on"
           value={email}
         />
         <Input
@@ -97,6 +98,7 @@ const LoginView = () => {
           type="password"
           placeholder="Heslo"
           onChange={setPassword}
+          autoComplete="on"
           value={password}
         />
 

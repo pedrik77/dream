@@ -5,7 +5,7 @@ import s from './Hero.module.css'
 import Link from 'next/link'
 import Text from '../Text'
 
-interface HeroProps {
+export interface HeroProps {
   className?: string
   headline: string
   description: string

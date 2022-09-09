@@ -71,6 +71,7 @@ const ForgotPassword: FC<Props> = () => {
           onChange={setEmail}
           type="email"
           value={email}
+          autoComplete="on"
         />
         <div className="pt-2 w-full flex flex-col">
           <Button
