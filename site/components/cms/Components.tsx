@@ -258,7 +258,7 @@ export function Components({
             )}
             <Component {...c} />
           </div>
-          {!atMax && <PlusButton position={i} />}
+          {!atMax && <PlusButton position={i + 1} />}
         </>
       ))}
     </>
