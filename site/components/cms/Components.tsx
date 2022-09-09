@@ -252,7 +252,7 @@ export function Components({
                 {...c}
               />
             )}
-            <Component {...c} />
+            {!forceEdit && <Component {...c} />}
           </div>
           {!atMax && <PlusButton position={i + 1} />}
         </>
@@ -330,7 +330,7 @@ function ComponentEditorItem({
   })
 
   const editorRef = useRef(null)
-  useScrollDisable(isEditing ? editorRef.current : null)
+  useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
 
   if (!Editor) return null
 
@@ -363,8 +363,14 @@ function ComponentEditorItem({
         )}
       </div>
       {isEditing && (
-        <div className="fixed top-20 w-full flex justify-center bg-primary z-20 py-12 h-5/6 overflow-y-scroll">
-          <div className="max-w-5xl">
+        <div
+          className={`flex justify-center  z-20 ${
+            !forceEdit
+              ? 'fixed top-20  py-12 h-5/6 overflow-y-scroll bg-primary w-full'
+              : ''
+          }`}
+        >
+          <div className={!forceEdit ? 'max-w-5xl' : ''}>
             {!forceEdit && (
               <>
                 <div className="flex gap-2 justify-end">
@@ -404,12 +410,16 @@ function HeroEditor({ setData: setHero, ...hero }: HeroProps & Settable) {
         value={hero.headline}
         placeholder={'hero.headline'}
         onChange={(headline) => setHero({ ...hero, headline })}
-      />
+      >
+        <span className="text-white">Headline</span>
+      </Input>
       <Input
         value={hero.description}
         placeholder={'hero.description'}
         onChange={(description) => setHero({ ...hero, description })}
-      />
+      >
+        <span className="text-white">Description</span>
+      </Input>
     </>
   )
 }
