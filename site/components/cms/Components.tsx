@@ -2,21 +2,12 @@ import { Button, Hero, Input, Text } from '@components/ui'
 import Banner, { BannerProps } from '@components/ui/Banner'
 import { PERMISSIONS, useAuthContext } from '@lib/auth'
 import {
-  BannerComponent,
   ComponentData,
-  getBannerStarter,
   getCmsBlock,
-  getHeroStarter,
-  getImageStarter,
-  getPageBannerStarter,
-  getTextStarter,
-  getWysiwygStarter,
-  HeroComponent,
-  ImageComponent,
+  getComponentSelectOptions,
+  getComponentStarter,
   setCmsBlock,
-  TextComponent,
-  WysiwygComponent,
-} from '@lib/components'
+} from '@lib/cms/service'
 import { usePermission } from '@lib/hooks/usePermission'
 import _ from 'lodash'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -79,7 +70,7 @@ export function Components({
   forbidEdit = false,
   maxNumberOfComponents = -1,
   allowedComponents = [],
-  forbiddenComponents = ['text'],
+  forbiddenComponents = ['text', 'image'],
 }: ComponentsProps) {
   const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
@@ -99,25 +90,10 @@ export function Components({
     [components, maxNumberOfComponents]
   )
 
-  const componentTypes = useMemo(() => {
-    const types: { [i: string]: string } = {
-      text: 'Text',
-      wysiwyg: 'Wysiwyg',
-      image: 'Image',
-      hero: 'Hero',
-      banner: 'Banner',
-      page_banner: 'Page Banner',
-    }
-
-    if (allowedComponents.length > 0) {
-      Object.keys(types).map((c) => {
-        if (forbiddenComponents.includes(c)) delete types[c]
-        if (!allowedComponents.includes(c)) delete types[c]
-      })
-    }
-
-    return types
-  }, [allowedComponents, forbiddenComponents])
+  const componentTypes = getComponentSelectOptions({
+    forbiddenComponents,
+    allowedComponents,
+  })
 
   const saveComponents = useCallback(
     (components: ComponentData[]) => {
@@ -150,37 +126,17 @@ export function Components({
 
       if (!componentType) return
 
-      let component: ComponentData
-
-      if ('text' === componentType)
-        component = { ...getTextStarter().components[0] }
-
-      if ('wysiwyg' === componentType)
-        component = { ...getWysiwygStarter().components[0] }
-
-      if ('image' === componentType)
-        component = { ...getImageStarter().components[0] }
-
-      if ('banner' === componentType)
-        component = { ...getBannerStarter().components[0] }
-
-      if ('page_banner' === componentType)
-        component = { ...getPageBannerStarter().components[0] }
-
-      if ('hero' === componentType)
-        component = { ...getHeroStarter().components[0] }
+      const starter = getComponentStarter(componentType)
 
       // @ts-ignore
-      if (!component) return
+      if (!starter) return
 
-      if (key === undefined) return setComponents([...components, component])
+      if (key === undefined) return setComponents([...components, starter])
 
       const newComponents = [...components]
 
       setComponents(
-        newComponents
-          .slice(0, key)
-          .concat([component], newComponents.slice(key))
+        newComponents.slice(0, key).concat([starter], newComponents.slice(key))
       )
     },
     [components, componentTypes]

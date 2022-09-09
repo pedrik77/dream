@@ -6,30 +6,29 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import { noop } from './common'
-import { db } from './firebase'
-import { AnyClosure } from './types'
+import { noop } from '../common'
+import { db } from '../firebase'
+import { AnyClosure } from '../types'
 
-const order = -1
+const draft = false
 
 export const getTextStarter = () => ({
   components: [
     {
       type: 'text',
+      draft,
       value: {
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit. ',
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       },
-      order,
     },
   ],
 })
-
-// html code snippet with list
 
 export const getWysiwygStarter = () => ({
   components: [
     {
       type: 'wysiwyg',
+      draft,
       value: {
         html: `
         <ul>
@@ -39,7 +38,6 @@ export const getWysiwygStarter = () => ({
         </ul>
         `,
       },
-      order,
     },
   ],
 })
@@ -48,6 +46,7 @@ export const getBannerStarter = () => ({
   components: [
     {
       type: 'banner',
+      draft,
       value: {
         primaryTitle: 'vysnivaj.si',
         secondaryTitle: 'Traktar 4000',
@@ -58,7 +57,6 @@ export const getBannerStarter = () => ({
           link: '/products/traktar-4000',
         },
       },
-      order,
     },
   ],
 })
@@ -67,10 +65,10 @@ export const getPageBannerStarter = () => ({
   components: [
     {
       type: 'page_banner',
+      draft,
       value: {
         img: '/assets/winners_banner.jpg',
       },
-      order,
     },
   ],
 })
@@ -79,11 +77,11 @@ export const getImageStarter = () => ({
   components: [
     {
       type: 'image',
+      draft,
       value: {
         img: 'https://firebasestorage.googleapis.com/v0/b/dream-38748.appspot.com/o/avatar%2Ftulic.peter77%40gmail.com?alt=media&token=354df891-7643-4741-b788-dff0ad0d41ae',
         alt: 'pliesen',
       },
-      order,
     },
   ],
 })
@@ -92,12 +90,12 @@ export const getHeroStarter = () => ({
   components: [
     {
       type: 'hero',
+      draft,
       value: {
         headline: 'Každý je príťaž',
         description:
           'Súťažte o fantastické výhry a podporte tým zmysluplné projekty. Bla bla lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer viverra odio sit amet lorem vestibulum, a condimentum eros hendrerit. Sed sed cursus arcu. Quisque tincidunt justo sed sem consectetur consequat. In non lorem nulla.',
       },
-      order,
     },
   ],
 })
@@ -137,6 +135,32 @@ interface UseCmsBlockOptions {
   onError?: AnyClosure
 }
 
+export function getComponentSelectOptions({
+  allowedComponents = [],
+  forbiddenComponents = [],
+}: { allowedComponents?: string[]; forbiddenComponents?: string[] } = {}) {
+  const types: { [i: string]: string } = {
+    text: 'Text',
+    wysiwyg: 'Wysiwyg',
+    image: 'Image',
+    hero: 'Hero',
+    banner: 'Banner',
+    page_banner: 'Page Banner',
+  }
+
+  if (allowedComponents.length > 0 || forbiddenComponents.length > 0) {
+    Object.keys(types).map((c) => {
+      if (!!forbiddenComponents.length && forbiddenComponents.includes(c))
+        delete types[c]
+
+      if (!!allowedComponents.length && !allowedComponents.includes(c))
+        delete types[c]
+    })
+  }
+
+  return types
+}
+
 export async function getCmsBlock(id: string) {
   const cmsBlockData = await getDoc(doc(db, 'cms', id))
 
@@ -172,4 +196,22 @@ function transform(doc: DocumentSnapshot): CmsBlockData {
   const { ...data } = doc.data()
 
   return data as CmsBlockData
+}
+
+export function getComponentStarter(componentType: string) {
+  if ('text' === componentType) return { ...getTextStarter().components[0] }
+
+  if ('wysiwyg' === componentType)
+    return { ...getWysiwygStarter().components[0] }
+
+  if ('image' === componentType) return { ...getImageStarter().components[0] }
+
+  if ('banner' === componentType) return { ...getBannerStarter().components[0] }
+
+  if ('page_banner' === componentType)
+    return { ...getPageBannerStarter().components[0] }
+
+  if ('hero' === componentType) return { ...getHeroStarter().components[0] }
+
+  console.error('Unknown component type', componentType)
 }

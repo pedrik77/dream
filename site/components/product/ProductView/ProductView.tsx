@@ -109,7 +109,11 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <div className={s.descContainer}>
             <Text variant="pageHeading">Toto dostaneš</Text>
             {product.cmsBlock && (
-              <Components blockId={getProductCmsId(product.slug)} forbidEdit>
+              <Components
+                blockId={getProductCmsId(product.slug)}
+                allowedComponents={[]}
+                forbiddenComponents={[]}
+              >
                 {product.cmsBlock.components}
               </Components>
             )}

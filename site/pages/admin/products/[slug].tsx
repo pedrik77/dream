@@ -30,7 +30,7 @@ import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
 import { Components } from '@components/cms/Components'
-import { getWysiwygStarter } from '@lib/components'
+import { getWysiwygStarter } from '@lib/cms/service'
 
 interface ProductEditProps {
   product: Product | null

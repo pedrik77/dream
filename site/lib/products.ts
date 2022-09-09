@@ -19,7 +19,7 @@ import * as uuid from 'uuid'
 import { CustomerDataType } from './auth'
 import { Order } from './orders'
 import { QueryBase } from './types'
-import { CmsBlockData, getCmsBlock } from './components'
+import { CmsBlockData, getCmsBlock } from './cms/service'
 
 export interface ProductImage {
   src: string
