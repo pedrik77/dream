@@ -62,6 +62,7 @@ function BannerEditor({
       <Input variant="cms" value={banner.img} readOnly />
       <Image.Editor
         src={banner.img}
+        onlySrc
         pathBase="banners/"
         setData={({ src }) => setBanner({ ...banner, img: src })}
       />

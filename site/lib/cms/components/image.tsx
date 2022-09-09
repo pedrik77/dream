@@ -8,8 +8,8 @@ const type = 'image'
 
 interface ImageProps {
   src: string
-  width: number
-  height: number
+  width?: number
+  height?: number
   alt?: string
   pathBase?: string
   onlySrc?: boolean

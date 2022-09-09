@@ -10,7 +10,7 @@ import { Product, useProducts } from '@lib/products'
 import { ProductCard } from '@components/product'
 import PageBanner from '@components/ui/PageBanner'
 import Tree from '@components/winners/Tree'
-import { Components } from '@lib/cms'
+import { CMS } from '@lib/cms'
 
 const CMS_ID = 'static_page__winners'
 
@@ -97,7 +97,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
 
   return (
     <Container clean>
-      <Components
+      <CMS
         blockId={CMS_ID}
         maxNumberOfComponents={1}
         allowedComponents={['page_banner']}

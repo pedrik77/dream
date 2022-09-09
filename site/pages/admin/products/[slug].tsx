@@ -29,7 +29,7 @@ import _ from 'lodash'
 import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
-import { Components } from '@lib/cms'
+import { CMS } from '@lib/cms'
 import { getComponentStarter } from '@lib/cms/getters'
 import { CmsBlockData } from '@lib/cms/types'
 
@@ -269,9 +269,9 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               Long description <br />
             </label>
             {isEditing && (
-              <Components blockId={getProductCmsId(slug)} forceEdit>
+              <CMS blockId={getProductCmsId(slug)} forceEdit>
                 {cmsBlock.components}
-              </Components>
+              </CMS>
             )}
           </fieldset>
           <fieldset>

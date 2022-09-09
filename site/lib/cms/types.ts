@@ -1,4 +1,4 @@
-import { COMPONENTS } from './getters'
+import { COMPONENTS } from './'
 
 export type ComponentType = typeof COMPONENTS[number]['type']
 

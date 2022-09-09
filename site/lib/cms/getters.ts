@@ -1,22 +1,5 @@
+import { COMPONENTS } from './'
 import { ComponentType } from './types'
-
-import Text from './components/text'
-import Image from './components/image'
-import Hero from './components/hero'
-import Banner from './components/banner'
-import PageBanner from './components/page_banner'
-import Wysiwyg from './components/wysiwyg'
-import Carousel from './components/carousel'
-
-export const COMPONENTS = [
-  Wysiwyg,
-  Text,
-  Image,
-  Hero,
-  PageBanner,
-  Banner,
-  Carousel,
-]
 
 function getComponentConfig(type: ComponentType) {
   const config = COMPONENTS.find((c) => c.type === type)

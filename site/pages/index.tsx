@@ -3,7 +3,7 @@ import { Layout } from '@components/common'
 import type { InferGetStaticPropsType } from 'next'
 import LogosSection from '@components/ui/LogosSection'
 import { useTranslation } from 'react-i18next'
-import { Components } from '@lib/cms'
+import { CMS } from '@lib/cms'
 import { getCmsBlock } from '@lib/cms/service'
 
 const CMS_ID = 'static_page__home'
@@ -25,9 +25,7 @@ export default function Home({
   return (
     <>
       {/* TO DO EDIT PICS, TEXT, BUTTON link*/}
-      {cmsBlock && (
-        <Components blockId={CMS_ID}>{cmsBlock.components}</Components>
-      )}
+      {cmsBlock && <CMS blockId={CMS_ID}>{cmsBlock.components}</CMS>}
 
       <LogosSection />
     </>
