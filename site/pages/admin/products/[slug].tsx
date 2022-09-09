@@ -1,7 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { , categoryToSelect, useCategories } from '@lib/categories'
+import { categoryToSelect, useCategories } from '@lib/categories'
 import { inputDateFormat } from '@lib/date'
 import { deleteFile } from '@lib/files'
 import useLoading from '@lib/hooks/useLoading'
