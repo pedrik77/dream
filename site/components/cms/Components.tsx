@@ -306,23 +306,25 @@ function ComponentEditorItem({
           <div className="max-w-5xl">
             {!forceEdit && (
               <>
-                <Button
-                  variant="cms"
-                  onClick={() => {
-                    onChange(data)
-                    setIsEditing(false)
-                  }}
-                  type="button"
-                >
-                  Save
-                </Button>
-                <Button
-                  variant="cms"
-                  onClick={() => setIsEditing(false)}
-                  type="button"
-                >
-                  Cancel
-                </Button>
+                <div className="flex gap-2 justify-end">
+                  <Button
+                    variant="cms"
+                    onClick={() => {
+                      onChange(data)
+                      setIsEditing(false)
+                    }}
+                    type="button"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    variant="cms"
+                    onClick={() => setIsEditing(false)}
+                    type="button"
+                  >
+                    Cancel
+                  </Button>
+                </div>
               </>
             )}
             {/* @ts-ignore */}
