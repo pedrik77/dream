@@ -29,7 +29,7 @@ import _ from 'lodash'
 import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
-import { Components } from '@lib/cms/Components'
+import { Components } from '@lib/cms'
 import { getComponentStarter } from '@lib/cms/getters'
 
 interface ProductEditProps {

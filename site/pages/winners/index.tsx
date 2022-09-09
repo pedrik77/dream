@@ -10,7 +10,7 @@ import { Product, useProducts } from '@lib/products'
 import { ProductCard } from '@components/product'
 import PageBanner from '@components/ui/PageBanner'
 import Tree from '@components/winners/Tree'
-import { Components } from '@lib/cms/Components'
+import { Components } from '@lib/cms'
 
 // TODO - add multilang package
 const MONTHS = [
