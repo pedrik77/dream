@@ -1,16 +1,39 @@
 import { uploadFile } from '@lib/files'
-import { Settable } from '../types'
+import { ComponentConfig, Settable } from '../types'
 import { v4 as uuid4 } from 'uuid'
+import NextImage from 'next/image'
 
-export function ImageEditor({
+const type = 'image'
+
+interface ImageProps {
+  src: string
+  alt?: string
+  pathBase?: string
+}
+
+const config: ComponentConfig<ImageProps> = {
+  type,
+  name: 'Image',
+  Component: ({ pathBase, ...img }) => <NextImage {...img} />,
+  Editor: ImageEditor,
+  getStarter: () => ({
+    type,
+    draft: true,
+    value: {
+      src: 'https://firebasestorage.googleapis.com/v0/b/dream-38748.appspot.com/o/avatar%2Ftulic.peter77%40gmail.com?alt=media&token=354df891-7643-4741-b788-dff0ad0d41ae',
+      alt: 'pliesen',
+    },
+  }),
+}
+
+function ImageEditor({
   setData: setImage,
   pathBase = '',
   ...image
 }: {
-  src: string
-  alt?: string
   pathBase?: string
-} & Settable) {
+} & ImageProps &
+  Settable) {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return
 
@@ -23,8 +46,8 @@ export function ImageEditor({
     }
 
     reader.readAsDataURL(file)
-    uploadFile('cms/' + pathBase + uuid4(), file).then((img) =>
-      setImage({ img })
+    uploadFile('cms/' + pathBase + uuid4(), file).then((src) =>
+      setImage({ src })
     )
   }
 
@@ -35,3 +58,5 @@ export function ImageEditor({
     </div>
   )
 }
+
+export default config

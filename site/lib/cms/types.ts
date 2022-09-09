@@ -1,19 +1,33 @@
-import { getComponentStarter } from './ui'
+import wysiwyg from './getters/wysiwyg'
+import pageBanner from './getters/page_banner'
+import hero from './getters/hero'
+import text from './getters/text'
+import image from './getters/image'
+import banner from './getters/banner'
 
-const TextStarter = getComponentStarter('text')
-const WysiwygStarter = getComponentStarter('wysiwyg')
-const BannerStarter = getComponentStarter('banner')
-const PageBannerStarter = getComponentStarter('page-banner')
-const ImageStarter = getComponentStarter('image')
-const HeroStarter = getComponentStarter('hero')
+export type ComponentType =
+  | typeof wysiwyg.type
+  | typeof banner.type
+  | typeof pageBanner.type
+  | typeof hero.type
+  | typeof text.type
+  | typeof image.type
 
-export type ComponentData =
-  | typeof TextStarter
-  | typeof WysiwygStarter
-  | typeof BannerStarter
-  | typeof PageBannerStarter
-  | typeof ImageStarter
-  | typeof HeroStarter
+export type ComponentConfig<T> = {
+  type: string
+  name: string
+  Component: React.FC<T>
+  Editor: (props: { setData: (data: T) => void } & T) => JSX.Element
+  getStarter: () => StarterCommon<T>
+}
+
+export interface StarterCommon<T = any> {
+  type: ComponentType
+  draft: boolean
+  value: T
+}
+
+export type ComponentData = StarterCommon
 
 export type CmsBlockData = {
   components: ComponentData[]

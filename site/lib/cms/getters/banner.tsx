@@ -1,7 +1,30 @@
 import { Input } from '@components/ui'
-import { BannerProps } from '@components/ui/Banner'
-import { Settable } from '../types'
-import { ImageEditor } from './image'
+import Banner, { BannerProps } from '@components/ui/Banner'
+import { ComponentConfig, Settable } from '../types'
+import Image from './image'
+
+const type = 'banner'
+
+const config: ComponentConfig<BannerProps> = {
+  type,
+  name: 'Banner',
+  Component: Banner,
+  Editor: BannerEditor,
+  getStarter: () => ({
+    type,
+    draft: true,
+    value: {
+      primaryTitle: 'vysnivaj.si',
+      secondaryTitle: 'Traktar 4000',
+      subtitle: 'Vyhrajte jedinečný Traktar 4000',
+      img: '/assets/car_2560x1440.jpg',
+      button: {
+        text: 'CHCEM VYHRAŤ',
+        link: '/products/traktar-4000',
+      },
+    },
+  }),
+}
 
 export function BannerEditor({
   setData: setBanner,
@@ -37,11 +60,13 @@ export function BannerEditor({
         }
       />
       <Input variant="cms" value={banner.img} readOnly />
-      <ImageEditor
+      <Image.Editor
         src={banner.img}
         pathBase="banners/"
-        setData={({ img }) => setBanner({ ...banner, img })}
+        setData={({ src }) => setBanner({ ...banner, img: src })}
       />
     </>
   )
 }
+
+export default config

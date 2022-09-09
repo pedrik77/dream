@@ -6,7 +6,7 @@ import _ from 'lodash'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
-import { Component, ComponentEditor } from './ui'
+import { ComponentEditor, ComponentRender } from './ui'
 import { getComponentSelectOptions, getComponentStarter } from './getters'
 import { ComponentData, ComponentsProps } from './types'
 
@@ -186,7 +186,7 @@ export function Components({
                 {...c}
               />
             )}
-            {!forceEdit && <Component {...c} />}
+            {!forceEdit && <ComponentRender {...c} />}
           </div>
           {!atMax && <PlusButton position={i + 1} />}
         </>

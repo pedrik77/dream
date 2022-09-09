@@ -1,35 +1,12 @@
-import { HeroProps } from '@components/ui/Hero/Hero'
 import { ChangableComponent, ComponentData, Settable } from './types'
-import { Button, Hero, Input, Text } from '@components/ui'
-import Banner, { BannerProps } from '@components/ui/Banner'
-import PageBanner, { PageBannerProps } from '@components/ui/PageBanner'
-import NextImage from 'next/image'
+import { Button } from '@components/ui'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { getEditor } from './getters'
+import { getComponent, getEditor } from './getters'
 import { useScrollDisable } from '@lib/hooks/useScrollDIsable'
 
-export function Component({ type, value }: ComponentData) {
-  // @ts-ignore
-  if ('image' === type) return <NextImage alt="image" {...value} />
-
-  // @ts-ignore
-  if ('banner' === type) return <Banner {...value} />
-
-  // @ts-ignore
-  if ('page_banner' === type) return <PageBanner {...value} />
-
-  // @ts-ignore
-  if ('hero' === type) return <Hero {...value} />
-
-  // @ts-ignore
-  if ('wysiwyg' === type) return <Text {...value} />
-
-  // @ts-ignore
-  if ('text' === type) return <div>{value.text}</div>
-
-  console.log('unknown type', type)
-
-  return <></>
+export function ComponentRender({ type, value }: ComponentData) {
+  const Component = getComponent(type)
+  return <Component {...value} />
 }
 
 export function ComponentEditor({

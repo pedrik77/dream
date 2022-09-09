@@ -1,7 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { Category, categoryToSelect, useCategories } from '@lib/categories'
+import { , categoryToSelect, useCategories } from '@lib/categories'
 import { inputDateFormat } from '@lib/date'
 import { deleteFile } from '@lib/files'
 import useLoading from '@lib/hooks/useLoading'
@@ -30,7 +30,7 @@ import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
 import { Components } from '@lib/cms/Components'
-import { getComponentStarter } from '@lib/cms/ui'
+import { getComponentStarter } from '@lib/cms/getters'
 
 interface ProductEditProps {
   product: Product | null
