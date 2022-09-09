@@ -1,17 +1,6 @@
-import wysiwyg from './getters/wysiwyg'
-import pageBanner from './getters/page_banner'
-import hero from './getters/hero'
-import text from './getters/text'
-import image from './getters/image'
-import banner from './getters/banner'
+import { COMPONENTS } from './getters'
 
-export type ComponentType =
-  | typeof wysiwyg.type
-  | typeof banner.type
-  | typeof pageBanner.type
-  | typeof hero.type
-  | typeof text.type
-  | typeof image.type
+export type ComponentType = typeof COMPONENTS[number]['type']
 
 export type ComponentConfig<T> = {
   type: string

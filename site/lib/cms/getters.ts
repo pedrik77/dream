@@ -7,17 +7,14 @@ import Banner from './getters/banner'
 import PageBanner from './getters/page_banner'
 import Wysiwyg from './getters/wysiwyg'
 
-const COMPONENTS = {
-  text: Text,
-  wysiwyg: Wysiwyg,
-  image: Image,
-  hero: Hero,
-  banner: Banner,
-  page_banner: PageBanner,
-}
+export const COMPONENTS = [Text, Image, Hero, Banner, PageBanner, Wysiwyg]
 
 function getComponentConfig(type: ComponentType) {
-  return COMPONENTS[type]
+  const config = COMPONENTS.find((c) => c.type === type)
+
+  if (config) return config
+
+  throw new Error(`Component type ${type} not found`)
 }
 
 export function getComponentSelectOptions({
@@ -42,9 +39,8 @@ export function getComponentSelectOptions({
 export const getComponentStarter = (componentType: ComponentType) =>
   getComponentConfig(componentType).getStarter()
 
-export function getComponent(type: ComponentType) {
-  return getComponentConfig(type).Component
-}
+export const getComponent = (type: ComponentType) =>
+  getComponentConfig(type).Component
 
 export const getEditor = (componentType: ComponentType) =>
   getComponentConfig(componentType).Editor
