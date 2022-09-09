@@ -76,5 +76,5 @@
 }
 
 .cms:hover {
-  @apply border-accent-6 text-accent-6 bg-transparent;
+  @apply bg-primary border-accent-6;
 }
