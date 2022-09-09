@@ -91,14 +91,14 @@ export function ComponentEditor({
                 {isMoving ? 'Cancel' : 'Move'}
               </Button>
             )}
+            <Button variant="cms" onClick={toggleDraft}>
+              {draft ? 'Publish' : 'Unpublish'}
+            </Button>
             {!single && (
               <Button variant="cms" onClick={removeSelf}>
                 Remove
               </Button>
             )}
-            <Button variant="cms" onClick={toggleDraft}>
-              {draft ? 'Publish' : 'Unpublish'}
-            </Button>
           </>
         )}
       </div>
