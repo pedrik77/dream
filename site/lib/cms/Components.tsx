@@ -105,20 +105,23 @@ export function Components({
     [blockId]
   )
 
-  const move = (clicked: number) => {
-    const newComponents = [...components].filter((_, j) => j !== moving)
-    const movingComponent = components[moving]
+  const move = useCallback(
+    (clicked: number) => {
+      const newComponents = [...components].filter((_, j) => j !== moving)
+      const movingComponent = components[moving]
 
-    const slice = clicked > moving ? clicked - 1 : clicked
+      const slice = clicked > moving ? clicked - 1 : clicked
 
-    setComponents(
-      newComponents
-        .slice(0, slice)
-        .concat([movingComponent], newComponents.slice(slice))
-    )
+      setComponents(
+        newComponents
+          .slice(0, slice)
+          .concat([movingComponent], newComponents.slice(slice))
+      )
 
-    setMoving(-1)
-  }
+      setMoving(-1)
+    },
+    [components, moving]
+  )
 
   const insertNew = useCallback(
     async (key?: number) => {
