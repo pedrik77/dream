@@ -47,7 +47,7 @@ export function ComponentEditor({
   return (
     <div className="flex flex-col">
       <div
-        className="flex justify-end gap-2 absolute top-30 right-4 mt-2 shadow-inner z-50"
+        className="flex justify-end gap-2 absolute top-30 right-4 mt-2 shadow-inner z-40"
         ref={editorRef}
       >
         {!forceEdit && !isEditing && (
