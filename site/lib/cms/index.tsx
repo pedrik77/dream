@@ -189,11 +189,8 @@ export function Components({
     <>
       <PlusButton position={0} />
       {components.map((c, i) => (
-        <>
-          <div
-            key={blockId + c.type + i}
-            className={canEdit ? 'shadow-md' : ''}
-          >
+        <React.Fragment key={blockId + c.type + i}>
+          <div className={canEdit ? 'shadow-md' : ''}>
             {canEdit && (
               <ComponentEditor
                 onChange={(value) => handleOnChange(i, value)}
@@ -209,7 +206,7 @@ export function Components({
             {!forceEdit ? <ComponentRender {...c} /> : null}
           </div>
           {!atMax && <PlusButton position={i + 1} />}
-        </>
+        </React.Fragment>
       ))}
     </>
   )
