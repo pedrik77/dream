@@ -6,7 +6,7 @@ import { Tab } from '@components/ui/Tab/Tab'
 import ProductCard from './ProductCard'
 import { Layout } from '@components/common'
 import { Skeleton } from '@mui/material'
-import { Components } from '@components/cms/Components'
+import { Components } from '@lib/cms/Components'
 import { getCategoryCmsId } from '@lib/categories'
 
 export const FALLBACK_BANNER = '/assets/category_fallback_banner.jpg'

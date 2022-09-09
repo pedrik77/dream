@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 import { useShopContext } from '@lib/shop'
 import { confirm } from '@lib/alerts'
 import { useTranslation } from 'react-i18next'
-import { Components } from '@components/cms/Components'
+import { Components } from '@lib/cms/Components'
 
 interface ProductViewProps {
   product: Product
