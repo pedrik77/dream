@@ -29,7 +29,7 @@ const config: ComponentConfig<BannerProps> = {
 export function BannerEditor({
   setData: setBanner,
   ...banner
-}: BannerProps & Settable) {
+}: Settable<BannerProps>) {
   return (
     <>
       <Input

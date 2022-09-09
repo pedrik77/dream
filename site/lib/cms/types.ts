@@ -6,7 +6,7 @@ export type ComponentConfig<T> = {
   type: string
   name: string
   Component: React.FC<T>
-  Editor: (props: { setData: (data: T) => void } & T) => JSX.Element
+  Editor: (props: Settable<T>) => JSX.Element
   getStarter: () => StarterCommon<T>
 }
 
@@ -26,8 +26,8 @@ export interface Changeable {
   onChange: (value: any) => void
 }
 
-export interface Settable {
-  setData: (data: any) => void
+export type Settable<T = any> = T & {
+  setData: (data: T) => void
 }
 
 export interface ComponentsProps {

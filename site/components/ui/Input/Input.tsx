@@ -31,7 +31,7 @@ const Input: React.FC<InputProps> = (props) => {
 
   return (
     <label>
-      {children}
+      {children && <span className={s.label}>{children}</span>}
       <input
         className={rootClassName}
         onChange={handleOnChange}

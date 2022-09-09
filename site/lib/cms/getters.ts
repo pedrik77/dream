@@ -6,8 +6,17 @@ import Hero from './getters/hero'
 import Banner from './getters/banner'
 import PageBanner from './getters/page_banner'
 import Wysiwyg from './getters/wysiwyg'
+import Carousel from './getters/carousel'
 
-export const COMPONENTS = [Text, Image, Hero, Banner, PageBanner, Wysiwyg]
+export const COMPONENTS = [
+  Wysiwyg,
+  Text,
+  Image,
+  Hero,
+  PageBanner,
+  Banner,
+  Carousel,
+]
 
 function getComponentConfig(type: ComponentType) {
   const config = COMPONENTS.find((c) => c.type === type)

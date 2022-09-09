@@ -1,4 +1,4 @@
-import { ChangableComponent, ComponentData, Settable } from './types'
+import { ChangableComponent, ComponentData } from './types'
 import { Button } from '@components/ui'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { getComponent, getEditor } from './getters'
@@ -47,7 +47,9 @@ export function ComponentEditor({
   return (
     <div className="flex flex-col">
       <div
-        className="flex justify-end gap-2 absolute top-30 right-4 mt-2 shadow-inner z-40"
+        className={`flex justify-end gap-2 right-4 mt-2 shadow-inner ${
+          !forceEdit ? ' absolute top-30 z-50' : ''
+        }`}
         ref={editorRef}
       >
         {!forceEdit && !isEditing && (
@@ -73,9 +75,9 @@ export function ComponentEditor({
       </div>
       {isEditing && (
         <div
-          className={`flex justify-center  z-20 ${
+          className={`flex justify-center ${
             !forceEdit
-              ? 'fixed top-20  py-12 h-5/6 overflow-y-scroll bg-primary w-full'
+              ? 'z-50 fixed top-20 py-12 h-5/6 overflow-y-scroll bg-primary w-full'
               : ''
           }`}
         >

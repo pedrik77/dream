@@ -32,8 +32,7 @@ function ImageEditor({
   ...image
 }: {
   pathBase?: string
-} & ImageProps &
-  Settable) {
+} & Settable<ImageProps>) {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return
 
@@ -42,7 +41,7 @@ function ImageEditor({
 
     reader.onload = (e) => {
       if (!e.target?.result) return
-      setImage(e.target.result as string)
+      setImage({ src: e.target.result as string })
     }
 
     reader.readAsDataURL(file)

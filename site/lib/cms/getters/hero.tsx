@@ -20,10 +20,7 @@ const config: ComponentConfig<HeroProps> = {
   }),
 }
 
-export function HeroEditor({
-  setData: setHero,
-  ...hero
-}: HeroProps & Settable) {
+export function HeroEditor({ setData: setHero, ...hero }: Settable<HeroProps>) {
   return (
     <>
       <Input
@@ -31,14 +28,14 @@ export function HeroEditor({
         placeholder={'hero.headline'}
         onChange={(headline) => setHero({ ...hero, headline })}
       >
-        <span className="text-white">Headline</span>
+        Headline
       </Input>
       <Input
         value={hero.description}
         placeholder={'hero.description'}
         onChange={(description) => setHero({ ...hero, description })}
       >
-        <span className="text-white">Description</span>
+        Description
       </Input>
     </>
   )

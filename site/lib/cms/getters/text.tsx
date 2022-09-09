@@ -1,9 +1,13 @@
 import { Input } from '@components/ui'
 import { ComponentConfig, Settable } from '../types'
 
+type TextProps = {
+  text: string
+}
+
 const type = 'text'
 
-const config: ComponentConfig<{ text: string }> = {
+const config: ComponentConfig<TextProps> = {
   type,
   name: 'Text',
   Component: ({ text = '' }) => <div>{text}</div>,
@@ -17,7 +21,7 @@ const config: ComponentConfig<{ text: string }> = {
   }),
 }
 
-export function TextEditor({ text, setData }: { text: string } & Settable) {
+export function TextEditor({ text, setData }: Settable<TextProps>) {
   return (
     <div>
       <Input value={text} onChange={(text) => setData({ text })} />

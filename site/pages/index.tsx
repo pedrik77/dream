@@ -1,10 +1,6 @@
-import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
-import { Hero } from '@components/ui'
 // import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
-import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
-import Banner from '@components/ui/Banner'
-import Carousel from '@components/ui/Carousel'
+import type { InferGetStaticPropsType } from 'next'
 import LogosSection from '@components/ui/LogosSection'
 import { useTranslation } from 'react-i18next'
 import { Components } from '@lib/cms'
@@ -32,8 +28,6 @@ export default function Home({
       {cmsBlock && (
         <Components blockId={CMS_ID}>{cmsBlock.components}</Components>
       )}
-
-      <Carousel />
 
       <LogosSection />
     </>

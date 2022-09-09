@@ -21,7 +21,7 @@ const config: ComponentConfig<PageBannerProps> = {
 export function PageBannerEditor({
   setData: setPageBanner,
   ...pageBanner
-}: PageBannerProps & Settable) {
+}: Settable<PageBannerProps>) {
   return (
     <>
       <Image.Editor

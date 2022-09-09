@@ -25,3 +25,7 @@
 .cms:focus {
   @apply outline-none shadow-none border-secondary;
 }
+
+.label {
+  @apply text-white;
+}

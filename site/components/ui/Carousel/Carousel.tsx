@@ -6,7 +6,23 @@ import Text from '../Text'
 import ProductSliderControl from '@components/product/ProductSliderControl'
 import { useTranslation } from 'react-i18next'
 
-const Carousel = () => {
+type Slide = ({
+  onPrev,
+  onNext,
+  slide,
+}: {
+  onPrev: () => void
+  onNext: () => void
+  slide: any
+}) => JSX.Element
+
+export interface CarouselProps {
+  title: string
+  slides: string[]
+  children: Slide
+}
+
+const Carousel = ({ title, children, slides }: CarouselProps) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     loop: true,
@@ -23,8 +39,6 @@ const Carousel = () => {
     },
   })
 
-  const { t } = useTranslation()
-
   const onPrev = React.useCallback(
     () => instanceRef.current?.prev(),
     [instanceRef]
@@ -37,21 +51,17 @@ const Carousel = () => {
   return (
     <section className={s.root}>
       <Text variant="myHeading" className={s.h2}>
-        {t('homepage.carousel')}
+        {title}
       </Text>
       <div className={`keen-slider ${s.keenSlider}`} ref={sliderRef}>
-        <div className={`keen-slider__slide ${s.slide}`}>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/ZKJrQ0iDwEs"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-        <div className={`keen-slider__slide ${s.slide}`}>
+        {slides.map((slide, i) => {
+          return (
+            <div key={i} className={`keen-slider__slide ${s.slide}`}>
+              {children({ onPrev, onNext, slide })}
+            </div>
+          )
+        })}
+        {/* <div className={`keen-slider__slide ${s.slide}`}>
           <iframe
             width="560"
             height="315"
@@ -95,6 +105,7 @@ const Carousel = () => {
             allowFullScreen
           ></iframe>
         </div>
+      */}
       </div>
 
       <ProductSliderControl onPrev={onPrev} onNext={onNext} />
