@@ -10,6 +10,7 @@ import { Product, useProducts } from '@lib/products'
 import { ProductCard } from '@components/product'
 import PageBanner from '@components/ui/PageBanner'
 import Tree from '@components/winners/Tree'
+import { Components } from '@components/cms/Components'
 
 // TODO - add multilang package
 const MONTHS = [
@@ -94,7 +95,11 @@ export default function Winners({ date = '' }: WinnersPageProps) {
 
   return (
     <Container clean>
-      <PageBanner img="/assets/winners_banner.jpg" />
+      <Components
+        blockId={'static_page__winners'}
+        maxNumberOfComponents={1}
+        allowedComponents={['page_banner']}
+      />
       <Container className="py-8 mt-0 md:mt-8 items-center justify-center">
         <div className="flex flex-col gap-3 lg:gap-6 max-w-lg md:max-w-2xl mx-auto lg:max-w-6xl items-center justify-center">
           <div className="flex flex-col gap-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">

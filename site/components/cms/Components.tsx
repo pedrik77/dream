@@ -117,14 +117,10 @@ export function Components({
 
   const saveComponents = useCallback(
     (components: ComponentData[]) => {
-      {
-        console.log('saving components', { blockId, components })
-
-        return setCmsBlock({
-          id: blockId,
-          components,
-        })
-      }
+      return setCmsBlock({
+        id: blockId,
+        components,
+      })
     },
     [blockId]
   )
@@ -454,7 +450,7 @@ function BannerEditor({
       <Input variant="cms" value={banner.img} readOnly />
       <ImageEditor
         src={banner.img}
-        pathBase="cms/banners/"
+        pathBase="banners/"
         setData={({ img }) => setBanner({ ...banner, img })}
       />
     </>
@@ -469,7 +465,7 @@ function PageBannerEditor({
     <>
       <ImageEditor
         src={pageBanner.img}
-        pathBase="cms/page_banners/"
+        pathBase="page_banners/"
         setData={({ img }) => setPageBanner({ ...pageBanner, img })}
       />
     </>
@@ -497,7 +493,9 @@ function ImageEditor({
     }
 
     reader.readAsDataURL(file)
-    uploadFile(pathBase + uuid4(), file).then((img) => setImage({ img }))
+    uploadFile('cms/' + pathBase + uuid4(), file).then((img) =>
+      setImage({ img })
+    )
   }
 
   return (
