@@ -60,13 +60,13 @@ interface ComponentsProps {
   forbidEdit?: boolean
   maxNumberOfComponents?: number
   allowedComponents?: string[]
+  forbiddenComponents?: string[]
 }
 
 type ChangableComponent = ComponentData &
   Changeable & {
-    moveSelf: () => void
     removeSelf: () => void
-    movingSelf: boolean
+    toggleMoving: () => void
     isMoving: boolean
     forceEdit?: boolean
     single?: boolean
@@ -79,6 +79,7 @@ export function Components({
   forbidEdit = false,
   maxNumberOfComponents = -1,
   allowedComponents = [],
+  forbiddenComponents = ['text'],
 }: ComponentsProps) {
   const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
@@ -89,6 +90,8 @@ export function Components({
     usePermission({ permission: PERMISSIONS.CMS }) &&
     (adminEditingMode || forceEdit) &&
     !forbidEdit
+
+  const isMoving = moving > -1
 
   const atMax = useMemo(
     () =>
@@ -108,12 +111,13 @@ export function Components({
 
     if (allowedComponents.length > 0) {
       Object.keys(types).map((c) => {
+        if (forbiddenComponents.includes(c)) delete types[c]
         if (!allowedComponents.includes(c)) delete types[c]
       })
     }
 
     return types
-  }, [allowedComponents])
+  }, [allowedComponents, forbiddenComponents])
 
   const saveComponents = useCallback(
     (components: ComponentData[]) => {
@@ -124,6 +128,21 @@ export function Components({
     },
     [blockId]
   )
+
+  const move = (clicked: number) => {
+    const newComponents = [...components].filter((_, j) => j !== moving)
+    const movingComponent = components[moving]
+
+    const slice = clicked > moving ? clicked - 1 : clicked
+
+    setComponents(
+      newComponents
+        .slice(0, slice)
+        .concat([movingComponent], newComponents.slice(slice))
+    )
+
+    setMoving(-1)
+  }
 
   const insertNew = useCallback(
     async (key?: number) => {
@@ -189,7 +208,12 @@ export function Components({
   const PlusButton = ({ position = 0 }: { position: number }) =>
     canEdit && !atMax ? (
       <div className="flex justify-center my-2">
-        <Button onClick={() => insertNew(position)}>+</Button>
+        <Button
+          className=" rounded-3xl"
+          onClick={isMoving ? () => move(position) : () => insertNew(position)}
+        >
+          {isMoving ? 'Move here' : '+'}
+        </Button>
       </div>
     ) : null
 
@@ -206,28 +230,8 @@ export function Components({
               <ComponentEditorItem
                 forceEdit={forceEdit}
                 single={components.length === 1}
-                moveSelf={() => {
-                  if (moving === i) return setMoving(-1)
-
-                  if (moving === -1) return setMoving(i)
-
-                  const newComponents = [...components].filter(
-                    (c, j) => j !== moving
-                  )
-                  const movingComponent = components[moving]
-
-                  const slice = i > moving ? i - 1 : i
-
-                  setComponents(
-                    newComponents
-                      .slice(0, slice)
-                      .concat([movingComponent], newComponents.slice(slice))
-                  )
-
-                  setMoving(-1)
-                }}
-                movingSelf={moving === i}
-                isMoving={moving > -1}
+                toggleMoving={() => setMoving(!isMoving ? i : -1)}
+                isMoving={isMoving}
                 removeSelf={() => {
                   const c = components.filter((_, j) => j !== i)
 
@@ -295,8 +299,7 @@ function ComponentEditorItem({
   type,
   value,
   onChange,
-  moveSelf,
-  movingSelf,
+  toggleMoving,
   isMoving,
   forceEdit = false,
   single = false,
@@ -350,8 +353,8 @@ function ComponentEditorItem({
               Edit
             </Button>
             {!single && (
-              <Button variant="cms" type="button" onClick={moveSelf}>
-                {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
+              <Button variant="cms" type="button" onClick={toggleMoving}>
+                {isMoving ? 'Cancel' : 'Move'}
               </Button>
             )}
             {!single && (
