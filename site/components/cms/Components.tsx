@@ -5,8 +5,10 @@ import {
   BannerComponent,
   ComponentData,
   getBannerStarter,
+  getCmsBlock,
   getHeroStarter,
   getImageStarter,
+  getPageBannerStarter,
   getTextStarter,
   getWysiwygStarter,
   HeroComponent,
@@ -28,21 +30,20 @@ import { confirm } from '@lib/alerts'
 
 import NextImage from 'next/image'
 import { useScrollDisable } from '@lib/hooks/useScrollDIsable'
+import PageBanner, { PageBannerProps } from '@components/ui/PageBanner'
 
-const selectType = async () =>
-  await Swal.fire({
+const selectType = async (options?: any) => {
+  const optionKeys = Object.keys(options)
+
+  if (optionKeys.length === 1) return { value: optionKeys[0] }
+
+  return await Swal.fire({
     title: 'Insert new component',
     input: 'select',
-    inputOptions: {
-      text: 'Text',
-      wysiwyg: 'Wysiwyg',
-      // image: 'Image',
-      banner: 'Banner',
-      hero: 'Hero',
-    },
-    inputPlaceholder: 'Select a component',
+    inputOptions: options,
     showCancelButton: true,
   })
+}
 
 interface Changeable {
   onChange: (value: any) => void
@@ -54,9 +55,11 @@ interface Settable {
 
 interface ComponentsProps {
   blockId?: string
-  children: ComponentData[]
+  children?: ComponentData[]
   forceEdit?: boolean
   forbidEdit?: boolean
+  maxNumberOfComponents?: number
+  allowedComponents?: string[]
 }
 
 type ChangableComponent = ComponentData &
@@ -66,6 +69,7 @@ type ChangableComponent = ComponentData &
     movingSelf: boolean
     isMoving: boolean
     forceEdit?: boolean
+    single?: boolean
   }
 
 export function Components({
@@ -73,7 +77,10 @@ export function Components({
   children,
   forceEdit = false,
   forbidEdit = false,
+  maxNumberOfComponents = -1,
+  allowedComponents = [],
 }: ComponentsProps) {
+  const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
   const [components, setComponents] = useState<ComponentData[]>([])
   const [moving, setMoving] = useState(-1)
@@ -82,6 +89,31 @@ export function Components({
     usePermission({ permission: PERMISSIONS.CMS }) &&
     (adminEditingMode || forceEdit) &&
     !forbidEdit
+
+  const atMax = useMemo(
+    () =>
+      maxNumberOfComponents > 0 && components.length >= maxNumberOfComponents,
+    [components, maxNumberOfComponents]
+  )
+
+  const componentTypes = useMemo(() => {
+    const types: { [i: string]: string } = {
+      text: 'Text',
+      wysiwyg: 'Wysiwyg',
+      image: 'Image',
+      hero: 'Hero',
+      banner: 'Banner',
+      page_banner: 'Page Banner',
+    }
+
+    if (allowedComponents.length > 0) {
+      Object.keys(types).map((c) => {
+        if (!allowedComponents.includes(c)) delete types[c]
+      })
+    }
+
+    return types
+  }, [allowedComponents])
 
   const saveComponents = useCallback(
     (components: ComponentData[]) => {
@@ -95,7 +127,7 @@ export function Components({
 
   const insertNew = useCallback(
     async (key?: number) => {
-      const componentType = (await selectType()).value
+      const componentType = (await selectType(componentTypes)).value
 
       if (!componentType) return
 
@@ -113,6 +145,9 @@ export function Components({
       if ('banner' === componentType)
         component = { ...getBannerStarter().components[0] }
 
+      if ('page_banner' === componentType)
+        component = { ...getPageBannerStarter().components[0] }
+
       if ('hero' === componentType)
         component = { ...getHeroStarter().components[0] }
 
@@ -129,15 +164,29 @@ export function Components({
           .concat([component], newComponents.slice(key))
       )
     },
-    [components]
+    [components, componentTypes]
   )
 
-  useEffect(() => setComponents(children), [children])
+  useEffect(() => {
+    loaded.current = true
+    if (!!children) return setComponents(children)
 
-  useEffect(() => saveComponents(components), [components, saveComponents])
+    if (!blockId) return
+
+    getCmsBlock(blockId)
+      .then((block) => {
+        setComponents(block.components)
+      })
+      .catch(console.error)
+  }, [blockId, children])
+
+  useEffect(() => {
+    if (!loaded.current) return
+    saveComponents(components)
+  }, [components, saveComponents])
 
   const PlusButton = ({ position = 0 }: { position: number }) =>
-    canEdit ? (
+    canEdit && !atMax ? (
       <div>
         <Button onClick={() => insertNew(position)}>+</Button>
       </div>
@@ -155,6 +204,7 @@ export function Components({
             {canEdit && (
               <ComponentEditorItem
                 forceEdit={forceEdit}
+                single={components.length === 1}
                 moveSelf={() => {
                   if (moving === i) return setMoving(-1)
 
@@ -203,7 +253,7 @@ export function Components({
             )}
             <Component {...c} />
           </div>
-          <PlusButton position={i} />
+          {!atMax && <PlusButton position={i} />}
         </>
       ))}
     </>
@@ -216,6 +266,9 @@ function Component({ type, value }: ComponentData) {
 
   // @ts-ignore
   if ('banner' === type) return <Banner {...value} />
+
+  // @ts-ignore
+  if ('page_banner' === type) return <PageBanner {...value} />
 
   // @ts-ignore
   if ('hero' === type) return <Hero {...value} />
@@ -245,6 +298,7 @@ function ComponentEditorItem({
   movingSelf,
   isMoving,
   forceEdit = false,
+  single = false,
   removeSelf,
 }: ChangableComponent) {
   const [data, setData] = useState(value)
@@ -254,6 +308,8 @@ function ComponentEditorItem({
     if ('image' === type) return ImageEditor
 
     if ('banner' === type) return BannerEditor
+
+    if ('page_banner' === type) return PageBannerEditor
 
     if ('hero' === type) return HeroEditor
 
@@ -292,9 +348,11 @@ function ComponentEditorItem({
             >
               Edit
             </Button>
-            <Button variant="cms" type="button" onClick={moveSelf}>
-              {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
-            </Button>
+            {!single && (
+              <Button variant="cms" type="button" onClick={moveSelf}>
+                {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
+              </Button>
+            )}
             <Button variant="cms" type="button" onClick={removeSelf}>
               Remove
             </Button>
@@ -391,6 +449,21 @@ function BannerEditor({
         src={banner.img}
         pathBase="cms/banners/"
         setData={({ img }) => setBanner({ ...banner, img })}
+      />
+    </>
+  )
+}
+
+function PageBannerEditor({
+  setData: setPageBanner,
+  ...pageBanner
+}: PageBannerProps & Settable) {
+  return (
+    <>
+      <ImageEditor
+        src={pageBanner.img}
+        pathBase="cms/page_banners/"
+        setData={({ img }) => setPageBanner({ ...pageBanner, img })}
       />
     </>
   )

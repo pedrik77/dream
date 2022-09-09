@@ -96,6 +96,10 @@ export function useCategories({
   return categories
 }
 
+export function getCategoryCmsId(slug: string = '') {
+  return `category__${slug}`
+}
+
 export const categoryHref = (categorySlug: string) =>
   `/products/category/${categorySlug}`
 

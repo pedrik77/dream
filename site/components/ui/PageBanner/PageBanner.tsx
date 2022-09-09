@@ -2,9 +2,11 @@ import Image from 'next/image'
 import Container from '../Container'
 import s from './PageBanner.module.css'
 
-const PageBanner: React.FC<{
+export interface PageBannerProps {
   img: string
-}> = ({ img }) => {
+}
+
+const PageBanner: React.FC<PageBannerProps> = ({ img }) => {
   return (
     <div className={s.imgContainer}>
       <Image

@@ -63,6 +63,18 @@ export const getBannerStarter = () => ({
   ],
 })
 
+export const getPageBannerStarter = () => ({
+  components: [
+    {
+      type: 'page_banner',
+      value: {
+        img: '/assets/winners_banner.jpg',
+      },
+      order,
+    },
+  ],
+})
+
 export const getImageStarter = () => ({
   components: [
     {
@@ -93,12 +105,14 @@ export const getHeroStarter = () => ({
 export const TextComponent = getTextStarter().components[0]
 export const WysiwygComponent = getWysiwygStarter().components[0]
 export const BannerComponent = getBannerStarter().components[0]
+export const PageBannerComponent = getPageBannerStarter().components[0]
 export const ImageComponent = getImageStarter().components[0]
 export const HeroComponent = getHeroStarter().components[0]
 
 const TextStarter = getTextStarter()
 const WysiwygStarter = getWysiwygStarter()
 const BannerStarter = getBannerStarter()
+const PageBannerStarter = getPageBannerStarter()
 const ImageStarter = getImageStarter()
 const HeroStarter = getHeroStarter()
 
@@ -106,6 +120,7 @@ export type CmsBlockData =
   | typeof TextStarter
   | typeof WysiwygStarter
   | typeof BannerStarter
+  | typeof PageBannerStarter
   | typeof ImageStarter
   | typeof HeroStarter
 
@@ -113,6 +128,7 @@ export type ComponentData =
   | typeof TextComponent
   | typeof WysiwygComponent
   | typeof BannerComponent
+  | typeof PageBannerComponent
   | typeof ImageComponent
   | typeof HeroComponent
 
