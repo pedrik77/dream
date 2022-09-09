@@ -117,10 +117,14 @@ export function Components({
 
   const saveComponents = useCallback(
     (components: ComponentData[]) => {
-      setCmsBlock({
-        id: blockId,
-        components,
-      })
+      {
+        console.log('saving components', { blockId, components })
+
+        return setCmsBlock({
+          id: blockId,
+          components,
+        })
+      }
     },
     [blockId]
   )
@@ -181,7 +185,8 @@ export function Components({
   }, [blockId, children])
 
   useEffect(() => {
-    if (!loaded.current) return
+    if (!loaded.current || !components.length) return
+
     saveComponents(components)
   }, [components, saveComponents])
 

@@ -35,6 +35,7 @@ export function CategoryView({ banner, categorySlug }: CategoryViewProps) {
   return (
     <Container clean>
       <Components
+        key={getCategoryCmsId(categorySlug)}
         blockId={getCategoryCmsId(categorySlug)}
         maxNumberOfComponents={1}
         allowedComponents={['page_banner']}
