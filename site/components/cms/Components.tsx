@@ -192,7 +192,7 @@ export function Components({
 
   const PlusButton = ({ position = 0 }: { position: number }) =>
     canEdit && !atMax ? (
-      <div>
+      <div className="flex justify-center my-2">
         <Button onClick={() => insertNew(position)}>+</Button>
       </div>
     ) : null
