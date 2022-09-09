@@ -97,7 +97,7 @@ export function ComponentEditor({
               </Button>
             )}
             <Button variant="cms" onClick={toggleDraft}>
-              {draft ? 'Publish' : 'Draft'}
+              {draft ? 'Publish' : 'Unpublish'}
             </Button>
           </>
         )}
