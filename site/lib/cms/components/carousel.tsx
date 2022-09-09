@@ -1,4 +1,4 @@
-import { Input } from '@components/ui'
+import { Button, Input } from '@components/ui'
 import Carousel from '@components/ui/Carousel'
 import { ComponentConfig, Settable } from '../types'
 
@@ -56,6 +56,30 @@ function CarouselEditor({
       >
         <span className="text-white">Title</span>
       </Input>
+
+      <fieldset>
+        {carousel.items.map((url, i) => (
+          <Input
+            key={i}
+            value={url}
+            onChange={(url) => {
+              const items = [...carousel.items]
+              items[i] = url
+              setCarousel({ ...carousel, items })
+            }}
+          >
+            <span className="text-white">Item {i + 1}</span>
+          </Input>
+        ))}
+        <Button
+          variant="cms"
+          onClick={() =>
+            setCarousel({ ...carousel, items: [...carousel.items, ''] })
+          }
+        >
+          +
+        </Button>
+      </fieldset>
     </>
   )
 }
