@@ -17,3 +17,11 @@
 .form {
   @apply border-secondary;
 }
+
+.cms {
+  @apply bg-transparent text-white border-white my-4 mr-4 w-[50rem];
+}
+
+.cms:focus {
+  @apply outline-none shadow-none border-secondary;
+}

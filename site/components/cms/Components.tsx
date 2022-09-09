@@ -5,8 +5,10 @@ import {
   BannerComponent,
   ComponentData,
   getBannerStarter,
+  getCmsBlock,
   getHeroStarter,
   getImageStarter,
+  getPageBannerStarter,
   getTextStarter,
   getWysiwygStarter,
   HeroComponent,
@@ -17,7 +19,7 @@ import {
 } from '@lib/components'
 import { usePermission } from '@lib/hooks/usePermission'
 import _ from 'lodash'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { uploadFile } from '@lib/files'
 import { v4 as uuid4 } from 'uuid'
 import { HeroProps } from '@components/ui/Hero/Hero'
@@ -27,21 +29,21 @@ import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
 
 import NextImage from 'next/image'
+import { useScrollDisable } from '@lib/hooks/useScrollDIsable'
+import PageBanner, { PageBannerProps } from '@components/ui/PageBanner'
 
-const selectType = async () =>
-  await Swal.fire({
+const selectType = async (options?: any) => {
+  const optionKeys = Object.keys(options)
+
+  if (optionKeys.length === 1) return { value: optionKeys[0] }
+
+  return await Swal.fire({
     title: 'Insert new component',
     input: 'select',
-    inputOptions: {
-      text: 'Text',
-      wysiwyg: 'Wysiwyg',
-      // image: 'Image',
-      banner: 'Banner',
-      hero: 'Hero',
-    },
-    inputPlaceholder: 'Select a component',
+    inputOptions: options,
     showCancelButton: true,
   })
+}
 
 interface Changeable {
   onChange: (value: any) => void
@@ -53,19 +55,21 @@ interface Settable {
 
 interface ComponentsProps {
   blockId?: string
-  children: ComponentData[]
+  children?: ComponentData[]
   forceEdit?: boolean
   forbidEdit?: boolean
+  maxNumberOfComponents?: number
+  allowedComponents?: string[]
 }
 
 type ChangableComponent = ComponentData &
   Changeable & {
-    insertNew: (key?: number) => Promise<void>
     moveSelf: () => void
     removeSelf: () => void
     movingSelf: boolean
     isMoving: boolean
     forceEdit?: boolean
+    single?: boolean
   }
 
 export function Components({
@@ -73,7 +77,10 @@ export function Components({
   children,
   forceEdit = false,
   forbidEdit = false,
+  maxNumberOfComponents = -1,
+  allowedComponents = [],
 }: ComponentsProps) {
+  const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
   const [components, setComponents] = useState<ComponentData[]>([])
   const [moving, setMoving] = useState(-1)
@@ -83,9 +90,34 @@ export function Components({
     (adminEditingMode || forceEdit) &&
     !forbidEdit
 
+  const atMax = useMemo(
+    () =>
+      maxNumberOfComponents > 0 && components.length >= maxNumberOfComponents,
+    [components, maxNumberOfComponents]
+  )
+
+  const componentTypes = useMemo(() => {
+    const types: { [i: string]: string } = {
+      text: 'Text',
+      wysiwyg: 'Wysiwyg',
+      image: 'Image',
+      hero: 'Hero',
+      banner: 'Banner',
+      page_banner: 'Page Banner',
+    }
+
+    if (allowedComponents.length > 0) {
+      Object.keys(types).map((c) => {
+        if (!allowedComponents.includes(c)) delete types[c]
+      })
+    }
+
+    return types
+  }, [allowedComponents])
+
   const saveComponents = useCallback(
     (components: ComponentData[]) => {
-      setCmsBlock({
+      return setCmsBlock({
         id: blockId,
         components,
       })
@@ -95,7 +127,7 @@ export function Components({
 
   const insertNew = useCallback(
     async (key?: number) => {
-      const componentType = (await selectType()).value
+      const componentType = (await selectType(componentTypes)).value
 
       if (!componentType) return
 
@@ -113,6 +145,9 @@ export function Components({
       if ('banner' === componentType)
         component = { ...getBannerStarter().components[0] }
 
+      if ('page_banner' === componentType)
+        component = { ...getPageBannerStarter().components[0] }
+
       if ('hero' === componentType)
         component = { ...getHeroStarter().components[0] }
 
@@ -129,78 +164,98 @@ export function Components({
           .concat([component], newComponents.slice(key))
       )
     },
-    [components]
+    [components, componentTypes]
   )
 
-  useEffect(() => setComponents(children), [children])
+  useEffect(() => {
+    loaded.current = true
+    if (!!children) return setComponents(children)
 
-  useEffect(() => saveComponents(components), [components, saveComponents])
+    if (!blockId) return
+
+    getCmsBlock(blockId)
+      .then((block) => {
+        setComponents(block.components)
+      })
+      .catch(console.error)
+  }, [blockId, children])
+
+  useEffect(() => {
+    if (!loaded.current || !components.length) return
+
+    saveComponents(components)
+  }, [components, saveComponents])
+
+  const PlusButton = ({ position = 0 }: { position: number }) =>
+    canEdit && !atMax ? (
+      <div className="flex justify-center my-2">
+        <Button onClick={() => insertNew(position)}>+</Button>
+      </div>
+    ) : null
 
   return (
     <>
-      {canEdit && (
-        <Button
-          className="rounded-br-lg"
-          type="button"
-          onClick={() => insertNew()}
-        >
-          Add
-        </Button>
-      )}
+      <PlusButton position={0} />
       {components.map((c, i) => (
-        <div key={blockId + c.type + i} className={canEdit ? 'shadow-md' : ''}>
-          {canEdit && (
-            <ComponentEditorItem
-              forceEdit={forceEdit}
-              insertNew={() => insertNew(i)}
-              moveSelf={() => {
-                if (moving === i) return setMoving(-1)
+        <>
+          <div
+            key={blockId + c.type + i}
+            className={canEdit ? 'shadow-md' : ''}
+          >
+            {canEdit && (
+              <ComponentEditorItem
+                forceEdit={forceEdit}
+                single={components.length === 1}
+                moveSelf={() => {
+                  if (moving === i) return setMoving(-1)
 
-                if (moving === -1) return setMoving(i)
+                  if (moving === -1) return setMoving(i)
 
-                const newComponents = [...components].filter(
-                  (c, j) => j !== moving
-                )
-                const movingComponent = components[moving]
+                  const newComponents = [...components].filter(
+                    (c, j) => j !== moving
+                  )
+                  const movingComponent = components[moving]
 
-                const slice = i > moving ? i - 1 : i
+                  const slice = i > moving ? i - 1 : i
 
-                setComponents(
-                  newComponents
-                    .slice(0, slice)
-                    .concat([movingComponent], newComponents.slice(slice))
-                )
+                  setComponents(
+                    newComponents
+                      .slice(0, slice)
+                      .concat([movingComponent], newComponents.slice(slice))
+                  )
 
-                setMoving(-1)
-              }}
-              movingSelf={moving === i}
-              isMoving={moving > -1}
-              removeSelf={() => {
-                const c = components.filter((_, j) => j !== i)
+                  setMoving(-1)
+                }}
+                movingSelf={moving === i}
+                isMoving={moving > -1}
+                removeSelf={() => {
+                  const c = components.filter((_, j) => j !== i)
 
-                confirm('Are you sure?').then((res) => {
-                  if (!res) return
+                  confirm('Are you sure?').then((res) => {
+                    if (!res) return
 
-                  setComponents(c)
-                })
-              }}
-              onChange={(value) => {
-                const newComponents = components.map((c, j) =>
-                  i === j
-                    ? {
-                        ...c,
-                        value,
-                      }
-                    : c
-                )
+                    setComponents(c)
+                  })
+                }}
+                onChange={(value) => {
+                  const newComponents = components.map((c, j) =>
+                    i === j
+                      ? {
+                          ...c,
+                          value,
+                        }
+                      : c
+                  )
 
-                setComponents(newComponents)
-              }}
-              {...c}
-            />
-          )}
-          <Component {...c} />
-        </div>
+                  setComponents(newComponents)
+                }}
+                {...c}
+              />
+            )}
+            <Component {...c} />
+          </div>
+          {!atMax && <PlusButton position={i + 1} />}
+        </>
       ))}
     </>
   )
@@ -212,6 +267,9 @@ function Component({ type, value }: ComponentData) {
 
   // @ts-ignore
   if ('banner' === type) return <Banner {...value} />
+
+  // @ts-ignore
+  if ('page_banner' === type) return <PageBanner {...value} />
 
   // @ts-ignore
   if ('hero' === type) return <Hero {...value} />
@@ -237,11 +295,11 @@ function ComponentEditorItem({
   type,
   value,
   onChange,
-  insertNew,
   moveSelf,
   movingSelf,
   isMoving,
   forceEdit = false,
+  single = false,
   removeSelf,
 }: ChangableComponent) {
   const [data, setData] = useState(value)
@@ -251,6 +309,8 @@ function ComponentEditorItem({
     if ('image' === type) return ImageEditor
 
     if ('banner' === type) return BannerEditor
+
+    if ('page_banner' === type) return PageBannerEditor
 
     if ('hero' === type) return HeroEditor
 
@@ -269,64 +329,70 @@ function ComponentEditorItem({
     if (forceEdit) onChange(data)
   })
 
+  const editorRef = useRef(null)
+  useScrollDisable(isEditing ? editorRef.current : null)
+
   if (!Editor) return null
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-end mt-2 shadow-inner">
-        {forceEdit ? (
-          <></>
-        ) : isEditing ? (
+      <div
+        className="flex justify-end gap-2 absolute top-30 right-4 mt-2 shadow-inner z-30"
+        ref={editorRef}
+      >
+        {!forceEdit && !isEditing && (
           <>
             <Button
-              className="mr-4 rounded-t-lg"
-              onClick={() => {
-                onChange(data)
-                setIsEditing(false)
-              }}
-              type="button"
-            >
-              Save
-            </Button>
-            <Button
-              className="mr-4 rounded-t-lg"
-              onClick={() => setIsEditing(false)}
-              type="button"
-            >
-              Cancel
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              className="mr-4 rounded-t-lg"
+              variant="cms"
               type="button"
               onClick={() => setIsEditing(true)}
             >
               Edit
             </Button>
+            {!single && (
+              <Button variant="cms" type="button" onClick={moveSelf}>
+                {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
+              </Button>
+            )}
+            {!single && (
+              <Button variant="cms" type="button" onClick={removeSelf}>
+                Remove
+              </Button>
+            )}
           </>
         )}
-        <Button className="mr-4 rounded-t-lg" type="button" onClick={moveSelf}>
-          {isMoving ? (movingSelf ? 'Cancel' : 'Drop here') : 'Move'}
-        </Button>
-        <Button
-          className="mr-4 rounded-t-lg"
-          type="button"
-          onClick={() => insertNew()}
-        >
-          Insert component before me
-        </Button>
-        <Button
-          className="mr-4 rounded-t-lg"
-          type="button"
-          onClick={removeSelf}
-        >
-          Remove
-        </Button>
       </div>
-      {/* @ts-ignore */}
-      {isEditing && <Editor {...data} setData={setData} />}
+      {isEditing && (
+        <div className="fixed top-20 w-full flex justify-center bg-primary z-20 py-12 h-5/6 overflow-y-scroll">
+          <div className="max-w-5xl">
+            {!forceEdit && (
+              <>
+                <div className="flex gap-2 justify-end">
+                  <Button
+                    variant="cms"
+                    onClick={() => {
+                      onChange(data)
+                      setIsEditing(false)
+                    }}
+                    type="button"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    variant="cms"
+                    onClick={() => setIsEditing(false)}
+                    type="button"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </>
+            )}
+            {/* @ts-ignore */}
+            <Editor {...data} setData={setData} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -355,14 +421,17 @@ function BannerEditor({
   return (
     <>
       <Input
+        variant="cms"
         value={banner.primaryTitle}
         onChange={(primaryTitle) => setBanner({ ...banner, primaryTitle })}
       />
       <Input
+        variant="cms"
         value={banner.secondaryTitle}
         onChange={(secondaryTitle) => setBanner({ ...banner, secondaryTitle })}
       />
       <Input
+        variant="cms"
         value={banner.button?.text || ''}
         onChange={(text) =>
           setBanner({
@@ -372,16 +441,32 @@ function BannerEditor({
         }
       />
       <Input
+        variant="cms"
         value={banner.button?.link || ''}
         onChange={(link) =>
           setBanner({ ...banner, button: { text: '', ...banner.button, link } })
         }
       />
-      <Input value={banner.img} readOnly />
+      <Input variant="cms" value={banner.img} readOnly />
       <ImageEditor
         src={banner.img}
-        pathBase="cms/banners/"
+        pathBase="banners/"
         setData={({ img }) => setBanner({ ...banner, img })}
+      />
+    </>
+  )
+}
+
+function PageBannerEditor({
+  setData: setPageBanner,
+  ...pageBanner
+}: PageBannerProps & Settable) {
+  return (
+    <>
+      <ImageEditor
+        src={pageBanner.img}
+        pathBase="page_banners/"
+        setData={({ img }) => setPageBanner({ ...pageBanner, img })}
       />
     </>
   )
@@ -408,7 +493,9 @@ function ImageEditor({
     }
 
     reader.readAsDataURL(file)
-    uploadFile(pathBase + uuid4(), file).then((img) => setImage({ img }))
+    uploadFile('cms/' + pathBase + uuid4(), file).then((img) =>
+      setImage({ img })
+    )
   }
 
   return (
