@@ -28,7 +28,7 @@ const config: ComponentConfig<WysiwygProps> = {
   }),
 }
 
-export function WysiwygEditor({ html, setData }: Settable<WysiwygProps>) {
+function WysiwygEditor({ html, setData }: Settable<WysiwygProps>) {
   // @ts-ignore
   return <Editor value={html} onChange={(html) => setData({ html })} />
 }

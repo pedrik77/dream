@@ -12,6 +12,8 @@ import PageBanner from '@components/ui/PageBanner'
 import Tree from '@components/winners/Tree'
 import { Components } from '@lib/cms'
 
+const CMS_ID = 'static_page__winners'
+
 // TODO - add multilang package
 const MONTHS = [
   'január',
@@ -96,7 +98,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
   return (
     <Container clean>
       <Components
-        blockId={'static_page__winners'}
+        blockId={CMS_ID}
         maxNumberOfComponents={1}
         allowedComponents={['page_banner']}
       />

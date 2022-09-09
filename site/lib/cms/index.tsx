@@ -30,7 +30,7 @@ export function Components({
   forbidEdit = false,
   maxNumberOfComponents = -1,
   allowedComponents = [],
-  forbiddenComponents = ['text', 'image'],
+  forbiddenComponents = ['text'],
 }: ComponentsProps) {
   const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
@@ -155,6 +155,7 @@ export function Components({
         >
           <Button
             className="rounded-3xl"
+            type="button"
             onClick={
               isMoving ? () => move(position) : () => insertNew(position)
             }

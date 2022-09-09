@@ -18,7 +18,7 @@ const config: ComponentConfig<PageBannerProps> = {
   }),
 }
 
-export function PageBannerEditor({
+function PageBannerEditor({
   setData: setPageBanner,
   ...pageBanner
 }: Settable<PageBannerProps>) {

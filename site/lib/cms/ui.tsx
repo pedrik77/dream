@@ -35,9 +35,13 @@ export function ComponentEditor({
     if (forceEdit) setIsEditing(true)
   }, [forceEdit])
 
-  useEffect(() => () => {
-    if (forceEdit) onChange(data)
-  })
+  useEffect(
+    () => () => {
+      if (forceEdit) onChange(data)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   const editorRef = useRef(null)
   useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)

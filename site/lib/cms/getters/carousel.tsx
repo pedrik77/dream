@@ -44,7 +44,7 @@ const config: ComponentConfig<CarouselProps> = {
   }),
 }
 
-export function CarouselEditor({
+function CarouselEditor({
   setData: setCarousel,
   ...carousel
 }: Settable<CarouselProps>) {

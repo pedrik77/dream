@@ -2,11 +2,14 @@ import { uploadFile } from '@lib/files'
 import { ComponentConfig, Settable } from '../types'
 import { v4 as uuid4 } from 'uuid'
 import NextImage from 'next/image'
+import { Input } from '@components/ui'
 
 const type = 'image'
 
 interface ImageProps {
   src: string
+  width: number
+  height: number
   alt?: string
   pathBase?: string
 }
@@ -20,8 +23,10 @@ const config: ComponentConfig<ImageProps> = {
     type,
     draft: true,
     value: {
-      src: 'https://firebasestorage.googleapis.com/v0/b/dream-38748.appspot.com/o/avatar%2Ftulic.peter77%40gmail.com?alt=media&token=354df891-7643-4741-b788-dff0ad0d41ae',
+      src: 'https://firebasestorage.googleapis.com/v0/b/dream-38748.appspot.com/o/cms%2Fpage_banners%2F09d422b7-a49d-4dd6-9ffc-38a1c3e1b382?alt=media&token=20db2e45-008d-4796-9d97-ccebb22a7f4b',
       alt: 'pliesen',
+      width: 958,
+      height: 292,
     },
   }),
 }
@@ -30,9 +35,11 @@ function ImageEditor({
   setData: setImage,
   pathBase = '',
   ...image
-}: {
-  pathBase?: string
-} & Settable<ImageProps>) {
+}: Settable<
+  ImageProps & {
+    pathBase?: string
+  }
+>) {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return
 
@@ -41,17 +48,40 @@ function ImageEditor({
 
     reader.onload = (e) => {
       if (!e.target?.result) return
-      setImage({ src: e.target.result as string })
+      setImage({ ...image, src: e.target.result as string })
     }
 
     reader.readAsDataURL(file)
     uploadFile('cms/' + pathBase + uuid4(), file).then((src) =>
-      setImage({ src })
+      setImage({ ...image, src })
     )
   }
 
   return (
     <div>
+      <Input
+        value={image.width}
+        type="number"
+        onChange={(width) => setImage({ ...image, width })}
+      >
+        Width
+      </Input>
+
+      <Input
+        value={image.height}
+        placeholder={'height'}
+        onChange={(height) => setImage({ ...image, height })}
+      >
+        Height
+      </Input>
+
+      <Input
+        value={image.alt}
+        placeholder={'alt'}
+        onChange={(alt) => setImage({ ...image, alt })}
+      >
+        Alt text
+      </Input>
       <input type="file" onChange={handleUpload} />
       <img src={image.src} alt={image.alt} className="max-w-sm" />
     </div>

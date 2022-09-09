@@ -20,7 +20,7 @@ const config: ComponentConfig<HeroProps> = {
   }),
 }
 
-export function HeroEditor({ setData: setHero, ...hero }: Settable<HeroProps>) {
+function HeroEditor({ setData: setHero, ...hero }: Settable<HeroProps>) {
   return (
     <>
       <Input

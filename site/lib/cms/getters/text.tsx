@@ -21,7 +21,7 @@ const config: ComponentConfig<TextProps> = {
   }),
 }
 
-export function TextEditor({ text, setData }: Settable<TextProps>) {
+function TextEditor({ text, setData }: Settable<TextProps>) {
   return (
     <div>
       <Input value={text} onChange={(text) => setData({ text })} />

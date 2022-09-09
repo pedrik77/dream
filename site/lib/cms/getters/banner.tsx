@@ -26,7 +26,7 @@ const config: ComponentConfig<BannerProps> = {
   }),
 }
 
-export function BannerEditor({
+function BannerEditor({
   setData: setBanner,
   ...banner
 }: Settable<BannerProps>) {
