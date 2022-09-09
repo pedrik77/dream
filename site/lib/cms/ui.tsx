@@ -77,7 +77,7 @@ export function ComponentEditor({
     <div className="flex flex-col">
       <div
         className={`flex justify-end gap-2 right-4 mt-2 shadow-inner ${
-          !forceEdit ? ' absolute top-30 z-50' : ''
+          !forceEdit ? ' absolute top-30 z-50 ' : ''
         }`}
         ref={editorRef}
       >
@@ -262,14 +262,14 @@ export function Components({
     ({ position = 0 }: { position: number }) =>
       canEdit && !atMax ? (
         <div
-          className={`flex justify-center my-2 ${
+          className={`flex justify-center my-4 ${
             isMoving && (moving === position || moving === position - 1)
               ? 'invisible'
               : ''
           }`}
         >
           <Button
-            className="rounded-3xl"
+            className="rounded-2xl"
             type="button"
             onClick={
               isMoving ? () => move(position) : () => insertNew(position)
