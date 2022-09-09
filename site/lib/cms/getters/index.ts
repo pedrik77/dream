@@ -1,4 +1,7 @@
-import { BannerEditor, HeroEditor, ImageEditor, PageBannerEditor } from '../ui'
+import { BannerEditor } from './Banner'
+import { HeroEditor } from './hero'
+import { ImageEditor } from './image'
+import { PageBannerEditor } from './page_banner'
 import { TextEditor } from './text'
 import { WysiwygEditor } from './wysiwyg'
 
