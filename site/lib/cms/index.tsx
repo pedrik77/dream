@@ -105,6 +105,44 @@ export function Components({
     [components, componentTypes]
   )
 
+  const handleToggleDraft = useCallback(
+    (key: number) => {
+      const newComponents = [...components]
+      newComponents[key].draft = !newComponents[key].draft
+      setComponents(newComponents)
+    },
+    [components]
+  )
+
+  const handleRemoveSelf = useCallback(
+    (key: number) => {
+      const c = components.filter((_, j) => j !== key)
+
+      confirm('Are you sure?').then((res) => {
+        if (!res) return
+
+        setComponents(c)
+      })
+    },
+    [components]
+  )
+
+  const handleOnChange = useCallback(
+    (key: number, value: any) => {
+      const newComponents = components.map((c, i) =>
+        key === i
+          ? {
+              ...c,
+              value,
+            }
+          : c
+      )
+
+      setComponents(newComponents)
+    },
+    [components]
+  )
+
   const PlusButton = useCallback(
     ({ position = 0 }: { position: number }) =>
       canEdit && !atMax ? (
@@ -158,35 +196,17 @@ export function Components({
           >
             {canEdit && (
               <ComponentEditor
+                onChange={(value) => handleOnChange(i, value)}
+                toggleMoving={() => setMoving(!isMoving ? i : -1)}
+                removeSelf={() => handleRemoveSelf(i)}
+                toggleDraft={() => handleToggleDraft(i)}
+                isMoving={isMoving}
                 forceEdit={forceEdit}
                 single={components.length === 1}
-                toggleMoving={() => setMoving(!isMoving ? i : -1)}
-                isMoving={isMoving}
-                removeSelf={() => {
-                  const c = components.filter((_, j) => j !== i)
-
-                  confirm('Are you sure?').then((res) => {
-                    if (!res) return
-
-                    setComponents(c)
-                  })
-                }}
-                onChange={(value) => {
-                  const newComponents = components.map((c, j) =>
-                    i === j
-                      ? {
-                          ...c,
-                          value,
-                        }
-                      : c
-                  )
-
-                  setComponents(newComponents)
-                }}
                 {...c}
               />
             )}
-            {!forceEdit && <ComponentRender {...c} />}
+            {!forceEdit ? <ComponentRender {...c} /> : null}
           </div>
           {!atMax && <PlusButton position={i + 1} />}
         </>

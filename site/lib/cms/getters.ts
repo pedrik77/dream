@@ -14,6 +14,8 @@ function getComponentConfig(type: ComponentType) {
 
   if (config) return config
 
+  console.log({ type, config })
+
   throw new Error(`Component type ${type} not found`)
 }
 
@@ -22,15 +24,15 @@ export function getComponentSelectOptions({
   forbiddenComponents = [],
 }: { allowedComponents?: string[]; forbiddenComponents?: string[] } = {}) {
   const types = {}
-  Object.entries(COMPONENTS).forEach(([key, value]) => {
+  COMPONENTS.forEach((config) => {
     if (
-      (allowedComponents.length && !allowedComponents.includes(key)) ||
-      forbiddenComponents.includes(key)
+      (allowedComponents.length && !allowedComponents.includes(config.type)) ||
+      forbiddenComponents.includes(config.type)
     )
       return
 
     // @ts-ignore
-    types[key] = value.name
+    types[config.type] = config.name
   })
 
   return types
@@ -39,8 +41,8 @@ export function getComponentSelectOptions({
 export const getComponentStarter = (componentType: ComponentType) =>
   getComponentConfig(componentType).getStarter()
 
-export const getComponent = (type: ComponentType) =>
-  getComponentConfig(type).Component
+export const getComponent = (componentType: ComponentType) =>
+  getComponentConfig(componentType).Component
 
 export const getEditor = (componentType: ComponentType) =>
   getComponentConfig(componentType).Editor

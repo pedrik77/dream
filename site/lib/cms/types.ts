@@ -44,6 +44,7 @@ export type ChangableComponent = ComponentData &
   Changeable & {
     removeSelf: () => void
     toggleMoving: () => void
+    toggleDraft: () => void
     isMoving: boolean
     forceEdit?: boolean
     single?: boolean

@@ -3,8 +3,13 @@ import { Button } from '@components/ui'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { getComponent, getEditor } from './getters'
 import { useScrollDisable } from '@lib/hooks/useScrollDIsable'
+import { usePermission } from '@lib/hooks/usePermission'
 
-export function ComponentRender({ type, value }: ComponentData) {
+export function ComponentRender({ type, value, draft }: ComponentData) {
+  const permit = usePermission({ permission: 'CMS' })
+
+  if (!permit && draft) return null
+
   const Component = getComponent(type)
   return <Component {...value} />
 }
@@ -14,6 +19,8 @@ export function ComponentEditor({
   value,
   onChange,
   toggleMoving,
+  toggleDraft,
+  draft,
   isMoving,
   forceEdit = false,
   single = false,
@@ -45,23 +52,22 @@ export function ComponentEditor({
       >
         {!forceEdit && !isEditing && (
           <>
-            <Button
-              variant="cms"
-              type="button"
-              onClick={() => setIsEditing(true)}
-            >
+            <Button variant="cms" onClick={() => setIsEditing(true)}>
               Edit
             </Button>
             {!single && (
-              <Button variant="cms" type="button" onClick={toggleMoving}>
+              <Button variant="cms" onClick={toggleMoving}>
                 {isMoving ? 'Cancel' : 'Move'}
               </Button>
             )}
             {!single && (
-              <Button variant="cms" type="button" onClick={removeSelf}>
+              <Button variant="cms" onClick={removeSelf}>
                 Remove
               </Button>
             )}
+            <Button variant="cms" onClick={toggleDraft}>
+              {draft ? 'Publish' : 'Draft'}
+            </Button>
           </>
         )}
       </div>
@@ -83,15 +89,10 @@ export function ComponentEditor({
                       onChange(data)
                       setIsEditing(false)
                     }}
-                    type="button"
                   >
                     Save
                   </Button>
-                  <Button
-                    variant="cms"
-                    onClick={() => setIsEditing(false)}
-                    type="button"
-                  >
+                  <Button variant="cms" onClick={() => setIsEditing(false)}>
                     Cancel
                   </Button>
                 </div>
