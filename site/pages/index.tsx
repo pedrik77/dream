@@ -7,8 +7,8 @@ import Banner from '@components/ui/Banner'
 import Carousel from '@components/ui/Carousel'
 import LogosSection from '@components/ui/LogosSection'
 import { useTranslation } from 'react-i18next'
-import { Components } from '@components/cms/Components'
-import { getCmsBlock } from '@lib/components'
+import { Components } from '@lib/cms'
+import { getCmsBlock } from '@lib/cms/service'
 
 const CMS_ID = 'static_page__home'
 

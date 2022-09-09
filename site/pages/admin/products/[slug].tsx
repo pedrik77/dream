@@ -1,7 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { Category, categoryToSelect, useCategories } from '@lib/categories'
+import { , categoryToSelect, useCategories } from '@lib/categories'
 import { inputDateFormat } from '@lib/date'
 import { deleteFile } from '@lib/files'
 import useLoading from '@lib/hooks/useLoading'
@@ -29,8 +29,8 @@ import _ from 'lodash'
 import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
-import { Components } from '@components/cms/Components'
-import { getWysiwygStarter } from '@lib/components'
+import { Components } from '@lib/cms'
+import { getComponentStarter } from '@lib/cms/getters'
 
 interface ProductEditProps {
   product: Product | null
@@ -72,7 +72,9 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   const [donors, setDonors] = useState(0)
 
-  const cmsBlock = product?.cmsBlock || { ...getWysiwygStarter() }
+  const cmsBlock = product?.cmsBlock || {
+    components: [getComponentStarter('wysiwyg')],
+  }
 
   const loading = useLoading()
   const uploading = useLoading()
