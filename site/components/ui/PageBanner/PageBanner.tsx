@@ -4,17 +4,20 @@ import s from './PageBanner.module.css'
 
 export interface PageBannerProps {
   img: string
+  alt?: string
+  width?: number
+  height?: number
 }
 
-const PageBanner: React.FC<PageBannerProps> = ({ img }) => {
+const PageBanner: React.FC<PageBannerProps> = ({ img, alt, width, height }) => {
   return (
     <div className={s.imgContainer}>
       <Image
         src={img}
-        alt="alt"
-        width="2000"
-        height="610"
-        layout="responsive"
+        alt={alt}
+        width={width}
+        height={height}
+        layout={!!width && !!height ? 'responsive' : 'fill'}
         quality="100"
       />
     </div>

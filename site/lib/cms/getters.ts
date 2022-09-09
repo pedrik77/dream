@@ -1,12 +1,12 @@
 import { ComponentType } from './types'
 
-import Text from './getters/text'
-import Image from './getters/image'
-import Hero from './getters/hero'
-import Banner from './getters/banner'
-import PageBanner from './getters/page_banner'
-import Wysiwyg from './getters/wysiwyg'
-import Carousel from './getters/carousel'
+import Text from './components/text'
+import Image from './components/image'
+import Hero from './components/hero'
+import Banner from './components/banner'
+import PageBanner from './components/page_banner'
+import Wysiwyg from './components/wysiwyg'
+import Carousel from './components/carousel'
 
 export const COMPONENTS = [
   Wysiwyg,

@@ -206,7 +206,7 @@ export function Components({
             )}
             {!forceEdit ? <ComponentRender {...c} /> : null}
           </div>
-          {!atMax && <PlusButton position={i + 1} />}
+          {<PlusButton position={i + 1} />}
         </React.Fragment>
       ))}
     </>

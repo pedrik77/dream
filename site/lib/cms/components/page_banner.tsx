@@ -7,7 +7,9 @@ const type = 'page_banner'
 const config: ComponentConfig<PageBannerProps> = {
   type,
   name: 'Page Banner',
-  Component: PageBanner,
+  Component: ({ img }) => (
+    <PageBanner img={img} width={2000} height={610} alt="banner" />
+  ),
   Editor: PageBannerEditor,
   getStarter: () => ({
     type,
@@ -26,6 +28,8 @@ function PageBannerEditor({
     <>
       <Image.Editor
         src={pageBanner.img}
+        onlySrc
+        alt={'banner'}
         pathBase="page_banners/"
         setData={({ src }) => setPageBanner({ ...pageBanner, img: src })}
       />
