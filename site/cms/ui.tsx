@@ -137,10 +137,6 @@ export function ComponentEditor({
 
   useEffect(() => setData(value), [value])
 
-  useEffect(() => {
-    if (forceEdit) onEditing(true)
-  }, [forceEdit, onEditing])
-
   useEffect(
     () => () => {
       if (forceEdit) onChange(data)
@@ -410,12 +406,11 @@ export function Components({
                 removeSelf={() => handleRemoveSelf(i)}
                 toggleDraft={() => handleToggleDraft(i)}
                 isMoving={isMoving}
-                forceEdit={forceEdit}
                 single={components.length === 1}
                 {...c}
               />
             )}
-            {!forceEdit ? <ComponentRender {...c} /> : null}
+            <ComponentRender {...c} />
           </div>
           {<PlusButton position={i + 1} />}
         </Fragment>
