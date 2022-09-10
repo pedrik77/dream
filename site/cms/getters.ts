@@ -1,11 +1,12 @@
 import { prompt as promptValue } from '@lib/alerts'
 import { COMPONENTS } from './config'
-import { ComponentType, Settable } from './types'
+import { ComponentConfig, ComponentType, Settable } from './types'
 import { createEditor } from './ui'
 
-function getComponentConfig(type: ComponentType) {
+function getComponentConfig<T = any>(type: ComponentType): ComponentConfig<T> {
   const config = COMPONENTS.find((c) => c.type === type)
 
+  // @ts-ignore
   if (config) return config
 
   throw new Error(`Component type ${type} not found`)
@@ -79,7 +80,7 @@ export const getEditor = <T = any>(
   componentType: ComponentType,
   only: string[] = []
 ): ((props: Settable<T>) => JSX.Element) => {
-  const { Editor, valuesDefinition } = getComponentConfig(componentType)
+  const { Editor, valuesDefinition } = getComponentConfig<T>(componentType)
 
   // @ts-ignore
   if (Editor) return Editor

@@ -53,7 +53,7 @@ const getInputEditor = (
 }
 
 export function createEditor<T = any>(
-  definition: ValuesDefinition,
+  definition: ValuesDefinition<T>,
   only: string[] = []
 ): (props: Settable<T>) => JSX.Element {
   const inputs = Object.entries(definition)
@@ -66,22 +66,33 @@ export function createEditor<T = any>(
 
       const Component = getInputEditor(Editor)
 
-      return { Component, name, value, label }
+      const Input = ({ getData }: { getData: (name?: string) => string }) => (
+        <Component
+          key={name}
+          component={getData()}
+          // @ts-ignore
+          value={getData(name) ?? value}
+          label={label}
+          onChange={(value) => {
+            // @ts-ignore
+            setData((data) => ({ ...data, [name]: value }))
+          }}
+        />
+      )
+
+      return Input
     })
 
   return function Editor({ setData, ...data }) {
     return (
       <>
-        {inputs.map(({ Component, name, value, label }) => (
-          <Component
-            key={name}
-            component={data}
-            // @ts-ignore
-            value={data[name] ?? value}
-            label={label}
-            onChange={(value) => {
+        {inputs.map((Input, i) => (
+          <Input
+            key={i}
+            getData={(name) => {
               // @ts-ignore
-              setData((data) => ({ ...data, [name]: value }))
+              if (!!name) return data[name]
+              return data
             }}
           />
         ))}
@@ -106,21 +117,22 @@ export function ComponentEditor({
   toggleMoving,
   toggleDraft,
   draft,
+  isEditing,
+  onEditing,
   isMoving,
   forceEdit = false,
   single = false,
   removeSelf,
 }: ChangableComponent) {
   const [data, setData] = useState({})
-  const [isEditing, setIsEditing] = useState(false)
 
   const Editor = useMemo(() => getEditor(type), [type])
 
   useEffect(() => setData(value), [value])
 
   useEffect(() => {
-    if (forceEdit) setIsEditing(true)
-  }, [forceEdit])
+    if (forceEdit) onEditing(true)
+  }, [forceEdit, onEditing])
 
   useEffect(
     () => () => {
@@ -143,7 +155,7 @@ export function ComponentEditor({
       >
         {!forceEdit && !isEditing && (
           <>
-            <Button variant="cms" onClick={() => setIsEditing(true)}>
+            <Button variant="cms" onClick={() => onEditing(true)}>
               Edit
             </Button>
             {!single && (
@@ -178,12 +190,12 @@ export function ComponentEditor({
                     variant="cms"
                     onClick={() => {
                       onChange(data)
-                      setIsEditing(false)
+                      onEditing(false)
                     }}
                   >
                     Save
                   </Button>
-                  <Button variant="cms" onClick={() => setIsEditing(false)}>
+                  <Button variant="cms" onClick={() => onEditing(false)}>
                     Cancel
                   </Button>
                 </div>
@@ -211,6 +223,7 @@ export function Components({
   const { adminEditingMode } = useAuthContext()
   const [components, setComponents] = useState<StarterCommon[]>([])
   const [moving, setMoving] = useState(-1)
+  const [editing, setEditing] = useState<number[]>([])
 
   const canEdit =
     usePermission({ permission: PERMISSIONS.CMS }) &&
@@ -278,6 +291,15 @@ export function Components({
       )
     },
     [components, componentTypes]
+  )
+
+  const handleEditComponent = useCallback(
+    (key: number, isEditing: boolean) => {
+      isEditing
+        ? setEditing([...editing, key])
+        : setEditing(editing.filter((i) => i !== key))
+    },
+    [editing]
   )
 
   const handleToggleDraft = useCallback(
@@ -374,6 +396,8 @@ export function Components({
           <div className={canEdit ? 'shadow-md' : ''}>
             {canEdit && (
               <ComponentEditor
+                isEditing={editing.includes(i)}
+                onEditing={(isEditing) => handleEditComponent(i, isEditing)}
                 onChange={(value) => handleOnChange(i, value)}
                 toggleMoving={() => setMoving(!isMoving ? i : -1)}
                 removeSelf={() => handleRemoveSelf(i)}

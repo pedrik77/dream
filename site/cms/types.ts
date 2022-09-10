@@ -66,6 +66,8 @@ export type ChangableComponent = StarterCommon &
     toggleMoving: () => void
     toggleDraft: () => void
     isMoving: boolean
+    isEditing: boolean
+    onEditing: (isEditing: boolean) => void
     forceEdit?: boolean
     single?: boolean
   }
