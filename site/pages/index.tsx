@@ -21,7 +21,6 @@ export default function Home({
   cmsBlock,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { t } = useTranslation()
-  console.log({ cmsBlock })
 
   return (
     <>

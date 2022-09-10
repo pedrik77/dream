@@ -20,7 +20,11 @@ const config: ComponentConfig<PageBannerProps> = {
 
         return (
           // @ts-ignore
-          <ImageEditor src={value} alt={'banner'} setData={onChange} />
+          <ImageEditor
+            src={value}
+            alt={'banner'}
+            setData={({ src }) => onChange(src)}
+          />
         )
       },
     ],

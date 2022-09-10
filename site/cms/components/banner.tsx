@@ -61,7 +61,6 @@ function BannerEditor({
           setBanner({ ...banner, button: { text: '', ...banner.button, link } })
         }
       />
-      <Input variant="cms" value={banner.img} readOnly />
       <ImageEditor
         src={banner.img}
         setData={({ src }) => setBanner({ ...banner, img: src })}
