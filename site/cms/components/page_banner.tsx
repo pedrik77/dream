@@ -15,15 +15,7 @@ const config: ComponentConfig<PageBannerProps> = {
       '/assets/winners_banner.jpg',
       ({ value, onChange }) => {
         const ImageEditor = getEditor<ImageProps>('image', ['src'])
-
-        return (
-          // @ts-ignore
-          <ImageEditor
-            src={value}
-            alt={'banner'}
-            setData={({ src }) => onChange(src)}
-          />
-        )
+        return <ImageEditor src={value} setData={({ src }) => onChange(src)} />
       },
     ],
     alt: false,
