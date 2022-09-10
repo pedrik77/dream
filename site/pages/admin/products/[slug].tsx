@@ -29,7 +29,7 @@ import _ from 'lodash'
 import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
-import { CMS, getComponentStarter } from 'cms'
+import { CMS, getStarter } from 'cms'
 import { CmsBlockData } from '@lib/cms'
 
 interface ProductEditProps {
@@ -84,9 +84,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   useEffect(() => {
     if (!product?.cmsBlock) {
-      getComponentStarter('wysiwyg').then((c) =>
-        setCmsBlock({ components: [c] })
-      )
+      getStarter('wysiwyg').then(setCmsBlock)
     } else {
       setCmsBlock(product.cmsBlock)
     }
