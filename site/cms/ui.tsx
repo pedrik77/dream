@@ -1,6 +1,6 @@
 import {
   ChangableComponent,
-  ComponentData,
+  StarterCommon,
   ComponentsProps,
   EditorType,
   Settable,
@@ -19,12 +19,12 @@ import { getComponent, getEditor } from './getters'
 import { useScrollDisable } from '@lib/hooks/useScrollDIsable'
 import { usePermission } from '@lib/hooks/usePermission'
 import { PERMISSIONS, useAuthContext } from '@lib/auth'
-import { getCmsBlock, setCmsBlock } from './service'
 import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
 import { getComponentSelectOptions, getComponentStarter } from './getters'
 import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from './config'
 import { Input } from './editors/input'
+import { getCmsBlock, setCmsBlock } from '@lib/cms'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
@@ -73,7 +73,7 @@ export function createEditor<T = any>(
   }
 }
 
-export function ComponentRender({ type, value, draft }: ComponentData) {
+export function ComponentRender({ type, value, draft }: StarterCommon) {
   const permit = usePermission({ permission: 'CMS' })
 
   if (!permit && draft) return null
@@ -190,7 +190,7 @@ export function Components({
 }: ComponentsProps) {
   const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
-  const [components, setComponents] = useState<ComponentData[]>([])
+  const [components, setComponents] = useState<StarterCommon[]>([])
   const [moving, setMoving] = useState(-1)
 
   const canEdit =
@@ -212,7 +212,7 @@ export function Components({
   })
 
   const saveComponents = useCallback(
-    (components: ComponentData[]) => {
+    (components: StarterCommon[]) => {
       return setCmsBlock({
         id: blockId,
         components,

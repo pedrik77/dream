@@ -1,3 +1,4 @@
+import { StarterCommon } from 'cms/types'
 import {
   doc,
   DocumentSnapshot,
@@ -9,7 +10,12 @@ import { useEffect, useState } from 'react'
 import { noop } from '../lib/common'
 import { db } from '../lib/firebase'
 import { AnyClosure } from '../lib/types'
-import { CmsBlockData } from './types'
+
+export type ComponentData = StarterCommon
+
+export type CmsBlockData = {
+  components: ComponentData[]
+}
 
 interface UseCmsBlockOptions {
   id: string

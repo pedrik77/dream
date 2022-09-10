@@ -29,9 +29,8 @@ import _ from 'lodash'
 import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
-import { CMS } from 'cms'
-import { getComponentStarter } from 'cms/getters'
-import { CmsBlockData } from 'cms/types'
+import { CMS, getComponentStarter } from 'cms'
+import { CmsBlockData } from '@lib/cms'
 
 interface ProductEditProps {
   product: Product | null

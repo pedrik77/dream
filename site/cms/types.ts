@@ -36,12 +36,6 @@ export interface StarterCommon<T = any> {
   value: T
 }
 
-export type ComponentData = StarterCommon
-
-export type CmsBlockData = {
-  components: ComponentData[]
-}
-
 export interface Changeable {
   onChange: (value: any) => void
 }
@@ -52,7 +46,7 @@ export type Settable<T = {}> = T & {
 
 export interface ComponentsProps {
   blockId?: string
-  children?: ComponentData[]
+  children?: StarterCommon[]
   forceEdit?: boolean
   forbidEdit?: boolean
   maxNumberOfComponents?: number
@@ -60,7 +54,7 @@ export interface ComponentsProps {
   forbiddenComponents?: string[]
 }
 
-export type ChangableComponent = ComponentData &
+export type ChangableComponent = StarterCommon &
   Changeable & {
     removeSelf: () => void
     toggleMoving: () => void

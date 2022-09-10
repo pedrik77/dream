@@ -4,7 +4,7 @@ import type { InferGetStaticPropsType } from 'next'
 import LogosSection from '@components/ui/LogosSection'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
-import { getCmsBlock } from 'cms/service'
+import { getCmsBlock } from '@lib/cms'
 
 const CMS_ID = 'static_page__home'
 
@@ -21,6 +21,7 @@ export default function Home({
   cmsBlock,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { t } = useTranslation()
+  console.log({ cmsBlock })
 
   return (
     <>
