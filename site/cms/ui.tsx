@@ -15,13 +15,17 @@ import {
   useRef,
   useState,
 } from 'react'
-import { getComponent, getEditor } from './getters'
 import { useScrollDisable } from '@lib/hooks/useScrollDIsable'
 import { usePermission } from '@lib/hooks/usePermission'
 import { PERMISSIONS, useAuthContext } from '@lib/auth'
 import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
-import { getComponentSelectOptions, getComponentStarter } from './getters'
+import {
+  getComponentSelectOptions,
+  getComponentStarter,
+  getComponent,
+  getEditor,
+} from './getters'
 import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from './config'
 import { getInput } from './editors/input'
 import { getCmsBlock, setCmsBlock } from '@lib/cms'
@@ -69,10 +73,9 @@ export function createEditor<T = any>(
       const Input = ({
         getData,
         setData,
-      }: {
+      }: Settable<{
         getData: (name?: string) => string
-        setData: (value: any) => void
-      }) => (
+      }>) => (
         <Component
           key={name}
           component={getData()}
