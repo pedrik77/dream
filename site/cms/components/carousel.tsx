@@ -25,7 +25,6 @@ const config: ComponentConfig<CarouselProps> = {
       }
     </Carousel>
   ),
-
   valuesDefinition: {
     title: ['Title', 'Pozrite kto vyhral'],
     type: ['Type', 'iframe'],
@@ -53,6 +52,12 @@ const config: ComponentConfig<CarouselProps> = {
           ))}
           <Button variant="cms" onClick={() => onChange([...items, ''])}>
             +
+          </Button>
+          <Button
+            variant="cms"
+            onClick={() => onChange(items.slice(0, items.length - 1))}
+          >
+            -
           </Button>
         </fieldset>
       ),

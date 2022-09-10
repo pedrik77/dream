@@ -27,7 +27,7 @@ export type ComponentConfig<T> = {
   valuesDefinition: ValuesDefinition<T>
   Editor?: (props: Settable<T>) => JSX.Element
   loadStarterValues?: () => Promise<T>
-  usePrompt?: KeyOf<T>[]
+  prompt?: KeyOf<T>[]
 }
 
 export interface StarterCommon<T = any> {

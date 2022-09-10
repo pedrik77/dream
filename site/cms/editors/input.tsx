@@ -14,13 +14,21 @@ export const Input: EditorType<string, InputProps> = ({
   type = 'text',
   placeholder = '',
 }) => (
-  <UiInput
-    value={value}
-    type={type}
-    placeholder={placeholder}
-    onChange={onChange}
-    variant="cms"
-  >
-    {label}
-  </UiInput>
+  <>
+    <UiInput
+      value={value}
+      type={type}
+      placeholder={placeholder}
+      onChange={onChange}
+      variant="cms"
+    >
+      {label && (
+        <>
+          {label}
+          <br />
+        </>
+      )}
+    </UiInput>
+    <br />
+  </>
 )

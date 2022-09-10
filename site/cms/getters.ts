@@ -1,4 +1,4 @@
-import { prompt } from '@lib/alerts'
+import { prompt as promptValue } from '@lib/alerts'
 import { COMPONENTS } from './config'
 import { ComponentType, Settable } from './types'
 import { createEditor } from './ui'
@@ -31,7 +31,7 @@ export function getComponentSelectOptions({
 }
 
 export const getComponentStarter = async (componentType: ComponentType) => {
-  const { valuesDefinition, loadStarterValues, usePrompt } =
+  const { valuesDefinition, loadStarterValues, prompt } =
     getComponentConfig(componentType)
 
   const values = loadStarterValues ? await loadStarterValues() : null
@@ -50,10 +50,10 @@ export const getComponentStarter = async (componentType: ComponentType) => {
 
           return [
             name,
-            (usePrompt &&
+            (prompt &&
               // @ts-ignore
-              usePrompt.includes(name) &&
-              (await prompt(title, {
+              prompt.includes(name) &&
+              (await promptValue(title, {
                 cancelButton: 'Použiť predvolené',
                 confirmButton: 'Pokračovať',
               }))) ||
