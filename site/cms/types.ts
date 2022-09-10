@@ -10,6 +10,7 @@ export type InputEditor<T = any, P = {}> = (
     label?: string
     value: T
     onChange: (value: T) => void
+    component: P
   }
 ) => JSX.Element
 
@@ -17,13 +18,13 @@ export type InputEditorGetter<T = any, P = {}> = (
   defaults?: P
 ) => InputEditor<T, P>
 
-export type Definition = [
+export type Definition<T> = [
   title: string,
   starter?: any,
-  Editor?: string | string[] | InputEditor
+  Editor?: string | string[] | InputEditor<any, T>
 ]
 
-export type ValuesDefinition<T = {}> = Record<KeyOf<T>, Definition | false>
+export type ValuesDefinition<T = {}> = Record<KeyOf<T>, Definition<T> | false>
 
 export type ComponentConfig<T> = {
   type: string

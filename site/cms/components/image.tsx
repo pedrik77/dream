@@ -23,7 +23,7 @@ const config: ComponentConfig<ImageProps> = {
 
       'https://firebasestorage.googleapis.com/v0/b/dream-38748.appspot.com/o/cms%2Fpage_banners%2F09d422b7-a49d-4dd6-9ffc-38a1c3e1b382?alt=media&token=20db2e45-008d-4796-9d97-ccebb22a7f4b',
 
-      ({ value, onChange }) => {
+      ({ value, onChange, component }) => {
         const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
           if (!e.target.files?.[0]) return
 
@@ -42,7 +42,15 @@ const config: ComponentConfig<ImageProps> = {
         return (
           <>
             <input type="file" onChange={handleUpload} />
-            <img src={value} alt="file" className="max-w-sm" />
+            <div className="h-full m-8">
+              <img
+                src={value}
+                alt="file"
+                className="w-full"
+                width={component.width}
+                height={component.height}
+              />
+            </div>
           </>
         )
       },

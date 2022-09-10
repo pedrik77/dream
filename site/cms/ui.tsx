@@ -75,6 +75,7 @@ export function createEditor<T = any>(
         {inputs.map(({ Component, name, value, label }) => (
           <Component
             key={name}
+            component={data}
             // @ts-ignore
             value={data[name] ?? value}
             label={label}
