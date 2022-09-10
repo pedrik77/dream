@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react'
 import { COMPONENTS } from './config'
 
 type KeyOf<T> = keyof T
@@ -45,7 +46,7 @@ export interface Changeable {
 }
 
 export type Settable<T = {}> = T & {
-  setData: (data: T) => void
+  setData: Dispatch<SetStateAction<T>>
 }
 
 export interface ComponentsProps {

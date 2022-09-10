@@ -75,11 +75,12 @@ export function createEditor<T = any>(
         {inputs.map(({ Component, name, value, label }) => (
           <Component
             key={name}
-            value={value}
+            // @ts-ignore
+            value={data[name] ?? value}
             label={label}
             onChange={(value) => {
               // @ts-ignore
-              setData({ ...data, [name]: value })
+              setData((data) => ({ ...data, [name]: value }))
             }}
           />
         ))}
@@ -109,10 +110,12 @@ export function ComponentEditor({
   single = false,
   removeSelf,
 }: ChangableComponent) {
-  const [data, setData] = useState(value)
+  const [data, setData] = useState({})
   const [isEditing, setIsEditing] = useState(false)
 
   const Editor = useMemo(() => getEditor(type), [type])
+
+  useEffect(() => setData(value), [value])
 
   useEffect(() => {
     if (forceEdit) setIsEditing(true)
