@@ -10,7 +10,15 @@ const config: ComponentConfig<PageBannerProps> = {
   Component: ({ img }) => (
     <PageBanner img={img} width={2000} height={610} alt="banner" />
   ),
-  Editor: PageBannerEditor,
+  Editor: ({ setData: setPageBanner, ...pageBanner }) => (
+    <Image.Editor
+      src={pageBanner.img}
+      onlySrc
+      alt={'banner'}
+      pathBase="page_banners/"
+      setData={({ src }) => setPageBanner({ ...pageBanner, img: src })}
+    />
+  ),
   getStarter: async () => ({
     type,
     draft: true,
@@ -18,23 +26,6 @@ const config: ComponentConfig<PageBannerProps> = {
       img: '/assets/winners_banner.jpg',
     },
   }),
-}
-
-function PageBannerEditor({
-  setData: setPageBanner,
-  ...pageBanner
-}: Settable<PageBannerProps>) {
-  return (
-    <>
-      <Image.Editor
-        src={pageBanner.img}
-        onlySrc
-        alt={'banner'}
-        pathBase="page_banners/"
-        setData={({ src }) => setPageBanner({ ...pageBanner, img: src })}
-      />
-    </>
-  )
 }
 
 export default config

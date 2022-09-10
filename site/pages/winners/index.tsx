@@ -10,7 +10,7 @@ import { Product, useProducts } from '@lib/products'
 import { ProductCard } from '@components/product'
 import PageBanner from '@components/ui/PageBanner'
 import Tree from '@components/winners/Tree'
-import { CMS } from '@lib/cms'
+import { CMS } from 'cms'
 
 const CMS_ID = 'static_page__winners'
 

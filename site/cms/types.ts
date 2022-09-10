@@ -1,6 +1,13 @@
-import { COMPONENTS } from './'
+import { COMPONENTS } from '.'
 
 export type ComponentType = typeof COMPONENTS[number]['type']
+
+export type Label =
+  | [
+      title: string,
+      options: { starter?: string; prompt?: boolean; hide?: boolean }
+    ]
+  | string
 
 export type ComponentConfig<T> = {
   type: string
@@ -8,6 +15,7 @@ export type ComponentConfig<T> = {
   Component: React.FC<T>
   Editor: (props: Settable<T>) => JSX.Element
   getStarter: () => Promise<StarterCommon<T>>
+  labels: Record<keyof T, Label>
 }
 
 export interface StarterCommon<T = any> {

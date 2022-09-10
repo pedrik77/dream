@@ -3,8 +3,8 @@ import { Layout } from '@components/common'
 import type { InferGetStaticPropsType } from 'next'
 import LogosSection from '@components/ui/LogosSection'
 import { useTranslation } from 'react-i18next'
-import { CMS } from '@lib/cms'
-import { getCmsBlock } from '@lib/cms/service'
+import { CMS } from 'cms'
+import { getCmsBlock } from 'cms/service'
 
 const CMS_ID = 'static_page__home'
 

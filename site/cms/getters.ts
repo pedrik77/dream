@@ -1,4 +1,4 @@
-import { COMPONENTS } from './'
+import { COMPONENTS } from '.'
 import { ComponentType } from './types'
 
 function getComponentConfig(type: ComponentType) {

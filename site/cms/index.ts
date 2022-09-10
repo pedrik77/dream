@@ -16,4 +16,7 @@ export const COMPONENTS = [
   Carousel,
 ]
 
+export const DEFAULT_FORBIDDEN = ['text']
+export const DEFAULT_ALLOWED = []
+
 export { Components as CMS } from './ui'

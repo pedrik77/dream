@@ -12,10 +12,11 @@ import { getComponent, getEditor } from './getters'
 import { useScrollDisable } from '@lib/hooks/useScrollDIsable'
 import { usePermission } from '@lib/hooks/usePermission'
 import { PERMISSIONS, useAuthContext } from '@lib/auth'
-import { getCmsBlock, setCmsBlock } from '@lib/cms/service'
+import { getCmsBlock, setCmsBlock } from './service'
 import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
 import { getComponentSelectOptions, getComponentStarter } from './getters'
+import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from '.'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
@@ -144,8 +145,8 @@ export function Components({
   forceEdit = false,
   forbidEdit = false,
   maxNumberOfComponents = -1,
-  allowedComponents = [],
-  forbiddenComponents = ['text'],
+  allowedComponents = DEFAULT_ALLOWED,
+  forbiddenComponents = DEFAULT_FORBIDDEN,
 }: ComponentsProps) {
   const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
@@ -259,14 +260,13 @@ export function Components({
   )
 
   const PlusButton = useCallback(
-    ({ position = 0 }: { position: number }) =>
-      canEdit && !atMax ? (
+    ({ position = 0 }: { position: number }) => {
+      const disable =
+        isMoving && (moving === position || moving === position - 1)
+
+      return canEdit && !atMax ? (
         <div
-          className={`flex justify-center my-4 ${
-            isMoving && (moving === position || moving === position - 1)
-              ? 'invisible'
-              : ''
-          }`}
+          className={`flex justify-center my-4 ${disable ? 'opacity-25' : ''}`}
         >
           <Button
             className="rounded-2xl"
@@ -278,7 +278,8 @@ export function Components({
             {isMoving ? 'Move here' : '+'}
           </Button>
         </div>
-      ) : null,
+      ) : null
+    },
     [canEdit, atMax, isMoving, moving, insertNew, move]
   )
 

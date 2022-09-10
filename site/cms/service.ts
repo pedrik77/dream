@@ -6,9 +6,9 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import { noop } from '../common'
-import { db } from '../firebase'
-import { AnyClosure } from '../types'
+import { noop } from '../lib/common'
+import { db } from '../lib/firebase'
+import { AnyClosure } from '../lib/types'
 import { CmsBlockData } from './types'
 
 interface UseCmsBlockOptions {

@@ -12,7 +12,10 @@ const config: ComponentConfig<WysiwygProps> = {
   type,
   name: 'Wysiwyg',
   Component: Text,
-  Editor: WysiwygEditor,
+  Editor: ({ html, setData }) => (
+    // @ts-ignore
+    <Editor value={html} onChange={(html) => setData({ html })} />
+  ),
   getStarter: async () => ({
     type,
     draft: true,
@@ -26,11 +29,6 @@ const config: ComponentConfig<WysiwygProps> = {
         `,
     },
   }),
-}
-
-function WysiwygEditor({ html, setData }: Settable<WysiwygProps>) {
-  // @ts-ignore
-  return <Editor value={html} onChange={(html) => setData({ html })} />
 }
 
 export default config

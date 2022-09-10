@@ -1,4 +1,5 @@
 import { Input } from '@components/ui'
+
 import { ComponentConfig, Settable } from '../types'
 
 type TextProps = {
@@ -11,7 +12,11 @@ const config: ComponentConfig<TextProps> = {
   type,
   name: 'Text',
   Component: ({ text = '' }) => <div>{text}</div>,
-  Editor: TextEditor,
+  Editor: ({ text, setData }) => (
+    <div>
+      <Input value={text} onChange={(text) => setData({ text })} />
+    </div>
+  ),
   getStarter: async () => ({
     type,
     draft: true,
@@ -19,14 +24,12 @@ const config: ComponentConfig<TextProps> = {
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     },
   }),
-}
-
-function TextEditor({ text, setData }: Settable<TextProps>) {
-  return (
-    <div>
-      <Input value={text} onChange={(text) => setData({ text })} />
-    </div>
-  )
+  labels: {
+    text: [
+      'Text',
+      { starter: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+    ],
+  },
 }
 
 export default config
