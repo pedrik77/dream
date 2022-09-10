@@ -290,7 +290,6 @@ export function Components({
 
   const handleOnChange = useCallback(
     (key: number, value: any) => {
-      return
       const newComponents = components.map((c, i) =>
         key === i
           ? {
