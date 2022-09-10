@@ -78,6 +78,7 @@ export function createEditor<T = any>(
             value={value}
             label={label}
             onChange={(value) => {
+              // @ts-ignore
               setData({ ...data, [name]: value })
             }}
           />
