@@ -67,8 +67,10 @@ export function createEditor<T = any>(
             {...props}
             // @ts-ignore
             value={data[name]}
-            // @ts-ignore
-            onChange={(value) => setData({ ...data, [name]: value })}
+            onChange={(value) => {
+              // @ts-ignore
+              setData({ ...data, [name]: value })
+            }}
           />
         ))}
       </>
