@@ -4,13 +4,15 @@ import React from 'react'
 
 const ReactSelect = dynamic(import('react-select'), { ssr: false })
 
+export type Labels = string[] | string[][]
+
 interface SelectProps {
-  options?: string[]
+  options?: Labels
 }
 
-const toOption = (value: string) => ({
-  value,
-  label: value,
+const toOption = (value: string | string[]) => ({
+  value: typeof value === 'string' ? value : value[1],
+  label: typeof value === 'string' ? value : value[0],
 })
 
 export const getSelect: InputEditorGetter<string, SelectProps> =

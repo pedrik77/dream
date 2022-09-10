@@ -5,6 +5,7 @@ import Banner from './components/banner'
 import PageBanner from './components/page_banner'
 import Wysiwyg from './components/wysiwyg'
 import Carousel from './components/carousel'
+import Spacer from './components/spacer'
 
 export const COMPONENTS = [
   Wysiwyg,
@@ -14,6 +15,7 @@ export const COMPONENTS = [
   PageBanner,
   Banner,
   Carousel,
+  Spacer,
 ]
 
 export const DEFAULT_FORBIDDEN = ['text']
