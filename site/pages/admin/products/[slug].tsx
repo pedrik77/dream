@@ -266,7 +266,11 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               Long description <br />
             </label>
             {isEditing && cmsBlock && (
-              <CMS blockId={getProductCmsId(slug)} forceEdit>
+              <CMS
+                blockId={getProductCmsId(slug)}
+                forceEdit
+                allowedComponents={['text']}
+              >
                 {cmsBlock.components}
               </CMS>
             )}
