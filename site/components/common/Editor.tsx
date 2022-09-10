@@ -15,16 +15,28 @@ export default function Editor({
         height: 500,
         menubar: false,
         plugins: [
-          'advlist autolink lists link image',
-          'charmap print preview anchor help',
-          'searchreplace visualblocks code',
-          'insertdatetime media table paste wordcount',
+          'lists',
+          'advlist',
+          'autolink',
+          'link',
+          'image',
+          'charmap',
+          'preview',
+          'anchor',
+          'help',
+          'searchreplace',
+          'visualblocks',
+          'code',
+          'insertdatetime',
+          'media',
+          'table',
+          'wordcount',
         ],
         toolbar:
           'undo redo | bold italic underline blockquote | formatselect fontsizeselect | \
-      alignleft aligncenter alignright alignjustify | lineheight | \
-      bullist numlist outdent indent | \
-      link image removeformat | styleselect | help',
+          alignleft aligncenter alignright alignjustify | lineheight | \
+          bullist numlist outdent indent | \
+          link image removeformat | styleselect | help',
       }}
     />
   )
