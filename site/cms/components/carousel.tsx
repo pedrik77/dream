@@ -1,6 +1,7 @@
-import { Button, Input } from '@components/ui'
+import { Button } from '@components/ui'
 import Carousel from '@components/ui/Carousel'
-import { ComponentConfig, Settable } from '../types'
+import { Input } from 'cms/editors/input'
+import { ComponentConfig } from '../types'
 
 const type = 'carousel'
 
@@ -26,7 +27,7 @@ const config: ComponentConfig<CarouselProps> = {
       }
     </Carousel>
   ),
-  Editor: CarouselEditor,
+
   valuesDefinition: {
     title: ['Title', 'Pozrite kto vyhral'],
     type: ['Type', 'iframe'],
@@ -39,48 +40,26 @@ const config: ComponentConfig<CarouselProps> = {
         'https://www.youtube.com/embed/1Q8fG0TtVAY',
         'https://www.youtube.com/embed/1Q8fG0TtVAY',
       ],
+      ({ value: items, onChange }) => (
+        <fieldset>
+          {items.map((url: string, i: number) => (
+            <Input
+              key={i}
+              value={url}
+              onChange={(url) => {
+                const newItems = [...items]
+                newItems[i] = url
+                onChange(newItems)
+              }}
+            />
+          ))}
+          <Button variant="cms" onClick={() => onChange([...items, ''])}>
+            +
+          </Button>
+        </fieldset>
+      ),
     ],
   },
-}
-
-function CarouselEditor({
-  setData: setCarousel,
-  ...carousel
-}: Settable<CarouselProps>) {
-  return (
-    <>
-      <Input
-        value={carousel.title}
-        onChange={(title) => setCarousel({ ...carousel, title })}
-      >
-        <span className="text-white">Title</span>
-      </Input>
-
-      <fieldset>
-        {carousel.items.map((url, i) => (
-          <Input
-            key={i}
-            value={url}
-            onChange={(url) => {
-              const items = [...carousel.items]
-              items[i] = url
-              setCarousel({ ...carousel, items })
-            }}
-          >
-            <span className="text-white">Item {i + 1}</span>
-          </Input>
-        ))}
-        <Button
-          variant="cms"
-          onClick={() =>
-            setCarousel({ ...carousel, items: [...carousel.items, ''] })
-          }
-        >
-          +
-        </Button>
-      </fieldset>
-    </>
-  )
 }
 
 function CarouselImage({ src }: { src: string }) {

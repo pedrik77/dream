@@ -1,6 +1,6 @@
 import Editor from '@components/common/Editor'
 import { Text } from '@components/ui'
-import { ComponentConfig, Settable } from '../types'
+import { ComponentConfig } from '../types'
 
 const type = 'wysiwyg'
 

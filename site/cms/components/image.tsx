@@ -1,5 +1,5 @@
 import { uploadFile } from '@lib/files'
-import { ComponentConfig, Settable } from '../types'
+import { ComponentConfig } from '../types'
 import { v4 as uuid4 } from 'uuid'
 import NextImage from 'next/image'
 
