@@ -20,6 +20,7 @@ const config: ComponentConfig<WysiwygProps> = {
             .map((name) => `<li>${name}</li>`)
             .join('')}
        </ul>`,
+      ({ value, onChange }) => <Editor value={value} onChange={onChange} />,
     ],
   },
 }

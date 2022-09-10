@@ -1,6 +1,6 @@
 import { prompt } from '@lib/alerts'
 import { COMPONENTS } from '.'
-import { ComponentType } from './types'
+import { ComponentType, Settable } from './types'
 import { createEditor } from './ui'
 
 function getComponentConfig(type: ComponentType) {
@@ -75,10 +75,12 @@ export const getComponentStarter = async (componentType: ComponentType) => {
 export const getComponent = (componentType: ComponentType) =>
   getComponentConfig(componentType).Component
 
-export const getEditor = (componentType: ComponentType) => {
+export const getEditor = <T = any>(
+  componentType: ComponentType
+): ((props: Settable<T>) => JSX.Element) => {
   const { Editor, valuesDefinition } = getComponentConfig(componentType)
 
   if (Editor) return Editor
 
-  return createEditor(valuesDefinition)
+  return createEditor<T>(valuesDefinition)
 }

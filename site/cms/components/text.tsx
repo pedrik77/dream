@@ -1,5 +1,4 @@
-import { Input } from 'cms/editors/input'
-import { ComponentConfig, Settable } from '../types'
+import { ComponentConfig } from '../types'
 
 type TextProps = {
   text: string

@@ -6,6 +6,7 @@ export type ComponentType = typeof COMPONENTS[number]['type']
 
 export type EditorType<T = any, P = {}> = (
   props: P & {
+    label?: string
     value: T
     onChange: (value: T) => void
   }

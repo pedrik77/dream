@@ -39,9 +39,9 @@ const selectType = async (options?: any) => {
   })
 }
 
-export function createEditor(
+export function createEditor<T = any>(
   definition: ValuesDefinition
-): (props: Settable) => JSX.Element {
+): (props: Settable<T>) => JSX.Element {
   const inputs = Object.entries(definition)
     .filter(([, d]) => d)
     .map(([name, d]) => {
@@ -64,6 +64,7 @@ export function createEditor(
           <Component
             key={name}
             {...props}
+            // @ts-ignore
             onChange={(value) => setData({ ...data, [name]: value })}
           />
         ))}

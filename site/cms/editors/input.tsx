@@ -4,7 +4,6 @@ import React from 'react'
 
 interface InputProps {
   type?: string
-  label?: string
   placeholder?: string
 }
 
@@ -20,6 +19,7 @@ export const Input: EditorType<string, InputProps> = ({
     type={type}
     placeholder={placeholder}
     onChange={onChange}
+    variant="cms"
   >
     {label}
   </UiInput>

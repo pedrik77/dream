@@ -1,9 +1,12 @@
 import { Input } from '@components/ui'
 import Banner, { BannerProps } from '@components/ui/Banner'
+import { getEditor } from 'cms/getters'
 import { ComponentConfig, Settable } from '../types'
-import Image from './image'
+import { ImageProps } from './image'
 
 const type = 'banner'
+
+const ImageEditor = getEditor<ImageProps>('image')
 
 const config: ComponentConfig<BannerProps> = {
   type,
@@ -59,10 +62,8 @@ function BannerEditor({
         }
       />
       <Input variant="cms" value={banner.img} readOnly />
-      <Image.Editor
+      <ImageEditor
         src={banner.img}
-        onlySrc
-        pathBase="banners/"
         setData={({ src }) => setBanner({ ...banner, img: src })}
       />
     </>
