@@ -28,8 +28,8 @@ const config: ComponentConfig<CarouselProps> = {
   ),
   Editor: CarouselEditor,
   valuesDefinition: {
-    title: ['Title', { starter: 'Pozrite kto vyhral' }],
-    type: ['Type', { starter: 'iframe' }],
+    title: ['Title', 'Pozrite kto vyhral'],
+    type: ['Type', 'iframe'],
     items: [
       'Items',
       [

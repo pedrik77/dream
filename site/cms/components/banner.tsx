@@ -11,10 +11,10 @@ const config: ComponentConfig<BannerProps> = {
   Component: Banner,
   Editor: BannerEditor,
   valuesDefinition: {
-    primaryTitle: ['Hlavný nadpis', { starter: 'vysnivaj.si' }],
-    secondaryTitle: ['Hlavný nadpis 2', { starter: 'Traktar 4000' }],
-    subtitle: ['Podnadpis', { starter: 'Vyhrajte jedinečný Traktar 4000' }],
-    img: ['Image', { starter: '/assets/car_2560x1440.jpg' }],
+    primaryTitle: ['Hlavný nadpis', 'vysnivaj.si'],
+    secondaryTitle: ['Hlavný nadpis 2', 'Traktar 4000'],
+    subtitle: ['Podnadpis', 'Vyhrajte jedinečný Traktar 4000'],
+    img: ['Image', '/assets/car_2560x1440.jpg'],
     button: [
       'Button',
       {
