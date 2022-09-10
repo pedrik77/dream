@@ -23,7 +23,7 @@ import { getCmsBlock, setCmsBlock } from './service'
 import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
 import { getComponentSelectOptions, getComponentStarter } from './getters'
-import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from '.'
+import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from './config'
 import { Input } from './editors/input'
 
 const selectType = async (options?: any) => {

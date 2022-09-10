@@ -1,5 +1,5 @@
 import { prompt } from '@lib/alerts'
-import { COMPONENTS } from '.'
+import { COMPONENTS } from './config'
 import { ComponentType, Settable } from './types'
 import { createEditor } from './ui'
 
@@ -80,6 +80,7 @@ export const getEditor = <T = any>(
 ): ((props: Settable<T>) => JSX.Element) => {
   const { Editor, valuesDefinition } = getComponentConfig(componentType)
 
+  // @ts-ignore
   if (Editor) return Editor
 
   return createEditor<T>(valuesDefinition)

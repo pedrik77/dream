@@ -6,8 +6,6 @@ import { ImageProps } from './image'
 
 const type = 'banner'
 
-const ImageEditor = getEditor<ImageProps>('image')
-
 const config: ComponentConfig<BannerProps> = {
   type,
   title: 'Banner',
@@ -32,6 +30,8 @@ function BannerEditor({
   setData: setBanner,
   ...banner
 }: Settable<BannerProps>) {
+  const ImageEditor = getEditor<ImageProps>('image')
+
   return (
     <>
       <Input

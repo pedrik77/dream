@@ -1,4 +1,4 @@
-import { COMPONENTS } from '.'
+import { COMPONENTS } from './config'
 
 type KeyOf<T> = keyof T
 

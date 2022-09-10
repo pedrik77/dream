@@ -5,8 +5,6 @@ import { ImageProps } from './image'
 
 const type = 'page_banner'
 
-const ImageEditor = getEditor<ImageProps>('image')
-
 const config: ComponentConfig<PageBannerProps> = {
   type,
   title: 'Page Banner',
@@ -17,10 +15,14 @@ const config: ComponentConfig<PageBannerProps> = {
     img: [
       'Image',
       '/assets/winners_banner.jpg',
-      ({ value, onChange }) => (
-        // @ts-ignore
-        <ImageEditor src={value} alt={'banner'} setData={onChange} />
-      ),
+      ({ value, onChange }) => {
+        const ImageEditor = getEditor<ImageProps>('image')
+
+        return (
+          // @ts-ignore
+          <ImageEditor src={value} alt={'banner'} setData={onChange} />
+        )
+      },
     ],
     alt: false,
     width: false,
