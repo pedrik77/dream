@@ -27,7 +27,7 @@ const config: ComponentConfig<CarouselProps> = {
   ),
   valuesDefinition: {
     title: ['Title', 'Pozrite kto vyhral'],
-    type: ['Type', 'iframe'],
+    type: ['Type', 'iframe', ['iframe', 'image']],
     items: [
       'Items',
       [

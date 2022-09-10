@@ -47,8 +47,8 @@ const config: ComponentConfig<ImageProps> = {
                 src={value}
                 alt="file"
                 className="w-full"
-                width={component.width}
-                height={component.height}
+                width={component?.width}
+                height={component?.height}
               />
             </div>
           </>

@@ -66,7 +66,13 @@ export function createEditor<T = any>(
 
       const Component = getInputEditor(Editor)
 
-      const Input = ({ getData }: { getData: (name?: string) => string }) => (
+      const Input = ({
+        getData,
+        setData,
+      }: {
+        getData: (name?: string) => string
+        setData: (value: any) => void
+      }) => (
         <Component
           key={name}
           component={getData()}
@@ -89,6 +95,7 @@ export function createEditor<T = any>(
         {inputs.map((Input, i) => (
           <Input
             key={i}
+            setData={setData}
             getData={(name) => {
               // @ts-ignore
               if (!!name) return data[name]
