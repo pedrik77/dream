@@ -24,7 +24,6 @@ export default function Home({
 
   return (
     <>
-      {/* TO DO EDIT PICS, TEXT, BUTTON link*/}
       {cmsBlock && <CMS blockId={CMS_ID}>{cmsBlock.components}</CMS>}
 
       <LogosSection />

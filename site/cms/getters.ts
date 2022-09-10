@@ -76,12 +76,13 @@ export const getComponent = (componentType: ComponentType) =>
   getComponentConfig(componentType).Component
 
 export const getEditor = <T = any>(
-  componentType: ComponentType
+  componentType: ComponentType,
+  only: string[] = []
 ): ((props: Settable<T>) => JSX.Element) => {
   const { Editor, valuesDefinition } = getComponentConfig(componentType)
 
   // @ts-ignore
   if (Editor) return Editor
 
-  return createEditor<T>(valuesDefinition)
+  return createEditor<T>(valuesDefinition, only)
 }

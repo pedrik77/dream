@@ -40,10 +40,11 @@ const selectType = async (options?: any) => {
 }
 
 export function createEditor<T = any>(
-  definition: ValuesDefinition
+  definition: ValuesDefinition,
+  only: string[] = []
 ): (props: Settable<T>) => JSX.Element {
   const inputs = Object.entries(definition)
-    .filter(([, d]) => d)
+    .filter(([name, d]) => d && (!only.length || only.includes(name)))
     .map(([name, d]) => {
       if (d === false) throw new Error('Should not happen')
 
@@ -64,6 +65,8 @@ export function createEditor<T = any>(
           <Component
             key={name}
             {...props}
+            // @ts-ignore
+            value={data[name]}
             // @ts-ignore
             onChange={(value) => setData({ ...data, [name]: value })}
           />
@@ -285,6 +288,7 @@ export function Components({
 
   const handleOnChange = useCallback(
     (key: number, value: any) => {
+      return
       const newComponents = components.map((c, i) =>
         key === i
           ? {

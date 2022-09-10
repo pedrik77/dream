@@ -30,7 +30,7 @@ function BannerEditor({
   setData: setBanner,
   ...banner
 }: Settable<BannerProps>) {
-  const ImageEditor = getEditor<ImageProps>('image')
+  const ImageEditor = getEditor<ImageProps>('image', ['src'])
 
   return (
     <>
