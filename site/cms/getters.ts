@@ -39,19 +39,20 @@ export const getComponentStarter = async (componentType: ComponentType) => {
     await Promise.all(
       Object.entries(valuesDefinition)
         .filter(([, definition]) =>
-          definition === false || definition[1].hide ? false : true
+          definition === false || definition[2]?.hide ? false : true
         )
         .map(async ([name, d]) => {
           if (d === false) throw new Error('Should not happen')
 
-          const [title = '', { starter = '', usePrompt = false }] = d
+          const [title = '', starter = '', options] = d
 
           // @ts-ignore
           const value = values ? values[name] : starter
+          console.log({ d })
 
           return [
             name,
-            (usePrompt &&
+            (options?.usePrompt &&
               (await prompt(title, {
                 cancelButton: 'Použiť predvolené',
                 confirmButton: 'Pokračovať',
@@ -61,7 +62,6 @@ export const getComponentStarter = async (componentType: ComponentType) => {
         })
     )
   )
-  console.log({ value })
 
   const starter = {
     type: componentType,

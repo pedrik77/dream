@@ -19,15 +19,11 @@ const config: ComponentConfig<WysiwygProps> = {
   valuesDefinition: {
     html: [
       'HTML',
-      {
-        starter: `
-        <ul>
+      `<ul>
           ${['scotty', "doesn't", 'know']
             .map((name) => `<li>${name}</li>`)
             .join('')}
-        </ul>
-        `,
-      },
+       </ul>`,
     ],
   },
 }

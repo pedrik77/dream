@@ -18,10 +18,8 @@ const config: ComponentConfig<BannerProps> = {
     button: [
       'Button',
       {
-        starter: {
-          text: 'CHCEM VYHRAŤ',
-          link: '/products/traktar-4000',
-        },
+        text: 'CHCEM VYHRAŤ',
+        link: '/products/traktar-4000',
       },
     ],
   },

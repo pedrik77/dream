@@ -4,7 +4,8 @@ export type ComponentType = typeof COMPONENTS[number]['type']
 
 export type Definition = [
   title: string,
-  options: { starter?: any; usePrompt?: boolean; hide?: boolean }
+  starter?: any,
+  options?: { usePrompt?: boolean; hide?: boolean }
 ]
 
 export type ValuesDefinition<T> = Record<keyof T, Definition | false>

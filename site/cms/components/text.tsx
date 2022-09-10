@@ -18,10 +18,7 @@ const config: ComponentConfig<TextProps> = {
     </div>
   ),
   valuesDefinition: {
-    text: [
-      'Text',
-      { starter: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-    ],
+    text: ['Text', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
   },
 }
 

@@ -32,15 +32,13 @@ const config: ComponentConfig<CarouselProps> = {
     type: ['Type', { starter: 'iframe' }],
     items: [
       'Items',
-      {
-        starter: [
-          'https://www.youtube.com/embed/1Q8fG0TtVAY',
-          'https://www.youtube.com/embed/1Q8fG0TtVAY',
-          'https://www.youtube.com/embed/1Q8fG0TtVAY',
-          'https://www.youtube.com/embed/1Q8fG0TtVAY',
-          'https://www.youtube.com/embed/1Q8fG0TtVAY',
-        ],
-      },
+      [
+        'https://www.youtube.com/embed/1Q8fG0TtVAY',
+        'https://www.youtube.com/embed/1Q8fG0TtVAY',
+        'https://www.youtube.com/embed/1Q8fG0TtVAY',
+        'https://www.youtube.com/embed/1Q8fG0TtVAY',
+        'https://www.youtube.com/embed/1Q8fG0TtVAY',
+      ],
     ],
   },
 }

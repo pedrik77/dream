@@ -20,7 +20,7 @@ const config: ComponentConfig<PageBannerProps> = {
     />
   ),
   valuesDefinition: {
-    img: ['Image', { starter: '/assets/winners_banner.jpg' }],
+    img: ['Image', '/assets/winners_banner.jpg'],
     alt: false,
     width: false,
     height: false,
