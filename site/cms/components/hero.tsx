@@ -1,10 +1,8 @@
 import Hero, { HeroProps } from '@components/ui/Hero/Hero'
 import { ComponentConfig } from '../types'
 
-const type = 'hero'
-
 const config: ComponentConfig<HeroProps> = {
-  type,
+  type: 'hero',
   title: 'Hero',
   Component: Hero,
   valuesDefinition: {

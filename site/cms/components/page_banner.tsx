@@ -3,10 +3,8 @@ import { getEditor } from 'cms/getters'
 import { ComponentConfig } from '../types'
 import { ImageProps } from './image'
 
-const type = 'page_banner'
-
 const config: ComponentConfig<PageBannerProps> = {
-  type,
+  type: 'page_banner',
   title: 'Page Banner',
   Component: ({ img }) => (
     <PageBanner img={img} width={2000} height={610} alt="banner" />

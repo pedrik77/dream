@@ -3,8 +3,6 @@ import { ComponentConfig } from '../types'
 import { v4 as uuid4 } from 'uuid'
 import NextImage from 'next/image'
 
-const type = 'image'
-
 export interface ImageProps {
   src: string
   width?: number
@@ -13,7 +11,7 @@ export interface ImageProps {
 }
 
 const config: ComponentConfig<ImageProps> = {
-  type,
+  type: 'image',
   title: 'Image',
   Component: NextImage,
   valuesDefinition: {

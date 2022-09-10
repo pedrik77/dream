@@ -3,8 +3,6 @@ import Carousel from '@components/ui/Carousel'
 import { Input } from 'cms/editors/input'
 import { ComponentConfig } from '../types'
 
-const type = 'carousel'
-
 const typeOptions = ['iframe', 'image', 'product']
 
 type CarouselProps = {
@@ -14,7 +12,7 @@ type CarouselProps = {
 }
 
 const config: ComponentConfig<CarouselProps> = {
-  type,
+  type: 'carousel',
   title: 'Carousel',
   Component: ({ title, type, items }) => (
     <Carousel title={title} slides={items}>

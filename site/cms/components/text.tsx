@@ -4,10 +4,8 @@ type TextProps = {
   text: string
 }
 
-const type = 'text'
-
 const config: ComponentConfig<TextProps> = {
-  type,
+  type: 'text',
   title: 'Text',
   Component: ({ text = '' }) => <div>{text}</div>,
   valuesDefinition: {

@@ -4,10 +4,8 @@ import { getEditor } from 'cms/getters'
 import { ComponentConfig } from '../types'
 import { ImageProps } from './image'
 
-const type = 'banner'
-
 const config: ComponentConfig<BannerProps> = {
-  type,
+  type: 'banner',
   title: 'Banner',
   Component: Banner,
   valuesDefinition: {
