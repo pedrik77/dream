@@ -269,7 +269,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               <CMS
                 blockId={getProductCmsId(slug)}
                 forceEdit
-                allowedComponents={['text']}
+                forbiddenComponents={[]}
               >
                 {cmsBlock.components}
               </CMS>

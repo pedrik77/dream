@@ -19,8 +19,9 @@ export function getComponentSelectOptions({
   const types = {}
   COMPONENTS.forEach((config) => {
     if (
-      forbiddenComponents.includes(config.type) &&
-      !allowedComponents.includes(config.type)
+      (allowedComponents.length && !allowedComponents.includes(config.type)) ||
+      (forbiddenComponents.includes(config.type) &&
+        !allowedComponents.includes(config.type))
     )
       return
 
