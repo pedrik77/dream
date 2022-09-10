@@ -315,11 +315,12 @@ export function Components({
           <Button
             className="rounded-2xl"
             type="button"
+            disabled={disable}
             onClick={
               isMoving ? () => move(position) : () => insertNew(position)
             }
           >
-            {isMoving ? 'Move here' : '+'}
+            {isMoving && !disable ? 'Move here' : '+'}
           </Button>
         </div>
       ) : null
