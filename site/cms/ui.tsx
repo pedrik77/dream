@@ -155,7 +155,7 @@ export function ComponentEditor({
   return (
     <div className="flex flex-col">
       <div
-        className={`flex justify-end gap-2 right-4 mt-2 shadow-inner ${
+        className={`flex justify-end gap-2 right-4 mt-2 ${
           !forceEdit ? ' absolute top-30 z-30 ' : ''
         }`}
         ref={editorRef}
@@ -400,7 +400,7 @@ export function Components({
       <PlusButton position={0} />
       {components.map((c, i) => (
         <Fragment key={blockId + c.type + i}>
-          <div className={canEdit ? 'shadow-md' : ''}>
+          <div>
             {canEdit && (
               <ComponentEditor
                 isEditing={editing.includes(i)}
