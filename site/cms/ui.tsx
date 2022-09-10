@@ -2,7 +2,7 @@ import {
   ChangableComponent,
   StarterCommon,
   ComponentsProps,
-  EditorType,
+  InputEditor,
   Settable,
   ValuesDefinition,
 } from './types'
@@ -23,8 +23,9 @@ import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
 import { getComponentSelectOptions, getComponentStarter } from './getters'
 import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from './config'
-import { Input } from './editors/input'
+import { getInput } from './editors/input'
 import { getCmsBlock, setCmsBlock } from '@lib/cms'
+import { getSelect } from './editors/select'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
@@ -39,6 +40,18 @@ const selectType = async (options?: any) => {
   })
 }
 
+const getInputEditor = (
+  editor: string | string[] | InputEditor
+): InputEditor => {
+  if (!editor) return getInput({ type: 'text' })
+
+  if (typeof editor === 'string') return getInput({ type: editor })
+
+  if (Array.isArray(editor)) return getSelect({ options: editor })
+
+  return editor
+}
+
 export function createEditor<T = any>(
   definition: ValuesDefinition,
   only: string[] = []
@@ -51,24 +64,20 @@ export function createEditor<T = any>(
       // @ts-ignore
       const [label = '', value = '', Editor] = d
 
-      const type = typeof Editor === 'string' ? Editor : 'text'
-      const Component: EditorType =
-        !!Editor && typeof Editor !== 'string' ? Editor : Input
+      const Component = getInputEditor(Editor)
 
-      return { Component, name, value, type, label }
+      return { Component, name, value, label }
     })
 
   return function Editor({ setData, ...data }) {
     return (
       <>
-        {inputs.map(({ Component, name, ...props }) => (
+        {inputs.map(({ Component, name, value, label }) => (
           <Component
             key={name}
-            {...props}
-            // @ts-ignore
-            value={data[name]}
+            value={value}
+            label={label}
             onChange={(value) => {
-              // @ts-ignore
               setData({ ...data, [name]: value })
             }}
           />

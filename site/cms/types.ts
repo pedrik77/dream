@@ -4,7 +4,7 @@ type KeyOf<T> = keyof T
 
 export type ComponentType = typeof COMPONENTS[number]['type']
 
-export type EditorType<T = any, P = {}> = (
+export type InputEditor<T = any, P = {}> = (
   props: P & {
     label?: string
     value: T
@@ -12,10 +12,14 @@ export type EditorType<T = any, P = {}> = (
   }
 ) => JSX.Element
 
+export type InputEditorGetter<T = any, P = {}> = (
+  defaults?: P
+) => InputEditor<T, P>
+
 export type Definition = [
   title: string,
   starter?: any,
-  Editor?: string | EditorType
+  Editor?: string | string[] | InputEditor
 ]
 
 export type ValuesDefinition<T = {}> = Record<KeyOf<T>, Definition | false>
