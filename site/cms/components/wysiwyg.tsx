@@ -10,25 +10,26 @@ interface WysiwygProps {
 
 const config: ComponentConfig<WysiwygProps> = {
   type,
-  name: 'Wysiwyg',
+  title: 'Wysiwyg',
   Component: Text,
   Editor: ({ html, setData }) => (
     // @ts-ignore
     <Editor value={html} onChange={(html) => setData({ html })} />
   ),
-  getStarter: async () => ({
-    type,
-    draft: true,
-    value: {
-      html: `
+  valuesDefinition: {
+    html: [
+      'HTML',
+      {
+        starter: `
         <ul>
           ${['scotty', "doesn't", 'know']
             .map((name) => `<li>${name}</li>`)
             .join('')}
         </ul>
         `,
-    },
-  }),
+      },
+    ],
+  },
 }
 
 export default config

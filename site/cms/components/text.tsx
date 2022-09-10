@@ -10,21 +10,14 @@ const type = 'text'
 
 const config: ComponentConfig<TextProps> = {
   type,
-  name: 'Text',
+  title: 'Text',
   Component: ({ text = '' }) => <div>{text}</div>,
   Editor: ({ text, setData }) => (
     <div>
       <Input value={text} onChange={(text) => setData({ text })} />
     </div>
   ),
-  getStarter: async () => ({
-    type,
-    draft: true,
-    value: {
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-  }),
-  labels: {
+  valuesDefinition: {
     text: [
       'Text',
       { starter: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },

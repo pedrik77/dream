@@ -7,32 +7,21 @@ const type = 'hero'
 
 const config: ComponentConfig<HeroProps> = {
   type,
-  name: 'Hero',
+  title: 'Hero',
   Component: Hero,
   Editor: HeroEditor,
-  async getStarter() {
-    return {
-      type,
-      draft: true,
-      value: {
-        headline: 'Každý je príťaž',
-        description:
-          'Súťažte o fantastické výhry a podporte tým zmysluplné projekty. Bla bla lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer viverra odio sit amet lorem vestibulum, a condimentum eros hendrerit. Sed sed cursus arcu. Quisque tincidunt justo sed sem consectetur consequat. In non lorem nulla.',
-      },
-    }
-  },
-  labels: {
-    // TODO add auto prompt
+  valuesDefinition: {
     headline: ['Nadpis', { starter: 'Každý je príťaž' }],
     description: [
       'Popis',
       {
         starter:
           'Súťažte o fantastické výhry a podporte tým zmysluplné projekty. Bla bla lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer viverra odio sit amet lorem vestibulum, a condimentum eros hendrerit. Sed sed cursus arcu. Quisque tincidunt justo sed sem consectetur consequat. In non lorem nulla.',
+        usePrompt: true,
       },
     ],
-    className: ['CSS', { hide: true }],
-    button: ['Tlačidlo', { hide: true }],
+    className: false,
+    button: false,
   },
 }
 

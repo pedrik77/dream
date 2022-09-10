@@ -1,3 +1,4 @@
+import { prompt } from '@lib/alerts'
 import { COMPONENTS } from '.'
 import { ComponentType } from './types'
 
@@ -5,8 +6,6 @@ function getComponentConfig(type: ComponentType) {
   const config = COMPONENTS.find((c) => c.type === type)
 
   if (config) return config
-
-  console.log({ type, config })
 
   throw new Error(`Component type ${type} not found`)
 }
@@ -24,14 +23,54 @@ export function getComponentSelectOptions({
       return
 
     // @ts-ignore
-    types[config.type] = config.name
+    types[config.type] = config.title
   })
 
   return types
 }
 
-export const getComponentStarter = (componentType: ComponentType) =>
-  getComponentConfig(componentType).getStarter()
+export const getComponentStarter = async (componentType: ComponentType) => {
+  const { valuesDefinition, loadStarterValues } =
+    getComponentConfig(componentType)
+
+  const values = loadStarterValues ? await loadStarterValues() : null
+
+  const value = Object.fromEntries(
+    await Promise.all(
+      Object.entries(valuesDefinition)
+        .filter(([, definition]) =>
+          definition === false || definition[1].hide ? false : true
+        )
+        .map(async ([name, d]) => {
+          if (d === false) throw new Error('Should not happen')
+
+          const [title = '', { starter = '', usePrompt = false }] = d
+
+          // @ts-ignore
+          const value = values ? values[name] : starter
+
+          return [
+            name,
+            (usePrompt &&
+              (await prompt(title, {
+                cancelButton: 'Použiť predvolené',
+                confirmButton: 'Pokračovať',
+              }))) ||
+              value,
+          ]
+        })
+    )
+  )
+  console.log({ value })
+
+  const starter = {
+    type: componentType,
+    draft: true,
+    value,
+  }
+
+  return starter
+}
 
 export const getComponent = (componentType: ComponentType) =>
   getComponentConfig(componentType).Component

@@ -14,7 +14,7 @@ type CarouselProps = {
 
 const config: ComponentConfig<CarouselProps> = {
   type,
-  name: 'Carousel',
+  title: 'Carousel',
   Component: ({ title, type, items }) => (
     <Carousel title={title} slides={items}>
       {({ slide }) =>
@@ -27,21 +27,22 @@ const config: ComponentConfig<CarouselProps> = {
     </Carousel>
   ),
   Editor: CarouselEditor,
-  getStarter: async () => ({
-    type,
-    draft: true,
-    value: {
-      title: 'Pozrite kto vyhral',
-      type: 'iframe',
-      items: [
-        'https://www.youtube.com/embed/1Q8fG0TtVAY',
-        'https://www.youtube.com/embed/1Q8fG0TtVAY',
-        'https://www.youtube.com/embed/1Q8fG0TtVAY',
-        'https://www.youtube.com/embed/1Q8fG0TtVAY',
-        'https://www.youtube.com/embed/1Q8fG0TtVAY',
-      ],
-    },
-  }),
+  valuesDefinition: {
+    title: ['Title', { starter: 'Pozrite kto vyhral' }],
+    type: ['Type', { starter: 'iframe' }],
+    items: [
+      'Items',
+      {
+        starter: [
+          'https://www.youtube.com/embed/1Q8fG0TtVAY',
+          'https://www.youtube.com/embed/1Q8fG0TtVAY',
+          'https://www.youtube.com/embed/1Q8fG0TtVAY',
+          'https://www.youtube.com/embed/1Q8fG0TtVAY',
+          'https://www.youtube.com/embed/1Q8fG0TtVAY',
+        ],
+      },
+    ],
+  },
 }
 
 function CarouselEditor({

@@ -2,20 +2,20 @@ import { COMPONENTS } from '.'
 
 export type ComponentType = typeof COMPONENTS[number]['type']
 
-export type Label =
-  | [
-      title: string,
-      options: { starter?: string; prompt?: boolean; hide?: boolean }
-    ]
-  | string
+export type Definition = [
+  title: string,
+  options: { starter?: any; usePrompt?: boolean; hide?: boolean }
+]
+
+export type ValuesDefinition<T> = Record<keyof T, Definition | false>
 
 export type ComponentConfig<T> = {
   type: string
-  name: string
+  title: string
   Component: React.FC<T>
   Editor: (props: Settable<T>) => JSX.Element
-  getStarter: () => Promise<StarterCommon<T>>
-  labels: Record<keyof T, Label>
+  valuesDefinition: ValuesDefinition<T>
+  loadStarterValues?: () => Promise<T>
 }
 
 export interface StarterCommon<T = any> {

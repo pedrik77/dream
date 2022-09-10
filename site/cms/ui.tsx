@@ -78,7 +78,7 @@ export function ComponentEditor({
     <div className="flex flex-col">
       <div
         className={`flex justify-end gap-2 right-4 mt-2 shadow-inner ${
-          !forceEdit ? ' absolute top-30 z-50 ' : ''
+          !forceEdit ? ' absolute top-30 z-30 ' : ''
         }`}
         ref={editorRef}
       >
@@ -107,7 +107,7 @@ export function ComponentEditor({
         <div
           className={`flex justify-center ${
             !forceEdit
-              ? 'z-50 fixed top-20 py-12 h-5/6 overflow-y-scroll bg-primary w-full'
+              ? 'z-40 fixed top-20 py-12 h-5/6 overflow-y-scroll bg-primary w-full'
               : ''
           }`}
         >

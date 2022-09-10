@@ -7,23 +7,24 @@ const type = 'banner'
 
 const config: ComponentConfig<BannerProps> = {
   type,
-  name: 'Banner',
+  title: 'Banner',
   Component: Banner,
   Editor: BannerEditor,
-  getStarter: async () => ({
-    type,
-    draft: true,
-    value: {
-      primaryTitle: 'vysnivaj.si',
-      secondaryTitle: 'Traktar 4000',
-      subtitle: 'Vyhrajte jedinečný Traktar 4000',
-      img: '/assets/car_2560x1440.jpg',
-      button: {
-        text: 'CHCEM VYHRAŤ',
-        link: '/products/traktar-4000',
+  valuesDefinition: {
+    primaryTitle: ['Hlavný nadpis', { starter: 'vysnivaj.si' }],
+    secondaryTitle: ['Hlavný nadpis 2', { starter: 'Traktar 4000' }],
+    subtitle: ['Podnadpis', { starter: 'Vyhrajte jedinečný Traktar 4000' }],
+    img: ['Image', { starter: '/assets/car_2560x1440.jpg' }],
+    button: [
+      'Button',
+      {
+        starter: {
+          text: 'CHCEM VYHRAŤ',
+          link: '/products/traktar-4000',
+        },
       },
-    },
-  }),
+    ],
+  },
 }
 
 function BannerEditor({

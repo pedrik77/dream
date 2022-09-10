@@ -6,7 +6,7 @@ const type = 'page_banner'
 
 const config: ComponentConfig<PageBannerProps> = {
   type,
-  name: 'Page Banner',
+  title: 'Page Banner',
   Component: ({ img }) => (
     <PageBanner img={img} width={2000} height={610} alt="banner" />
   ),
@@ -19,13 +19,12 @@ const config: ComponentConfig<PageBannerProps> = {
       setData={({ src }) => setPageBanner({ ...pageBanner, img: src })}
     />
   ),
-  getStarter: async () => ({
-    type,
-    draft: true,
-    value: {
-      img: '/assets/winners_banner.jpg',
-    },
-  }),
+  valuesDefinition: {
+    img: ['Image', { starter: '/assets/winners_banner.jpg' }],
+    alt: false,
+    width: false,
+    height: false,
+  },
 }
 
 export default config
