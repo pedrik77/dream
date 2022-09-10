@@ -1,7 +1,5 @@
-import { Input } from '@components/ui'
 import Hero, { HeroProps } from '@components/ui/Hero/Hero'
-import { prompt } from '@lib/alerts'
-import { ComponentConfig, Settable } from '../types'
+import { ComponentConfig } from '../types'
 
 const type = 'hero'
 
@@ -9,7 +7,6 @@ const config: ComponentConfig<HeroProps> = {
   type,
   title: 'Hero',
   Component: Hero,
-  Editor: HeroEditor,
   valuesDefinition: {
     headline: ['Nadpis', 'Každý je príťaž'],
     description: [
@@ -19,27 +16,6 @@ const config: ComponentConfig<HeroProps> = {
     className: false,
     button: false,
   },
-}
-
-function HeroEditor({ setData: setHero, ...hero }: Settable<HeroProps>) {
-  return (
-    <>
-      <Input
-        value={hero.headline}
-        placeholder={'hero.headline'}
-        onChange={(headline) => setHero({ ...hero, headline })}
-      >
-        Headline
-      </Input>
-      <Input
-        value={hero.description}
-        placeholder={'hero.description'}
-        onChange={(description) => setHero({ ...hero, description })}
-      >
-        Description
-      </Input>
-    </>
-  )
 }
 
 export default config

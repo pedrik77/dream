@@ -1,4 +1,11 @@
-import { ChangableComponent, ComponentData, ComponentsProps } from './types'
+import {
+  ChangableComponent,
+  ComponentData,
+  ComponentsProps,
+  EditorType,
+  Settable,
+  ValuesDefinition,
+} from './types'
 import { Button } from '@components/ui'
 import {
   Fragment,
@@ -17,6 +24,7 @@ import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
 import { getComponentSelectOptions, getComponentStarter } from './getters'
 import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from '.'
+import { Input } from './editors/input'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
@@ -29,6 +37,39 @@ const selectType = async (options?: any) => {
     inputOptions: options,
     showCancelButton: true,
   })
+}
+
+export function createEditor(
+  definition: ValuesDefinition
+): (props: Settable) => JSX.Element {
+  const inputs = Object.entries(definition)
+    .filter(([, d]) => d)
+    .map(([name, d]) => {
+      if (d === false) throw new Error('Should not happen')
+
+      // @ts-ignore
+      const [label = '', value = '', Editor] = d
+
+      const type = typeof Editor === 'string' ? Editor : 'text'
+      const Component: EditorType =
+        !!Editor && typeof Editor !== 'string' ? Editor : Input
+
+      return { Component, name, value, type, label }
+    })
+
+  return function Editor({ setData, ...data }) {
+    return (
+      <>
+        {inputs.map(({ Component, name, ...props }) => (
+          <Component
+            key={name}
+            {...props}
+            onChange={(value) => setData({ ...data, [name]: value })}
+          />
+        ))}
+      </>
+    )
+  }
 }
 
 export function ComponentRender({ type, value, draft }: ComponentData) {
@@ -71,8 +112,6 @@ export function ComponentEditor({
 
   const editorRef = useRef(null)
   useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
-
-  if (!Editor) return null
 
   return (
     <div className="flex flex-col">

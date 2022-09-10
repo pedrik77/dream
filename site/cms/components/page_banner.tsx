@@ -1,8 +1,10 @@
 import PageBanner, { PageBannerProps } from '@components/ui/PageBanner'
-import { ComponentConfig, Settable } from '../types'
-import Image from './image'
+import { getEditor } from 'cms/getters'
+import { ComponentConfig } from '../types'
 
 const type = 'page_banner'
+
+const ImageEditor = getEditor('image')
 
 const config: ComponentConfig<PageBannerProps> = {
   type,
@@ -11,7 +13,7 @@ const config: ComponentConfig<PageBannerProps> = {
     <PageBanner img={img} width={2000} height={610} alt="banner" />
   ),
   Editor: ({ setData: setPageBanner, ...pageBanner }) => (
-    <Image.Editor
+    <ImageEditor
       src={pageBanner.img}
       onlySrc
       alt={'banner'}

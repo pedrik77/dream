@@ -12,10 +12,6 @@ const config: ComponentConfig<WysiwygProps> = {
   type,
   title: 'Wysiwyg',
   Component: Text,
-  Editor: ({ html, setData }) => (
-    // @ts-ignore
-    <Editor value={html} onChange={(html) => setData({ html })} />
-  ),
   valuesDefinition: {
     html: [
       'HTML',

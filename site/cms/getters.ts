@@ -1,6 +1,7 @@
 import { prompt } from '@lib/alerts'
 import { COMPONENTS } from '.'
 import { ComponentType } from './types'
+import { createEditor } from './ui'
 
 function getComponentConfig(type: ComponentType) {
   const config = COMPONENTS.find((c) => c.type === type)
@@ -30,7 +31,7 @@ export function getComponentSelectOptions({
 }
 
 export const getComponentStarter = async (componentType: ComponentType) => {
-  const { valuesDefinition, loadStarterValues } =
+  const { valuesDefinition, loadStarterValues, usePrompt } =
     getComponentConfig(componentType)
 
   const values = loadStarterValues ? await loadStarterValues() : null
@@ -38,21 +39,20 @@ export const getComponentStarter = async (componentType: ComponentType) => {
   const value = Object.fromEntries(
     await Promise.all(
       Object.entries(valuesDefinition)
-        .filter(([, definition]) =>
-          definition === false || definition[2]?.hide ? false : true
-        )
+        .filter(([, definition]) => !!definition)
         .map(async ([name, d]) => {
           if (d === false) throw new Error('Should not happen')
 
-          const [title = '', starter = '', options] = d
+          const [title = '', starter = ''] = d
 
           // @ts-ignore
           const value = values ? values[name] : starter
-          console.log({ d })
 
           return [
             name,
-            (options?.usePrompt &&
+            (usePrompt &&
+              // @ts-ignore
+              usePrompt.includes(name) &&
               (await prompt(title, {
                 cancelButton: 'Použiť predvolené',
                 confirmButton: 'Pokračovať',
@@ -75,5 +75,10 @@ export const getComponentStarter = async (componentType: ComponentType) => {
 export const getComponent = (componentType: ComponentType) =>
   getComponentConfig(componentType).Component
 
-export const getEditor = (componentType: ComponentType) =>
-  getComponentConfig(componentType).Editor
+export const getEditor = (componentType: ComponentType) => {
+  const { Editor, valuesDefinition } = getComponentConfig(componentType)
+
+  if (Editor) return Editor
+
+  return createEditor(valuesDefinition)
+}
