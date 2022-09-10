@@ -412,7 +412,7 @@ export function Components({
             )}
             <ComponentRender {...c} />
           </div>
-          {<PlusButton position={i + 1} />}
+          <PlusButton position={i + 1} />
         </Fragment>
       ))}
     </>
