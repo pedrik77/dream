@@ -33,11 +33,19 @@ function Menu() {
   const router = useRouter()
 
   return (
-    <div
-      className={`${className} right-12 bottom-32 ${buttonBg}`}
-      onClick={() => router.push('/admin')}
-    >
-      Admin
-    </div>
+    <>
+      <div
+        className={`${className} right-12 bottom-44 ${buttonBg}`}
+        onClick={() => router.push('/admin/menu')}
+      >
+        Menu
+      </div>
+      <div
+        className={`${className} right-12 bottom-32 ${buttonBg}`}
+        onClick={() => router.push('/admin')}
+      >
+        Admin
+      </div>
+    </>
   )
 }
