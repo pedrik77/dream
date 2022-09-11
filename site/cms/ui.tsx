@@ -408,7 +408,8 @@ export function Components({
     <>
       <PlusButton position={0} />
       {components.map((c, i) => {
-        const hover = (hover: boolean) => setHovering(hover ? i : -1)
+        const hover = (hover: boolean) =>
+          setTimeout(() => setHovering(hover ? i : -1), 100)
         return (
           <Fragment key={blockId + c.type + i}>
             <div

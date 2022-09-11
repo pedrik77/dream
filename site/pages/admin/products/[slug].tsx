@@ -149,7 +149,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     })
       .then(() => {
         flash('Produkt uložený', 'success')
-        router.push('/admin/products')
+        router.reload()
       })
       .catch(handleErrorFlash)
       .finally(loading.stop)
@@ -301,6 +301,17 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
           </fieldset>
 
           <Button disabled={loading.pending}>Uložiť</Button>
+          <Button type="button" onClick={() => router.push('/admin/products')}>
+            Späť
+          </Button>
+          {isEditing && (
+            <Button
+              type="button"
+              onClick={() => router.push('/products/' + slug)}
+            >
+              Zobraziť produkt
+            </Button>
+          )}
         </form>
       </Container>
     </Permit>
