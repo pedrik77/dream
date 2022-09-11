@@ -45,7 +45,7 @@ export default function Dashboard() {
           <div>
             <Text variant="heading">Vitaj {user?.email ?? 'ty'}</Text>
 
-            <div className="flex">
+            <div className="flex my-8">
               <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
                 <Button>
                   <Link href="/admin/products/add">Pridať produkt</Link>
