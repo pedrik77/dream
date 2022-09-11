@@ -113,7 +113,7 @@ export default function Categories() {
       <AdminLayout>
         <Permit permission={PERMISSIONS.CATEGORIES_FORM}>
           <Text variant="heading">Upraviť kategórie</Text>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
             <fieldset className="flex flex-col gap-4">
               <Input
                 variant="ghost"

@@ -11,10 +11,10 @@ export default function Dashboard() {
   return (
     <Permit permission={PERMISSIONS.ADMIN} redirect="/">
       <AdminLayout>
-        <div className="flex">
+        <div className="flex flex-col gap-4">
           <Text variant="heading">Vitaj {user?.email ?? 'ty'}</Text>
           <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
-            <Button>
+            <Button className="w-fit">
               <Link href="/admin/products/add">Pridať produkt</Link>
             </Button>
           </Permit>

@@ -2,7 +2,7 @@ import { Layout } from '@components/common'
 import AdminLayout from '@components/common/AdminLayout'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
-import { Button, Container, Input } from '@components/ui'
+import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/alerts'
 import { PERMISSIONS } from '@lib/auth'
@@ -136,7 +136,9 @@ export default function Menu() {
   return (
     <Permit permission={PERMISSIONS.MENU} redirect={'/admin'}>
       <AdminLayout>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
+        <Text variant="heading">Upraviť menu</Text>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 my-6">
           <fieldset className="flex flex-col gap-4">
             <Input
               variant="ghost"

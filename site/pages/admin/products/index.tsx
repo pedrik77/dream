@@ -38,7 +38,11 @@ export default function Dashboard() {
       <AdminLayout>
         <div>
           <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
-            <Button onClick={redirectToAddProduct}>Pridat produkt</Button>
+            <Text variant="heading">Upraviť produkty</Text>
+
+            <Button onClick={redirectToAddProduct} className="my-4">
+              Pridat produkt
+            </Button>
           </Permit>
           <Permit permission={PERMISSIONS.PRODUCTS_DELETE}>
             <Button
