@@ -8,7 +8,7 @@ export default function AdminLayout({ children }: { children?: any }) {
   return (
     <Container className="pt-4 mt-0 md:mt-8">
       <div className="flex flex-col lg:flex-row gap-3 lg:gap-6">
-        <div className="lg:w-1/3 flex flex-col gap-4 sm:pr-4 pb-8 mx-2 lg:mx-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
+        <div className="lg:w-1/4 flex flex-col gap-4 sm:pr-4 pb-8 mx-2 lg:mx-4 items-start justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
           {/* <Permit permission={PERMISSIONS.ORDERS_LIST}>
           <Link href="/admin/orders">Objednávky</Link>
         </Permit> */}
