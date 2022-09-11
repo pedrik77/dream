@@ -38,7 +38,7 @@ export default function AdminLayout({ children }: { children?: any }) {
               </Permit> */}
         </div>
 
-        <div className="w-full">{children}</div>
+        <div className="">{children}</div>
       </div>
     </Container>
   )
