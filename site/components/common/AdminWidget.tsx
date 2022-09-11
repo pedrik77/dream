@@ -2,10 +2,10 @@ import { useAuthContext } from '@lib/auth'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
-const POSITION = 5
+const POSITION = 4.5
 
 const className =
-  'fixed cursor-pointer h-16 w-16 rounded-2xl z-50  text-xs hidden md:flex justify-center right-12'
+  'fixed cursor-pointer h-16 w-16 rounded-2xl z-50 text-xs hidden md:flex justify-center right-12 items-center'
 
 const buttonBg = 'bg-primary border-2 border-secondary text-white'
 
@@ -23,7 +23,7 @@ export default function AdminWidget() {
       style={{ bottom: POSITION + 'rem' }}
       onClick={adminEditingMode ? adminStopEditing : adminStartEditing}
       onMouseEnter={() => setTimeout(() => setShowMenu(true), 100)}
-      onMouseLeave={() => setTimeout(() => setShowMenu(false), 100)}
+      // onMouseLeave={() => setTimeout(() => setShowMenu(false), 100)}
     >
       {showMenu && <Menu />}
     </div>
