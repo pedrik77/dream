@@ -12,39 +12,8 @@ const config: ComponentConfig<BannerProps> = {
     primaryTitle: ['Hlavný nadpis', 'vysnivaj.si'],
     secondaryTitle: ['Hlavný nadpis 2', 'Traktar 4000'],
     subtitle: ['Podnadpis', 'Vyhrajte jedinečný Traktar 4000'],
-    button: [
-      'Button',
-      {
-        text: 'CHCEM VYHRAŤ',
-        link: '/products/traktar-4000',
-      },
-      ({ value: button, onChange }) => {
-        return (
-          <>
-            <Input
-              label="Text buttonu"
-              value={button.text || ''}
-              onChange={(text) =>
-                onChange({
-                  ...button,
-                  text,
-                })
-              }
-            />
-            <Input
-              label="Smrevanie buttonu"
-              value={button.link || ''}
-              onChange={(link) =>
-                onChange({
-                  ...button,
-                  link,
-                })
-              }
-            />
-          </>
-        )
-      },
-    ],
+    buttonText: ['Text buttonu', 'CHCEM VYHRAŤ'],
+    buttonLink: ['Smrevanie buttonu', '/products/traktar-4000'],
     img: [
       'Image',
       '/assets/car_2560x1440.jpg',
