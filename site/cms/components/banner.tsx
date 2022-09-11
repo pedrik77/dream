@@ -50,7 +50,13 @@ const config: ComponentConfig<BannerProps> = {
       '/assets/car_2560x1440.jpg',
       ({ value, onChange }) => {
         const ImageEditor = getEditor<ImageProps>('image', ['src'])
-        return <ImageEditor src={value} setData={({ src }) => onChange(src)} />
+        return (
+          <ImageEditor
+            src={value}
+            setData={({ src }) => onChange(src)}
+            preview
+          />
+        )
       },
     ],
   },

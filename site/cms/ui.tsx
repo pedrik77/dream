@@ -73,9 +73,11 @@ export function createEditor<T = any>(
       const Input = ({
         getData,
         setData,
-      }: Settable<{
-        getData: (name?: string) => string
-      }>) => (
+      }: Settable<
+        T & {
+          getData: (name?: string) => string
+        }
+      >) => (
         <Component
           key={name}
           component={getData()}
@@ -96,6 +98,7 @@ export function createEditor<T = any>(
     return (
       <>
         {inputs.map((Input, i) => (
+          // @ts-ignore
           <Input
             key={i}
             setData={setData}
@@ -182,7 +185,7 @@ export function ComponentEditor({
       </div>
       {isEditing && (
         <div
-          className={`flex justify-center ${
+          className={`flex justify-center pb-4 ${
             !forceEdit
               ? 'z-40 fixed top-20 py-12 h-5/6 overflow-y-scroll bg-primary w-full'
               : ''

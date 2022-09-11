@@ -9,6 +9,7 @@ export interface ImageProps {
   width?: number
   height?: number
   alt?: string
+  preview?: boolean
 }
 
 const config: ComponentConfig<ImageProps> = {
@@ -19,6 +20,7 @@ const config: ComponentConfig<ImageProps> = {
     width: ['Šírka', 2000, 'number'],
     height: ['Výška', 610, 'number'],
     alt: ['Alt text', 'image'],
+    preview: false,
     src: [
       'Image Source',
 
@@ -26,7 +28,12 @@ const config: ComponentConfig<ImageProps> = {
 
       ({ value, onChange, component }) => {
         const { width, height } = component ?? {}
-        const imagePreview = width && height ? { width, height } : undefined
+        const imagePreview =
+          width && height
+            ? { width, height }
+            : component?.preview
+            ? {}
+            : undefined
 
         return (
           <Input
