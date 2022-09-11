@@ -11,16 +11,20 @@ const SocialSection = () => {
       <h3 className="font-bold">{t('footer.socials')}</h3>
       <div className="flex gap-3 lg:justify-end">
         {SOCIALS.map((social) => (
-          <Link key={social} href={`https://${social}.com`}>
-            <a className={s.link}>
-              <div>
-                {/*
+          <a
+            key={social}
+            className={s.link}
+            target="_blank"
+            rel="noreferrer"
+            href={`https://${social}.com`}
+          >
+            <div>
+              {/*
                eslint-disable-next-line @next/next/no-img-element
              */}
-                <img src={`/${social}.svg`} alt="icon" className={s.icon} />
-              </div>
-            </a>
-          </Link>
+              <img src={`/${social}.svg`} alt="icon" className={s.icon} />
+            </div>
+          </a>
         ))}
       </div>
     </div>
