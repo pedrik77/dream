@@ -1,4 +1,5 @@
 import { Layout } from '@components/common'
+import AdminLayout from '@components/common/AdminLayout'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
 import { Button, Container, Input } from '@components/ui'
@@ -134,7 +135,7 @@ export default function Menu() {
 
   return (
     <Permit permission={PERMISSIONS.MENU} redirect={'/admin'}>
-      <Container className="flex flex-col gap-4">
+      <AdminLayout>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
           <fieldset>
             <Input
@@ -251,7 +252,7 @@ export default function Menu() {
             </div>
           ))}
         </div>
-      </Container>
+      </AdminLayout>
     </Permit>
   )
 }

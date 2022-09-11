@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { confirm } from '@lib/alerts'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import { useTranslation } from 'react-i18next'
+import AdminLayout from '@components/common/AdminLayout'
 
 export default function Dashboard() {
   const { products } = useProducts({
@@ -34,7 +35,7 @@ export default function Dashboard() {
 
   return (
     <Permit permission={PERMISSIONS.PRODUCTS_LIST} redirect="/admin">
-      <Container>
+      <AdminLayout>
         <div>
           <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
             <Button onClick={redirectToAddProduct}>Pridat produkt</Button>
@@ -75,7 +76,7 @@ export default function Dashboard() {
             {(r) => basicShowFormat(r.value)}
           </Col>
         </DataGrid>
-      </Container>
+      </AdminLayout>
     </Permit>
   )
 }

@@ -318,7 +318,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
             )}
           </div>
         </form>
-      </Admi>
+      </AdminLayout>
     </Permit>
   )
 }

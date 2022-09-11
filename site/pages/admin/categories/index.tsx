@@ -1,4 +1,5 @@
 import { Layout } from '@components/common'
+import AdminLayout from '@components/common/AdminLayout'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
 import { Button, Container, Input } from '@components/ui'
@@ -109,7 +110,7 @@ export default function Categories() {
 
   return (
     <Permit permission={PERMISSIONS.CATEGORIES_LIST} redirect="/admin">
-      <Container className="flex flex-col gap-4">
+      <AdminLayout>
         <Permit permission={PERMISSIONS.CATEGORIES_FORM}>
           <form onSubmit={handleSubmit} className="flex">
             <fieldset className="flex-[60%]">
@@ -180,7 +181,7 @@ export default function Categories() {
             )}
           </Col>
         </DataGrid>
-      </Container>
+      </AdminLayout>
     </Permit>
   )
 }

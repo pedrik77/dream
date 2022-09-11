@@ -1,4 +1,5 @@
 import { Layout } from '@components/common'
+import AdminLayout from '@components/common/AdminLayout'
 import Permit from '@components/common/Permit'
 import { Button, Container, Text } from '@components/ui'
 import { PERMISSIONS, useAuthContext } from '@lib/auth'
@@ -9,7 +10,7 @@ export default function Dashboard() {
 
   return (
     <Permit permission={PERMISSIONS.ADMIN} redirect="/">
-      <div>
+      <AdminLayout>
         <Container className="grid lg:grid-cols-2 pt-4 gap-20">
           <div className="flex flex-col">
             <Permit permission={PERMISSIONS.ORDERS_LIST}>
@@ -53,7 +54,7 @@ export default function Dashboard() {
             </div>
           </div>
         </Container>
-      </div>
+      </AdminLayout>
     </Permit>
   )
 }
