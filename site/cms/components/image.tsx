@@ -2,6 +2,7 @@ import { uploadFile } from '@lib/files'
 import { ComponentConfig } from '../types'
 import { v4 as uuid4 } from 'uuid'
 import NextImage from 'next/image'
+import { Input } from 'cms/editors/input'
 
 export interface ImageProps {
   src: string
@@ -39,19 +40,16 @@ const config: ComponentConfig<ImageProps> = {
           uploadFile('cms/' + uuid4(), file).then((src) => onChange(src))
         }
 
+        const { width, height } = component ?? {}
+        const imagePreview = width && height ? { width, height } : undefined
+
         return (
-          <>
-            <input type="file" onChange={handleUpload} />
-            <div className="h-full m-8">
-              <img
-                src={value}
-                alt="file"
-                className="w-full"
-                width={component?.width}
-                height={component?.height}
-              />
-            </div>
-          </>
+          <Input
+            type="file"
+            value={value}
+            onChange={console.log}
+            imagePreview={imagePreview}
+          />
         )
       },
     ],

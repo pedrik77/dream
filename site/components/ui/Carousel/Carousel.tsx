@@ -6,23 +6,23 @@ import Text from '../Text'
 import ProductSliderControl from '@components/product/ProductSliderControl'
 import { useTranslation } from 'react-i18next'
 
-type Slide = ({
+type Slide<T> = ({
   onPrev,
   onNext,
   slide,
 }: {
   onPrev: () => void
   onNext: () => void
-  slide: any
+  slide: T
 }) => JSX.Element
 
-export interface CarouselProps {
+export interface CarouselProps<T = any> {
   title: string
-  slides: string[]
-  children: Slide
+  slides: T[]
+  children: Slide<T>
 }
 
-const Carousel = ({ title, children, slides }: CarouselProps) => {
+const Carousel = <T,>({ title, children, slides }: CarouselProps<T>) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     loop: true,
