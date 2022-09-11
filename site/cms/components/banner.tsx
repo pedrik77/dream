@@ -1,8 +1,7 @@
 import Banner, { BannerProps } from '@components/ui/Banner'
-import { Input } from 'cms/editors/input'
-import { getEditor } from 'cms/getters'
 import { ComponentConfig } from '../types'
-import { ImageProps } from './image'
+import { v4 as uuid4 } from 'uuid'
+import { getImageInput } from 'cms/editors/input'
 
 const config: ComponentConfig<BannerProps> = {
   type: 'banner',
@@ -17,16 +16,8 @@ const config: ComponentConfig<BannerProps> = {
     img: [
       'Image',
       '/assets/car_2560x1440.jpg',
-      ({ value, onChange }) => {
-        const ImageEditor = getEditor<ImageProps>('image', ['src'])
-        return (
-          <ImageEditor
-            src={value}
-            setData={({ src }) => onChange(src)}
-            preview
-          />
-        )
-      },
+      // @ts-ignore
+      getImageInput({ getPath: () => 'cms/banner/' + uuid4() }),
     ],
   },
 }

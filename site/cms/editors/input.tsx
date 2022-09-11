@@ -1,4 +1,5 @@
 import { Input as UiInput } from '@components/ui'
+import { uploadFile } from '@lib/files'
 import { InputEditorGetter } from 'cms/types'
 import React from 'react'
 
@@ -18,7 +19,7 @@ export const getInput: InputEditorGetter<string, InputProps> =
     value,
     onChange,
     label,
-    onFile,
+    onFile = defaults.onFile,
     placeholder = defaults.placeholder,
     type = defaults.type,
     imagePreview = defaults.imagePreview,
@@ -60,3 +61,25 @@ export const getInput: InputEditorGetter<string, InputProps> =
     )
 
 export const Input = getInput()
+
+export const getImageInput: InputEditorGetter<
+  string,
+  InputProps & {
+    getPath?: () => string
+  }
+> =
+  (defaults = {}) =>
+  ({ value, onChange, getPath = defaults.getPath }) =>
+    (
+      <Input
+        value={value}
+        type="file"
+        onChange={console.log}
+        onFile={(file) =>
+          uploadFile(getPath ? getPath() : '', file).then((src) =>
+            onChange(src)
+          )
+        }
+        imagePreview={{}}
+      />
+    )
