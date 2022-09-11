@@ -2,7 +2,7 @@ import { Layout } from '@components/common'
 import AdminLayout from '@components/common/AdminLayout'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
-import { Button, Container, Input } from '@components/ui'
+import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/alerts'
 import { PERMISSIONS } from '@lib/auth'
@@ -112,15 +112,18 @@ export default function Categories() {
     <Permit permission={PERMISSIONS.CATEGORIES_LIST} redirect="/admin">
       <AdminLayout>
         <Permit permission={PERMISSIONS.CATEGORIES_FORM}>
-          <form onSubmit={handleSubmit} className="flex">
-            <fieldset className="flex-[60%]">
+          <Text variant="heading">Upraviť kategórie</Text>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <fieldset className="flex flex-col gap-4">
               <Input
+                variant="ghost"
                 type="text"
                 value={title}
                 placeholder="Title"
                 onChange={setTitle}
               />
               <Input
+                variant="ghost"
                 type="text"
                 value={slug}
                 placeholder="Slug"
@@ -128,7 +131,7 @@ export default function Categories() {
               />
             </fieldset>
 
-            <fieldset className="h-[100%]">
+            <fieldset className="flex gap-4 h-[100%] mt-4">
               <Button className="h-[100%]">Pridat</Button>
               <Button
                 className="h-[100%]"
@@ -159,27 +162,6 @@ export default function Categories() {
         >
           <Col field="slug" headerName="Slug" />
           <Col field="title" headerName="Názov" editable />
-          <Col field="banner" headerName="Banner" width={300}>
-            {(r) => (
-              <div className="flex flex-col">
-                <label>
-                  Nahrať nový banner
-                  <input
-                    style={{ display: 'none' }}
-                    type="file"
-                    onChange={(e) =>
-                      handleNewBanner(r.row as Category, e.target.files)
-                    }
-                  />
-                </label>
-                {!!r.row.banner && (
-                  <a target="_blank" href={r.row.banner} rel="noreferrer">
-                    Zobraziť banner
-                  </a>
-                )}
-              </div>
-            )}
-          </Col>
         </DataGrid>
       </AdminLayout>
     </Permit>
