@@ -107,7 +107,6 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <ProductSidebar product={product} onJoinNow={handleScroll} />
 
           <div className={s.descContainer}>
-            <Text variant="pageHeading">Toto dostaneš</Text>
             {product.cmsBlock && (
               <CMS
                 blockId={getProductCmsId(product.slug)}
