@@ -9,7 +9,8 @@ export interface BannerProps {
   secondaryTitle: string
   subtitle: string
   img: string
-  button?: { text: string; link: string }
+  buttonText?: string
+  buttonLink?: string
 }
 
 const Banner: React.FC<BannerProps> = ({
@@ -17,7 +18,8 @@ const Banner: React.FC<BannerProps> = ({
   secondaryTitle,
   subtitle,
   img,
-  button,
+  buttonLink,
+  buttonText,
 }) => {
   return (
     <div className={s.bgOverlay}>
@@ -41,18 +43,18 @@ const Banner: React.FC<BannerProps> = ({
           <span className={s.span}>{secondaryTitle}</span>
         </h2>
         <p className={s.p}>{subtitle}</p>
-        {!!button && (
+        {!!buttonLink && buttonText && (
           <div className="flex">
-            <Link href={button.link} passHref>
+            <Link href={buttonLink} passHref>
               <Button
-                aria-label={button.text}
+                aria-label={buttonText}
                 variant="banner"
                 type="button"
                 className={s.button}
                 Component="a"
                 // onClick={() => router.push(button.link)}
               >
-                {button.text}
+                {buttonText}
               </Button>
             </Link>
           </div>
