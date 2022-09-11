@@ -1,13 +1,18 @@
 import Image from 'next/image'
-import { flash } from '../FlashMessage'
+import { useState } from 'react'
 
-const Logo = ({ className = '', height = 54, width = 180, ...props }) => (
-  <Image
-    height={height}
-    width={width}
-    src="/logo-white-500-%C3%97-150-px).png"
-    alt="logo"
-  />
-)
+const Logo = ({ className = '', ...props }) => {
+  const [src, setSrc] = useState(
+    props.src || '/logo-white-500-%C3%97-150-px).png'
+  )
+  const [width, setWidth] = useState(props.width || 180)
+  const [height, setHeight] = useState(props.height || 54)
+
+  return (
+    <>
+      <Image height={height} width={width} src={src} alt="logo" />
+    </>
+  )
+}
 
 export default Logo
