@@ -9,15 +9,18 @@ export default function Dashboard() {
   const { user } = useAuthContext()
 
   return (
-    <AdminLayout>
-      <div className="flex">
-        <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
-          <Button>
-            <Link href="/admin/products/add">Pridať produkt</Link>
-          </Button>
-        </Permit>
-      </div>
-    </AdminLayout>
+    <Permit permission={PERMISSIONS.ADMIN} redirect="/">
+      <AdminLayout>
+        <div className="flex">
+          <Text variant="heading">Vitaj {user?.email ?? 'ty'}</Text>
+          <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
+            <Button>
+              <Link href="/admin/products/add">Pridať produkt</Link>
+            </Button>
+          </Permit>
+        </div>
+      </AdminLayout>
+    </Permit>
   )
 }
 
