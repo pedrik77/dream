@@ -7,9 +7,9 @@ type TextProps = {
 const config: ComponentConfig<TextProps> = {
   type: 'text',
   title: 'Text',
-  Component: ({ text = '' }) => <div>{text}</div>,
+  Component: ({ text = '' }) => <>{text}</>,
   valuesDefinition: {
-    text: ['Text', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
+    text: ['Text', 'Lorem'],
   },
 }
 

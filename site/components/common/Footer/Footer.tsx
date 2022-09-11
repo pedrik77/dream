@@ -13,6 +13,7 @@ import Newsletter from './Newsletter'
 import { useCategories } from '@lib/categories'
 import { Link as LinkType, useMenu } from '@lib/menu'
 import { useTranslation } from 'react-i18next'
+import { CMS } from 'cms'
 
 interface Props {
   className?: string
@@ -34,12 +35,24 @@ const Footer: FC<Props> = ({ className, pages }) => {
           <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
             <div className="grid grid-cols-1 md:grid-flow-col max-w-lg gap-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-4 gap-x-4">
-                <h3 className="uppercase font-bold md:col-span-2 ">Menu</h3>
+                <h3 className="uppercase font-bold md:col-span-2 ">
+                  <CMS
+                    blockId="footer__menu_title"
+                    allowedComponents={['text']}
+                    maxNumberOfComponents={1}
+                  />
+                </h3>
 
                 {main.map(renderLink)}
               </div>
               <div className="grid grid-cols-1 md:grid-rows-4 gap-x-4">
-                <h3 className="uppercase font-bold">Užitočné linky</h3>
+                <h3 className="uppercase font-bold">
+                  <CMS
+                    blockId="footer__legal_menu_title"
+                    allowedComponents={['text']}
+                    maxNumberOfComponents={1}
+                  />
+                </h3>
                 {legal.map(renderLink)}
               </div>
             </div>
