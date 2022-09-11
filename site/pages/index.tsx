@@ -22,13 +22,7 @@ export default function Home({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { t } = useTranslation()
 
-  return (
-    <>
-      {cmsBlock && <CMS blockId={CMS_ID}>{cmsBlock.components}</CMS>}
-
-      <LogosSection />
-    </>
-  )
+  return <>{cmsBlock && <CMS blockId={CMS_ID}>{cmsBlock.components}</CMS>}</>
 }
 
 Home.Layout = Layout
