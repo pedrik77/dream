@@ -1,5 +1,5 @@
 import { Layout } from '@components/common'
-import { Button, Container, Input } from '@components/ui'
+import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { categoryToSelect, useCategories } from '@lib/categories'
 import { inputDateFormat } from '@lib/date'
@@ -157,39 +157,42 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   return (
     <Permit permission={PERMISSIONS.PRODUCTS_FORM} redirect="/admin/products">
-      <Container>
+      <Container className="py-16">
+        <Text className="my-4" variant="heading">
+          Upraviť produkt
+        </Text>
         <form onSubmit={handleSubmit}>
-          <fieldset className="flex">
-            <label>
+          <fieldset className="flex flex-col gap-6">
+            <Input
+              variant="ghost"
+              type="text"
+              value={title_1}
+              placeholder="Title 1"
+              onChange={setTitle1}
+            >
               Title 1
-              <Input
-                type="text"
-                value={title_1}
-                placeholder="Title 1"
-                onChange={setTitle1}
-              />
-            </label>
-            <label>
+            </Input>
+            <Input
+              variant="ghost"
+              type="text"
+              value={slug}
+              placeholder="Slug"
+              onChange={setSlug}
+              disabled={isEditing}
+            >
               Slug
-              <Input
-                type="text"
-                value={slug}
-                placeholder="Slug"
-                onChange={setSlug}
-                disabled={isEditing}
-              />
-            </label>
-          </fieldset>
-          <fieldset className="flex">
-            <label>
+            </Input>
+
+            <Input
+              variant="ghost"
+              type="number"
+              value={price}
+              placeholder="Price"
+              onChange={setPrice}
+            >
               Price
-              <Input
-                type="number"
-                value={price}
-                placeholder="Price"
-                onChange={setPrice}
-              />
-            </label>
+            </Input>
+
             <label>
               <input
                 type="checkbox"
@@ -198,17 +201,17 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               />{' '}
               Show donors number ({loadingDonors.pending ? '...' : donors})
             </label>
-          </fieldset>
-          <fieldset className="flex">
-            <label>
+
+            <Input
+              variant="ghost"
+              type="text"
+              value={title_2}
+              placeholder="Title 2"
+              onChange={setTitle2}
+            >
               A podporte
-              <Input
-                type="text"
-                value={title_2}
-                placeholder="Title 2"
-                onChange={setTitle2}
-              />
-            </label>
+            </Input>
+
             <label className="w-full">
               Category <br />
               {Select && (
@@ -231,28 +234,27 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                 />
               )}
             </label>
-          </fieldset>
-          <fieldset className="flex">
-            <label>
+
+            <Input
+              variant="ghost"
+              type="date"
+              value={closing_date}
+              placeholder="Closing date"
+              onChange={setClosingDate}
+            >
               Closing date
-              <Input
-                type="date"
-                value={closing_date}
-                placeholder="Closing date"
-                onChange={setClosingDate}
-              />
-            </label>
-            <label>
+            </Input>
+
+            <Input
+              variant="ghost"
+              type="date"
+              value={winner_announce_date}
+              placeholder="Winner announce date"
+              onChange={setWinnerAnnounceDate}
+            >
               Winner announce date
-              <Input
-                type="date"
-                value={winner_announce_date}
-                placeholder="Winner announce date"
-                onChange={setWinnerAnnounceDate}
-              />
-            </label>
-          </fieldset>
-          <fieldset>
+            </Input>
+
             <label>
               Short description <br />
               {Editor && (
@@ -260,8 +262,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                 <Editor value={short_desc} onChange={setShortDesc} />
               )}
             </label>
-          </fieldset>
-          <fieldset>
+
             <label>
               Long description <br />
             </label>
@@ -274,8 +275,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                 {cmsBlock.components}
               </CMS>
             )}
-          </fieldset>
-          <fieldset>
+
             <label>
               Gallery (click on image to delete)
               <br />
@@ -299,19 +299,23 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               ))}
             </div>
           </fieldset>
-
-          <Button disabled={loading.pending}>Uložiť</Button>
-          <Button type="button" onClick={() => router.push('/admin/products')}>
-            Späť
-          </Button>
-          {isEditing && (
+          <div className="flex gap-4 my-12 justify-center">
+            <Button disabled={loading.pending}>Uložiť</Button>
             <Button
               type="button"
-              onClick={() => router.push('/products/' + slug)}
+              onClick={() => router.push('/admin/products')}
             >
-              Zobraziť produkt
+              Späť
             </Button>
-          )}
+            {isEditing && (
+              <Button
+                type="button"
+                onClick={() => router.push('/products/' + slug)}
+              >
+                Zobraziť produkt
+              </Button>
+            )}
+          </div>
         </form>
       </Container>
     </Permit>

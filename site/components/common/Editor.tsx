@@ -33,10 +33,10 @@ export default function Editor({
           'wordcount',
         ],
         toolbar:
-          'undo redo | bold italic underline blockquote | formatselect fontsizeselect | \
+          'undo redo | bold italic underline | formatselect fontsizeselect | \
           alignleft aligncenter alignright alignjustify | lineheight | \
           bullist numlist outdent indent | \
-          link image removeformat | styleselect | help',
+          link removeformat | styleselect | help',
       }}
     />
   )

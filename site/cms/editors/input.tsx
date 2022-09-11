@@ -35,6 +35,7 @@ export const getInput: InputEditorGetter<string, InputProps> =
             } else onChange(v)
           }}
           variant="cms"
+          labelClass="text-white"
         >
           {label && (
             <>

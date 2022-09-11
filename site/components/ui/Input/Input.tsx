@@ -7,10 +7,18 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   variant?: 'dark' | 'ghost' | 'form' | 'cms'
   children?: React.ReactNode
   onChange?: (...args: any[]) => any
+  labelClass?: string
 }
 
 const Input: React.FC<InputProps> = (props) => {
-  const { className, variant = 'dark', onChange, children, ...rest } = props
+  const {
+    className,
+    labelClass = '',
+    variant = 'dark',
+    onChange,
+    children,
+    ...rest
+  } = props
 
   const rootClassName = cn(
     s.root,
@@ -31,7 +39,7 @@ const Input: React.FC<InputProps> = (props) => {
 
   return (
     <label>
-      {children && <span className={s.label}>{children}</span>}
+      {children && <span className={labelClass}>{children}</span>}
       <input
         className={rootClassName}
         onChange={handleOnChange}
