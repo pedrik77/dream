@@ -6,38 +6,40 @@ import Permit from './Permit'
 
 export default function AdminLayout({ children }: { children?: any }) {
   return (
-    <Container className="grid lg:grid-cols-2 pt-4 gap-20">
-      <div className="flex flex-col">
-        {/* <Permit permission={PERMISSIONS.ORDERS_LIST}>
+    <Container className="pt-4 mt-0 md:mt-8">
+      <div className="flex flex-col lg:flex-row gap-3 lg:gap-6">
+        <div className="lg:w-1/3 flex flex-col gap-4 sm:pr-4 pb-8 mx-2 lg:mx-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
+          {/* <Permit permission={PERMISSIONS.ORDERS_LIST}>
           <Link href="/admin/orders">Objednávky</Link>
         </Permit> */}
 
-        {/* <Permit permission={PERMISSIONS.WINNERS_LIST}>
+          {/* <Permit permission={PERMISSIONS.WINNERS_LIST}>
                 <Link href="/admin/winners">Víťazi</Link>
               </Permit> */}
 
-        <Permit permission={PERMISSIONS.PRODUCTS_LIST}>
-          <Link href="/admin/products">Produkty</Link>
-        </Permit>
+          <Permit permission={PERMISSIONS.PRODUCTS_LIST}>
+            <Link href="/admin/products">Produkty</Link>
+          </Permit>
 
-        <Permit permission={PERMISSIONS.CATEGORIES_LIST}>
-          <Link href="/admin/categories">Kategórie</Link>
-        </Permit>
+          <Permit permission={PERMISSIONS.CATEGORIES_LIST}>
+            <Link href="/admin/categories">Kategórie</Link>
+          </Permit>
 
-        <Permit permission={PERMISSIONS.MENU}>
-          <Link href="/admin/menu">Menu</Link>
-        </Permit>
+          <Permit permission={PERMISSIONS.MENU}>
+            <Link href="/admin/menu">Menu</Link>
+          </Permit>
 
-        {/* <Permit permission={PERMISSIONS.USERS_LIST}>
+          {/* <Permit permission={PERMISSIONS.USERS_LIST}>
                 <Link href="/admin/users">Používatelia</Link>
               </Permit> */}
 
-        {/* <Permit permission={PERMISSIONS.PAGES_LIST}>
+          {/* <Permit permission={PERMISSIONS.PAGES_LIST}>
                 <Link href="/admin/pages">Stránky</Link>
               </Permit> */}
-      </div>
+        </div>
 
-      <div className="py-16">{children}</div>
+        <div className="w-full">{children}</div>
+      </div>
     </Container>
   )
 }

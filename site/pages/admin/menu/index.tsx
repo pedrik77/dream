@@ -137,14 +137,16 @@ export default function Menu() {
     <Permit permission={PERMISSIONS.MENU} redirect={'/admin'}>
       <AdminLayout>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
-          <fieldset>
+          <fieldset className="flex flex-col gap-4">
             <Input
+              variant="ghost"
               type="text"
               value={label}
               placeholder="Label"
               onChange={setLabel}
             />
             <Input
+              variant="ghost"
               type="text"
               value={href}
               placeholder="Link"
@@ -152,7 +154,7 @@ export default function Menu() {
               disabled={!isCustom || isEditing}
             />
           </fieldset>
-          <fieldset>
+          <fieldset className="flex flex-col gap-4">
             {Select && (
               // @ts-ignore
               <Select
@@ -186,7 +188,7 @@ export default function Menu() {
               />
             )}
           </fieldset>
-          <fieldset className="h-[100%]">
+          <fieldset className="flex gap-4 my-4 h-[100%]">
             <Button className="h-[100%]">Ulozit</Button>
             <Button
               className="h-[100%]"
