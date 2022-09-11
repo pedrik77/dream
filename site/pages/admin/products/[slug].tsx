@@ -31,6 +31,7 @@ import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
 import { CMS, getStarter } from 'cms'
 import { CmsBlockData } from '@lib/cms'
+import AdminLayout from '@components/common/AdminLayout'
 
 interface ProductEditProps {
   product: Product | null
@@ -157,7 +158,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   return (
     <Permit permission={PERMISSIONS.PRODUCTS_FORM} redirect="/admin/products">
-      <Container className="py-16">
+      <AdminLayout>
         <Text className="my-4" variant="heading">
           Upraviť produkt
         </Text>
@@ -317,7 +318,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
             )}
           </div>
         </form>
-      </Container>
+      </Admi>
     </Permit>
   )
 }
