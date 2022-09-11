@@ -35,9 +35,9 @@ function Menu() {
   return (
     <div
       className={`${className} right-12 bottom-32 ${buttonBg}`}
-      onClick={() => router.push('/admin/products/add')}
+      onClick={() => router.push('/admin')}
     >
-      Produkt
+      Admin
     </div>
   )
 }
