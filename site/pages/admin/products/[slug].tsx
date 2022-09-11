@@ -150,7 +150,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     })
       .then(() => {
         flash('Produkt uložený', 'success')
-        router.reload()
+        router.push('/products/' + slug)
       })
       .catch(handleErrorFlash)
       .finally(loading.stop)
@@ -213,11 +213,12 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               A podporte
             </Input>
 
-            <label className="w-full">
+            <label className="w-[40%]">
               Category <br />
               {Select && (
                 // @ts-ignore
                 <Select
+                  className="outline-none border border-primary rounded-md"
                   options={categories.map(categoryToSelect)}
                   onChange={(e: any) => setCategory(e.value)}
                   value={categoryToSelect(
@@ -264,7 +265,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               )}
             </label>
 
-            <label>
+            {/* <label>
               Long description <br />
             </label>
             {isEditing && cmsBlock && (
@@ -275,7 +276,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               >
                 {cmsBlock.components}
               </CMS>
-            )}
+            )} */}
 
             <label>
               Gallery (click on image to delete)
@@ -308,14 +309,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
             >
               Späť
             </Button>
-            {isEditing && (
-              <Button
-                type="button"
-                onClick={() => router.push('/products/' + slug)}
-              >
-                Zobraziť produkt
-              </Button>
-            )}
           </div>
         </form>
       </AdminLayout>

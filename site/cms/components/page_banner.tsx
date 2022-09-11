@@ -1,7 +1,7 @@
 import PageBanner, { PageBannerProps } from '@components/ui/PageBanner'
-import { getEditor } from 'cms/getters'
+import { getImageInput } from 'cms/editors/input'
 import { ComponentConfig } from '../types'
-import { ImageProps } from './image'
+import { v4 as uuid4 } from 'uuid'
 
 const config: ComponentConfig<PageBannerProps> = {
   type: 'page_banner',
@@ -13,16 +13,8 @@ const config: ComponentConfig<PageBannerProps> = {
     img: [
       'Image',
       '/assets/winners_banner.jpg',
-      ({ value, onChange }) => {
-        const ImageEditor = getEditor<ImageProps>('image', ['src'])
-        return (
-          <ImageEditor
-            src={value}
-            setData={({ src }) => onChange(src)}
-            preview
-          />
-        )
-      },
+      // @ts-ignore
+      getImageInput({ getPath: () => 'cms/page_banner/' + uuid4() }),
     ],
     alt: false,
     width: false,
