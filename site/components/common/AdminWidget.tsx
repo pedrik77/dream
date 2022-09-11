@@ -21,7 +21,11 @@ export default function AdminWidget() {
     <div
       className={`${className} ${adminEditingMode ? buttonBg : 'bg-secondary'}`}
       style={{ bottom: POSITION + 'rem' }}
-      onClick={adminEditingMode ? adminStopEditing : adminStartEditing}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          adminEditingMode ? adminStopEditing() : adminStartEditing()
+        }
+      }}
       onMouseEnter={() => setTimeout(() => setShowMenu(true), 100)}
       onMouseLeave={() => setTimeout(() => setShowMenu(false), 100)}
     >
