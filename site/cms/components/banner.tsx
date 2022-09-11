@@ -22,6 +22,7 @@ const config: ComponentConfig<BannerProps> = {
         return (
           <>
             <Input
+              label="Text buttonu"
               value={button.text || ''}
               onChange={(text) =>
                 onChange({
@@ -31,6 +32,7 @@ const config: ComponentConfig<BannerProps> = {
               }
             />
             <Input
+              label="Smrevanie buttonu"
               value={button.link || ''}
               onChange={(link) =>
                 onChange({

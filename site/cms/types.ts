@@ -47,7 +47,7 @@ export interface Changeable {
 }
 
 export type Settable<T = {}> = T & {
-  setData: Dispatch<SetStateAction<T>>
+  setData: (data: T) => void
 }
 
 export interface ComponentsProps {
