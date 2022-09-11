@@ -88,6 +88,3 @@ export const getEditor = <T = any>(
 
   return createEditor<T>(valuesDefinition, only)
 }
-
-export const getShowControlsAlways = (componentType: ComponentType) =>
-  !!getComponentConfig(componentType).showControlsAlways

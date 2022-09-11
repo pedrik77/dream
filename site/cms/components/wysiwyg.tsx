@@ -10,7 +10,6 @@ const config: ComponentConfig<WysiwygProps> = {
   type: 'wysiwyg',
   title: 'Wysiwyg',
   Component: Text,
-  showControlsAlways: true,
   valuesDefinition: {
     html: [
       'HTML',

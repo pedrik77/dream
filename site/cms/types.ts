@@ -33,7 +33,6 @@ export type ComponentConfig<T> = {
   Editor?: (props: Settable<T>) => JSX.Element
   loadStarterValues?: () => Promise<T>
   prompt?: KeyOf<T>[]
-  showControlsAlways?: boolean
 }
 
 export interface StarterCommon<T = any> {

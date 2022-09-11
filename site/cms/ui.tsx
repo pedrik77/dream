@@ -25,7 +25,6 @@ import {
   getComponentStarter,
   getComponent,
   getEditor,
-  getShowControlsAlways,
 } from './getters'
 import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from './config'
 import { getInput } from './editors/input'
@@ -142,7 +141,6 @@ export function ComponentEditor({
   const [data, setData] = useState({})
 
   const Editor = useMemo(() => getEditor(type), [type])
-  const showControls = getShowControlsAlways(type)
 
   useEffect(() => setData(value), [value])
 
@@ -162,9 +160,7 @@ export function ComponentEditor({
       <div
         className={`flex gap-2 mt-2 ml-4 transition-all ${
           !forceEdit ? ' absolute top-30 z-30' : ''
-        } ${isHovering || showControls ? 'visible' : 'invisible'} ${
-          showControls ? 'top-20' : ''
-        }`}
+        } ${isHovering ? 'visible' : 'invisible'}`}
         ref={editorRef}
       >
         {!forceEdit && !isEditing && (
