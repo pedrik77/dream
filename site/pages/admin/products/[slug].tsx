@@ -213,11 +213,12 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               A podporte
             </Input>
 
-            <label className="w-full">
+            <label className="w-[40%]">
               Category <br />
               {Select && (
                 // @ts-ignore
                 <Select
+                  className="outline-none border border-primary rounded-md"
                   options={categories.map(categoryToSelect)}
                   onChange={(e: any) => setCategory(e.value)}
                   value={categoryToSelect(
