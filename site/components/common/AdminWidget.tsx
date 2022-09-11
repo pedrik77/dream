@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 const className =
-  'fixed cursor-pointer h-16 w-16 rounded-2xl z-50  text-xs hidden md:flex justify-center align-center'
+  'fixed cursor-pointer h-16 w-16 rounded-2xl z-50  text-xs hidden md:flex justify-center  right-12'
 
 const buttonBg = 'bg-primary border-2 border-secondary text-white'
 
@@ -22,7 +22,7 @@ export default function AdminWidget() {
       }`}
       onClick={adminEditingMode ? adminStopEditing : adminStartEditing}
       onMouseEnter={() => setTimeout(() => setShowMenu(true), 100)}
-      onMouseLeave={() => setTimeout(() => setShowMenu(false), 100)}
+      // onMouseLeave={() => setTimeout(() => setShowMenu(false), 100)}
     >
       {showMenu && <Menu />}
     </div>
@@ -32,26 +32,30 @@ export default function AdminWidget() {
 function Menu() {
   const router = useRouter()
 
+  const btns = [
+    ['Admin', '/admin'],
+    ['Menu', '/admin/menu'],
+    ['Kategórie', '/admin/categories'],
+    // ['Víťazi', '/admin/winners'],
+    // ['Objednávky', '/admin/orders'],
+    // ['Produkty', '/admin/products'],
+    // ['Stránky', '/admin/pages'],
+  ]
+
+  const bottom = (key: number) => 3 + (key + 1) * 3
+
   return (
     <>
-      <div
-        className={`${className} right-12 bottom-56 ${buttonBg}`}
-        onClick={() => router.push('/admin/categories')}
-      >
-        Kategórie
-      </div>
-      <div
-        className={`${className} right-12 bottom-44 ${buttonBg}`}
-        onClick={() => router.push('/admin/menu')}
-      >
-        Menu
-      </div>
-      <div
-        className={`${className} right-12 bottom-32 ${buttonBg}`}
-        onClick={() => router.push('/admin')}
-      >
-        Admin
-      </div>
+      {btns.reverse().map(([label, href], i) => (
+        <div
+          key={href}
+          className={` ${className} ${buttonBg}`}
+          style={{ bottom: bottom(i) + 'rem' }}
+          onClick={() => router.push(href)}
+        >
+          {label}
+        </div>
+      ))}
     </>
   )
 }
