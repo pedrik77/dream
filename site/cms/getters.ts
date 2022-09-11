@@ -12,6 +12,10 @@ function getComponentConfig<T = any>(type: ComponentType): ComponentConfig<T> {
   throw new Error(`Component type ${type} not found`)
 }
 
+export function getComponentTitle(type: ComponentType): string {
+  return getComponentConfig(type).title
+}
+
 export function getComponentSelectOptions({
   allowedComponents = [],
   forbiddenComponents = [],

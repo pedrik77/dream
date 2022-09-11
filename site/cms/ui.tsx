@@ -6,7 +6,7 @@ import {
   Settable,
   ValuesDefinition,
 } from './types'
-import { Button } from '@components/ui'
+import { Button, Text } from '@components/ui'
 import {
   Fragment,
   useCallback,
@@ -25,6 +25,7 @@ import {
   getComponentStarter,
   getComponent,
   getEditor,
+  getComponentTitle,
 } from './getters'
 import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from './config'
 import { getInput } from './editors/input'
@@ -193,6 +194,9 @@ export function ComponentEditor({
           }`}
         >
           <div className={!forceEdit ? 'max-w-5xl' : ''}>
+            <Text variant="heading" className="text-white">
+              {getComponentTitle(type)}
+            </Text>
             {!forceEdit && (
               <>
                 <div className="flex gap-2 justify-end">
