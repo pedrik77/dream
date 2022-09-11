@@ -23,7 +23,7 @@ export default function AdminWidget() {
       style={{ bottom: POSITION + 'rem' }}
       onClick={adminEditingMode ? adminStopEditing : adminStartEditing}
       onMouseEnter={() => setTimeout(() => setShowMenu(true), 100)}
-      // onMouseLeave={() => setTimeout(() => setShowMenu(false), 100)}
+      onMouseLeave={() => setTimeout(() => setShowMenu(false), 100)}
     >
       {showMenu && <Menu />}
     </div>
