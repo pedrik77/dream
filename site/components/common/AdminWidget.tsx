@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 const className =
-  'fixed cursor-pointer h-16 w-16 rounded-2xl z-50  text-sm hidden md:flex justify-center align-center'
+  'fixed cursor-pointer h-16 w-16 rounded-2xl z-50  text-xs hidden md:flex justify-center align-center'
 
 const buttonBg = 'bg-primary border-2 border-secondary text-white'
 
@@ -34,6 +34,12 @@ function Menu() {
 
   return (
     <>
+      <div
+        className={`${className} right-12 bottom-56 ${buttonBg}`}
+        onClick={() => router.push('/admin/categories')}
+      >
+        Kategórie
+      </div>
       <div
         className={`${className} right-12 bottom-44 ${buttonBg}`}
         onClick={() => router.push('/admin/menu')}
