@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react'
 import { COMPONENTS } from './config'
 
 type KeyOf<T> = keyof T
@@ -34,6 +33,7 @@ export type ComponentConfig<T> = {
   Editor?: (props: Settable<T>) => JSX.Element
   loadStarterValues?: () => Promise<T>
   prompt?: KeyOf<T>[]
+  showControlsAlways?: boolean
 }
 
 export interface StarterCommon<T = any> {
@@ -58,6 +58,7 @@ export interface ComponentsProps {
   maxNumberOfComponents?: number
   allowedComponents?: string[]
   forbiddenComponents?: string[]
+  onData?: (data: StarterCommon[]) => void
 }
 
 export type ChangableComponent = StarterCommon &
@@ -65,6 +66,7 @@ export type ChangableComponent = StarterCommon &
     removeSelf: () => void
     toggleMoving: () => void
     toggleDraft: () => void
+    isHovering: boolean
     isMoving: boolean
     isEditing: boolean
     onEditing: (isEditing: boolean) => void

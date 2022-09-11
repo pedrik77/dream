@@ -25,6 +25,7 @@ import {
   getComponentStarter,
   getComponent,
   getEditor,
+  getShowControlsAlways,
 } from './getters'
 import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from './config'
 import { getInput } from './editors/input'
@@ -133,6 +134,7 @@ export function ComponentEditor({
   isEditing,
   onEditing,
   isMoving,
+  isHovering,
   forceEdit = false,
   single = false,
   removeSelf,
@@ -140,6 +142,7 @@ export function ComponentEditor({
   const [data, setData] = useState({})
 
   const Editor = useMemo(() => getEditor(type), [type])
+  const showControls = getShowControlsAlways(type)
 
   useEffect(() => setData(value), [value])
 
@@ -155,10 +158,12 @@ export function ComponentEditor({
   useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
 
   return (
-    <div className="flex flex-col">
+    <>
       <div
-        className={`flex justify-end gap-2 right-4 mt-2 ${
-          !forceEdit ? ' absolute top-30 z-30 ' : ''
+        className={`flex gap-2 mt-2 ml-4 transition-all ${
+          !forceEdit ? ' absolute top-30 z-30' : ''
+        } ${isHovering || showControls ? 'visible' : 'invisible'} ${
+          showControls ? 'top-20' : ''
         }`}
         ref={editorRef}
       >
@@ -215,7 +220,7 @@ export function ComponentEditor({
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
 
@@ -227,12 +232,16 @@ export function Components({
   maxNumberOfComponents = -1,
   allowedComponents = DEFAULT_ALLOWED,
   forbiddenComponents = DEFAULT_FORBIDDEN,
+  onData,
 }: ComponentsProps) {
   const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
   const [components, setComponents] = useState<StarterCommon[]>([])
   const [moving, setMoving] = useState(-1)
+  const [hovering, setHovering] = useState(-1)
   const [editing, setEditing] = useState<number[]>([])
+
+  const shouldRender = !onData
 
   const canEdit =
     usePermission({ permission: PERMISSIONS.CMS }) &&
@@ -392,35 +401,45 @@ export function Components({
   }, [blockId, children])
 
   useEffect(() => {
+    onData && onData(components)
+
     if (!loaded.current || !components.length) return
 
     saveComponents(components)
-  }, [components, saveComponents])
+  }, [components, saveComponents, onData])
 
   return (
     <>
       <PlusButton position={0} />
-      {components.map((c, i) => (
-        <Fragment key={blockId + c.type + i}>
-          <div>
-            {canEdit && (
-              <ComponentEditor
-                isEditing={editing.includes(i)}
-                onEditing={(isEditing) => handleEditComponent(i, isEditing)}
-                onChange={(value) => handleOnChange(i, value)}
-                toggleMoving={() => setMoving(!isMoving ? i : -1)}
-                removeSelf={() => handleRemoveSelf(i)}
-                toggleDraft={() => handleToggleDraft(i)}
-                isMoving={isMoving}
-                single={components.length === 1}
-                {...c}
-              />
-            )}
-            <ComponentRender {...c} />
-          </div>
-          <PlusButton position={i + 1} />
-        </Fragment>
-      ))}
+      {components.map((c, i) => {
+        const hover = (hover: boolean) => setHovering(hover ? i : -1)
+        return (
+          <Fragment key={blockId + c.type + i}>
+            <div
+              className="contents"
+              onMouseEnter={() => hover(true)}
+              onMouseLeave={() => hover(false)}
+            >
+              {canEdit && (
+                <ComponentEditor
+                  isEditing={editing.includes(i)}
+                  onEditing={(isEditing) => handleEditComponent(i, isEditing)}
+                  onChange={(value) => handleOnChange(i, value)}
+                  toggleMoving={() => setMoving(!isMoving ? i : -1)}
+                  removeSelf={() => handleRemoveSelf(i)}
+                  toggleDraft={() => handleToggleDraft(i)}
+                  isMoving={isMoving}
+                  isHovering={hovering === i}
+                  single={components.length === 1}
+                  {...c}
+                />
+              )}
+              {shouldRender && <ComponentRender {...c} />}
+            </div>
+            <PlusButton position={i + 1} />
+          </Fragment>
+        )
+      })}
     </>
   )
 }
