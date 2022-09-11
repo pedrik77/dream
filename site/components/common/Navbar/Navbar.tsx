@@ -57,13 +57,13 @@ const Navbar: FC<NavbarProps> = ({ links = [] }) => {
   )
 }
 
-const Skeletons = Array(5)
+const Skeletons = Array(1)
   .fill(null)
   .map((_, i) => (
     <Skeleton
       key={i}
       className={s.link}
-      width={77}
+      width={420}
       height={32}
       animation="pulse"
     />
