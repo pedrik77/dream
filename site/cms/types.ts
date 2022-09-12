@@ -9,7 +9,6 @@ export type InputEditor<T = any, P = {}> = (
     label?: string
     value: T
     onChange: (value: T) => void
-    component?: P
   }
 ) => JSX.Element
 

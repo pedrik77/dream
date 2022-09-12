@@ -76,21 +76,24 @@ export function createEditor<T = any>(
         setData,
       }: Settable<
         T & {
-          getData: (name?: string) => string
+          getData: (name?: string) => string | T
         }
-      >) => (
-        <Component
-          key={name}
-          component={getData()}
-          // @ts-ignore
-          value={getData(name) ?? value}
-          label={label}
-          onChange={(value) => {
+      >) => {
+        const data = getData()
+        return (
+          <Component
+            {...(typeof data !== 'string' ? data : {})}
+            key={name}
             // @ts-ignore
-            setData((data) => ({ ...data, [name]: value }))
-          }}
-        />
-      )
+            value={getData(name) ?? value}
+            label={label}
+            onChange={(value) => {
+              // @ts-ignore
+              setData((data) => ({ ...data, [name]: value }))
+            }}
+          />
+        )
+      }
 
       return Input
     })

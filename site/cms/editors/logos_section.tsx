@@ -8,7 +8,8 @@ import { v4 as uuid4 } from 'uuid'
 export const LogosEditor: InputEditor<string[], LogosSectionProps> = ({
   value: logos,
   onChange,
-  component,
+  width = 0,
+  height = 0,
 }) => {
   return (
     <>
@@ -39,8 +40,8 @@ export const LogosEditor: InputEditor<string[], LogosSectionProps> = ({
               )
             }
             imagePreview={{
-              width: component?.width || 0,
-              height: component?.height || 0,
+              width,
+              height,
             }}
           />
         )
