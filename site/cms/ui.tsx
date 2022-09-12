@@ -72,17 +72,20 @@ export function createEditor<T = any>(
       // @ts-ignore
       const [label = '', value = '', editor] = d
 
+      const nested = typeof editor === 'object' && !Array.isArray(editor)
+
       const InputComponent = getInputEditor(editor)
 
       const Input = ({
         getData,
-        setData,
+        onChange,
       }: Settable<
         T & {
           getData: (name?: string) => string | T
         }
       >) => {
         const data = getData()
+
         return (
           <InputComponent
             {...(typeof data !== 'string' ? data : {})}
@@ -92,7 +95,10 @@ export function createEditor<T = any>(
             label={label}
             onChange={(value) => {
               // @ts-ignore
-              setData((data) => ({ ...data, [name]: value }))
+              onChange((data) => ({
+                ...data,
+                [name]: !nested ? value : { ...value },
+              }))
             }}
           />
         )
@@ -101,14 +107,14 @@ export function createEditor<T = any>(
       return Input
     })
 
-  return function Editor({ setData, ...data }) {
+  return function Editor({ onChange, ...data }) {
     return (
       <>
         {inputs.map((Input, i) => (
           // @ts-ignore
           <Input
             key={i}
-            setData={setData}
+            onChange={onChange}
             getData={(name) => {
               // @ts-ignore
               if (!!name) return data[name]
@@ -222,7 +228,7 @@ export function ComponentEditor({
               </>
             )}
             {/* @ts-ignore */}
-            <Editor {...data} setData={setData} />
+            <Editor {...data} onChange={setData} />
           </div>
         </div>
       )}

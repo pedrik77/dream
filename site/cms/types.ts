@@ -50,7 +50,7 @@ export interface Changeable {
 }
 
 export type Settable<T = {}> = T & {
-  setData: (data: T) => void
+  onChange: (data: T) => void
 }
 
 export interface ComponentsProps {
