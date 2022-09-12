@@ -54,7 +54,10 @@ const getInputEditor = (
 
   if (Array.isArray(editor)) return getSelect({ options: editor })
 
-  return editor
+  if (typeof editor === 'function') return editor
+
+  // @ts-ignore
+  return createEditor(editor)
 }
 
 export function createEditor<T = any>(
@@ -67,9 +70,9 @@ export function createEditor<T = any>(
       if (d === false) throw new Error('Should not happen')
 
       // @ts-ignore
-      const [label = '', value = '', Editor] = d
+      const [label = '', value = '', editor] = d
 
-      const Component = getInputEditor(Editor)
+      const InputComponent = getInputEditor(editor)
 
       const Input = ({
         getData,
@@ -81,7 +84,7 @@ export function createEditor<T = any>(
       >) => {
         const data = getData()
         return (
-          <Component
+          <InputComponent
             {...(typeof data !== 'string' ? data : {})}
             key={name}
             // @ts-ignore

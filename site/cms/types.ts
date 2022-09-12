@@ -19,7 +19,12 @@ export type InputEditorGetter<T = any, P = {}> = (
 export type Definition<T> = [
   title: string,
   starter?: any,
-  Editor?: string | string[] | string[][] | InputEditor<any, T>
+  Editor?:
+    | string
+    | string[]
+    | string[][]
+    | ValuesDefinition
+    | InputEditor<any, T>
 ]
 
 export type ValuesDefinition<T = {}> = Record<KeyOf<T>, Definition<T> | false>

@@ -1,8 +1,7 @@
 import { Button } from '@components/ui'
 import { LogosSectionProps } from '@components/ui/LogosSection/LogosSection'
-import { uploadFile } from '@lib/files'
 import { InputEditor } from 'cms/types'
-import { Input } from './input'
+import { getImageInput } from './input'
 import { v4 as uuid4 } from 'uuid'
 
 export const LogosEditor: InputEditor<string[], LogosSectionProps> = ({
@@ -11,6 +10,11 @@ export const LogosEditor: InputEditor<string[], LogosSectionProps> = ({
   width = 0,
   height = 0,
 }) => {
+  const ImageInput = getImageInput({
+    imagePreview: { width, height },
+    getPath: () => 'cms/logos_section/' + uuid4(),
+  })
+
   return (
     <>
       <div>
@@ -22,30 +26,17 @@ export const LogosEditor: InputEditor<string[], LogosSectionProps> = ({
         </Button>
       </div>
 
-      {logos.map((logo, i) => {
-        const change = (logo: string) => {
-          const newLogos = [...logos]
-          newLogos[i] = logo
-          onChange(newLogos)
-        }
-        return (
-          <Input
-            key={i}
-            value={logo}
-            type={'file'}
-            onChange={change}
-            onFile={(file) =>
-              uploadFile('cms/logos_section/' + uuid4(), file).then((src) =>
-                change(src)
-              )
-            }
-            imagePreview={{
-              width,
-              height,
-            }}
-          />
-        )
-      })}
+      {logos.map((logo, i) => (
+        <ImageInput
+          key={i}
+          value={logo}
+          onChange={(logo: string) => {
+            const newLogos = [...logos]
+            newLogos[i] = logo
+            onChange(newLogos)
+          }}
+        />
+      ))}
     </>
   )
 }

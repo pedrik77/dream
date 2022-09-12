@@ -69,7 +69,12 @@ export const getImageInput: InputEditorGetter<
   }
 > =
   (defaults = {}) =>
-  ({ value, onChange, getPath = defaults.getPath }) =>
+  ({
+    value,
+    onChange,
+    getPath = defaults.getPath,
+    imagePreview = defaults.imagePreview,
+  }) =>
     (
       <Input
         value={value}
@@ -80,6 +85,6 @@ export const getImageInput: InputEditorGetter<
             onChange(src)
           )
         }
-        imagePreview={{}}
+        imagePreview={imagePreview || {}}
       />
     )

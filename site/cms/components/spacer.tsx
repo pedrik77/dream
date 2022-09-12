@@ -19,7 +19,7 @@ const config: ComponentConfig<SpacesProps> = {
   ),
   prompt: ['size'],
   valuesDefinition: {
-    size: ['Výška', 20, 'number'],
+    size: ['Výška', 200, 'number'],
     backgroundColor: [
       'Farba pozadia',
       '#fff',
