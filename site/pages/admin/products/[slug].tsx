@@ -168,10 +168,10 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               variant="ghost"
               type="text"
               value={title_1}
-              placeholder="Title 1"
+              placeholder="Title"
               onChange={setTitle1}
             >
-              Title 1
+              Title
             </Input>
             <Input
               variant="ghost"
@@ -207,7 +207,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               variant="ghost"
               type="text"
               value={title_2}
-              placeholder="Title 2"
+              placeholder="A podporte"
               onChange={setTitle2}
             >
               A podporte
