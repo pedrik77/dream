@@ -13,7 +13,7 @@ export default function Editor({
       onEditorChange={onChange}
       init={{
         height: 500,
-        menubar: false,
+        menubar: true,
         plugins: [
           'lists',
           'advlist',
