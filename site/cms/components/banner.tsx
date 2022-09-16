@@ -1,6 +1,5 @@
 import Banner, { BannerProps } from '@components/ui/Banner'
 import { ComponentConfig } from '../types'
-import { v4 as uuid4 } from 'uuid'
 import { getImageInput } from 'cms/editors/input'
 
 const config: ComponentConfig<BannerProps> = {
@@ -25,7 +24,7 @@ const config: ComponentConfig<BannerProps> = {
       'Image',
       '/assets/car_2560x1440.jpg',
       // @ts-ignore
-      getImageInput({ getPath: () => 'cms/banner/' + uuid4() }),
+      getImageInput({ getPath: () => 'cms/banner' }),
     ],
   },
 }

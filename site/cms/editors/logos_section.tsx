@@ -2,7 +2,6 @@ import { Button } from '@components/ui'
 import { LogosSectionProps } from '@components/ui/LogosSection/LogosSection'
 import { InputEditor } from 'cms/types'
 import { getImageInput } from './input'
-import { v4 as uuid4 } from 'uuid'
 
 export const LogosEditor: InputEditor<string[], LogosSectionProps> = ({
   value: logos,
@@ -12,7 +11,7 @@ export const LogosEditor: InputEditor<string[], LogosSectionProps> = ({
 }) => {
   const ImageInput = getImageInput({
     imagePreview: { width, height },
-    getPath: () => 'cms/logos_section/' + uuid4(),
+    getPath: () => 'cms/logos_section',
   })
 
   return (

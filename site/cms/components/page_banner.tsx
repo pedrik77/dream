@@ -1,7 +1,6 @@
 import PageBanner, { PageBannerProps } from '@components/ui/PageBanner'
 import { getImageInput } from 'cms/editors/input'
 import { ComponentConfig } from '../types'
-import { v4 as uuid4 } from 'uuid'
 
 const config: ComponentConfig<PageBannerProps> = {
   type: 'page_banner',
@@ -14,7 +13,7 @@ const config: ComponentConfig<PageBannerProps> = {
       'Image',
       '/assets/winners_banner.jpg',
       // @ts-ignore
-      getImageInput({ getPath: () => 'cms/page_banner/' + uuid4() }),
+      getImageInput({ getPath: () => 'cms/page_banner' }),
     ],
     alt: false,
     width: false,

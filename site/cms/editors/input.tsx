@@ -2,6 +2,7 @@ import { Input as UiInput } from '@components/ui'
 import { uploadFile } from '@lib/files'
 import { InputEditorGetter } from 'cms/types'
 import React from 'react'
+import { v4 as uuid4 } from 'uuid'
 
 interface InputProps {
   type?: string
@@ -81,9 +82,10 @@ export const getImageInput: InputEditorGetter<
         type="file"
         onChange={console.log}
         onFile={(file) =>
-          uploadFile(getPath ? getPath() : '', file).then((src) =>
-            onChange(src)
-          )
+          uploadFile(
+            `${getPath ? getPath() : 'imgs'}/${file.name + uuid4()}`,
+            file
+          ).then((src) => onChange(src))
         }
         imagePreview={imagePreview || {}}
       />
