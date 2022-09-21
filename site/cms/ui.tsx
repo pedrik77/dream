@@ -152,6 +152,10 @@ export function ComponentEditor({
   single = false,
   removeSelf,
 }: ChangableComponent) {
+  const { locale } = useRouter()
+  const editorRef = useRef(null)
+  useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
+
   const [data, setData] = useState({})
 
   const Editor = useMemo(() => getEditor(type), [type])
@@ -165,12 +169,6 @@ export function ComponentEditor({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-
-  const { locale, locales } = useRouter()
-  const editorRef = useRef(null)
-  useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
-
-  console.log({ locale, locales })
 
   return (
     <>
@@ -211,7 +209,7 @@ export function ComponentEditor({
         >
           <div className={!forceEdit ? 'max-w-5xl' : ''}>
             <Text variant="heading" className="text-white">
-              {getComponentTitle(type)}
+              {getComponentTitle(type)} ({locale?.toLocaleUpperCase()})
             </Text>
             {!forceEdit && (
               <>
@@ -252,6 +250,8 @@ export function Components({
 }: ComponentsProps) {
   const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
+  const { locale, defaultLocale } = useRouter()
+
   const [components, setComponents] = useState<StarterCommon[]>([])
   const [moving, setMoving] = useState(-1)
   const [hovering, setHovering] = useState(-1)
@@ -360,18 +360,21 @@ export function Components({
 
   const handleOnChange = useCallback(
     (key: number, value: any) => {
+      const values = {}
+
       const newComponents = components.map((c, i) =>
         key === i
           ? {
               ...c,
-              value,
+              value: locale === defaultLocale ? value : c.value,
+              values: { ...values, [locale || '']: value },
             }
           : c
       )
 
       setComponents(newComponents)
     },
-    [components]
+    [components, locale, defaultLocale]
   )
 
   const PlusButton = useCallback(
@@ -430,6 +433,15 @@ export function Components({
       {components.map((c, i) => {
         const hover = (hover: boolean) =>
           setTimeout(() => setHovering(hover ? i : -1), 100)
+
+        const value =
+          !c.values ||
+          locale === defaultLocale ||
+          !locale ||
+          !(locale in c.values)
+            ? c.value
+            : c.values[locale]
+
         return (
           <Fragment key={blockId + c.type + i}>
             <div
@@ -449,9 +461,10 @@ export function Components({
                   isHovering={hovering === i}
                   single={components.length === 1}
                   {...c}
+                  value={value}
                 />
               )}
-              {shouldRender && <ComponentRender {...c} />}
+              {shouldRender && <ComponentRender {...c} value={value} />}
             </div>
             <PlusButton position={i + 1} />
           </Fragment>

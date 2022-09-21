@@ -1,11 +1,12 @@
 import { useAuthContext } from '@lib/auth'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 const POSITION = 4.5
 
 const className =
-  'fixed cursor-pointer h-16 w-16 rounded-2xl z-50 text-xs hidden md:flex justify-center right-12 items-center'
+  'fixed cursor-pointer h-16 w-16 rounded-2xl z-50 text-xs hidden md:flex justify-center items-center'
 
 const buttonBg = 'bg-primary border-2 border-secondary text-white'
 
@@ -19,15 +20,17 @@ export default function AdminWidget() {
 
   return (
     <div
-      className={`${className} ${adminEditingMode ? buttonBg : 'bg-secondary'}`}
+      className={`right-12 ${className} ${
+        adminEditingMode ? buttonBg : 'bg-secondary'
+      }`}
       style={{ bottom: POSITION + 'rem' }}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           adminEditingMode ? adminStopEditing() : adminStartEditing()
         }
       }}
-      onMouseEnter={() => setTimeout(() => setShowMenu(true), 100)}
-      onMouseLeave={() => setTimeout(() => setShowMenu(false), 100)}
+      onMouseEnter={() => setTimeout(() => setShowMenu(true), 177)}
+      onMouseLeave={() => setTimeout(() => setShowMenu(false), 177)}
     >
       {showMenu && <Menu />}
     </div>
@@ -36,6 +39,8 @@ export default function AdminWidget() {
 
 function Menu() {
   const router = useRouter()
+
+  const locales = ['sk', 'en']
 
   const btns = [
     ['Admin', '/admin'],
@@ -54,12 +59,27 @@ function Menu() {
       {btns.reverse().map(([label, href], i) => (
         <div
           key={href}
-          className={` ${className} ${buttonBg}`}
+          className={`right-12 ${className} ${buttonBg}`}
           style={{ bottom: bottom(i) + 'rem' }}
           onClick={() => router.push(href)}
         >
           {label}
         </div>
+      ))}
+      {locales.map((l, i) => (
+        <Link key={l} href={router.asPath} locale={l}>
+          <a
+            className={`${className} ${
+              router.locale !== l ? buttonBg : 'bg-secondary'
+            }`}
+            style={{
+              bottom: POSITION + 'rem',
+              right: 8 + POSITION * i + 'rem',
+            }}
+          >
+            {l}
+          </a>
+        </Link>
       ))}
     </>
   )

@@ -4,6 +4,8 @@ type langs = 'sk' | 'en'
 
 type KeyOf<T> = keyof T
 
+type Translated<T> = Record<string, T>
+
 export type ComponentType = typeof COMPONENTS[number]['type']
 
 export type InputEditor<T = any, P = {}> = (
@@ -11,7 +13,7 @@ export type InputEditor<T = any, P = {}> = (
     label?: string
     value: T
     onChange: (value: T) => void
-    translations?: Record<`value_${langs}`, T>
+    values?: Translated<T>
   }
 ) => JSX.Element
 
@@ -46,6 +48,7 @@ export interface StarterCommon<T = any> {
   type: ComponentType
   draft: boolean
   value: T
+  values?: Translated<T>
 }
 
 export interface Changeable {
