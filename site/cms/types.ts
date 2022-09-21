@@ -1,5 +1,7 @@
 import { COMPONENTS } from './config'
 
+type langs = 'sk' | 'en'
+
 type KeyOf<T> = keyof T
 
 export type ComponentType = typeof COMPONENTS[number]['type']
@@ -9,6 +11,7 @@ export type InputEditor<T = any, P = {}> = (
     label?: string
     value: T
     onChange: (value: T) => void
+    translations?: Record<`value_${langs}`, T>
   }
 ) => JSX.Element
 

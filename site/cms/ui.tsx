@@ -31,6 +31,7 @@ import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from './config'
 import { getInput } from './editors/input'
 import { getCmsBlock, setCmsBlock } from '@lib/cms'
 import { getSelect } from './editors/select'
+import { useRouter } from 'next/router'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
@@ -165,8 +166,11 @@ export function ComponentEditor({
     []
   )
 
+  const { locale, locales } = useRouter()
   const editorRef = useRef(null)
   useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
+
+  console.log({ locale, locales })
 
   return (
     <>

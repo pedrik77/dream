@@ -97,7 +97,7 @@ const SidebarUI = ({ links }) => {
 
 const Layout = ({ children, pageProps: { ...pageProps } }) => {
   const { acceptedCookies, acceptCookies, rejectCookies } = useAcceptCookies()
-  const { locale = 'en-US' } = useRouter()
+  const { locale = 'sk' } = useRouter()
 
   const navBarlinks = useMenu().main
 
