@@ -69,6 +69,7 @@ export const PERMISSIONS = {
   WINNERS_LIST: 'winners.list',
 
   PAGES_LIST: 'pages.list',
+  PAGES_FORM: 'pages.form',
 
   PRODUCTS_LIST: 'products.list',
   PRODUCTS_FORM: 'products.form',

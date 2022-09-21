@@ -13,6 +13,7 @@ import _ from 'lodash'
 import dynamic from 'next/dynamic'
 import React, { useMemo, useRef, useState } from 'react'
 import { PropsValue } from 'react-select'
+import { pageHref, usePages, pageToSelect } from '@lib/pages'
 
 const Select = dynamic(import('react-select'), { ssr: false })
 
@@ -24,6 +25,8 @@ const generateHref = (type: string, value: string) => {
   if (type === 'manual') return ''
 
   if (type === 'category') return categoryHref(value)
+
+  if (type === 'page') return pageHref(value)
 
   return value
 }
@@ -52,6 +55,7 @@ const flattenOptions = (options) => {
 
 export default function Menu() {
   const categories = useCategories()
+  const pages = usePages()
   const menu = useMenu({ withHidden: true })
 
   const [href, setHref] = useState('')
@@ -72,9 +76,9 @@ export default function Menu() {
         label: 'Kategórie',
         options: categories.map(categoryToSelect),
       },
-      { label: 'Stránky', options: [] },
+      { label: 'Stránky', options: pages.map(pageToSelect) },
     ],
-    [categories]
+    [categories, pages]
   )
 
   const reset = () => {
