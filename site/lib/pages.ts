@@ -10,6 +10,7 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
+import { CmsBlockData, getCmsBlock } from './cms'
 import { noop } from './common'
 import { db } from './firebase'
 import { AnyClosure, QueryBase } from './types'
@@ -17,6 +18,7 @@ import { AnyClosure, QueryBase } from './types'
 export interface Page {
   title: string
   slug: string
+  cmsBlock?: CmsBlockData | null
   meta_title?: string
   meta_description?: string
   meta_robots?: string
@@ -44,10 +46,21 @@ export async function getAllSlugs(): Promise<string[]> {
   return snapshot.docs.map((doc) => doc.id)
 }
 
-export async function getPage(slug: string): Promise<Page> {
+export async function getPage(
+  slug: string,
+  options = { withCmsBlock: true }
+): Promise<Page> {
   const pageData = await getDoc(doc(db, 'pages', slug))
 
-  return { slug: pageData.id, ...pageData.data() } as Page
+  return await getTransform(options.withCmsBlock)(pageData)
+}
+
+export async function getPages(): Promise<Page[]> {
+  const snapshot = await getDocs(collection(db, 'pages'))
+
+  const pages = snapshot.docs.map(getTransform())
+
+  return Promise.all(pages)
 }
 
 export async function setPage({ slug, title }: Page) {
@@ -86,16 +99,9 @@ export function usePages({ onError = console.error }: UsePagesOptions = {}) {
     () =>
       onSnapshot(
         collection(db, 'pages'),
-        (querySnapshot) => {
-          setPages(
-            querySnapshot.docs.map(
-              (doc) =>
-                ({
-                  slug: doc.id,
-                  ...doc.data(),
-                } as Page)
-            )
-          )
+        async (querySnapshot) => {
+          const pages = querySnapshot.docs.map(getTransform())
+          setPages(await Promise.all(pages))
         },
         onError
       ),
@@ -106,7 +112,7 @@ export function usePages({ onError = console.error }: UsePagesOptions = {}) {
 }
 
 export function getPageCmsId(slug: string = '') {
-  return `page__${slug}`
+  return `dynamic_page__${slug}`
 }
 
 export const pageHref = (pageSlug: string) => `/${pageSlug}`
@@ -116,3 +122,21 @@ export const pageToSelect = (p?: Page) => ({
   label: p?.title || '',
   type: 'page',
 })
+
+const getTransform =
+  (withCmsBlock = false) =>
+  async (doc: any) => {
+    const { ...data } = doc.data()
+
+    const slug = doc.id
+    let cmsBlock = null
+
+    if (withCmsBlock)
+      cmsBlock = await getCmsBlock(getPageCmsId(slug)).catch(console.error)
+
+    return {
+      ...data,
+      slug,
+      cmsBlock: cmsBlock || null,
+    } as Page
+  }
