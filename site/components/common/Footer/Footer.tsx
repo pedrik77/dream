@@ -14,6 +14,7 @@ import { useCategories } from '@lib/categories'
 import { Link as LinkType, useMenu } from '@lib/menu'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
+import { config } from 'cms/config'
 
 interface Props {
   className?: string
@@ -38,7 +39,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
                 <h3 className="uppercase font-bold md:col-span-2 ">
                   <CMS
                     blockId="footer__menu_title"
-                    allowedComponents={['text']}
+                    allowedComponents={[config.Text.type]}
                     maxNumberOfComponents={1}
                   />
                 </h3>
@@ -49,7 +50,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
                 <h3 className="uppercase font-bold">
                   <CMS
                     blockId="footer__legal_menu_title"
-                    allowedComponents={['text']}
+                    allowedComponents={[config.Text.type]}
                     maxNumberOfComponents={1}
                   />
                 </h3>
@@ -72,7 +73,11 @@ const Footer: FC<Props> = ({ className, pages }) => {
             </div>
 
             <div className="py-4">
-              <SocialSection />
+              <CMS
+                blockId="footer__socials"
+                allowedComponents={[config.Socials.type]}
+                maxNumberOfComponents={1}
+              />
             </div>
           </div>
         </div>
