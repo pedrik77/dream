@@ -145,11 +145,13 @@ export default function Categories() {
           </form>
         </Permit>
 
-        <div className={!!selected.length ? 'visible' : 'invisible'}>
-          <Button onClick={handleDeleteSelected}>
-            Delete {selected.length}
-          </Button>
-        </div>
+        <Permit permission={PERMISSIONS.CATEGORIES_DELETE}>
+          <div className={!!selected.length ? 'visible' : 'invisible'}>
+            <Button onClick={handleDeleteSelected}>
+              Delete {selected.length}
+            </Button>
+          </div>
+        </Permit>
         <DataGrid
           rows={categories}
           columns={[]}

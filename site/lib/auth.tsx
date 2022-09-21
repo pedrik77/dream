@@ -65,11 +65,13 @@ export const PERMISSIONS = {
 
   CATEGORIES_LIST: 'categories.list',
   CATEGORIES_FORM: 'categories.form',
+  CATEGORIES_DELETE: 'categories.delete',
 
   WINNERS_LIST: 'winners.list',
 
   PAGES_LIST: 'pages.list',
   PAGES_FORM: 'pages.form',
+  PAGES_DELETE: 'pages.delete',
 
   PRODUCTS_LIST: 'products.list',
   PRODUCTS_FORM: 'products.form',

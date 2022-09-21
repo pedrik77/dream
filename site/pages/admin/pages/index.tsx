@@ -113,11 +113,6 @@ export default function Pages() {
                   </Button>
                 </fieldset>
               </form>
-              <div className={!!selected.length ? 'visible' : 'invisible'}>
-                <Button onClick={handleDeleteSelected}>
-                  Delete {selected.length}
-                </Button>
-              </div>
             </>
           ) : (
             <>
@@ -131,6 +126,13 @@ export default function Pages() {
               </Button>
             </>
           )}
+        </Permit>
+        <Permit permission={PERMISSIONS.PAGES_DELETE}>
+          <div className={!!selected.length ? 'visible' : 'invisible'}>
+            <Button onClick={handleDeleteSelected}>
+              Delete {selected.length}
+            </Button>
+          </div>
         </Permit>
         <DataGrid
           rows={pages}
