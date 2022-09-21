@@ -83,7 +83,7 @@ export const getImageInput: InputEditorGetter<
         onChange={console.log}
         onFile={(file) =>
           uploadFile(
-            `${getPath ? getPath() : 'imgs'}/${file.name + uuid4()}`,
+            `${getPath ? getPath() : 'imgs'}/${file.name}_${uuid4()}`,
             file
           ).then((src) => onChange(src))
         }
