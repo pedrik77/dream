@@ -11,6 +11,7 @@ import { ProductCard } from '@components/product'
 import PageBanner from '@components/ui/PageBanner'
 import Tree from '@components/winners/Tree'
 import { CMS } from 'cms'
+import { config } from 'cms/config'
 
 const CMS_ID = 'static_page__winners'
 
@@ -100,7 +101,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
       <CMS
         blockId={CMS_ID}
         maxNumberOfComponents={1}
-        allowedComponents={['page_banner']}
+        allowedComponents={[config.PageBanner.type]}
       />
       <Container className="py-8 mt-0 md:mt-8 items-center justify-center">
         <div className="flex flex-col gap-3 lg:gap-6 max-w-lg md:max-w-2xl mx-auto lg:max-w-6xl items-center justify-center">
