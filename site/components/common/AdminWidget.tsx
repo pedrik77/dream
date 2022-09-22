@@ -3,12 +3,15 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
+type WidgetLink = [label: string, href?: string, locale?: string]
+
 const POSITION = 4.5
 
 const className =
   'fixed cursor-pointer h-16 w-16 rounded-2xl z-50 text-xs hidden md:flex justify-center items-center'
 
-const buttonBg = 'bg-primary border-2 border-secondary text-white'
+const activeBg = 'bg-secondary'
+const inactiveBg = 'bg-primary border-2 border-secondary text-white'
 
 export default function AdminWidget() {
   const { permissions, adminEditingMode, adminStartEditing, adminStopEditing } =
@@ -21,7 +24,7 @@ export default function AdminWidget() {
   return (
     <div
       className={`right-12 ${className} ${
-        adminEditingMode ? buttonBg : 'bg-secondary'
+        adminEditingMode ? inactiveBg : activeBg
       }`}
       style={{ bottom: POSITION + 'rem' }}
       onClick={(e) => {
@@ -40,44 +43,63 @@ export default function AdminWidget() {
 function Menu() {
   const router = useRouter()
 
-  const locales = ['sk', 'en']
-
-  const btns = [
+  const horizontal: WidgetLink[] = [
     ['Admin', '/admin'],
-    ['Menu', '/admin/menu'],
     ['Kategórie', '/admin/categories'],
+    ['Stránky', '/admin/pages'],
+    ['Menu', '/admin/menu'],
     // ['Víťazi', '/admin/winners'],
     // ['Objednávky', '/admin/orders'],
     // ['Produkty', '/admin/products'],
-    // ['Stránky', '/admin/pages'],
   ]
+
+  const vertical: WidgetLink[] = [
+    ['Pridať produkt', '/admin/products/add'],
+    ['SK', , 'sk'],
+    ['EN', , 'en'],
+  ]
+
+  const isActive = ([
+    label,
+    href,
+    locale = router.locale || '',
+  ]: typeof vertical[number]) => {
+    if (label.toLocaleLowerCase() === router.locale?.toLocaleLowerCase())
+      return true
+
+    if (href === router.asPath && locale === router.locale) return true
+
+    return false
+  }
 
   const bottom = (key: number) => POSITION + (key + 1) * POSITION
 
   return (
     <>
-      {btns.reverse().map(([label, href], i) => (
-        <div
-          key={href}
-          className={`right-12 ${className} ${buttonBg}`}
-          style={{ bottom: bottom(i) + 'rem' }}
-          onClick={() => router.push(href)}
-        >
-          {label}
-        </div>
+      {horizontal.reverse().map(([label, href, locale], i) => (
+        <Link key={href} href={href} locale={locale}>
+          <a
+            className={`right-12 ${className} ${
+              isActive([label, href, locale]) ? activeBg : inactiveBg
+            }`}
+            style={{ bottom: bottom(i) + 'rem' }}
+          >
+            {label}
+          </a>
+        </Link>
       ))}
-      {locales.map((l, i) => (
-        <Link key={l} href={router.asPath} locale={l}>
+      {vertical.map(([label, href = router.asPath, locale], i) => (
+        <Link key={i} href={href} locale={locale}>
           <a
             className={`${className} ${
-              router.locale !== l ? buttonBg : 'bg-secondary'
+              isActive([label, href, locale]) ? activeBg : inactiveBg
             }`}
             style={{
               bottom: POSITION + 'rem',
-              right: 8 + POSITION * i + 'rem',
+              right: 7.5 + POSITION * i + 'rem',
             }}
           >
-            {l}
+            {label}
           </a>
         </Link>
       ))}
