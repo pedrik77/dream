@@ -76,7 +76,7 @@ function Menu() {
 
   return (
     <>
-      {horizontal.reverse().map(([label, href, locale], i) => (
+      {horizontal.reverse().map(([label, href = router.asPath, locale], i) => (
         <Link key={href} href={href} locale={locale}>
           <a
             className={`right-12 ${className} ${
