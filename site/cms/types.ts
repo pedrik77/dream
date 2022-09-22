@@ -1,4 +1,4 @@
-import { COMPONENTS } from './config'
+import { USE_COMPONENTS } from './config'
 
 type langs = 'sk' | 'en'
 
@@ -6,7 +6,7 @@ type KeyOf<T> = keyof T
 
 type Translated<T> = Record<string, T>
 
-export type ComponentType = typeof COMPONENTS[number]['type']
+export type ComponentType = typeof USE_COMPONENTS[number]['type']
 
 export type InputEditor<T = any, P = {}> = (
   props: P & {
@@ -59,14 +59,18 @@ export type Settable<T = {}> = T & {
   onChange: (data: T) => void
 }
 
-export interface ComponentsProps {
+export interface ComponentsLists {
+  allowedComponents?: ComponentConfig<any>[]
+  forbiddenComponents?: ComponentConfig<any>[]
+}
+
+export interface ComponentsProps extends ComponentsLists {
   blockId?: string
   children?: StarterCommon[]
   forceEdit?: boolean
   forbidEdit?: boolean
   maxNumberOfComponents?: number
-  allowedComponents?: string[]
-  forbiddenComponents?: string[]
+  single?: ComponentConfig<any>
   onData?: (data: StarterCommon[]) => void
 }
 

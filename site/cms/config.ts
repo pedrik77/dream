@@ -1,3 +1,4 @@
+import { ComponentConfig } from './types'
 import Text from './components/text'
 import Image from './components/image'
 import Hero from './components/hero'
@@ -9,7 +10,7 @@ import Spacer from './components/spacer'
 import LogosSection from './components/logos_section'
 import Socials from './components/socials_section'
 
-export const COMPONENTS = [
+const USE_COMPONENTS = [
   Wysiwyg,
   Text,
   Image,
@@ -22,10 +23,13 @@ export const COMPONENTS = [
   Spacer,
 ]
 
-export const DEFAULT_FORBIDDEN = [Text.type]
-export const DEFAULT_ALLOWED = []
+const DEFAULT_FORBIDDEN: ComponentConfig<any>[] = [Text]
+const DEFAULT_ALLOWED: ComponentConfig<any>[] = []
 
-export const config = {
+export {
+  USE_COMPONENTS,
+  DEFAULT_FORBIDDEN,
+  DEFAULT_ALLOWED,
   Wysiwyg,
   Text,
   Image,

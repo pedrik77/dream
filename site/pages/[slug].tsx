@@ -41,7 +41,7 @@ export default function Pages({ page }: { page: Page }) {
   return router.isFallback ? (
     <h1>Loading...</h1> // TODO (BC) Add Skeleton Views
   ) : (
-    <CMS blockId={getPageCmsId(page.slug)} allowedComponents={[]} />
+    <CMS blockId={getPageCmsId(page.slug)}>{page.cmsBlock?.components}</CMS>
   )
 }
 

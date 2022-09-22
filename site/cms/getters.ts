@@ -1,10 +1,15 @@
 import { prompt as promptValue } from '@lib/alerts'
-import { COMPONENTS } from './config'
-import { ComponentConfig, ComponentType, Settable } from './types'
+import { USE_COMPONENTS } from './config'
+import {
+  ComponentConfig,
+  ComponentsLists,
+  ComponentType,
+  Settable,
+} from './types'
 import { createEditor } from './ui'
 
 function getComponentConfig<T = any>(type: ComponentType): ComponentConfig<T> {
-  const config = COMPONENTS.find((c) => c.type === type)
+  const config = USE_COMPONENTS.find((c) => c.type === type)
 
   // @ts-ignore
   if (config) return config
@@ -19,13 +24,14 @@ export function getComponentTitle(type: ComponentType): string {
 export function getComponentSelectOptions({
   allowedComponents = [],
   forbiddenComponents = [],
-}: { allowedComponents?: string[]; forbiddenComponents?: string[] } = {}) {
+}: ComponentsLists = {}) {
   const types = {}
-  COMPONENTS.forEach((config) => {
+  USE_COMPONENTS.forEach((config) => {
     if (
-      (allowedComponents.length && !allowedComponents.includes(config.type)) ||
-      (forbiddenComponents.includes(config.type) &&
-        !allowedComponents.includes(config.type))
+      (allowedComponents.length &&
+        !allowedComponents.find((c) => c.type === config.type)) ||
+      (forbiddenComponents.find((c) => c.type === config.type) &&
+        !allowedComponents.find((c) => c.type === config.type))
     )
       return
 

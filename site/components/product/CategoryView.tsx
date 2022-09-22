@@ -1,14 +1,13 @@
 import { useProducts } from '@lib/products'
 import { useState } from 'react'
 import { Container, Text } from '@components/ui'
-import PageBanner from '@components/ui/PageBanner'
 import { Tab } from '@components/ui/Tab/Tab'
 import ProductCard from './ProductCard'
 import { Layout } from '@components/common'
 import { Skeleton } from '@mui/material'
 import { CMS } from 'cms'
 import { getCategoryCmsId } from '@lib/categories'
-import { config } from 'cms/config'
+import { PageBanner } from 'cms/config'
 
 export const FALLBACK_BANNER = '/assets/category_fallback_banner.jpg'
 
@@ -38,8 +37,7 @@ export function CategoryView({ banner, categorySlug }: CategoryViewProps) {
       <CMS
         key={getCategoryCmsId(categorySlug)}
         blockId={getCategoryCmsId(categorySlug)}
-        maxNumberOfComponents={1}
-        allowedComponents={[config.PageBanner.type]}
+        single={PageBanner}
       />
       <Container className="flex gap-8 items-center justify-center my-10">
         <Tab active={!showClosed} onClick={() => setShowClosed(false)}>

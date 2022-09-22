@@ -246,6 +246,7 @@ export function Components({
   maxNumberOfComponents = -1,
   allowedComponents = DEFAULT_ALLOWED,
   forbiddenComponents = DEFAULT_FORBIDDEN,
+  single,
   onData,
 }: ComponentsProps) {
   const loaded = useRef(false)
@@ -266,15 +267,16 @@ export function Components({
 
   const isMoving = moving > -1
 
+  const maxComp = !single ? maxNumberOfComponents : 1
+
   const atMax = useMemo(
-    () =>
-      maxNumberOfComponents > 0 && components.length >= maxNumberOfComponents,
-    [components, maxNumberOfComponents]
+    () => maxComp > 0 && components.length >= maxComp,
+    [components, maxComp]
   )
 
   const componentTypes = getComponentSelectOptions({
-    forbiddenComponents,
-    allowedComponents,
+    forbiddenComponents: !single ? forbiddenComponents : [],
+    allowedComponents: !single ? allowedComponents : [single.type],
   })
 
   const saveComponents = useCallback(

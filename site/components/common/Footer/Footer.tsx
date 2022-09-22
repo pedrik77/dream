@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import type { Page } from '@commerce/types/page'
 import getSlug from '@lib/get-slug'
 import { Github, Vercel } from '@components/icons'
-import { Logo, Container, Text } from '@components/ui'
+import { Logo, Container } from '@components/ui'
 import { I18nWidget } from '@components/common'
 import s from './Footer.module.css'
 import SocialSection from '../SocialSection'
@@ -14,7 +14,7 @@ import { useCategories } from '@lib/categories'
 import { Link as LinkType, useMenu } from '@lib/menu'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
-import { config } from 'cms/config'
+import { Text, Socials } from 'cms/config'
 
 interface Props {
   className?: string
@@ -37,22 +37,14 @@ const Footer: FC<Props> = ({ className, pages }) => {
             <div className="grid grid-cols-1 md:grid-flow-col max-w-lg gap-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-4 gap-x-4">
                 <h3 className="uppercase font-bold md:col-span-2 ">
-                  <CMS
-                    blockId="footer__menu_title"
-                    allowedComponents={[config.Text.type]}
-                    maxNumberOfComponents={1}
-                  />
+                  <CMS blockId="footer__menu_title" single={Text} />
                 </h3>
 
                 {main.map(renderLink)}
               </div>
               <div className="grid grid-cols-1 md:grid-rows-4 gap-x-4">
                 <h3 className="uppercase font-bold">
-                  <CMS
-                    blockId="footer__legal_menu_title"
-                    allowedComponents={[config.Text.type]}
-                    maxNumberOfComponents={1}
-                  />
+                  <CMS blockId="footer__legal_menu_title" single={Text} />
                 </h3>
                 {legal.map(renderLink)}
               </div>
@@ -73,11 +65,7 @@ const Footer: FC<Props> = ({ className, pages }) => {
             </div>
 
             <div className="py-4">
-              <CMS
-                blockId="footer__socials"
-                allowedComponents={[config.Socials.type]}
-                maxNumberOfComponents={1}
-              />
+              <CMS blockId="footer__socials" single={Socials} />
             </div>
           </div>
         </div>
