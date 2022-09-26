@@ -1,6 +1,13 @@
 import s from './SocialSection.module.css'
 
-export const SOCIAL_OPTIONS = ['instagram', 'youtube', 'facebook', 'twitter']
+export const SOCIAL_OPTIONS = [
+  'instagram',
+  'youtube',
+  'facebook',
+  'twitter',
+  'tiktok',
+  'snapchat',
+]
 
 export interface SocialSectionProps {
   title: string
@@ -27,7 +34,7 @@ const SocialSection = ({ title, links }: SocialSectionProps) => {
               <img
                 src={`/${SOCIAL_OPTIONS.find((social) =>
                   link.includes(social)
-                )}.svg`}
+                )}.png`}
                 alt="icon"
                 className={s.icon}
               />
