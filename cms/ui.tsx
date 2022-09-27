@@ -15,7 +15,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { useScrollDisable } from '@lib/hooks/useScrollDisable'
+// import { useScrollDisable } from '@lib/hooks/useScrollDisable'
 import { usePermission } from '@lib/hooks/usePermission'
 import { PERMISSIONS, useAuthContext } from '@lib/auth'
 import Swal from 'sweetalert2'
@@ -154,7 +154,7 @@ export function ComponentEditor({
 }: ChangableComponent) {
   const { locale } = useRouter()
   const editorRef = useRef(null)
-  useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
+  // useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
 
   const [data, setData] = useState({})
 
