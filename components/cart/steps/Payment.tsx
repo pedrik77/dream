@@ -1,13 +1,9 @@
-import { AccountField } from '@components/account/Fields'
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { noop } from '@lib/common'
 import { useShopContext } from '@lib/shop'
-import { FormControl, InputLabel, Radio, RadioGroup } from '@mui/material'
+import { Radio } from '@mui/material'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
-import { handleInputChange } from 'react-select/dist/declarations/src/utils'
 
 export default function Payment({ onNext = noop, onPrev = noop }) {
   const { total, placeOrder, clearCart } = useShopContext()
