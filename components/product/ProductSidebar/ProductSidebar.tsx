@@ -1,13 +1,6 @@
 import s from './ProductSidebar.module.css'
-import { useAddItem } from '@framework/cart'
-import { FC, useEffect, useMemo, useState } from 'react'
-import { ProductOptions } from '@components/product'
-import { Button, Text, Rating, Collapse, useUI } from '@components/ui'
-import {
-  getProductVariant,
-  selectDefaultOptionFromProduct,
-  SelectedOptions,
-} from '../helpers'
+import { FC, useEffect, useState } from 'react'
+import { Button, Text } from '@components/ui'
 import ProductTag from '../ProductTag'
 import Link from 'next/link'
 import { getDonorsCount, Product } from '@lib/products'

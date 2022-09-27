@@ -24,8 +24,6 @@ import { app, db } from './firebase'
 import { doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
-import { confirm } from './alerts'
-import { useRouter } from 'next/router'
 
 const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`
 

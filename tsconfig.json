@@ -35,12 +35,6 @@
       "@components/*": [
         "components/*"
       ],
-      "@framework": [
-        "../packages/local/src"
-      ],
-      "@framework/*": [
-        "../packages/local/src/*"
-      ]
     }
   },
   "include": [

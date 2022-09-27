@@ -1,26 +1,18 @@
 import cn from 'clsx'
 import s from './Layout.module.css'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
-import { CommerceProvider } from '@framework'
 import LoginView from '@components/auth/LoginView'
 import { useUI } from '@components/ui/context'
 import { Navbar, Footer } from '@components/common'
-import ShippingView from '@components/checkout/ShippingView'
-import CartSidebarView from '@components/cart/CartSidebarView'
 import { useAcceptCookies } from '@lib/hooks/useAcceptCookies'
 import { Sidebar, Button, LoadingDots } from '@components/ui'
-import PaymentMethodView from '@components/checkout/PaymentMethodView'
-import CheckoutSidebarView from '@components/checkout/CheckoutSidebarView'
-import { CheckoutProvider } from '@components/checkout/context'
 import { MenuSidebarView } from '@components/common/UserNav'
 // @ts-ignore
 import { Flasher } from 'react-universal-flash'
 import { FlashMessage } from '@components/ui/FlashMessage'
-import { useCategories } from '@lib/categories'
-import { useMemo } from 'react'
 import { AuthProvider } from '@lib/auth'
 import { ShopProvider } from '@lib/shop'
+import { LocaleProvider } from '@lib/locale'
 import { useMenu } from '@lib/menu'
 import { MuiThemeProvider } from '@lib/mui-theme'
 import AdminWidget from '../AdminWidget'
@@ -75,10 +67,6 @@ const ModalUI = () => {
 const SidebarView = ({ sidebarView, closeSidebar, links }) => {
   return (
     <Sidebar onClose={closeSidebar}>
-      {sidebarView === 'CART_VIEW' && <CartSidebarView />}
-      {sidebarView === 'SHIPPING_VIEW' && <ShippingView />}
-      {sidebarView === 'PAYMENT_VIEW' && <PaymentMethodView />}
-      {sidebarView === 'CHECKOUT_VIEW' && <CheckoutSidebarView />}
       {sidebarView === 'MOBILE_MENU_VIEW' && <MenuSidebarView links={links} />}
     </Sidebar>
   )
@@ -97,12 +85,11 @@ const SidebarUI = ({ links }) => {
 
 const Layout = ({ children, pageProps: { ...pageProps } }) => {
   const { acceptedCookies, acceptCookies, rejectCookies } = useAcceptCookies()
-  const { locale = 'sk' } = useRouter()
 
   const navBarlinks = useMenu().main
 
   return (
-    <CommerceProvider locale={locale}>
+    <LocaleProvider>
       <AuthProvider>
         <ShopProvider>
           <MuiThemeProvider>
@@ -117,9 +104,7 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
               >
                 <FlashMessage />
               </Flasher>
-              <CheckoutProvider>
-                <SidebarUI links={navBarlinks} />
-              </CheckoutProvider>
+              <SidebarUI links={navBarlinks} />
               <FeatureBar
                 title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
                 hide={acceptedCookies !== undefined}
@@ -147,7 +132,7 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
           </MuiThemeProvider>
         </ShopProvider>
       </AuthProvider>
-    </CommerceProvider>
+    </LocaleProvider>
   )
 }
 

@@ -1,7 +1,5 @@
 import { Layout } from '@components/common'
-// import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
 import type { InferGetStaticPropsType } from 'next'
-import LogosSection from '@components/ui/LogosSection'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
 import { getCmsBlock } from '@lib/cms'

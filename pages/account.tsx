@@ -1,6 +1,5 @@
-import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
-import { Container, Text, Input, Button } from '@components/ui'
+import { Text, Input, Button } from '@components/ui'
 import { useAuthContext, setCustomerProfile, resetPassword } from '@lib/auth'
 import React, {
   FormEventHandler,
@@ -9,7 +8,6 @@ import React, {
   useState,
 } from 'react'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import Link from 'next/link'
 import AccountLayout from '@components/auth/AccountLayout'
 import useLoading from '@lib/hooks/useLoading'
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'

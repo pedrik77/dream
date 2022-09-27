@@ -1,5 +1,4 @@
-import { FC, useEffect, useState, useCallback } from 'react'
-import { validate } from 'email-validator'
+import { FC, useState } from 'react'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
 import { resetPassword } from '@lib/auth'

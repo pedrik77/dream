@@ -1,12 +1,9 @@
 import cn from 'clsx'
-import Link from 'next/link'
 import s from './UserNav.module.css'
 import { Avatar } from '@components/common'
-import useCart from '@framework/cart/use-cart'
 import { useUI } from '@components/ui/context'
 import { Heart, Bag, Menu } from '@components/icons'
 import CustomerMenuContent from './CustomerMenuContent'
-import useCustomer from '@framework/customer/use-customer'
 import React from 'react'
 import {
   Dropdown,
@@ -14,15 +11,11 @@ import {
   Button,
 } from '@components/ui'
 
-import type { LineItem } from '@commerce/types/cart'
 import { useAuthContext } from '@lib/auth'
-
-const countItem = (count: number, item: LineItem) => count + item.quantity
 
 const UserNav: React.FC<{
   className?: string
 }> = ({ className }) => {
-  const { data } = useCart()
   const { isLoggedIn } = useAuthContext()
   const {
     toggleSidebar,
@@ -32,7 +25,6 @@ const UserNav: React.FC<{
     setModalView,
   } = useUI()
 
-  const itemsCount = data?.lineItems.reduce(countItem, 0) ?? 0
   const DropdownTrigger = isLoggedIn ? DropdownTriggerInst : React.Fragment
 
   return (
@@ -46,10 +38,8 @@ const UserNav: React.FC<{
               setSidebarView('CART_VIEW')
               toggleSidebar()
             }}
-            aria-label={`Cart items: ${itemsCount}`}
           >
             <Bag />
-            {itemsCount > 0 && <span className={s.bagCount}>{itemsCount}</span>}
           </Button>
         </li>
         <li className={s.item}>

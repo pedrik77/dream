@@ -3,7 +3,7 @@ import Link from 'next/link'
 import s from './Navbar.module.css'
 import NavbarRoot from './NavbarRoot'
 import { Logo, Container } from '@components/ui'
-import { Searchbar, UserNav } from '@components/common'
+import {  UserNav } from '@components/common'
 import { useIsActiveMenu } from '@lib/useIsActiveMenu'
 import { Skeleton } from '@mui/material'
 
@@ -46,12 +46,6 @@ const Navbar: FC<NavbarProps> = ({ links = [] }) => {
           </nav>
           <UserNav />
         </div>
-
-        {process.env.COMMERCE_SEARCH_ENABLED && (
-          <div className="flex pb-4 lg:px-6 lg:hidden">
-            <Searchbar id="mobile-search" />
-          </div>
-        )}
       </Container>
     </NavbarRoot>
   )
