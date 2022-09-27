@@ -52,10 +52,10 @@ export const getComponentStarter = async (componentType: ComponentType) => {
     await Promise.all(
       Object.entries(valuesDefinition)
         .filter(([, definition]) => !!definition)
-        .map(async ([name, d]) => {
-          if (d === false) throw new Error('Should not happen')
+        .map(async ([name, definition]) => {
+          if (definition === false) throw new Error('Should not happen')
 
-          const [title = '', starter = ''] = d
+          const [title = '', starter = ''] = definition
 
           // @ts-ignore
           const value = values ? values[name] : starter
