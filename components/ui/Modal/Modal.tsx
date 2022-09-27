@@ -2,7 +2,7 @@ import { FC, useRef, useEffect, useCallback } from 'react'
 import s from './Modal.module.css'
 import FocusTrap from '@lib/focus-trap'
 import { Cross } from '@components/icons'
-// import { useScrollDisable } from '@lib/hooks/useScrollDisable'
+import { useScrollDisable } from '@lib/hooks/useScrollDisable'
 
 interface ModalProps {
   className?: string
@@ -14,7 +14,7 @@ interface ModalProps {
 const Modal: FC<ModalProps> = ({ children, onClose }) => {
   const ref = useRef() as React.MutableRefObject<HTMLDivElement>
 
-  // useScrollDisable(ref.current, onClose)
+  useScrollDisable(ref.current, onClose)
 
   return (
     <div className={s.root}>
