@@ -20,9 +20,6 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@lib/*": [
-        "lib/*"
-      ],
       "@utils/*": [
         "utils/*"
       ],
@@ -34,6 +31,9 @@
       ],
       "@components/*": [
         "components/*"
+      ],
+      "@lib/*": [
+        "lib/*"
       ],
     }
   },
