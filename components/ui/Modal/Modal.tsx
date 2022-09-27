@@ -2,7 +2,7 @@ import { FC, useRef, useEffect, useCallback } from 'react'
 import s from './Modal.module.css'
 import FocusTrap from '@lib/focus-trap'
 import { Cross } from '@components/icons'
-import { useScrollDisable } from '@lib/hooks/useScrollDisabl'
+import { useScrollDisable } from '@lib/hooks/useScrollDisable'
 
 interface ModalProps {
   className?: string
