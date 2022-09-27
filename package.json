@@ -81,7 +81,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "turbo run lint"
+      "pre-commit": "next lint"
     }
   },
   "next-unused": {
