@@ -1,5 +1,5 @@
 import { prompt as promptValue } from '@lib/alerts'
-import { USE_COMPONENTS } from './config'
+import { COMPONENTS_AVAILABLE } from './config'
 import {
   ComponentConfig,
   ComponentsLists,
@@ -9,7 +9,7 @@ import {
 import { createEditor } from './ui'
 
 function getComponentConfig<T = any>(type: ComponentType): ComponentConfig<T> {
-  const config = USE_COMPONENTS.find((c) => c.type === type)
+  const config = COMPONENTS_AVAILABLE.find((c) => c.type === type)
 
   // @ts-ignore
   if (config) return config
@@ -26,7 +26,7 @@ export function getComponentSelectOptions({
   forbiddenComponents = [],
 }: ComponentsLists = {}) {
   const types = {}
-  USE_COMPONENTS.forEach((config) => {
+  COMPONENTS_AVAILABLE.forEach((config) => {
     if (
       (allowedComponents.length &&
         !allowedComponents.find((c) => c.type === config.type)) ||

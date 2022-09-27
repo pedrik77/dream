@@ -10,7 +10,7 @@ import Spacer from './components/spacer'
 import LogosSection from './components/logos_section'
 import Socials from './components/socials_section'
 
-const USE_COMPONENTS = [
+const COMPONENTS_AVAILABLE = [
   Wysiwyg,
   Text,
   Image,
@@ -27,7 +27,7 @@ const DEFAULT_FORBIDDEN: ComponentConfig<any>[] = [Text]
 const DEFAULT_ALLOWED: ComponentConfig<any>[] = []
 
 export {
-  USE_COMPONENTS,
+  COMPONENTS_AVAILABLE,
   DEFAULT_FORBIDDEN,
   DEFAULT_ALLOWED,
   Wysiwyg,

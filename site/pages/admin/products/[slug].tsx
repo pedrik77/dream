@@ -29,8 +29,6 @@ import _ from 'lodash'
 import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
-import { CMS, getStarter } from 'cms'
-import { CmsBlockData } from '@lib/cms'
 import AdminLayout from '@components/common/AdminLayout'
 
 interface ProductEditProps {
@@ -73,8 +71,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
   const [donors, setDonors] = useState(0)
 
-  const [cmsBlock, setCmsBlock] = useState<CmsBlockData | null>(null)
-
   const loading = useLoading()
   const uploading = useLoading()
   const loadingDonors = useLoading()
@@ -82,14 +78,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const categories = useCategories()
 
   const router = useRouter()
-
-  useEffect(() => {
-    if (!product?.cmsBlock) {
-      getStarter('wysiwyg').then(setCmsBlock)
-    } else {
-      setCmsBlock(product.cmsBlock)
-    }
-  }, [product])
 
   useEffect(() => {
     if (!product) return
