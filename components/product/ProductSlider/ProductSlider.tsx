@@ -7,7 +7,6 @@ import React, {
   useEffect,
 } from 'react'
 import cn from 'clsx'
-import { a } from '@react-spring/web'
 import s from './ProductSlider.module.css'
 import ProductSliderControl from '../ProductSliderControl'
 
