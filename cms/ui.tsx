@@ -15,6 +15,7 @@ import {
   useRef,
   useState,
 } from 'react'
+// @ts-ignore
 import { useScrollDisable } from '@lib/hooks/useScrollDisable'
 import { usePermission } from '@lib/hooks/usePermission'
 import { PERMISSIONS, useAuthContext } from '@lib/auth'
