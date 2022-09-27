@@ -7,11 +7,11 @@ import {
   Timestamp,
 } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { today } from '../date'
+import { today } from './date'
 import { setOrder } from './orders'
 import * as uuid from 'uuid'
 import { useAuthContext } from './auth'
-import { db } from '../firebase'
+import { db } from './firebase'
 
 const CART_STORAGE_KEY = 'cart'
 const CUSTOMER_STORAGE_KEY = 'customer'
