@@ -276,7 +276,7 @@ export function Components({
 
   const componentTypes = getComponentSelectOptions({
     forbiddenComponents: !single ? forbiddenComponents : [],
-    allowedComponents: !single ? allowedComponents : [single.type],
+    allowedComponents: !single ? allowedComponents : [single],
   })
 
   const saveComponents = useCallback(
