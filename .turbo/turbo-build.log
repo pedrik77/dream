@@ -1,0 +1,100 @@
+[32mnext-commerce:build: [0mcache hit, replaying output [2mf108f9c021f3fa51[0m
+[32mnext-commerce:build: [0m$ next build
+[32mnext-commerce:build: [0mnext.config.js {
+[32mnext-commerce:build: [0m  "commerce": {
+[32mnext-commerce:build: [0m    "provider": "local",
+[32mnext-commerce:build: [0m    "features": {
+[32mnext-commerce:build: [0m      "cart": false,
+[32mnext-commerce:build: [0m      "search": false,
+[32mnext-commerce:build: [0m      "wishlist": false,
+[32mnext-commerce:build: [0m      "customerAuth": false,
+[32mnext-commerce:build: [0m      "customCheckout": false
+[32mnext-commerce:build: [0m    }
+[32mnext-commerce:build: [0m  },
+[32mnext-commerce:build: [0m  "i18n": {
+[32mnext-commerce:build: [0m    "locales": [
+[32mnext-commerce:build: [0m      "sk",
+[32mnext-commerce:build: [0m      "en"
+[32mnext-commerce:build: [0m    ],
+[32mnext-commerce:build: [0m    "defaultLocale": "sk"
+[32mnext-commerce:build: [0m  },
+[32mnext-commerce:build: [0m  "images": {
+[32mnext-commerce:build: [0m    "domains": [
+[32mnext-commerce:build: [0m      "firebasestorage.googleapis.com",
+[32mnext-commerce:build: [0m      "localhost"
+[32mnext-commerce:build: [0m    ]
+[32mnext-commerce:build: [0m  },
+[32mnext-commerce:build: [0m  "env": {}
+[32mnext-commerce:build: [0m}
+[32mnext-commerce:build: [0minfo  - Checking validity of types...
+[32mnext-commerce:build: [0minfo  - Creating an optimized production build...
+[32mnext-commerce:build: [0minfo  - Compiled successfully
+[32mnext-commerce:build: [0minfo  - Collecting page data...
+[32mnext-commerce:build: [0minfo  - Generating static pages (0/50)
+[32mnext-commerce:build: [0minfo  - Generating static pages (12/50)
+[32mnext-commerce:build: [0minfo  - Generating static pages (24/50)
+[32mnext-commerce:build: [0minfo  - Generating static pages (37/50)
+[32mnext-commerce:build: [0minfo  - Generating static pages (50/50)
+[32mnext-commerce:build: [0minfo  - Finalizing page optimization...
+[32mnext-commerce:build: [0m
+[32mnext-commerce:build: [0mPage                                            Size     First Load JS
+[32mnext-commerce:build: [0m┌ ● /                                           389 B           323 kB
+[32mnext-commerce:build: [0m├   /_app                                       0 B            96.1 kB
+[32mnext-commerce:build: [0m├ ● /[slug] (ISR: 3600 Seconds) (1223 ms)       1.51 kB         324 kB
+[32mnext-commerce:build: [0m├   ├ /sk/kozakozukuzuka (458 ms)
+[32mnext-commerce:build: [0m├   ├ /sk/ochrana-osobnych-udajov (413 ms)
+[32mnext-commerce:build: [0m├   ├ /sk/kontakt
+[32mnext-commerce:build: [0m├   └ /sk/vseobecne-obchodne-podmienky
+[32mnext-commerce:build: [0m├ ○ /404                                        542 B           323 kB
+[32mnext-commerce:build: [0m├ ○ /account                                    3.74 kB         326 kB
+[32mnext-commerce:build: [0m├   └ css/56045d0c063990a3.css                  643 B
+[32mnext-commerce:build: [0m├ ○ /admin                                      912 B           323 kB
+[32mnext-commerce:build: [0m├ ○ /admin/categories                           3.43 kB         464 kB
+[32mnext-commerce:build: [0m├ ○ /admin/menu (329 ms)                        5.03 kB         441 kB
+[32mnext-commerce:build: [0m├ ○ /admin/pages                                3.34 kB         464 kB
+[32mnext-commerce:build: [0m├ ○ /admin/products                             3.75 kB         440 kB
+[32mnext-commerce:build: [0m├ λ /admin/products/[slug]                      4.91 kB         352 kB
+[32mnext-commerce:build: [0m├ ○ /admin/winners                              775 B           323 kB
+[32mnext-commerce:build: [0m├ λ /api/cart                                   0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/catalog/products                       0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/checkout                               0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/customer                               0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/customer/address                       0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/customer/card                          0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/email/_email                           0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/login                                  0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/logout                                 0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/signup                                 0 B            96.1 kB
+[32mnext-commerce:build: [0m├ λ /api/wishlist                               0 B            96.1 kB
+[32mnext-commerce:build: [0m├ ○ /cart                                       8.28 kB         331 kB
+[32mnext-commerce:build: [0m├   └ css/c3118af8cdc5e241.css                  347 B
+[32mnext-commerce:build: [0m├ ○ /orders                                     3.35 kB         440 kB
+[32mnext-commerce:build: [0m├ λ /orders/[slug]                              2.42 kB         325 kB
+[32mnext-commerce:build: [0m├ ○ /prizes                                     3.17 kB         439 kB
+[32mnext-commerce:build: [0m├ ● /products                                   1.93 kB         328 kB
+[32mnext-commerce:build: [0m├ λ /products/[slug]                            7.8 kB          334 kB
+[32mnext-commerce:build: [0m├   └ css/8b7ac8e2918eeead.css                  2.22 kB
+[32mnext-commerce:build: [0m├ ● /products/category/[slug] (1140 ms)         1.93 kB         328 kB
+[32mnext-commerce:build: [0m├   ├ /sk/products/category/auta (397 ms)
+[32mnext-commerce:build: [0m├   ├ /sk/products/category/dovolenky (396 ms)
+[32mnext-commerce:build: [0m├   └ /sk/products/category/celebrity (347 ms)
+[32mnext-commerce:build: [0m├ ● /search                                     268 B           326 kB
+[32mnext-commerce:build: [0m├ ● /search/[category]                          276 B           326 kB
+[32mnext-commerce:build: [0m├ ● /search/designers/[name]                    279 B           326 kB
+[32mnext-commerce:build: [0m├ ● /search/designers/[name]/[category]         290 B           326 kB
+[32mnext-commerce:build: [0m├ λ /winners                                    1.79 kB         328 kB
+[32mnext-commerce:build: [0m├   └ css/2f641387d7363ea4.css                  1.08 kB
+[32mnext-commerce:build: [0m└ ● /wishlist                                   3.54 kB         326 kB
+[32mnext-commerce:build: [0m    └ css/5cd088a6fea988f9.css                  850 B
+[32mnext-commerce:build: [0m+ First Load JS shared by all                   96.1 kB
+[32mnext-commerce:build: [0m  ├ chunks/framework-045393e1649ce0af.js        42.2 kB
+[32mnext-commerce:build: [0m  ├ chunks/main-36548ca7e5d65042.js             27.7 kB
+[32mnext-commerce:build: [0m  ├ chunks/pages/_app-469ebe7eaa158ba5.js       23.8 kB
+[32mnext-commerce:build: [0m  ├ chunks/webpack-b13f4b3b35fb058a.js          2.44 kB
+[32mnext-commerce:build: [0m  └ css/18276a14ad45e570.css                    5.43 kB
+[32mnext-commerce:build: [0m
+[32mnext-commerce:build: [0mλ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+[32mnext-commerce:build: [0m○  (Static)  automatically rendered as static HTML (uses no initial props)
+[32mnext-commerce:build: [0m●  (SSG)     automatically generated as static HTML + JSON (uses getStaticProps)
+[32mnext-commerce:build: [0m   (ISR)     incremental static regeneration (uses revalidate in getStaticProps)
+[32mnext-commerce:build: [0m
