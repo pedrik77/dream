@@ -14,15 +14,12 @@ import {
 } from '@lib/categories'
 import { uploadFile } from '@lib/files'
 import { usePermission } from '@lib/hooks/usePermission'
-import { GridEventListener, GridValidRowModel } from '@mui/x-data-grid'
+import { GridEventListener } from '@mui/x-data-grid'
 import _ from 'lodash'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function Categories() {
   const categories = useCategories()
-  const router = useRouter()
 
   const [slug, setSlug] = useState('')
   const [title, setTitle] = useState('')
@@ -163,7 +160,7 @@ export default function Categories() {
           rowIdKey="slug"
         >
           <Col field="slug" headerName="Slug" />
-          <Col field="title" headerName="Názov" editable />
+          <Col field="title" headerName="Názov" editable width={300} />
         </DataGrid>
       </AdminLayout>
     </Permit>

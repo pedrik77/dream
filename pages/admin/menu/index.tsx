@@ -227,7 +227,8 @@ export default function Menu() {
                   setSelected(selected as string[])
                 }
                 onCellClick={(r) =>
-                  r.field === 'label' && handleEdit(r.row.href)
+                  (r.field === 'label' || r.field === 'href') &&
+                  handleEdit(r.row.href)
                 }
                 rowIdKey="href"
               >
@@ -253,7 +254,13 @@ export default function Menu() {
                       item?.is_legal ? menu.legal : menu.main
                     ).filter((i) => i.menu_position !== null)
 
-                    return <PositionControls item={item} group={group} />
+                    return (
+                      <PositionControls
+                        item={item}
+                        group={group}
+                        onSwap={reset}
+                      />
+                    )
                   }}
                 </Col>
               </DataGrid>
@@ -270,9 +277,10 @@ Menu.Layout = Layout
 interface PositionControlsProps {
   item: Link
   group: Link[]
+  onSwap?: (a: Link, b: Link) => void
 }
 
-const PositionControls = ({ item, group }: PositionControlsProps) => {
+const PositionControls = ({ item, group, onSwap }: PositionControlsProps) => {
   const index = group.indexOf(item)
 
   // @ts-ignore
@@ -284,10 +292,12 @@ const PositionControls = ({ item, group }: PositionControlsProps) => {
 
     if (positionA === null || positionB === null) return
 
-    Promise.all([
-      setMenuItem({ ...a, menu_position: positionB }),
-      setMenuItem({ ...b, menu_position: positionA }),
-    ]).catch(handleErrorFlash)
+    const positionedA = { ...a, menu_position: positionB }
+    const positionedB = { ...b, menu_position: positionA }
+
+    Promise.all([setMenuItem(positionedA), setMenuItem(positionedB)])
+      .then(() => onSwap && onSwap(positionedA, positionedB))
+      .catch(handleErrorFlash)
   }
 
   const onAdd = () =>

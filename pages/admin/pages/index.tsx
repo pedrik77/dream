@@ -145,7 +145,7 @@ export default function Pages() {
           rowIdKey="slug"
         >
           <Col field="slug" headerName="Slug" />
-          <Col field="title" headerName="Názov" editable />
+          <Col field="title" headerName="Názov" editable width={300} />
         </DataGrid>
       </AdminLayout>
     </Permit>
