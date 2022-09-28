@@ -27,6 +27,8 @@
     "email-validator": "^2.0.4",
     "firebase": "^9.8.1",
     "i18next": "^21.8.16",
+    "i18next-browser-languagedetector": "^6.1.5",
+    "i18next-http-backend": "^1.4.4",
     "js-cookie": "^3.0.1",
     "keen-slider": "^6.6.3",
     "lodash": "^4.17.21",
@@ -62,12 +64,12 @@
     "eslint": "^8.6.0",
     "eslint-config-next": "^12.0.8",
     "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.4",
     "lint-staged": "^12.1.7",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^7.2.3",
     "prettier": "^2.5.1",
-    "typescript": "4.3.4",
-    "husky": "^7.0.4"
+    "typescript": "4.3.4"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [

@@ -256,7 +256,6 @@ export default function Menu() {
               <h3>{label}</h3>
               <DataGrid
                 rows={items}
-                columns={[]}
                 checkboxSelection
                 isRowSelectable={() =>
                   columnSelected === label || !columnSelected

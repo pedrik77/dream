@@ -61,7 +61,6 @@ export default function Dashboard() {
         </div>
         <DataGrid
           rows={products}
-          columns={[]}
           checkboxSelection
           onRowClick={(r) => router.push(`/admin/products/${r.id}`)}
           onSelectionModelChange={(selected) =>

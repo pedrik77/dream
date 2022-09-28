@@ -137,7 +137,6 @@ export default function Pages() {
         )}
         <DataGrid
           rows={pages}
-          columns={[]}
           checkboxSelection
           onSelectionModelChange={(selected) =>
             setSelected(selected as string[])

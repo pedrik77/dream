@@ -23,7 +23,7 @@ interface AdditionalProps<R> {
 
 interface DataGridComponent {
   <R extends GridValidRowModel = any>(
-    props: DataGridProps<R> &
+    props: Omit<DataGridProps<R>, 'columns'> &
       React.RefAttributes<HTMLDivElement> &
       AdditionalProps<R>
   ): JSX.Element

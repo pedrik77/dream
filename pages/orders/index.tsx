@@ -37,7 +37,6 @@ export default function Orders() {
       </Text>
       <DataGrid
         rows={rows}
-        columns={[]}
         rowIdKey="uuid"
         // onRowClick={(r) => router.push(`/orders/${r.row.uuid}`)}
       >

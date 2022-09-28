@@ -22,7 +22,6 @@ export default function Prizes() {
 
       <DataGrid
         rows={rows}
-        columns={[]}
         rowIdKey="slug"
         onRowClick={(r) => router.push(`/products/${r.row.slug}`)}
       >
