@@ -21,7 +21,6 @@ i18n.use(initReactI18next).init({
       translation: en,
     },
   },
-  lng: 'sk',
   fallbackLng: 'sk',
 
   interpolation: {
