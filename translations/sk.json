@@ -100,6 +100,14 @@
     "unpublish": "Skryť",
     "move": "Presunúť",
     "moveHere": "Presunúť sem",
+    "banner": {
+      "primaryTitle": "Hlavný nadpis",
+      "secondaryTitle": "Hlavný nadpis 2",
+      "subtitle": "Podnadpis",
+      "buttonText": "Text buttonu",
+      "buttonLink": "Smerovanie buttonu"
+    },
+
     "labels": {
       "images": {
         "title": "Obrázok ",

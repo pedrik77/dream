@@ -7,21 +7,13 @@ const config: ComponentConfig<BannerProps> = {
   title: 'Banner',
   Component: Banner,
   valuesDefinition: {
-    primaryTitle: ['Hlavný nadpis', 'vysnivaj.si'],
-    secondaryTitle: ['Hlavný nadpis 2', 'Traktar 4000'],
-    subtitle: ['Podnadpis', 'Vyhrajte jedinečný Traktar 4000'],
-    // button: [
-    //   'Button',
-    //   '',
-    //   {
-    //     text: ['Text buttonu', 'CHCEM VYHRAŤ'],
-    //     link: ['Smrevanie buttonu', '/products/traktar-4000'],
-    //   },
-    // ],
-    buttonText: ['Text buttonu', 'CHCEM VYHRAŤ'],
-    buttonLink: ['Smrevanie buttonu', '/products/traktar-4000'],
+    primaryTitle: ['cms.banner.primaryTitle', 'vysnivaj.si'],
+    secondaryTitle: ['cms.banner.secondaryTitle', 'Traktar 4000'],
+    subtitle: ['cms.banner.subtitle', 'Vyhrajte jedinečný Traktar 4000'],
+    buttonText: ['cms.banner.buttonText', 'CHCEM VYHRAŤ'],
+    buttonLink: ['cms.banner.buttonLink', '/products/traktar-4000'],
     img: [
-      'labels.image',
+      ['cms.labels.images.title', 'cms.labels.images.banner'],
       '/assets/car_2560x1440.jpg',
       // @ts-ignore
       getImageInput({ getPath: () => 'cms/banner' }),
