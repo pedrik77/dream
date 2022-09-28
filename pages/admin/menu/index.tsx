@@ -227,7 +227,7 @@ export default function Menu() {
           <>
             <Permit permission={PERMISSIONS.MENU_FORM}>
               <Button
-                className="h-[100%] mr-2"
+                className="h-[100%] mr-2 mb-4"
                 variant="ghost"
                 type="button"
                 onClick={() => setShowForm(true)}
