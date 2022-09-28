@@ -31,7 +31,7 @@ function useMenu() {
     [t('admin.addNewProduct'), '/admin/products/add'],
     [t('admin.titles.products'), '/admin/products'],
     ['SK', , 'sk'],
-    // ['EN', , 'en'],
+    ['EN', , 'en'],
   ]
 
   return { horizontal, vertical }
@@ -78,6 +78,8 @@ function Menu({ visible = false }) {
   const { horizontal, vertical } = useMenu()
 
   const [render, setRender] = useState(false)
+
+  console.log(router.locale)
 
   useEffect(() => {
     if (visible) return setRender(true)
