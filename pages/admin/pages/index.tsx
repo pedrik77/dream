@@ -117,22 +117,23 @@ export default function Pages() {
           ) : (
             <>
               <Button
-                className="h-[100%]"
+                className="h-[100%] mr-2"
                 variant="ghost"
                 type="button"
                 onClick={() => setAddNew(true)}
               >
                 Add new
               </Button>
+              <Permit permission={PERMISSIONS.PAGES_DELETE}>
+                <Button
+                  onClick={handleDeleteSelected}
+                  disabled={!selected.length}
+                >
+                  Delete ({selected.length})
+                </Button>
+              </Permit>
             </>
           )}
-        </Permit>
-        <Permit permission={PERMISSIONS.PAGES_DELETE}>
-          <div className={!!selected.length ? 'visible' : 'invisible'}>
-            <Button onClick={handleDeleteSelected}>
-              Delete {selected.length}
-            </Button>
-          </div>
         </Permit>
         <DataGrid
           rows={pages}

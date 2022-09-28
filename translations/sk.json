@@ -66,5 +66,25 @@
         "newsletter": "Súhlasím s podmienkami spracovania osobných údajov",
         "copyright": "© 2022 vysnivaj.si. Všetky práva vyhradené.",
         "socials": "SLEDUJTE NÁS"
+    },
+    "admin": {
+        "addNewProduct": "Nový produkt",
+        "editProducts": "Upraviť produkty",
+        "addNewCategory": "Nová kategória",
+        "editCategories": "Upraviť kategórie",
+        "addNewPage": "Nová stránka",
+        "editPages": "Upraviť stránky",
+        "announceWinner": "Vyhlásiť víťaza",
+        "manageTickets": "Tickety",
+        "title": "Nadpis",
+        "sure": "Naozaj?",
+        "delete": "Odstrániť",
+        "deleted": "Odstránené",
+        "titles": {
+            "main": "Admin",
+            "products": "Produkty",
+            "categories": "Kategórie",
+            "pages": "Stránky"
+        }
     }
 }
