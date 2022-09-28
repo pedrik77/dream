@@ -21,7 +21,7 @@ const config: ComponentConfig<BannerProps> = {
     buttonText: ['Text buttonu', 'CHCEM VYHRAŤ'],
     buttonLink: ['Smrevanie buttonu', '/products/traktar-4000'],
     img: [
-      'Image',
+      'labels.image',
       '/assets/car_2560x1440.jpg',
       // @ts-ignore
       getImageInput({ getPath: () => 'cms/banner' }),

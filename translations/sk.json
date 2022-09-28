@@ -99,6 +99,17 @@
     "publish": "Zverejniť",
     "unpublish": "Skryť",
     "move": "Presunúť",
-    "moveHere": "Presunúť sem"
+    "moveHere": "Presunúť sem",
+    "labels": {
+      "images": {
+        "title": "Obrázok ",
+        "banner": "(2560px x 1440px)",
+        "pageBanner": "(2000px x 610px)",
+        "productImage": "(800px x 600px)",
+        "logosSection": "(180px x 60px)",
+        "logoHeader": "(500px x 150px)",
+        "socialIcon": "(64px x 64px)"
+      }
+    }
   }
 }
