@@ -8,15 +8,16 @@
     "editPages": "Edit pages",
     "announceWinner": "Announce winner",
     "manageTickets": "Manage tickets",
-    "title": "Title",
-    "sure": "Are you sure?",
-    "delete": "Delete",
-    "deleted": "Deleted",
     "titles": {
       "main": "Admin",
       "products": "Products",
       "categories": "Categories",
       "pages": "Pages"
     }
+  },
+  "cms": {
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "move": "Move"
   }
 }

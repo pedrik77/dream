@@ -211,14 +211,14 @@ export default function Menu() {
                 )}
               </fieldset>
               <fieldset className="flex gap-4 my-4 h-[100%]">
-                <Button className="h-[100%]">{t('admin.save')}</Button>
+                <Button className="h-[100%]">{t('save')}</Button>
                 <Button
                   className="h-[100%]"
                   variant="ghost"
                   type="button"
                   onClick={reset}
                 >
-                  {t('admin.cancel')}
+                  {t('cancel')}
                 </Button>
               </fieldset>
             </form>
@@ -241,7 +241,7 @@ export default function Menu() {
                 disabled={!selected.length}
                 type="button"
               >
-                {t('admin.delete')} ({selected.length}){' '}
+                {t('delete')} ({selected.length}){' '}
                 {!!selected.length && t('admin.from') + ': ' + columnSelected}
               </Button>
             </Permit>

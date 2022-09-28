@@ -3,6 +3,14 @@
   "close": "Zatvoriť",
   "back": "Späť",
   "date": "Dátum",
+  "title": "Nadpis",
+  "edit": "Upraviť",
+  "save": "Uložiť",
+  "cancel": "Zrušiť",
+  "sure": "Naozaj?",
+  "remove": "Odstrániť",
+  "delete": "Odstrániť",
+  "deleted": "Odstránené",
   "signIn": {
     "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
     "signIn": "Registrovať?"
@@ -79,12 +87,6 @@
     "editPages": "Upraviť stránky",
     "announceWinner": "Vyhlásiť víťaza",
     "manageTickets": "Tickety",
-    "title": "Nadpis",
-    "save": "Uložiť",
-    "cancel": "Zrušiť",
-    "sure": "Naozaj?",
-    "delete": "Odstrániť",
-    "deleted": "Odstránené",
     "from": "z",
     "titles": {
       "main": "Admin",
@@ -92,5 +94,11 @@
       "categories": "Kategórie",
       "pages": "Stránky"
     }
+  },
+  "cms": {
+    "publish": "Zverejniť",
+    "unpublish": "Skryť",
+    "move": "Presunúť",
+    "moveHere": "Presunúť sem"
   }
 }

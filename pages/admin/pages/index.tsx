@@ -87,7 +87,7 @@ export default function Pages() {
                   variant="ghost"
                   type="text"
                   value={title}
-                  placeholder={t('admin.title')}
+                  placeholder={t('title')}
                   onChange={setTitle}
                 />
                 <Input
@@ -100,14 +100,14 @@ export default function Pages() {
               </fieldset>
 
               <fieldset className="flex gap-4 h-[100%] mt-4">
-                <Button className="h-[100%]">{t('admin.save')}</Button>
+                <Button className="h-[100%]">{t('save')}</Button>
                 <Button
                   className="h-[100%]"
                   variant="ghost"
                   type="button"
                   onClick={reset}
                 >
-                  {t('admin.cancel')}
+                  {t('cancel')}
                 </Button>
               </fieldset>
             </form>
@@ -130,7 +130,7 @@ export default function Pages() {
                 disabled={!selected.length}
                 type="button"
               >
-                {t('admin.delete')} ({selected.length})
+                {t('delete')} ({selected.length})
               </Button>
             </Permit>
           </>
@@ -148,7 +148,7 @@ export default function Pages() {
           <Col field="slug" headerName="Slug" />
           <Col
             field="title"
-            headerName={`${t('admin.title')} (dbl-click to edit)`}
+            headerName={`${t('title')} (dbl-click to edit)`}
             editable
             width={300}
           />

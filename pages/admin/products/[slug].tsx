@@ -158,10 +158,10 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               variant="ghost"
               type="text"
               value={title_1}
-              placeholder={t('admin.title')}
+              placeholder={t('title')}
               onChange={setTitle1}
             >
-              {t('admin.title')}
+              {t('title')}
             </Input>
             <Input
               variant="ghost"

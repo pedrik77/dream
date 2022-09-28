@@ -93,7 +93,7 @@ export default function Categories() {
                   variant="ghost"
                   type="text"
                   value={title}
-                  placeholder={t('admin.title')}
+                  placeholder={t('title')}
                   onChange={setTitle}
                 />
                 <Input
@@ -106,14 +106,14 @@ export default function Categories() {
               </fieldset>
 
               <fieldset className="flex gap-4 h-[100%] mt-4">
-                <Button className="h-[100%]">{t('admin.save')}</Button>
+                <Button className="h-[100%]">{t('save')}</Button>
                 <Button
                   className="h-[100%] mb-2"
                   variant="ghost"
                   type="button"
                   onClick={reset}
                 >
-                  {t('admin.cancel')}
+                  {t('cancel')}
                 </Button>
               </fieldset>
             </form>
@@ -136,7 +136,7 @@ export default function Categories() {
                 disabled={!selected.length}
                 type="button"
               >
-                {t('admin.delete')} ({selected.length})
+                {t('delete')} ({selected.length})
               </Button>
             </Permit>
           </>
@@ -154,7 +154,7 @@ export default function Categories() {
           <Col field="slug" headerName="Slug" />
           <Col
             field="title"
-            headerName={`${t('admin.title')} (dbl-click to edit)`}
+            headerName={`${t('title')} (dbl-click to edit)`}
             editable
             width={300}
           />
