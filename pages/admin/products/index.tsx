@@ -45,7 +45,11 @@ export default function Dashboard() {
             </Button>
           </Permit>
           <Permit permission={PERMISSIONS.PRODUCTS_DELETE}>
-            <Button onClick={handleDeleteSelected} disabled={!selected.length}>
+            <Button
+              onClick={handleDeleteSelected}
+              disabled={!selected.length}
+              type="button"
+            >
               {t('admin.delete')} ({selected.length})
             </Button>
           </Permit>

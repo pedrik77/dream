@@ -145,6 +145,7 @@ export default function Categories() {
                 <Button
                   onClick={handleDeleteSelected}
                   disabled={!selected.length}
+                  type="button"
                 >
                   {t('admin.delete')} ({selected.length})
                 </Button>

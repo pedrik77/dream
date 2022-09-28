@@ -209,8 +209,9 @@ export default function Menu() {
                 <Button
                   onClick={handleDeleteSelected}
                   disabled={!selected.length}
+                  type="button"
                 >
-                  {t('admin.delete')} ({selected.length})
+                  {t('admin.delete')} ({selected.length}){' '}
                   {!!selected.length && t('admin.from') + ': ' + columnSelected}
                 </Button>
               </Permit>

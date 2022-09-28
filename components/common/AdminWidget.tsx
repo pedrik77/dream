@@ -14,6 +14,29 @@ const className =
 const activeBg = 'bg-secondary'
 const inactiveBg = 'bg-primary border-2 border-secondary text-white'
 
+function useMenu() {
+  const { t } = useTranslation()
+
+  const horizontal: WidgetLink[] = [
+    [t('admin.titles.main'), '/admin'],
+    [t('admin.titles.categories'), '/admin/categories'],
+    [t('admin.titles.pages'), '/admin/pages'],
+    ['Menu', '/admin/menu'],
+    // ['Víťazi', '/admin/winners'],
+    // ['Objednávky', '/admin/orders'],
+    // ['Produkty', '/admin/products'],
+  ]
+
+  const vertical: WidgetLink[] = [
+    [t('admin.addNewProduct'), '/admin/products/add'],
+    [t('admin.titles.products'), '/admin/products'],
+    ['SK', , '/sk'],
+    // ['EN', , '/en'],
+  ]
+
+  return { horizontal, vertical }
+}
+
 export default function AdminWidget() {
   const { permissions, adminEditingMode, adminStartEditing, adminStopEditing } =
     useAuthContext()
@@ -52,8 +75,7 @@ export default function AdminWidget() {
 
 function Menu({ visible = false }) {
   const router = useRouter()
-
-  const { t } = useTranslation()
+  const { horizontal, vertical } = useMenu()
 
   const [render, setRender] = useState(false)
 
@@ -64,23 +86,6 @@ function Menu({ visible = false }) {
 
     return () => clearTimeout(id)
   }, [visible])
-
-  const horizontal: WidgetLink[] = [
-    [t('admin.titles.main'), '/admin'],
-    [t('admin.titles.categories'), '/admin/categories'],
-    [t('admin.titles.pages'), '/admin/pages'],
-    ['Menu', '/admin/menu'],
-    // ['Víťazi', '/admin/winners'],
-    // ['Objednávky', '/admin/orders'],
-    // ['Produkty', '/admin/products'],
-  ]
-
-  const vertical: WidgetLink[] = [
-    [t('admin.addNewProduct'), '/admin/products/add'],
-    [t('admin.titles.products'), '/admin/products'],
-    ['SK', , '/sk'],
-    // ['EN', , '/en'],
-  ]
 
   const isActive = ([
     label,

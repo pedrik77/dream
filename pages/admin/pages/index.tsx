@@ -130,6 +130,7 @@ export default function Pages() {
                 <Button
                   onClick={handleDeleteSelected}
                   disabled={!selected.length}
+                  type="button"
                 >
                   {t('admin.delete')} ({selected.length})
                 </Button>
