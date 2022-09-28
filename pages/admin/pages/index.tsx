@@ -11,9 +11,11 @@ import { deletePage, setPage, usePages } from '@lib/pages'
 import { GridEventListener, GridValidRowModel } from '@mui/x-data-grid'
 import _ from 'lodash'
 import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function Pages() {
   const pages = usePages()
+  const { t } = useTranslation()
 
   const [addNew, setAddNew] = useState(false)
   const [title, setTitle] = useState('')
@@ -77,7 +79,7 @@ export default function Pages() {
     <Permit permission={PERMISSIONS.PAGES_LIST} redirect="/admin">
       <AdminLayout>
         <Permit permission={PERMISSIONS.PAGES_FORM}>
-          <Text variant="heading">Upraviť stránky</Text>
+          <Text variant="heading">{t('admin.editPages')}</Text>
           {addNew ? (
             <>
               <form
@@ -102,14 +104,14 @@ export default function Pages() {
                 </fieldset>
 
                 <fieldset className="flex gap-4 h-[100%] mt-4">
-                  <Button className="h-[100%]">Pridat</Button>
+                  <Button className="h-[100%]">{t('admin.save')}</Button>
                   <Button
                     className="h-[100%]"
                     variant="ghost"
                     type="button"
                     onClick={reset}
                   >
-                    Cancel
+                    {t('admin.cancel')}
                   </Button>
                 </fieldset>
               </form>
@@ -122,14 +124,14 @@ export default function Pages() {
                 type="button"
                 onClick={() => setAddNew(true)}
               >
-                Add new
+                {t('admin.addNewPage')}
               </Button>
               <Permit permission={PERMISSIONS.PAGES_DELETE}>
                 <Button
                   onClick={handleDeleteSelected}
                   disabled={!selected.length}
                 >
-                  Delete ({selected.length})
+                  {t('admin.delete')} ({selected.length})
                 </Button>
               </Permit>
             </>
@@ -146,7 +148,12 @@ export default function Pages() {
           rowIdKey="slug"
         >
           <Col field="slug" headerName="Slug" />
-          <Col field="title" headerName="Názov" editable width={300} />
+          <Col
+            field="title"
+            headerName={t('admin.title')}
+            editable
+            width={300}
+          />
         </DataGrid>
       </AdminLayout>
     </Permit>

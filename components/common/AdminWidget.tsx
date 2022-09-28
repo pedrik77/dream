@@ -1,7 +1,7 @@
 import { useAuthContext } from '@lib/auth'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type WidgetLink = [label: string, href?: string, locale?: string]
@@ -19,6 +19,7 @@ export default function AdminWidget() {
     useAuthContext()
 
   const [showMenu, setShowMenu] = useState(false)
+  const timeoutRef = useRef<any>()
 
   if (!permissions.length) return null
 
@@ -33,8 +34,16 @@ export default function AdminWidget() {
           adminEditingMode ? adminStopEditing() : adminStartEditing()
         }
       }}
-      onMouseEnter={() => setTimeout(() => setShowMenu(true), 177)}
-      onMouseLeave={() => setTimeout(() => setShowMenu(false), 277)}
+      onMouseEnter={() => {
+        timeoutRef.current && clearTimeout(timeoutRef.current)
+
+        timeoutRef.current = setTimeout(() => setShowMenu(true), 177)
+      }}
+      onMouseLeave={() => {
+        timeoutRef.current && clearTimeout(timeoutRef.current)
+
+        timeoutRef.current = setTimeout(() => setShowMenu(false), 277)
+      }}
     >
       <Menu visible={showMenu} />
     </div>

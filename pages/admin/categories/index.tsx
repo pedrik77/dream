@@ -17,9 +17,11 @@ import { usePermission } from '@lib/hooks/usePermission'
 import { GridEventListener } from '@mui/x-data-grid'
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function Categories() {
   const categories = useCategories()
+  const { t } = useTranslation()
 
   const [slug, setSlug] = useState('')
   const [title, setTitle] = useState('')
@@ -129,14 +131,14 @@ export default function Categories() {
             </fieldset>
 
             <fieldset className="flex gap-4 h-[100%] mt-4">
-              <Button className="h-[100%]">Pridat</Button>
+              <Button className="h-[100%]">{t('admin.addNewCategory')}</Button>
               <Button
                 className="h-[100%] mb-2"
                 variant="ghost"
                 type="button"
                 onClick={reset}
               >
-                Cancel
+                {t('admin.cancel')}
               </Button>
 
               <Permit permission={PERMISSIONS.CATEGORIES_DELETE}>
@@ -144,7 +146,7 @@ export default function Categories() {
                   onClick={handleDeleteSelected}
                   disabled={!selected.length}
                 >
-                  Delete {selected.length}
+                  {t('admin.delete')} ({selected.length})
                 </Button>
               </Permit>
             </fieldset>
@@ -161,7 +163,12 @@ export default function Categories() {
           rowIdKey="slug"
         >
           <Col field="slug" headerName="Slug" />
-          <Col field="title" headerName="Názov" editable width={300} />
+          <Col
+            field="title"
+            headerName={t('admin.title')}
+            editable
+            width={300}
+          />
         </DataGrid>
       </AdminLayout>
     </Permit>

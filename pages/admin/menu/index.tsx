@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic'
 import React, { useMemo, useEffect, useState } from 'react'
 import { PropsValue } from 'react-select'
 import { pageHref, usePages, pageToSelect } from '@lib/pages'
+import { useTranslation } from 'react-i18next'
 
 const Select = dynamic(import('react-select'), { ssr: false })
 
@@ -56,6 +57,7 @@ export default function Menu() {
   const categories = useCategories()
   const pages = usePages()
   const menu = useMenu({ withHidden: true })
+  const { t } = useTranslation()
 
   const [href, setHref] = useState('')
   const [label, setLabel] = useState('')
@@ -202,14 +204,14 @@ export default function Menu() {
               )}
             </fieldset>
             <fieldset className="flex gap-4 my-4 h-[100%]">
-              <Button className="h-[100%]">Ulozit</Button>
+              <Button className="h-[100%]">{t('admin.save')}</Button>
               <Permit permission={PERMISSIONS.MENU_DELETE}>
                 <Button
                   onClick={handleDeleteSelected}
                   disabled={!selected.length}
                 >
-                  Delete {selected.length}{' '}
-                  {!!selected.length && 'from ' + columnSelected}
+                  {t('admin.delete')} ({selected.length})
+                  {!!selected.length && t('admin.from') + ': ' + columnSelected}
                 </Button>
               </Permit>
               <Button
@@ -218,7 +220,7 @@ export default function Menu() {
                 type="button"
                 onClick={reset}
               >
-                Cancel
+                {t('admin.cancel')}
               </Button>
             </fieldset>
           </form>
