@@ -72,7 +72,7 @@ export function createEditor<T = any>(
       if (d === false) throw new Error('Should not happen')
 
       // @ts-ignore
-      const [label = '', value = '', editor] = d
+      const [labels = '', value = '', editor] = d
 
       const nested = typeof editor === 'object' && !Array.isArray(editor)
 
@@ -86,7 +86,11 @@ export function createEditor<T = any>(
           getData: (name?: string) => string | T
         }
       >) => {
+        const { t } = useTranslation()
+
         const data = getData()
+
+        const label = Array.isArray(labels) ? labels.map(t).join('') : t(labels)
 
         return (
           <InputComponent
