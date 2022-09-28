@@ -55,7 +55,7 @@ export const getComponentStarter = async (componentType: ComponentType) => {
         .map(async ([name, definition]) => {
           if (definition === false) throw new Error('Should not happen')
 
-          const [title = '', starter = ''] = definition
+          const [, starter = ''] = definition
 
           // @ts-ignore
           const value = values ? values[name] : starter
@@ -65,7 +65,7 @@ export const getComponentStarter = async (componentType: ComponentType) => {
             (prompt &&
               // @ts-ignore
               prompt.includes(name) &&
-              (await promptValue(title, {
+              (await promptValue(name, {
                 cancelButton: 'Použiť predvolené',
                 confirmButton: 'Pokračovať',
               }))) ||
