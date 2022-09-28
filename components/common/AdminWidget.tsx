@@ -34,7 +34,7 @@ export default function AdminWidget() {
         }
       }}
       onMouseEnter={() => setTimeout(() => setShowMenu(true), 177)}
-      onMouseLeave={() => setTimeout(() => setShowMenu(false), 177)}
+      onMouseLeave={() => setTimeout(() => setShowMenu(false), 277)}
     >
       <Menu visible={showMenu} />
     </div>
@@ -43,6 +43,7 @@ export default function AdminWidget() {
 
 function Menu({ visible = false }) {
   const router = useRouter()
+
   const { t } = useTranslation()
 
   const [render, setRender] = useState(false)

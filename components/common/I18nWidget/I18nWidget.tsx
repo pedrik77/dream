@@ -15,7 +15,7 @@ interface LOCALE_DATA {
 }
 
 const LOCALES_MAP: Record<string, LOCALE_DATA> = {
-  es: {
+  sk: {
     name: 'Slovak',
     img: {
       filename: 'flag-sk.svg',
