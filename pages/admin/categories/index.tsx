@@ -118,7 +118,7 @@ export default function Categories() {
                 variant="ghost"
                 type="text"
                 value={title}
-                placeholder="Title"
+                placeholder={t('admin.title')}
                 onChange={setTitle}
               />
               <Input

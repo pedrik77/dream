@@ -91,7 +91,7 @@ export default function Pages() {
                     variant="ghost"
                     type="text"
                     value={title}
-                    placeholder="Title"
+                    placeholder={t('admin.title')}
                     onChange={setTitle}
                   />
                   <Input

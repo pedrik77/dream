@@ -30,6 +30,7 @@ import { confirm } from '@lib/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/auth'
 import AdminLayout from '@components/common/AdminLayout'
+import { useTranslation } from 'react-i18next'
 
 interface ProductEditProps {
   product: Product | null
@@ -78,6 +79,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const categories = useCategories()
 
   const router = useRouter()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (!product) return
@@ -156,10 +158,10 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               variant="ghost"
               type="text"
               value={title_1}
-              placeholder="Title"
+              placeholder={t('admin.title')}
               onChange={setTitle1}
             >
-              Title
+              ${t('admin.title')}
             </Input>
             <Input
               variant="ghost"
