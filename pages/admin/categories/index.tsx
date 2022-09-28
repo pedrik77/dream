@@ -23,6 +23,7 @@ export default function Categories() {
   const categories = useCategories()
   const { t } = useTranslation()
 
+  const [addNew, setAddNew] = useState(false)
   const [slug, setSlug] = useState('')
   const [title, setTitle] = useState('')
 
@@ -35,6 +36,7 @@ export default function Categories() {
   const reset = () => {
     setSlug('')
     setTitle('')
+    setAddNew(false)
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -42,7 +44,7 @@ export default function Categories() {
 
     if (!slug || !title) return flash('Vyplňte všetky polia', 'danger')
 
-    setCategory({ slug, title, banner: null })
+    setCategory({ slug, title })
       .then(() => {
         reset()
         flash('Kategória vytvorená')
@@ -77,82 +79,68 @@ export default function Categories() {
       .catch(handleErrorFlash)
   }
 
-  const handleNewBanner = async (
-    category: Category,
-    files: FileList | null
-  ) => {
-    const file = files?.item(0)
-
-    if (!file) return
-
-    const proceed = await confirm('Nahrať nový banner?')
-
-    if (!proceed) return
-
-    flash('Nahrávam avatar...', 'success')
-
-    const path = `banner/${category.slug}`
-
-    try {
-      const src = await uploadFile(path, file)
-
-      await setCategory({ ...category, banner: src })
-
-      flash('Banner bude čoskoro nahradeny', 'success')
-    } catch (e) {
-      console.error(e)
-      flash('Nastala chyba, skúste to prosīm znova', 'danger')
-    }
-  }
-
   useEffect(() => setSlug(_.kebabCase(title)), [title])
 
   return (
     <Permit permission={PERMISSIONS.CATEGORIES_LIST} redirect="/admin">
       <AdminLayout>
-        <Permit permission={PERMISSIONS.CATEGORIES_FORM}>
-          <Text variant="heading">Upraviť kategórie</Text>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
-            <fieldset className="flex flex-col gap-4">
-              <Input
-                variant="ghost"
-                type="text"
-                value={title}
-                placeholder={t('admin.title')}
-                onChange={setTitle}
-              />
-              <Input
-                variant="ghost"
-                type="text"
-                value={slug}
-                placeholder="Slug"
-                onChange={setSlug}
-              />
-            </fieldset>
+        <Text variant="heading">Upraviť kategórie</Text>
+        {addNew ? (
+          <Permit permission={PERMISSIONS.CATEGORIES_FORM}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
+              <fieldset className="flex flex-col gap-4">
+                <Input
+                  variant="ghost"
+                  type="text"
+                  value={title}
+                  placeholder={t('admin.title')}
+                  onChange={setTitle}
+                />
+                <Input
+                  variant="ghost"
+                  type="text"
+                  value={slug}
+                  placeholder="Slug"
+                  onChange={setSlug}
+                />
+              </fieldset>
 
-            <fieldset className="flex gap-4 h-[100%] mt-4">
-              <Button className="h-[100%]">{t('admin.addNewCategory')}</Button>
+              <fieldset className="flex gap-4 h-[100%] mt-4">
+                <Button className="h-[100%]">{t('admin.save')}</Button>
+                <Button
+                  className="h-[100%] mb-2"
+                  variant="ghost"
+                  type="button"
+                  onClick={reset}
+                >
+                  {t('admin.cancel')}
+                </Button>
+              </fieldset>
+            </form>
+          </Permit>
+        ) : (
+          <>
+            <Permit permission={PERMISSIONS.CATEGORIES_FORM}>
               <Button
-                className="h-[100%] mb-2"
+                className="h-[100%] mr-2"
                 variant="ghost"
                 type="button"
-                onClick={reset}
+                onClick={() => setAddNew(true)}
               >
-                {t('admin.cancel')}
+                {t('admin.addNewCategory')}
               </Button>
-
-              <Permit permission={PERMISSIONS.CATEGORIES_DELETE}>
-                <Button
-                  onClick={handleDeleteSelected}
-                  disabled={!selected.length}
-                  type="button"
-                >
-                  {t('admin.delete')} ({selected.length})
-                </Button>
-              </Permit>
-            </fieldset>
-          </form>
-        </Permit>
+            </Permit>
+            <Permit permission={PERMISSIONS.CATEGORIES_DELETE}>
+              <Button
+                onClick={handleDeleteSelected}
+                disabled={!selected.length}
+                type="button"
+              >
+                {t('admin.delete')} ({selected.length})
+              </Button>
+            </Permit>
+          </>
+        )}
         <DataGrid
           rows={categories}
           columns={[]}

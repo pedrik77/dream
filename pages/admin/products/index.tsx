@@ -40,7 +40,12 @@ export default function Dashboard() {
           <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
             <Text variant="heading">{t('admin.editProducts')}</Text>
 
-            <Button onClick={redirectToAddProduct} className="my-4 mr-2">
+            <Button
+              onClick={redirectToAddProduct}
+              className="my-4 mr-2"
+              variant="ghost"
+              type="button"
+            >
               {t('admin.addNewProduct')}
             </Button>
           </Permit>
