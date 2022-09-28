@@ -14,12 +14,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   if (!category) return { notFound: true }
 
-  const banner = category?.banner || FALLBACK_BANNER
-
-  const props = { categorySlug, banner }
-
   return {
-    props,
+    props: { categorySlug },
   }
 }
 

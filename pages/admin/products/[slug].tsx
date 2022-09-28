@@ -218,7 +218,6 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                     createCategory({
                       title,
                       slug: _.kebabCase(title),
-                      banner: '',
                     })
                       .then(() => setCategory(_.kebabCase(title)))
                       .catch(handleErrorFlash)
