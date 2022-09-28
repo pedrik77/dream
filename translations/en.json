@@ -18,6 +18,7 @@
   "cms": {
     "publish": "Publish",
     "unpublish": "Unpublish",
-    "move": "Move"
+    "move": "Move",
+    "moveHere": "Move here"
   }
 }
