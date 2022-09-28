@@ -12,7 +12,6 @@ import { PageBanner } from 'cms/config'
 export const FALLBACK_BANNER = '/assets/category_fallback_banner.jpg'
 
 interface CategoryViewProps {
-  banner: string
   categorySlug?: string
 }
 
@@ -27,7 +26,7 @@ const Skeletons = Array(3)
     />
   ))
 
-export function CategoryView({ banner, categorySlug }: CategoryViewProps) {
+export function CategoryView({ categorySlug }: CategoryViewProps) {
   const [showClosed, setShowClosed] = useState(false)
 
   const { products, loading } = useProducts({ categorySlug, showClosed })
