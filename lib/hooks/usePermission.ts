@@ -17,12 +17,10 @@ export function usePermission({
   const [allowed, setAllowed] = useState(false)
 
   useEffect(() => {
-    const hasPermission = (permission?: string) => {
+    function hasPermission(permission?: string) {
       if (!permission || permission === PERMISSIONS.USER) return isLoggedIn
 
-      if (permission === PERMISSIONS.ADMIN && !!permissions.length) {
-        return true
-      }
+      if (permission === PERMISSIONS.ADMIN && !!permissions.length) return true
 
       if (!permission) return false
 
@@ -32,11 +30,8 @@ export function usePermission({
       )
     }
 
-    if (hasPermission(permission)) {
-      return setAllowed(true)
-    }
-
-    setAllowed(false)
+    if (hasPermission(permission)) return setAllowed(true)
+    else setAllowed(false)
 
     if (permissionsLoaded && redirect) {
       router.replace(redirect)

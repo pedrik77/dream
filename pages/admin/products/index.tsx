@@ -24,10 +24,10 @@ export default function Dashboard() {
   const [selected, setSelected] = useState<string[]>([])
 
   const handleDeleteSelected = async () => {
-    if (!(await confirm('Naozaj?'))) return
+    if (!(await confirm(t('admin.sure')))) return
 
     deleteProduct(selected)
-      .then(() => flash(`Produkty (${selected.length}) odstránené`))
+      .then(() => flash(t('admin.deleted') + ': ' + selected.length))
       .catch(handleErrorFlash)
   }
 
@@ -38,18 +38,15 @@ export default function Dashboard() {
       <AdminLayout>
         <div>
           <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
-            <Text variant="heading">Upraviť produkty</Text>
+            <Text variant="heading">{t('admin.editProducts')}</Text>
 
-            <Button onClick={redirectToAddProduct} className="my-4">
-              Pridat produkt
+            <Button onClick={redirectToAddProduct} className="my-4 mr-2">
+              {t('admin.addNewProduct')}
             </Button>
           </Permit>
           <Permit permission={PERMISSIONS.PRODUCTS_DELETE}>
-            <Button
-              className={!!selected.length ? 'visible' : 'invisible'}
-              onClick={handleDeleteSelected}
-            >
-              Vymazat ({selected.length})
+            <Button onClick={handleDeleteSelected} disabled={!selected.length}>
+              {t('admin.delete')} ({selected.length})
             </Button>
           </Permit>
         </div>
@@ -64,7 +61,7 @@ export default function Dashboard() {
           rowIdKey="slug"
         >
           <Col field="slug" headerName="Slug" width={170} />
-          <Col field="title_1" headerName="Názov" width={350} />
+          <Col field="title_1" headerName={t('admin.title')} width={350} />
           <Col
             field="closing_date"
             headerName={t('product.closing')}
