@@ -1,94 +1,94 @@
 {
-    "welcome": "Vitaj",
-    "close": "Zatvoriť",
-    "back": "Späť",
-    "date": "Dátum",
-    "signIn": {
-        "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
-        "signIn": "Registrovať?"
-    },
-    "signUp.newsletter": "Chcem dostávať novinky e-mailom.",
-    "navbar": {
-        "user": {
-            "prizes": "Moje súťaže",
-            "orders": "Moje objednávky",
-            "account": "Môj účet",
-            "cart": "Môj košík",
-            "signOut": "Odhlásiť"
-        }
-    },
-    "account": {
-        "changeAvatar": "Kliknutím nastavíte fotku",
-        "contactEmail": "info@vysnivaj.si"
-    },
-    "prizes": {
-        "title": "Moje súťaže",
-        "product": "Súťaž",
-        "ticketCount": "Počet ticketov za všetky objednávky",
-        "lastOrder": "Posledná objednávka"
-    },
-    "orders": {
-        "title": "Moje objednávky",
-        "product": "Súťaž",
-        "totalPrice": "Cena spolu",
-        "ticketCount": "Počet ticketov"
-    },
-    "homepage": {
-        "product.button": "Chcem vyhrať",
-        "infobox": {
-            "title": "Každý je víťaž",
-            "text": "Súťažte o fantastické výhry a podporte tým zmysluplné projekty. Bla bla lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer viverra odio sit amet lorem vestibulum, a condimentum eros hendrerit. Sed sed cursus arcu. Quisque tincidunt justo sed sem consectetur consequat. In non lorem nulla."
-        },
-        "carousel": "Pozrite kto vyhral",
-        "partners": "Naši partneri"
-    },
-    "cart": {
-        "showProducts": "Pozrieť aktuálne súťaže",
-        "empty": "Košík je prázdny :("
-    },
-    "product": {
-        "closing": "Končí",
-        "winnerAnnounce": "Vyhlásenie víťaza",
-        "joinNow": "ZÚČASTNIŤ SA",
-        "entry": {
-            "join": "Zapojiť sa do súťaže a podporiť",
-            "donate": "Prispieť"
-        },
-        "related": "Súvisiace produkty"
-    },
-    "checkout": {
-        "personal": "Osobné informácie",
-        "company": "Objednávam na firmu",
-        "address": "Adresa",
-        "thankYou": "Objednávka úspešne odoslaná! Ďakujeme!",
-        "showOrders": "Zobraziť objednávky"
-    },
-    "footer": {
-        "newsletter": "Súhlasím s podmienkami spracovania osobných údajov",
-        "copyright": "© 2022 vysnivaj.si. Všetky práva vyhradené.",
-        "socials": "SLEDUJTE NÁS"
-    },
-    "admin": {
-        "addNewProduct": "Nový produkt",
-        "editProducts": "Upraviť produkty",
-        "addNewCategory": "Nová kategória",
-        "editCategories": "Upraviť kategórie",
-        "addNewPage": "Nová stránka",
-        "editPages": "Upraviť stránky",
-        "announceWinner": "Vyhlásiť víťaza",
-        "manageTickets": "Tickety",
-        "title": "Nadpis",
-        "save": "Uložiť",
-        "cancel": "Zrušiť",
-        "sure": "Naozaj?",
-        "delete": "Odstrániť",
-        "deleted": "Odstránené",
-        "from": "z",
-        "titles": {
-            "main": "Admin",
-            "products": "Produkty",
-            "categories": "Kategórie",
-            "pages": "Stránky"
-        }
+  "welcome": "Vitaj",
+  "close": "Zatvoriť",
+  "back": "Späť",
+  "date": "Dátum",
+  "signIn": {
+    "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
+    "signIn": "Registrovať?"
+  },
+  "signUp.newsletter": "Chcem dostávať novinky e-mailom.",
+  "navbar": {
+    "user": {
+      "prizes": "Moje súťaže",
+      "orders": "Moje objednávky",
+      "account": "Môj účet",
+      "cart": "Môj košík",
+      "signOut": "Odhlásiť"
     }
+  },
+  "account": {
+    "changeAvatar": "Kliknutím nastavíte fotku",
+    "contactEmail": "info@vysnivaj.si"
+  },
+  "prizes": {
+    "title": "Moje súťaže",
+    "product": "Súťaž",
+    "ticketCount": "Počet ticketov za všetky objednávky",
+    "lastOrder": "Posledná objednávka"
+  },
+  "orders": {
+    "title": "Moje objednávky",
+    "product": "Súťaž",
+    "totalPrice": "Cena spolu",
+    "ticketCount": "Počet ticketov"
+  },
+  "homepage": {
+    "product.button": "Chcem vyhrať",
+    "infobox": {
+      "title": "Každý je víťaž",
+      "text": "Súťažte o fantastické výhry a podporte tým zmysluplné projekty. Bla bla lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer viverra odio sit amet lorem vestibulum, a condimentum eros hendrerit. Sed sed cursus arcu. Quisque tincidunt justo sed sem consectetur consequat. In non lorem nulla."
+    },
+    "carousel": "Pozrite kto vyhral",
+    "partners": "Naši partneri"
+  },
+  "cart": {
+    "showProducts": "Pozrieť aktuálne súťaže",
+    "empty": "Košík je prázdny :("
+  },
+  "product": {
+    "closing": "Končí",
+    "winnerAnnounce": "Vyhlásenie víťaza",
+    "joinNow": "ZÚČASTNIŤ SA",
+    "entry": {
+      "join": "Zapojiť sa do súťaže a podporiť",
+      "donate": "Prispieť"
+    },
+    "related": "Súvisiace produkty"
+  },
+  "checkout": {
+    "personal": "Osobné informácie",
+    "company": "Objednávam na firmu",
+    "address": "Adresa",
+    "thankYou": "Objednávka úspešne odoslaná! Ďakujeme!",
+    "showOrders": "Zobraziť objednávky"
+  },
+  "footer": {
+    "newsletter": "Súhlasím s podmienkami spracovania osobných údajov",
+    "copyright": "© 2022 vysnivaj.si. Všetky práva vyhradené.",
+    "socials": "SLEDUJTE NÁS"
+  },
+  "admin": {
+    "addNewProduct": "Nový produkt",
+    "editProducts": "Upraviť produkty",
+    "addNewCategory": "Nová kategória",
+    "editCategories": "Upraviť kategórie",
+    "addNewPage": "Nová stránka",
+    "editPages": "Upraviť stránky",
+    "announceWinner": "Vyhlásiť víťaza",
+    "manageTickets": "Tickety",
+    "title": "Nadpis",
+    "save": "Uložiť",
+    "cancel": "Zrušiť",
+    "sure": "Naozaj?",
+    "delete": "Odstrániť",
+    "deleted": "Odstránené",
+    "from": "z",
+    "titles": {
+      "main": "Admin",
+      "products": "Produkty",
+      "categories": "Kategórie",
+      "pages": "Stránky"
+    }
+  }
 }

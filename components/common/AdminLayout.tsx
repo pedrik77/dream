@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children?: any }) {
             <Link href="/admin/categories">Kategórie</Link>
           </Permit>
 
-          <Permit permission={PERMISSIONS.MENU}>
+          <Permit permission={PERMISSIONS.MENU_LIST}>
             <Link href="/admin/menu">Menu</Link>
           </Permit>
 

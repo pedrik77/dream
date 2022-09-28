@@ -92,5 +92,4 @@ const renderLink = (link: LinkType) => (
   </span>
 )
 
-
 export default Footer

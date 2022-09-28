@@ -8,4 +8,4 @@ module.exports = {
   },
 }
 
-console.log("ZORINSKA, UZ BEZIM, NAVRHNI PROGRAM CO MA TAK 10 000 SUBOROV")
+console.log("WE'RE IN, STAY CALM, NAVRHNI DO 10 000 SUBOROV")

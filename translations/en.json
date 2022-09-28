@@ -1,22 +1,22 @@
 {
-    "admin": {
-        "addNewProduct": "Add new product",
-        "editProducts": "Edit products",
-        "addNewCategory": "Add new category",
-        "editCategories": "Edit categories",
-        "addNewPage": "Add new page",
-        "editPages": "Edit pages",
-        "announceWinner": "Announce winner",
-        "manageTickets": "Manage tickets",
-        "title": "Title",
-        "sure": "Are you sure?",
-        "delete": "Delete",
-        "deleted": "Deleted",
-        "titles": {
-            "main": "Admin",
-            "products": "Products",
-            "categories": "Categories",
-            "pages": "Pages"
-        }
+  "admin": {
+    "addNewProduct": "Add new product",
+    "editProducts": "Edit products",
+    "addNewCategory": "Add new category",
+    "editCategories": "Edit categories",
+    "addNewPage": "Add new page",
+    "editPages": "Edit pages",
+    "announceWinner": "Announce winner",
+    "manageTickets": "Manage tickets",
+    "title": "Title",
+    "sure": "Are you sure?",
+    "delete": "Delete",
+    "deleted": "Deleted",
+    "titles": {
+      "main": "Admin",
+      "products": "Products",
+      "categories": "Categories",
+      "pages": "Pages"
     }
+  }
 }

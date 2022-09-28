@@ -3,7 +3,7 @@ import Link from 'next/link'
 import s from './Navbar.module.css'
 import NavbarRoot from './NavbarRoot'
 import { Logo, Container } from '@components/ui'
-import {  UserNav } from '@components/common'
+import { UserNav } from '@components/common'
 import { useIsActiveMenu } from '@lib/useIsActiveMenu'
 import { Skeleton } from '@mui/material'
 
