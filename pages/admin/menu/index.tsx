@@ -59,6 +59,7 @@ export default function Menu() {
   const menu = useMenu({ withHidden: true })
   const { t } = useTranslation()
 
+  const [showForm, setShowForm] = useState(false)
   const [href, setHref] = useState('')
   const [label, setLabel] = useState('')
   const [isLegal, setIsLegal] = useState(false)
@@ -87,6 +88,10 @@ export default function Menu() {
     if (!selected.length) return setColumnSelected('')
   }, [selected])
 
+  useEffect(() => {
+    isEditing && setShowForm(true)
+  }, [isEditing])
+
   const reset = () => {
     setHref('')
     setLabel('')
@@ -97,6 +102,7 @@ export default function Menu() {
     setIsEditing(false)
 
     setSelected([])
+    setShowForm(false)
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -148,84 +154,99 @@ export default function Menu() {
   return (
     <Permit permission={PERMISSIONS.MENU_LIST} redirect={'/admin'}>
       <AdminLayout>
-        <Text variant="heading">Upraviť menu</Text>
+        <Text variant="heading">{t('admin.editMenu')}</Text>
 
-        <Permit permission={PERMISSIONS.MENU_FORM}>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 my-6">
-            <fieldset className="flex flex-col gap-4">
-              <Input
-                variant="ghost"
-                type="text"
-                value={label}
-                placeholder="Label"
-                onChange={setLabel}
-              />
-              <Input
-                variant="ghost"
-                type="text"
-                value={href}
-                placeholder="Link"
-                onChange={setHref}
-                disabled={!isCustom || isEditing}
-              />
-            </fieldset>
-            <fieldset className="flex flex-col gap-4">
-              {Select && (
-                // @ts-ignore
-                <Select
-                  options={isLegalOptions}
-                  onChange={(e: any) => setIsLegal(e.value === 'legal')}
-                  value={isLegal ? isLegalOptions[1] : isLegalOptions[0]}
+        {showForm ? (
+          <Permit permission={PERMISSIONS.MENU_FORM}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 my-6">
+              <fieldset className="flex flex-col gap-4">
+                <Input
+                  variant="ghost"
+                  type="text"
+                  value={label}
+                  placeholder="Label"
+                  onChange={setLabel}
                 />
-              )}
+                <Input
+                  variant="ghost"
+                  type="text"
+                  value={href}
+                  placeholder="Link"
+                  onChange={setHref}
+                  disabled={!isCustom || isEditing}
+                />
+              </fieldset>
+              <fieldset className="flex flex-col gap-4">
+                {Select && (
+                  // @ts-ignore
+                  <Select
+                    options={isLegalOptions}
+                    onChange={(e: any) => setIsLegal(e.value === 'legal')}
+                    value={isLegal ? isLegalOptions[1] : isLegalOptions[0]}
+                  />
+                )}
 
-              {Select && (
-                // @ts-ignore
-                <Select
-                  options={customLinkOptions}
-                  onChange={({ type, value, label }: any) => {
-                    if (type === 'manual') {
-                      setIsCustom(true)
-                      setLabel('')
-                    } else {
-                      setIsCustom(false)
-                      setLabel(label)
+                {Select && (
+                  // @ts-ignore
+                  <Select
+                    options={customLinkOptions}
+                    onChange={({ type, value, label }: any) => {
+                      if (type === 'manual') {
+                        setIsCustom(true)
+                        setLabel('')
+                      } else {
+                        setIsCustom(false)
+                        setLabel(label)
+                      }
+                      setHref(generateHref(type, value))
+                    }}
+                    value={
+                      flattenOptions(customLinkOptions).find(
+                        // @ts-ignore
+                        (o) => href === generateHref(o.type, o.value)
+                      ) || customLinkOptions[0]
                     }
-                    setHref(generateHref(type, value))
-                  }}
-                  value={
-                    flattenOptions(customLinkOptions).find(
-                      // @ts-ignore
-                      (o) => href === generateHref(o.type, o.value)
-                    ) || customLinkOptions[0]
-                  }
-                  defaultValue={customLinkOptions[0]}
-                />
-              )}
-            </fieldset>
-            <fieldset className="flex gap-4 my-4 h-[100%]">
-              <Button className="h-[100%]">{t('admin.save')}</Button>
-              <Permit permission={PERMISSIONS.MENU_DELETE}>
+                    defaultValue={customLinkOptions[0]}
+                  />
+                )}
+              </fieldset>
+              <fieldset className="flex gap-4 my-4 h-[100%]">
+                <Button className="h-[100%]">{t('admin.save')}</Button>
                 <Button
-                  onClick={handleDeleteSelected}
-                  disabled={!selected.length}
+                  className="h-[100%]"
+                  variant="ghost"
                   type="button"
+                  onClick={reset}
                 >
-                  {t('admin.delete')} ({selected.length}){' '}
-                  {!!selected.length && t('admin.from') + ': ' + columnSelected}
+                  {t('admin.cancel')}
                 </Button>
-              </Permit>
+              </fieldset>
+            </form>
+          </Permit>
+        ) : (
+          <>
+            <Permit permission={PERMISSIONS.MENU_FORM}>
               <Button
-                className="h-[100%]"
+                className="h-[100%] mr-2"
                 variant="ghost"
                 type="button"
-                onClick={reset}
+                onClick={() => setShowForm(true)}
               >
-                {t('admin.cancel')}
+                {t('admin.addNewMenuItem')}
               </Button>
-            </fieldset>
-          </form>
-        </Permit>
+            </Permit>
+            <Permit permission={PERMISSIONS.MENU_DELETE}>
+              <Button
+                onClick={handleDeleteSelected}
+                disabled={!selected.length}
+                type="button"
+              >
+                {t('admin.delete')} ({selected.length}){' '}
+                {!!selected.length && t('admin.from') + ': ' + columnSelected}
+              </Button>
+            </Permit>
+          </>
+        )}
         <div className="flex ">
           {Object.entries({
             'Hlavné menu': menu.main,
