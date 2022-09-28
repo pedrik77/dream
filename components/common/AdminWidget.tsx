@@ -30,8 +30,8 @@ function useMenu() {
   const vertical: WidgetLink[] = [
     [t('admin.addNewProduct'), '/admin/products/add'],
     [t('admin.titles.products'), '/admin/products'],
-    ['SK', , '/sk'],
-    // ['EN', , '/en'],
+    ['SK', , 'sk'],
+    // ['EN', , 'en'],
   ]
 
   return { horizontal, vertical }
