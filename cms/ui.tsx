@@ -32,6 +32,7 @@ import { getInput } from './editors/input'
 import { getCmsBlock, setCmsBlock } from '@lib/cms'
 import { getSelect } from './editors/select'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
@@ -152,6 +153,7 @@ export function ComponentEditor({
   single = false,
   removeSelf,
 }: ChangableComponent) {
+  const { t } = useTranslation()
   const { locale } = useRouter()
   const editorRef = useRef(null)
   useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
@@ -181,19 +183,19 @@ export function ComponentEditor({
         {!forceEdit && !isEditing && (
           <>
             <Button variant="cms" onClick={() => onEditing(true)}>
-              Edit
+              {t('edit')}
             </Button>
             {!single && (
               <Button variant="cms" onClick={toggleMoving}>
-                {isMoving ? 'Cancel' : 'Move'}
+                {isMoving ? t('cancel') : t('cms.move')}
               </Button>
             )}
             <Button variant="cms" onClick={toggleDraft}>
-              {draft ? 'Publish' : 'Unpublish'}
+              {draft ? t('cms.publish') : t('cms.unpublish')}
             </Button>
             {!single && (
               <Button variant="cms" onClick={removeSelf}>
-                Remove
+                {t('remove')}
               </Button>
             )}
           </>
@@ -221,10 +223,10 @@ export function ComponentEditor({
                       onEditing(false)
                     }}
                   >
-                    Save
+                    {t('save')}
                   </Button>
                   <Button variant="cms" onClick={() => onEditing(false)}>
-                    Cancel
+                    {t('cancel')}
                   </Button>
                 </div>
               </>
@@ -249,6 +251,7 @@ export function Components({
   single,
   onData,
 }: ComponentsProps) {
+  const { t } = useTranslation()
   const loaded = useRef(false)
   const { adminEditingMode } = useAuthContext()
   const { locale, defaultLocale } = useRouter()
@@ -396,12 +399,12 @@ export function Components({
               isMoving ? () => move(position) : () => insertNew(position)
             }
           >
-            {isMoving && !disable ? 'Move here' : '+'}
+            {isMoving && !disable ? t('cms.moveHere') : '+'}
           </Button>
         </div>
       ) : null
     },
-    [canEdit, atMax, isMoving, moving, insertNew, move]
+    [canEdit, atMax, isMoving, moving, insertNew, move, t]
   )
 
   useEffect(() => {

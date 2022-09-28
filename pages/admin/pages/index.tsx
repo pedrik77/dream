@@ -78,46 +78,43 @@ export default function Pages() {
   return (
     <Permit permission={PERMISSIONS.PAGES_LIST} redirect="/admin">
       <AdminLayout>
-        <Permit permission={PERMISSIONS.PAGES_FORM}>
-          <Text variant="heading">{t('admin.editPages')}</Text>
-          {addNew ? (
-            <>
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col gap-4 mt-6"
-              >
-                <fieldset className="flex flex-col gap-4">
-                  <Input
-                    variant="ghost"
-                    type="text"
-                    value={title}
-                    placeholder={t('admin.title')}
-                    onChange={setTitle}
-                  />
-                  <Input
-                    variant="ghost"
-                    type="text"
-                    value={slug}
-                    placeholder="Slug"
-                    onChange={setSlug}
-                  />
-                </fieldset>
+        <Text variant="heading">{t('admin.editPages')}</Text>
+        {addNew ? (
+          <Permit permission={PERMISSIONS.PAGES_FORM}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
+              <fieldset className="flex flex-col gap-4">
+                <Input
+                  variant="ghost"
+                  type="text"
+                  value={title}
+                  placeholder={t('title')}
+                  onChange={setTitle}
+                />
+                <Input
+                  variant="ghost"
+                  type="text"
+                  value={slug}
+                  placeholder="Slug"
+                  onChange={setSlug}
+                />
+              </fieldset>
 
-                <fieldset className="flex gap-4 h-[100%] mt-4">
-                  <Button className="h-[100%]">{t('admin.save')}</Button>
-                  <Button
-                    className="h-[100%]"
-                    variant="ghost"
-                    type="button"
-                    onClick={reset}
-                  >
-                    {t('admin.cancel')}
-                  </Button>
-                </fieldset>
-              </form>
-            </>
-          ) : (
-            <>
+              <fieldset className="flex gap-4 h-[100%] mt-4">
+                <Button className="h-[100%]">{t('save')}</Button>
+                <Button
+                  className="h-[100%]"
+                  variant="ghost"
+                  type="button"
+                  onClick={reset}
+                >
+                  {t('cancel')}
+                </Button>
+              </fieldset>
+            </form>
+          </Permit>
+        ) : (
+          <>
+            <Permit permission={PERMISSIONS.PAGES_FORM}>
               <Button
                 className="h-[100%] mr-2"
                 variant="ghost"
@@ -126,17 +123,18 @@ export default function Pages() {
               >
                 {t('admin.addNewPage')}
               </Button>
-              <Permit permission={PERMISSIONS.PAGES_DELETE}>
-                <Button
-                  onClick={handleDeleteSelected}
-                  disabled={!selected.length}
-                >
-                  {t('admin.delete')} ({selected.length})
-                </Button>
-              </Permit>
-            </>
-          )}
-        </Permit>
+            </Permit>
+            <Permit permission={PERMISSIONS.PAGES_DELETE}>
+              <Button
+                onClick={handleDeleteSelected}
+                disabled={!selected.length}
+                type="button"
+              >
+                {t('delete')} ({selected.length})
+              </Button>
+            </Permit>
+          </>
+        )}
         <DataGrid
           rows={pages}
           columns={[]}
@@ -150,7 +148,7 @@ export default function Pages() {
           <Col field="slug" headerName="Slug" />
           <Col
             field="title"
-            headerName={`${t('admin.title')} (dbl-click to edit)`}
+            headerName={`${t('title')} (dbl-click to edit)`}
             editable
             width={300}
           />
