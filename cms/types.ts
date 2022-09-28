@@ -22,7 +22,7 @@ export type InputEditorGetter<T = any, P = {}> = (
 ) => InputEditor<T, P>
 
 export type Definition<T> = [
-  title: string,
+  title: string | string[],
   starter?: any,
   Editor?:
     | string
