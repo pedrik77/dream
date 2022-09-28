@@ -11,6 +11,8 @@
   "remove": "Odstrániť",
   "delete": "Odstrániť",
   "deleted": "Odstránené",
+  "width": "Šírka",
+  "height": "Výška",
   "signIn": {
     "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
     "signIn": "Registrovať?"
@@ -109,15 +111,15 @@
     },
 
     "labels": {
-      "images": {
-        "title": "Obrázok ",
-        "banner": "(2560px x 1440px)",
-        "pageBanner": "(2000px x 610px)",
-        "productImage": "(800px x 600px)",
-        "logosSection": "(180px x 60px)",
-        "logoHeader": "(500px x 150px)",
-        "socialIcon": "(64px x 64px)"
-      }
+      "image": "Obrázok ",
+      "images": "Obrázky ",
+      "gallery": "Galéria ",
+      "banner": "(2560px x 1440px)",
+      "pageBanner": "(2000px x 610px)",
+      "productImage": "(800px x 600px)",
+      "logosSection": "(180px x 60px)",
+      "logoHeader": "(500px x 150px)",
+      "socialIcon": "(64px x 64px)"
     }
   }
 }

@@ -13,7 +13,7 @@ const config: ComponentConfig<BannerProps> = {
     buttonText: ['cms.banner.buttonText', 'CHCEM VYHRAŤ'],
     buttonLink: ['cms.banner.buttonLink', '/products/traktar-4000'],
     img: [
-      ['cms.labels.images.title', 'cms.labels.images.banner'],
+      ['cms.labels.image', 'cms.labels.banner'],
       '/assets/car_2560x1440.jpg',
       // @ts-ignore
       getImageInput({ getPath: () => 'cms/banner' }),

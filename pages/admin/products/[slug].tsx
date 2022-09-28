@@ -267,9 +267,10 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
                 {cmsBlock.components}
               </CMS>
             )} */}
-
+            {/* TODO: add trash icon on hover */}
             <label>
-              Gallery (click on image to delete)
+              {t('cms.labels.gallery')}
+              {t('cms.labels.productImage')}
               <br />
               <input
                 type="file"
