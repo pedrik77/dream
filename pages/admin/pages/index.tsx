@@ -150,7 +150,7 @@ export default function Pages() {
           <Col field="slug" headerName="Slug" />
           <Col
             field="title"
-            headerName={t('admin.title')}
+            headerName={`${t('admin.title')} (dbl-click to edit)`}
             editable
             width={300}
           />
