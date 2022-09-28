@@ -76,7 +76,9 @@ export const PERMISSIONS = {
   PRODUCTS_DELETE: 'products.delete',
 
   CMS: 'cms',
-  MENU: 'menu',
+  MENU_LIST: 'menu.list',
+  MENU_FORM: 'menu.form',
+  MENU_DELETE: 'menu.delete',
 } as const
 
 type ContextType = {

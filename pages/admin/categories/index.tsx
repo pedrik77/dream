@@ -131,23 +131,24 @@ export default function Categories() {
             <fieldset className="flex gap-4 h-[100%] mt-4">
               <Button className="h-[100%]">Pridat</Button>
               <Button
-                className="h-[100%]"
+                className="h-[100%] mb-2"
                 variant="ghost"
                 type="button"
                 onClick={reset}
               >
                 Cancel
               </Button>
+
+              <Permit permission={PERMISSIONS.CATEGORIES_DELETE}>
+                <Button
+                  onClick={handleDeleteSelected}
+                  disabled={!selected.length}
+                >
+                  Delete {selected.length}
+                </Button>
+              </Permit>
             </fieldset>
           </form>
-        </Permit>
-
-        <Permit permission={PERMISSIONS.CATEGORIES_DELETE}>
-          <div className={!!selected.length ? 'visible' : 'invisible'}>
-            <Button onClick={handleDeleteSelected}>
-              Delete {selected.length}
-            </Button>
-          </div>
         </Permit>
         <DataGrid
           rows={categories}

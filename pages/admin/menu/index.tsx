@@ -2,16 +2,15 @@ import { Layout } from '@components/common'
 import AdminLayout from '@components/common/AdminLayout'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
-import { Button, Container, Input, Text } from '@components/ui'
+import { Button, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/alerts'
 import { PERMISSIONS } from '@lib/auth'
 import { categoryHref, categoryToSelect, useCategories } from '@lib/categories'
 import { deleteMenuItem, Link, setMenuItem, useMenu } from '@lib/menu'
-import { GridColDef } from '@mui/x-data-grid'
 import _ from 'lodash'
 import dynamic from 'next/dynamic'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useEffect, useState } from 'react'
 import { PropsValue } from 'react-select'
 import { pageHref, usePages, pageToSelect } from '@lib/pages'
 
@@ -64,6 +63,7 @@ export default function Menu() {
   const [menuPosition, setMenuPosition] = useState<number | null>(null)
 
   const [selected, setSelected] = useState<string[]>([])
+  const [columnSelected, setColumnSelected] = useState('')
 
   const [isCustom, setIsCustom] = useState(true)
 
@@ -81,6 +81,10 @@ export default function Menu() {
     [categories, pages]
   )
 
+  useEffect(() => {
+    if (!selected.length) return setColumnSelected('')
+  }, [selected])
+
   const reset = () => {
     setHref('')
     setLabel('')
@@ -89,6 +93,8 @@ export default function Menu() {
 
     setIsCustom(true)
     setIsEditing(false)
+
+    setSelected([])
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -138,80 +144,85 @@ export default function Menu() {
   }
 
   return (
-    <Permit permission={PERMISSIONS.MENU} redirect={'/admin'}>
+    <Permit permission={PERMISSIONS.MENU_LIST} redirect={'/admin'}>
       <AdminLayout>
         <Text variant="heading">Upraviť menu</Text>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 my-6">
-          <fieldset className="flex flex-col gap-4">
-            <Input
-              variant="ghost"
-              type="text"
-              value={label}
-              placeholder="Label"
-              onChange={setLabel}
-            />
-            <Input
-              variant="ghost"
-              type="text"
-              value={href}
-              placeholder="Link"
-              onChange={setHref}
-              disabled={!isCustom || isEditing}
-            />
-          </fieldset>
-          <fieldset className="flex flex-col gap-4">
-            {Select && (
-              // @ts-ignore
-              <Select
-                options={isLegalOptions}
-                onChange={(e: any) => setIsLegal(e.value === 'legal')}
-                value={isLegal ? isLegalOptions[1] : isLegalOptions[0]}
+        <Permit permission={PERMISSIONS.MENU_FORM}>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 my-6">
+            <fieldset className="flex flex-col gap-4">
+              <Input
+                variant="ghost"
+                type="text"
+                value={label}
+                placeholder="Label"
+                onChange={setLabel}
               />
-            )}
+              <Input
+                variant="ghost"
+                type="text"
+                value={href}
+                placeholder="Link"
+                onChange={setHref}
+                disabled={!isCustom || isEditing}
+              />
+            </fieldset>
+            <fieldset className="flex flex-col gap-4">
+              {Select && (
+                // @ts-ignore
+                <Select
+                  options={isLegalOptions}
+                  onChange={(e: any) => setIsLegal(e.value === 'legal')}
+                  value={isLegal ? isLegalOptions[1] : isLegalOptions[0]}
+                />
+              )}
 
-            {Select && (
-              // @ts-ignore
-              <Select
-                options={customLinkOptions}
-                onChange={({ type, value, label }: any) => {
-                  if (type === 'manual') {
-                    setIsCustom(true)
-                    setLabel('')
-                  } else {
-                    setIsCustom(false)
-                    setLabel(label)
+              {Select && (
+                // @ts-ignore
+                <Select
+                  options={customLinkOptions}
+                  onChange={({ type, value, label }: any) => {
+                    if (type === 'manual') {
+                      setIsCustom(true)
+                      setLabel('')
+                    } else {
+                      setIsCustom(false)
+                      setLabel(label)
+                    }
+                    setHref(generateHref(type, value))
+                  }}
+                  value={
+                    flattenOptions(customLinkOptions).find(
+                      // @ts-ignore
+                      (o) => href === generateHref(o.type, o.value)
+                    ) || customLinkOptions[0]
                   }
-                  setHref(generateHref(type, value))
-                }}
-                value={
-                  flattenOptions(customLinkOptions).find(
-                    // @ts-ignore
-                    (o) => href === generateHref(o.type, o.value)
-                  ) || customLinkOptions[0]
-                }
-                defaultValue={customLinkOptions[0]}
-              />
-            )}
-          </fieldset>
-          <fieldset className="flex gap-4 my-4 h-[100%]">
-            <Button className="h-[100%]">Ulozit</Button>
-            <Button
-              className="h-[100%]"
-              variant="ghost"
-              type="button"
-              onClick={reset}
-            >
-              Cancel
-            </Button>
-          </fieldset>
-        </form>
-
-        <div className={!!selected.length ? 'visible' : 'invisible'}>
-          <Button onClick={handleDeleteSelected}>
-            Delete {selected.length}
-          </Button>
-        </div>
+                  defaultValue={customLinkOptions[0]}
+                />
+              )}
+            </fieldset>
+            <fieldset className="flex gap-4 my-4 h-[100%]">
+              <Button className="h-[100%]">Ulozit</Button>
+              <Permit permission={PERMISSIONS.MENU_DELETE}>
+                <Button
+                  onClick={handleDeleteSelected}
+                  disabled={!selected.length}
+                >
+                  Delete {selected.length}{' '}
+                  {!!selected.length && 'from ' + columnSelected}
+                </Button>
+              </Permit>
+              <Button
+                className="h-[100%]"
+                variant="ghost"
+                type="button"
+                onClick={reset}
+              >
+                Cancel
+              </Button>
+            </fieldset>
+          </form>
+        </Permit>
         <div className="flex ">
           {Object.entries({
             'Hlavné menu': menu.main,
@@ -223,9 +234,13 @@ export default function Menu() {
                 rows={items}
                 columns={[]}
                 checkboxSelection
-                onSelectionModelChange={(selected) =>
-                  setSelected(selected as string[])
+                isRowSelectable={() =>
+                  columnSelected === label || !columnSelected
                 }
+                onSelectionModelChange={(selected) => {
+                  setColumnSelected(label)
+                  setSelected(selected as string[])
+                }}
                 onCellClick={(r) =>
                   (r.field === 'label' || r.field === 'href') &&
                   handleEdit(r.row.href)
