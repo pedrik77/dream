@@ -79,8 +79,6 @@ function Menu({ visible = false }) {
 
   const [render, setRender] = useState(false)
 
-  console.log(router.locale)
-
   useEffect(() => {
     if (visible) return setRender(true)
 

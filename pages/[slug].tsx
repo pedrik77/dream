@@ -1,5 +1,5 @@
 import type { GetStaticPathsContext, GetStaticPropsContext } from 'next'
-import { Layout } from '@components/common'
+import { Layout, SEO } from '@components/common'
 import { useRouter } from 'next/router'
 import { getPage, getPageCmsId, getPages, Page, pageHref } from '@lib/pages'
 import { CMS } from 'cms'
@@ -7,7 +7,7 @@ import { CMS } from 'cms'
 export async function getStaticProps({
   params,
 }: GetStaticPropsContext<{ slug: string }>) {
-  const page = await getPage(params?.slug as string)
+  const page = await getPage(params?.slug as string).catch(console.error)
 
   if (!page) {
     return {
@@ -37,7 +37,28 @@ export default function Pages({ page }: { page: Page }) {
   return router.isFallback ? (
     <h1>Loading...</h1> // TODO (BC) Add Skeleton Views
   ) : (
-    <CMS blockId={getPageCmsId(page.slug)}>{page.cmsBlock?.components}</CMS>
+    <>
+      <CMS blockId={getPageCmsId(page.slug)}>{page.cmsBlock?.components}</CMS>
+
+      <SEO
+        title={page.meta_title || page.title}
+        description={page.meta_description}
+        robots={page.meta_robots}
+        openGraph={{
+          type: 'website',
+          title: page.og_title || page.meta_title || page.title,
+          description: page.og_description || page.meta_description,
+          images: [
+            {
+              url: page.og_image_url,
+              width: page.og_image_width,
+              height: page.og_image_height,
+              alt: page.og_image_alt,
+            },
+          ],
+        }}
+      />
+    </>
   )
 }
 

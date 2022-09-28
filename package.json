@@ -101,6 +101,9 @@
       ],
       "@utils/*": [
         "utils/*"
+      ],
+      "@translations/*": [
+        "translations/*"
       ]
     },
     "debug": true,
