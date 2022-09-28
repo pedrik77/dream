@@ -10,7 +10,7 @@ const config: ComponentConfig<PageBannerProps> = {
   ),
   valuesDefinition: {
     img: [
-      'Image',
+      ['cms.labels.images.title', 'cms.labels.images.pageBanner'],
       '/assets/winners_banner.jpg',
       // @ts-ignore
       getImageInput({ getPath: () => 'cms/page_banner' }),
