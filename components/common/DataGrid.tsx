@@ -7,7 +7,9 @@ import {
   GridRowSpacing,
   GridValidRowModel,
   skSK,
+  enUS,
 } from '@mui/x-data-grid'
+import { useRouter } from 'next/router'
 
 interface AdditionalProps<R> {
   rowIdKey: keyof R
@@ -21,7 +23,7 @@ interface AdditionalProps<R> {
 
 interface DataGridComponent {
   <R extends GridValidRowModel = any>(
-    props: DataGridProps<R> &
+    props: Omit<DataGridProps<R>, 'columns'> &
       React.RefAttributes<HTMLDivElement> &
       AdditionalProps<R>
   ): JSX.Element
@@ -40,6 +42,11 @@ export const DataGrid: DataGridComponent = ({
   children,
   ...props
 }) => {
+  const { locale = 'sk' } = useRouter()
+
+  const localeText = (locale === 'en' ? enUS : skSK).components.MuiDataGrid
+    .defaultProps.localeText
+
   const columns = (Array.isArray(children) ? children : [children]).map(
     ({ props }) => modifyColProps(props)
   )
@@ -54,7 +61,7 @@ export const DataGrid: DataGridComponent = ({
         getCellClassName={() => cellClassName}
         getRowSpacing={rowSpacing ? () => rowSpacing : undefined}
         disableSelectionOnClick
-        localeText={skSK.components.MuiDataGrid.defaultProps.localeText}
+        localeText={localeText}
         {...props}
         className={`border-none font-[Raleway] text-base ${className}`}
         columns={columns}

@@ -22,6 +22,7 @@ export interface Order {
   customer: CustomerDataType
   total_price: number
   created_date: number
+  mail_sent?: boolean
 }
 
 interface UseOrdersOptions extends QueryBase<Order> {

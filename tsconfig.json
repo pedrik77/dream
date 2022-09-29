@@ -20,7 +20,8 @@
       "@config/*": ["config/*"],
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@translations/*": ["translations/*"]
     }
   },
   "include": [

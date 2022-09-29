@@ -143,7 +143,6 @@ export default function Categories() {
         )}
         <DataGrid
           rows={categories}
-          columns={[]}
           checkboxSelection
           onSelectionModelChange={(selected) =>
             setSelected(selected as string[])

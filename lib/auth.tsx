@@ -75,10 +75,13 @@ export const PERMISSIONS = {
   PRODUCTS_FORM: 'products.form',
   PRODUCTS_DELETE: 'products.delete',
 
-  CMS: 'cms',
   MENU_LIST: 'menu.list',
   MENU_FORM: 'menu.form',
   MENU_DELETE: 'menu.delete',
+
+  CMS: 'cms',
+
+  EMAILS: 'emails',
 } as const
 
 type ContextType = {

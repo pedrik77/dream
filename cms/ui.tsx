@@ -27,12 +27,13 @@ import {
   getEditor,
   getComponentTitle,
 } from './getters'
-import { DEFAULT_ALLOWED, DEFAULT_FORBIDDEN } from './config'
+import * as config from './config'
 import { getInput } from './editors/input'
 import { getCmsBlock, setCmsBlock } from '@lib/cms'
 import { getSelect } from './editors/select'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
+import { getMultiple } from './editors/multiple'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
@@ -244,14 +245,14 @@ export function ComponentEditor({
   )
 }
 
-export function Components({
+function Components({
   blockId,
   children,
   forceEdit = false,
   forbidEdit = false,
   maxNumberOfComponents = -1,
-  allowedComponents = DEFAULT_ALLOWED,
-  forbiddenComponents = DEFAULT_FORBIDDEN,
+  allowedComponents = config.DEFAULT_ALLOWED,
+  forbiddenComponents = config.DEFAULT_FORBIDDEN,
   single,
   onData,
 }: ComponentsProps) {
@@ -482,3 +483,7 @@ export function Components({
     </>
   )
 }
+
+const CMS = Object.assign(Components, config)
+
+export { CMS }

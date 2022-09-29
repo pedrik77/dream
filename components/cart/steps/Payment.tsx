@@ -1,6 +1,8 @@
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import { api } from '@lib/api'
 import { noop } from '@lib/common'
+import { sendOrderCreatedEmail } from '@lib/emails'
 import { useShopContext } from '@lib/shop'
 import { Radio } from '@mui/material'
 import Image from 'next/image'
@@ -10,8 +12,17 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
 
   const handleNext = async () => {
     placeOrder()
-      .then(async () => {
+      .then(async (orderUuid) => {
         flash('Vaše objednávka bola úspešne odoslaná', 'success')
+
+        sendOrderCreatedEmail(orderUuid)
+          .then((success) => {
+            if (!success) throw new Error('email problem')
+
+            flash('Na email sme vám zaslali potvrdenie', 'success')
+          })
+          .catch(handleErrorFlash)
+
         await clearCart()
         onNext()
       })
