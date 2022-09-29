@@ -9,9 +9,10 @@ import {
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { today } from './date'
 import { setOrder } from './orders'
-import * as uuid from 'uuid'
+import { v4 as uuid4 } from 'uuid'
 import { useAuthContext } from './auth'
 import { db } from './firebase'
+import { api } from './api'
 
 const CART_STORAGE_KEY = 'cart'
 const CUSTOMER_STORAGE_KEY = 'customer'
@@ -42,7 +43,7 @@ type ContextType = {
   isInCart: (productSlug: string) => boolean
   isEmptyCart: () => boolean
   removeFromCart: (productSlug: string) => Promise<void>
-  placeOrder: () => Promise<void>
+  placeOrder: () => Promise<string>
 }
 
 const Context = createContext<ContextType>({
@@ -53,7 +54,7 @@ const Context = createContext<ContextType>({
   isInCart: () => false,
   isEmptyCart: () => true,
   removeFromCart: async () => {},
-  placeOrder: async () => {},
+  placeOrder: async () => '',
 })
 
 export const ShopProvider: React.FC = ({ children }) => {
@@ -122,15 +123,18 @@ export const ShopProvider: React.FC = ({ children }) => {
 
   const isEmptyCart = () => !cart.length
 
-  const placeOrder = () =>
-    setOrder({
-      uuid: uuid.v4(),
+  const placeOrder = async () => {
+    const uuid = uuid4()
+    await setOrder({
+      uuid,
       user: user?.email || '',
       items: cart,
       total_price: total,
       customer,
       created_date: Timestamp.fromDate(new Date(today())),
     })
+    return uuid
+  }
 
   return (
     <Context.Provider
