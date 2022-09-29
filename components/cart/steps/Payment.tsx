@@ -14,7 +14,7 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
       .then(async (orderUuid) => {
         flash('Vaše objednávka bola úspešne odoslaná', 'success')
 
-        await api
+        api
           .post('/email/order-created', { order: orderUuid })
           .then(({ data }) => {
             if (data !== 'ok') throw new Error('email problem')
