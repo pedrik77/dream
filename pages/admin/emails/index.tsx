@@ -11,7 +11,9 @@ export default function Emails() {
     <Permit permission={PERMISSIONS.EMAILS} redirect="/admin">
       <AdminLayout>
         <UIText variant="heading">Emaily</UIText>
-        <CMS blockId={ORDER_CREATED_CMS_ID} single={CMS.Email} />
+        {[ORDER_CREATED_CMS_ID].map((id) => (
+          <CMS key={id} blockId={id} single={CMS.Email} />
+        ))}
       </AdminLayout>
     </Permit>
   )
