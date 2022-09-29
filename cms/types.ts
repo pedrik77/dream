@@ -9,12 +9,12 @@ type Translated<T> = Record<string, T>
 export type ComponentType = typeof COMPONENTS_AVAILABLE[number]['type']
 
 export type InputEditor<T = any, P = {}> = (
-  props: P & {
-    label?: string
-    value: T
-    onChange: (value: T) => void
-    values?: Translated<T>
-  }
+  props: Changeable<T> &
+    P & {
+      label?: string
+      value: T
+      values?: Translated<T>
+    }
 ) => JSX.Element
 
 export type InputEditorGetter<T = any, P = {}> = (
@@ -51,8 +51,8 @@ export interface StarterCommon<T = any> {
   values?: Translated<T>
 }
 
-export interface Changeable {
-  onChange: (value: any) => void
+export interface Changeable<T = any> {
+  onChange: (value: T) => void
 }
 
 export type Settable<T = {}> = T & {
