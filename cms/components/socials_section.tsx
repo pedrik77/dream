@@ -14,7 +14,7 @@ const config: ComponentConfig<SocialSectionProps> = {
     links: [
       'Odkazy',
       ['https://www.facebook.com/'],
-      getMultiple({ editor: Input, defaultValue: '' }),
+      getMultiple({ editor: Input, emptyNew: '' }),
     ],
   },
 }
