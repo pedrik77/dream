@@ -23,8 +23,6 @@ export const sendMail = async (
   subject: string,
   html: string
 ) => {
-  // return { host, port, user, pass, name, address }
-
   const info = await transporter.sendMail({
     to,
     subject,

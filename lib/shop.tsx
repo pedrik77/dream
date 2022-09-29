@@ -12,7 +12,6 @@ import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useAuthContext } from './auth'
 import { db } from './firebase'
-import { api } from './api'
 
 const CART_STORAGE_KEY = 'cart'
 const CUSTOMER_STORAGE_KEY = 'customer'
