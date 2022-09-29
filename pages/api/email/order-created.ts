@@ -29,9 +29,7 @@ export default async function handler(
     }</b>,<br><br> totos chcel? <br><br> <ul>${order.items.map(
       (item) => `<li>${item.product.title_1}</li>`
     )}</ul>`
-  ).catch((e) => {
-    res.status(500).send(e.message)
-  })
+  )
 
   res.status(200).send('ok')
 }
