@@ -13,7 +13,7 @@ export default function Emails() {
       <AdminLayout>
         <UIText variant="heading">Emaily</UIText>
 
-        <CMS blockId={ORDER_CREATED_CMS_ID} single={Email} forceEdit />
+        <CMS blockId={ORDER_CREATED_CMS_ID} single={Email} />
       </AdminLayout>
     </Permit>
   )
