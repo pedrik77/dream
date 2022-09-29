@@ -3,7 +3,7 @@ import { InputEditor, InputEditorGetter } from 'cms/types'
 
 interface MultipleProps {
   editor?: InputEditor
-  defaultValue?: any
+  emptyNew?: any
 }
 
 export const getMultiple: InputEditorGetter<any[], MultipleProps> =
@@ -13,15 +13,12 @@ export const getMultiple: InputEditorGetter<any[], MultipleProps> =
     onChange,
     label,
     editor: Editor = defaults.editor,
-    defaultValue = defaults.defaultValue,
+    emptyNew = defaults.emptyNew,
   }) => {
     return (
       <>
         <div>
-          <Button
-            variant="cms"
-            onClick={() => onChange([defaultValue, ...value])}
-          >
+          <Button variant="cms" onClick={() => onChange([emptyNew, ...value])}>
             +
           </Button>
           <Button variant="cms" onClick={() => onChange(value.slice(1))}>
