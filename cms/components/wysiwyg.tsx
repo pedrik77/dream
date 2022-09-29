@@ -9,7 +9,9 @@ interface WysiwygProps {
 const config: ComponentConfig<WysiwygProps> = {
   type: 'wysiwyg',
   title: 'Wysiwyg',
-  Component: Text,
+  Component: ({ html }) => {
+    return <Text html={html} variant="wysiwyg" />
+  },
   valuesDefinition: {
     html: [
       'HTML',

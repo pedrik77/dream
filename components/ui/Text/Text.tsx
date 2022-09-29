@@ -21,6 +21,7 @@ type Variant =
   | 'pageHeading'
   | 'sectionHeading'
   | 'myHeading'
+  | 'wysiwyg'
 
 const Text: FunctionComponent<TextProps> = ({
   style,
@@ -38,6 +39,7 @@ const Text: FunctionComponent<TextProps> = ({
     pageHeading: 'h1',
     sectionHeading: 'h2',
     myHeading: 'h2',
+    wysiwyg: 'div',
   }
 
   const Component:
@@ -62,6 +64,7 @@ const Text: FunctionComponent<TextProps> = ({
           [s.pageHeading]: variant === 'pageHeading',
           [s.sectionHeading]: variant === 'sectionHeading',
           [s.myHeading]: variant === 'myHeading',
+          [s.wysiwyg]: variant === 'wysiwyg',
         },
         className
       )}

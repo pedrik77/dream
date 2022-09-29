@@ -77,3 +77,10 @@
 .body a:hover {
   @apply no-underline;
 }
+.wysiwyg {
+  @apply container;
+}
+
+.wysiwyg :in(h1, h2, h3, h3) {
+  @apply text-primary;
+}
