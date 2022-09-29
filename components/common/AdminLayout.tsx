@@ -36,6 +36,10 @@ export default function AdminLayout({ children }: { children?: any }) {
           <Permit permission={PERMISSIONS.PAGES_LIST}>
             <Link href="/admin/pages">Stránky</Link>
           </Permit>
+
+          <Permit permission={PERMISSIONS.EMAILS}>
+            <Link href="/admin/emails">Emaily</Link>
+          </Permit>
         </div>
 
         <div className="w-full">{children}</div>

@@ -28,6 +28,12 @@ export async function getCmsBlock(id: string) {
   return transform(cmsBlockData)
 }
 
+export async function getSingleComponent(id: string) {
+  const block = await getCmsBlock(id)
+
+  return block.components[0]
+}
+
 export async function setCmsBlock({ id, ...block }: any, onError = noop) {
   if (!id) throw new Error('ID is required')
   return await setDoc(doc(db, 'cms', id), {

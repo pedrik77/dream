@@ -1,6 +1,8 @@
 import { getOrder, setOrder } from '@lib/orders'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendMail } from '@lib/mailer'
+import { getSingleComponent } from '@lib/cms'
+import { ORDER_CREATED_CMS_ID, processPlaceholders } from '@lib/emails'
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,20 +18,20 @@ export default async function handler(
 
   if (order.mail_sent) return res.status(400).send('Mail already sent')
 
-  setOrder({ ...order, mail_sent: true })
+  const email = await getSingleComponent(ORDER_CREATED_CMS_ID)
 
   await sendMail(
     {
       name: order.customer.fullname,
       address: order.customer.email,
     },
-    'Objednávka prijatá',
-    `Hey <b>${
-      order.customer.fullname
-    }</b>,<br><br> totos chcel? <br><br> <ul>${order.items.map(
-      (item) => `<li>${item.product.title_1}</li>`
-    )}</ul>`
+    email.value.subject,
+    processPlaceholders(email.value.template, {
+      name: order.customer.fullname,
+    })
   )
+
+  await setOrder({ ...order, mail_sent: true })
 
   res.status(200).send('ok')
 }
