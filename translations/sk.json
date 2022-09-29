@@ -13,6 +13,7 @@
   "deleted": "Odstránené",
   "width": "Šírka",
   "height": "Výška",
+  "category": "Kategória",
   "signIn": {
     "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
     "signIn": "Registrovať?"
@@ -64,7 +65,10 @@
       "join": "Zapojiť sa do súťaže a podporiť",
       "donate": "Prispieť"
     },
-    "related": "Súvisiace produkty"
+    "related": "Súvisiace produkty",
+    "shortDescription": "Krátky popis",
+    "support": "A podporte",
+    "price": "Cena"
   },
   "checkout": {
     "personal": "Osobné informácie",

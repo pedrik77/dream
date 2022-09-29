@@ -197,14 +197,14 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               variant="ghost"
               type="text"
               value={title_2}
-              placeholder="A podporte"
+              placeholder={t('product.support')}
               onChange={setTitle2}
             >
-              A podporte
+              {t('product.support')}
             </Input>
 
             <label className="w-[40%]">
-              Category <br />
+              {t('category')} <br />
               {Select && (
                 // @ts-ignore
                 <Select
@@ -230,24 +230,24 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               variant="ghost"
               type="date"
               value={closing_date}
-              placeholder="Closing date"
+              placeholder={t('product.closing')}
               onChange={setClosingDate}
             >
-              Closing date
+              {t('product.closing')}
             </Input>
 
             <Input
               variant="ghost"
               type="date"
               value={winner_announce_date}
-              placeholder="Winner announce date"
+              placeholder={t('product.winnerAnnounce')}
               onChange={setWinnerAnnounceDate}
             >
-              Winner announce date
+              {t('product.winnerAnnounce')}
             </Input>
 
             <label>
-              Short description <br />
+              {t('product.shortDescription')} <br />
               {Editor && (
                 // @ts-ignore
                 <Editor value={short_desc} onChange={setShortDesc} />
@@ -297,7 +297,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               type="button"
               onClick={() => router.push('/admin/products')}
             >
-              Späť
+              {t('back')}
             </Button>
           </div>
         </form>

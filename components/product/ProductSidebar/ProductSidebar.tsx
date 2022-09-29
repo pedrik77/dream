@@ -47,7 +47,9 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
         </Link>
       )}
       <ProductTag>{product.title_1}</ProductTag>
-      <h4 className={s.subtitle}>A podporte {product.title_2}</h4>
+      <h4 className={s.subtitle}>
+        {t('product.support')} {product.title_2}
+      </h4>
       <h4 className={s.countUp}>
         {product.show_donors ? ' Prispelo už ' : 'Výhra v hodnote '}
         <CountUp end={countUpValue} duration={1.25} separator=" " />{' '}
