@@ -9,10 +9,14 @@ const config: ComponentConfig<LogosSectionProps> = {
   title: 'Logos Section',
   Component: LogosSection,
   valuesDefinition: {
-    heading: ['Nadpis', 'Partneri'],
-    width: ['Šírka', 180, 'number'],
-    height: ['Výška', 60, 'number'],
-    imgs: ['Logá', Array(4).fill('/logo2.png'), LogosEditor],
+    heading: ['title', 'Partneri'],
+    width: ['width', 180, 'number'],
+    height: ['height', 60, 'number'],
+    imgs: [
+      ['cms.labels.images', 'cms.labels.logosSection'],
+      Array(4).fill('/logo2.png'),
+      LogosEditor,
+    ],
   },
 }
 
