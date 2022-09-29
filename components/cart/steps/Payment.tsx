@@ -17,7 +17,7 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
 
         sendOrderCreatedEmail(orderUuid)
           .then((success) => {
-            if (success) throw new Error('email problem')
+            if (!success) throw new Error('email problem')
 
             flash('Na email sme vám zaslali potvrdenie', 'success')
           })
