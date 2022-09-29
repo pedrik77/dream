@@ -166,7 +166,7 @@ const getCartId = (email: string = '') => {
 
   if (storedId) return storedId
 
-  const cartId = email || uuid.v4()
+  const cartId = email || uuid4()
 
   localStorage.setItem(CART_STORAGE_KEY, cartId)
 
