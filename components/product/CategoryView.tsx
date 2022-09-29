@@ -7,7 +7,6 @@ import { Layout } from '@components/common'
 import { Skeleton } from '@mui/material'
 import { CMS } from 'cms'
 import { getCategoryCmsId } from '@lib/categories'
-import { PageBanner } from 'cms/config'
 
 export const FALLBACK_BANNER = '/assets/category_fallback_banner.jpg'
 
@@ -36,7 +35,7 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
       <CMS
         key={getCategoryCmsId(categorySlug)}
         blockId={getCategoryCmsId(categorySlug)}
-        single={PageBanner}
+        single={CMS.PageBanner}
       />
       <Container className="flex gap-8 items-center justify-center my-10">
         <Tab active={!showClosed} onClick={() => setShowClosed(false)}>

@@ -9,7 +9,6 @@ import { Product, useProducts } from '@lib/products'
 import { ProductCard } from '@components/product'
 import Tree from '@components/winners/Tree'
 import { CMS } from 'cms'
-import { PageBanner } from 'cms/config'
 
 const CMS_ID = 'static_page__winners'
 
@@ -96,7 +95,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
 
   return (
     <Container clean>
-      <CMS blockId={CMS_ID} single={PageBanner} />
+      <CMS blockId={CMS_ID} single={CMS.PageBanner} />
       <Container className="py-8 mt-0 md:mt-8 items-center justify-center">
         <div className="flex flex-col gap-3 lg:gap-6 max-w-lg md:max-w-2xl mx-auto lg:max-w-6xl items-center justify-center">
           <div className="flex flex-col gap-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
