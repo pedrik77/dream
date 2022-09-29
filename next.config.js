@@ -1,6 +1,6 @@
 module.exports = {
   i18n: {
-    locales: ['sk', 'en'],
+    locales: ['sk'],
     defaultLocale: 'sk',
   },
   images: {
