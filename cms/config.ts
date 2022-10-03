@@ -11,11 +11,24 @@ import Email from './components/email'
 import LogosSection from './components/logos_section'
 import Socials from './components/socials_section'
 
-const COMPONENTS_AVAILABLE = [
+const COMPONENTS = {
   Wysiwyg,
   Text,
   Image,
   Email,
+  Hero,
+  PageBanner,
+  Banner,
+  Carousel,
+  LogosSection,
+  Socials,
+  Spacer,
+}
+
+const DEFAULT_FORBIDDEN: ComponentConfig<any>[] = []
+const DEFAULT_ALLOWED: ComponentConfig<any>[] = [
+  Wysiwyg,
+  Image,
   Hero,
   PageBanner,
   Banner,
@@ -25,22 +38,4 @@ const COMPONENTS_AVAILABLE = [
   Spacer,
 ]
 
-const DEFAULT_FORBIDDEN: ComponentConfig<any>[] = [Text, Email]
-const DEFAULT_ALLOWED: ComponentConfig<any>[] = []
-
-export {
-  COMPONENTS_AVAILABLE,
-  DEFAULT_FORBIDDEN,
-  DEFAULT_ALLOWED,
-  Wysiwyg,
-  Text,
-  Email,
-  Image,
-  Hero,
-  PageBanner,
-  Banner,
-  Carousel,
-  LogosSection,
-  Socials,
-  Spacer,
-}
+export { COMPONENTS, DEFAULT_FORBIDDEN, DEFAULT_ALLOWED }

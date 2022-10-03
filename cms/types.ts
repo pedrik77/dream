@@ -1,4 +1,4 @@
-import { COMPONENTS_AVAILABLE } from './config'
+import { COMPONENTS } from './config'
 
 type langs = 'sk' | 'en'
 
@@ -6,7 +6,9 @@ type KeyOf<T> = keyof T
 
 type Translated<T> = Record<string, T>
 
-export type ComponentType = typeof COMPONENTS_AVAILABLE[number]['type']
+export type ComponentNameType = KeyOf<typeof COMPONENTS>
+
+export type ComponentType = typeof COMPONENTS[ComponentNameType]['type']
 
 export type InputEditor<T = any, P = {}> = (
   props: Changeable<T> &
