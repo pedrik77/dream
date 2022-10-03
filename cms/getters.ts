@@ -32,8 +32,7 @@ export function getComponentSelectOptions({
     if (
       (allowedComponents.length &&
         !allowedComponents.find((c) => c.type === config.type)) ||
-      (forbiddenComponents.find((c) => c.type === config.type) &&
-        !allowedComponents.find((c) => c.type === config.type))
+      forbiddenComponents.find((c) => c.type === config.type)
     )
       return
 
