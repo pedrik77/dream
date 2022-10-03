@@ -2,7 +2,8 @@ import { getOrder, setOrder } from '@lib/orders'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendMail } from '@lib/mailer'
 import { getSingleComponent } from '@lib/cms'
-import { ORDER_CREATED_CMS_ID, processPlaceholders } from '@lib/emails'
+import { processPlaceholders, VERIFICATION_CMS_ID } from '@lib/emails'
+import { getCustomerProfile } from '@lib/auth'
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,28 +11,26 @@ export default async function handler(
 ) {
   if (req.method !== 'POST') return res.status(405).send('Method not allowed')
 
-  const orderUuid = req.body.order
+  const { email } = req.body
 
-  if (!orderUuid) return res.status(400).send('Missing order UUID')
+  if (!email) return res.status(400).send('Missing email')
 
-  const order = await getOrder(orderUuid)
+  const customer = await getCustomerProfile(email)
 
-  if (order.mail_sent) return res.status(400).send('Mail already sent')
+  if (customer.verified) return res.status(400).send('User already verifid')
 
-  const template = await getSingleComponent(ORDER_CREATED_CMS_ID)
+  const template = await getSingleComponent(VERIFICATION_CMS_ID)
 
   await sendMail(
     {
-      name: order.customer.fullname,
-      address: order.customer.email,
+      name: customer.fullname,
+      address: customer.email,
     },
     template.value.subject,
     processPlaceholders(template.value.template, {
-      name: order.customer.fullname,
+      name: customer.fullname,
     })
   )
-
-  await setOrder({ ...order, mail_sent: true })
 
   res.status(200).send('ok')
 }

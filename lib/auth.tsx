@@ -32,6 +32,7 @@ export const NULL_CUSTOMER_DATA = {
   fullname: '',
   phone: '',
   avatar: placeholder,
+  verified: false,
   address: {
     street: '',
     city: '',
@@ -248,4 +249,10 @@ export function signOut() {
 export function setCustomerProfile({ email, ...customer }: CustomerDataType) {
   const docRef = doc(db, 'customers', email)
   return setDoc(docRef, customer)
+}
+
+export async function getCustomerProfile(email: string) {
+  const { data, id } = await getDoc(doc(db, 'customers', email))
+
+  return { ...data, email: id } as CustomerDataType
 }

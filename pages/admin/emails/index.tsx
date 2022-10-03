@@ -1,18 +1,23 @@
 import { Layout } from '@components/common'
 import AdminLayout from '@components/common/AdminLayout'
 import Permit from '@components/common/Permit'
-import { Text as UIText } from '@components/ui'
+import { Text } from '@components/ui'
 import { PERMISSIONS } from '@lib/auth'
-import { ORDER_CREATED_CMS_ID } from '@lib/emails'
+import { ORDER_CREATED_CMS_ID, VERIFICATION_CMS_ID } from '@lib/emails'
 import { CMS } from 'cms'
+import _ from 'lodash'
 
 export default function Emails() {
   return (
     <Permit permission={PERMISSIONS.EMAILS} redirect="/admin">
       <AdminLayout>
-        <UIText variant="heading">Emaily</UIText>
-        {[ORDER_CREATED_CMS_ID].map((id) => (
-          <CMS key={id} blockId={id} single={CMS.Email} />
+        {[ORDER_CREATED_CMS_ID, VERIFICATION_CMS_ID].map((id) => (
+          <div key={id}>
+            {console.log(id)}
+            <Text variant="heading">{_.startCase(id)}</Text>
+            <CMS blockId={id} single={CMS.Email} />
+            <hr />
+          </div>
         ))}
       </AdminLayout>
     </Permit>
