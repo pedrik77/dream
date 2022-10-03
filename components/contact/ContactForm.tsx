@@ -10,36 +10,39 @@ export default function ContactForm({ title }: ContactFormProps) {
   const { t } = useTranslation()
 
   return (
-    <Container>
-      <Text variant="myHeading" className="text-center">
+    <Container className="my-10">
+      <Text variant="myHeading" className="text-center my-4">
         {title}
       </Text>
-      <form>
-        <fieldset>
+      <form className="flex flex-col gap-4 justify-center max-w-2xl mx-auto">
+        <fieldset className="flex flex-col gap-4">
           <label>
             {t('contact.name')}
             <Input variant="ghost" />
           </label>
           <label>
             {t('contact.surname')}
-            <Input />
+            <Input variant="ghost" />
           </label>
         </fieldset>
-        <fieldset>
+        <fieldset className="flex flex-col gap-4">
           <label>
             Email
-            <Input type="email" />
+            <Input type="email" variant="ghost" />
           </label>
           <label>
             {t('contact.subject')}
-            <Input />
+            <Input variant="ghost" />
           </label>
         </fieldset>
-        <fieldset>
+        <fieldset className="flex flex-col gap-4">
           <label>
             {t('contact.message')}
             <br />
-            <TextareaAutosize minRows={6} className="w-full" />
+            <TextareaAutosize
+              minRows={6}
+              className="w-full border-primary border-1 rounded-md"
+            />
           </label>
         </fieldset>
         <Button>{t('send')}</Button>
