@@ -7,17 +7,16 @@ export default function ContactForm() {
 
   return (
     <Container>
-      <Text variant="sectionHeading">{t('contact.title')}</Text>
+      <Text variant="myHeading" className="text-center">
+        {t('contact.title')}
+      </Text>
       <form>
         <fieldset>
           <label>
             {t('contact.name')}
             <Input variant="ghost" />
           </label>
-          <label>
-            {t('contact.surname')}
-            <Input />
-          </label>
+          <label>{t('contact.surname')}</label>
         </fieldset>
         <fieldset>
           <label>
