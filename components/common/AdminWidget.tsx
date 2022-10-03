@@ -31,7 +31,7 @@ function useMenu() {
     [t('admin.addNewProduct'), '/admin/products/add'],
     [t('admin.titles.products'), '/admin/products'],
     ['SK', , 'sk'],
-    // ['EN', , 'en'],
+    ['EN', , 'en'],
   ]
 
   return { horizontal, vertical }

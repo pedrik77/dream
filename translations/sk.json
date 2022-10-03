@@ -14,6 +14,7 @@
   "width": "Šírka",
   "height": "Výška",
   "category": "Kategória",
+  "send": "Odoslať",
   "signIn": {
     "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
     "signIn": "Registrovať?"
@@ -77,6 +78,12 @@
     "thankYou": "Objednávka úspešne odoslaná! Ďakujeme!",
     "showOrders": "Zobraziť objednávky"
   },
+  "contact": {
+    "name": "Meno",
+    "surname": "Priezvisko",
+    "subject": "Predmet",
+    "message": "Správa"
+  },
   "footer": {
     "newsletter": "Súhlasím s podmienkami spracovania osobných údajov",
     "copyright": "© 2022 vysnivaj.si. Všetky práva vyhradené.",
@@ -113,7 +120,6 @@
       "buttonText": "Text buttonu",
       "buttonLink": "Smerovanie buttonu"
     },
-
     "labels": {
       "image": "Obrázok ",
       "images": "Obrázky ",

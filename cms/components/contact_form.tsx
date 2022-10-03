@@ -1,25 +1,12 @@
-import { Container, Input, Text } from '@components/ui'
-import { FormControl, FormGroup } from '@mui/material'
+import ContactForm, { ContactFormProps } from '@components/contact/ContactForm'
 import { ComponentConfig } from '../types'
 
-const config: ComponentConfig<{ title: string }> = {
-  type: 'conact_form',
+const config: ComponentConfig<ContactFormProps> = {
+  type: 'contact_form',
   title: 'Contact Form',
-  Component: ({ title }) => (
-    <Container>
-      <Text variant="sectionHeading">{title}</Text>
-      <form>
-        <FormGroup>
-          <FormControl>
-            <label htmlFor="name">Name</label>
-            <Input />
-          </FormControl>
-        </FormGroup>
-      </form>
-    </Container>
-  ),
+  Component: ContactForm,
   valuesDefinition: {
-    title: ['title', 'Contact Form'],
+    title: ['Title', 'Contact Us'],
   },
 }
 

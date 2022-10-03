@@ -4,7 +4,6 @@ import Image from './components/image'
 import Hero from './components/hero'
 import Banner from './components/banner'
 import PageBanner from './components/page_banner'
-import ContactForm from './components/contact_form'
 import Wysiwyg from './components/wysiwyg'
 import ContaineredWysiwyg from './components/containered_wysiwyg'
 import Carousel from './components/carousel'
@@ -12,17 +11,18 @@ import Spacer from './components/spacer'
 import Email from './components/email'
 import LogosSection from './components/logos_section'
 import Socials from './components/socials_section'
+import ContactForm from './components/contact_form'
 
 const COMPONENTS = {
   Wysiwyg,
   ContaineredWysiwyg,
+  ContactForm,
   Text,
   Image,
   Email,
   Hero,
   PageBanner,
   Banner,
-  ContactForm,
   Carousel,
   LogosSection,
   Socials,
