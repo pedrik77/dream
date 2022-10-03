@@ -11,7 +11,7 @@ export default function ContactForm() {
         {t('contact.title')}
       </Text>
       <form className="flex flex-col gap-4 justify-center max-w-2xl mx-auto">
-        <fieldset className="flex gap-4">
+        <fieldset className="flex flex-col md:flex-row gap-4">
           <label className="flex-grow">
             {t('contact.name')}
             <Input variant="ghost" className="py-3" />
