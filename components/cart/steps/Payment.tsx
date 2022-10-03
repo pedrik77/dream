@@ -126,7 +126,9 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
         </div>
 
         <div className="flex justify-center my-12">
-          <Button onClick={handleNext}>Zaplatiť {total} €</Button>
+          <Button onClick={handleNext} disabled>
+            Zaplatiť {total} €
+          </Button>
         </div>
       </div>
     </Container>

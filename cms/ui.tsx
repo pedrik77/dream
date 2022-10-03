@@ -484,6 +484,6 @@ function Components({
   )
 }
 
-const CMS = Object.assign(Components, config)
+const CMS = Object.assign(Components, config.COMPONENTS)
 
 export { CMS }
