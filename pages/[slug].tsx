@@ -41,7 +41,11 @@ export default function Pages({ page }: { page: Page }) {
     <>
       <CMS
         blockId={getPageCmsId(page.slug)}
-        allowedComponents={[CMS.PageBanner, CMS.ContactForm]}
+        allowedComponents={[
+          CMS.ContaineredWysiwyg,
+          CMS.PageBanner,
+          CMS.ContactForm,
+        ]}
       >
         {page.cmsBlock?.components}
       </CMS>

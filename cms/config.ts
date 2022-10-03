@@ -6,6 +6,7 @@ import Banner from './components/banner'
 import PageBanner from './components/page_banner'
 import ContactForm from './components/contact_form'
 import Wysiwyg from './components/wysiwyg'
+import ContaineredWysiwyg from './components/containered_wysiwyg'
 import Carousel from './components/carousel'
 import Spacer from './components/spacer'
 import Email from './components/email'
@@ -14,6 +15,7 @@ import Socials from './components/socials_section'
 
 const COMPONENTS = {
   Wysiwyg,
+  ContaineredWysiwyg,
   Text,
   Image,
   Email,
