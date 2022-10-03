@@ -1,13 +1,11 @@
-import ContactForm, { ContactFormProps } from '@components/contact/ContactForm'
+import ContactForm from '@components/contact/ContactForm'
 import { ComponentConfig } from '../types'
 
-const config: ComponentConfig<ContactFormProps> = {
+const config: ComponentConfig<{}> = {
   type: 'contact_form',
   title: 'Contact Form',
   Component: ContactForm,
-  valuesDefinition: {
-    title: ['Title', 'Contact Us'],
-  },
+  valuesDefinition: false,
 }
 
 export default config
