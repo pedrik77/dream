@@ -11,12 +11,14 @@ export default function ContactForm({ title }: ContactFormProps) {
 
   return (
     <Container>
-      <Text variant="sectionHeading">{title}</Text>
+      <Text variant="myHeading" className="text-center">
+        {title}
+      </Text>
       <form>
         <fieldset>
           <label>
             {t('contact.name')}
-            <Input />
+            <Input variant="ghost" />
           </label>
           <label>
             {t('contact.surname')}
