@@ -13,7 +13,7 @@ const config: ComponentConfig<WysiwygProps> = {
   type: 'containered_wysiwyg',
   title: 'Wysiwyg',
   Component: ({ html }) => (
-    <Container>
+    <Container className="my-12 px-4 leading-7">
       <Text html={html} variant="wysiwyg" />
     </Container>
   ),

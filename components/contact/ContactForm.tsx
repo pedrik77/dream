@@ -7,28 +7,28 @@ export default function ContactForm() {
 
   return (
     <Container className="my-10">
-      <Text variant="myHeading" className="text-center my-4">
+      <Text variant="myHeading" className="text-center my-8">
         {t('contact.title')}
       </Text>
       <form className="flex flex-col gap-4 justify-center max-w-2xl mx-auto">
-        <fieldset className="flex flex-col gap-4">
-          <label>
+        <fieldset className="flex gap-4">
+          <label className="flex-grow">
             {t('contact.name')}
-            <Input variant="ghost" />
+            <Input variant="ghost" className="py-3" />
           </label>
-          <label>
+          <label className="flex-grow">
             {t('contact.surname')}
-            <Input variant="ghost" />
+            <Input variant="ghost" className="py-3" />
           </label>
         </fieldset>
         <fieldset className="flex flex-col gap-4">
           <label>
             Email
-            <Input type="email" variant="ghost" />
+            <Input type="email" variant="ghost" className="py-3" />
           </label>
           <label>
             {t('contact.subject')}
-            <Input variant="ghost" />
+            <Input variant="ghost" className="py-3" />
           </label>
         </fieldset>
         <fieldset className="flex flex-col gap-4">
@@ -37,11 +37,16 @@ export default function ContactForm() {
             <br />
             <TextareaAutosize
               minRows={6}
-              className="w-full border-primary border-1 rounded-md"
+              className="w-full border-primary border rounded-md"
             />
           </label>
         </fieldset>
-        <Button>{t('send')}</Button>
+        <fieldset className="flex gap-4 justify-center my-8">
+          <Button className="max-w-fit">{t('send')}</Button>
+          <Button variant="ghost" type="button">
+            {t('cancel')}
+          </Button>
+        </fieldset>
       </form>
     </Container>
   )
