@@ -34,7 +34,9 @@ export type Definition<T> = [
     | InputEditor<any, T>
 ]
 
-export type ValuesDefinition<T = {}> = Record<KeyOf<T>, Definition<T> | false>
+export type ValuesDefinition<T = {}> =
+  | Record<KeyOf<T>, Definition<T> | false>
+  | false
 
 export type ComponentConfig<T> = {
   type: string

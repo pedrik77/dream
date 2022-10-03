@@ -186,9 +186,11 @@ export function ComponentEditor({
       >
         {!forceEdit && !isEditing && (
           <>
-            <Button variant="cms" onClick={() => onEditing(true)}>
-              {t('edit')}
-            </Button>
+            {Editor !== null && (
+              <Button variant="cms" onClick={() => onEditing(true)}>
+                {t('edit')}
+              </Button>
+            )}
             {!single && (
               <Button variant="cms" onClick={toggleMoving}>
                 {isMoving ? t('cancel') : t('cms.move')}

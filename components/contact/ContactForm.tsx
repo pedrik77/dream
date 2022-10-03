@@ -2,18 +2,12 @@ import { Button, Container, Input, Text } from '@components/ui'
 import { TextareaAutosize } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-export type ContactFormProps = {
-  title: string
-}
-
-export default function ContactForm({ title }: ContactFormProps) {
+export default function ContactForm() {
   const { t } = useTranslation()
 
   return (
     <Container>
-      <Text variant="myHeading" className="text-center">
-        {title}
-      </Text>
+      <Text variant="sectionHeading">{t('contact.title')}</Text>
       <form>
         <fieldset>
           <label>
