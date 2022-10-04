@@ -12,20 +12,19 @@ import { useTranslation } from 'react-i18next'
 
 const CMS_ID = 'static_page__winners'
 
-// TODO - add multilang package
 const MONTHS = [
-  'január',
-  'február',
-  'marec',
-  'apríl',
-  'máj',
-  'jún',
-  'júl',
-  'august',
-  'september',
-  'október',
-  'november',
-  'december',
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec',
 ]
 
 interface WinnersPageProps {
@@ -76,7 +75,8 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     [yearTree, currentYear]
   )
 
-  const monthName = (month: string) => MONTHS[parseInt(month) - 1]
+  const monthName = (month: string) =>
+    t(`winners.months.${MONTHS[parseInt(month) - 1]}`)
 
   const [products, currentMonthName] = useMemo(() => {
     if (!yearTree[currentYear]) return [allProducts, '']

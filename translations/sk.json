@@ -55,7 +55,21 @@
     "partners": "Naši partneri"
   },
   "winners": {
-    "title": "Víťazi"
+    "title": "Víťazi",
+    "months": {
+      "jan": "január",
+      "feb": "február",
+      "mar": "marec",
+      "apr": "apríl",
+      "may": "máj",
+      "jun": "jún",
+      "jul": "júl",
+      "aug": "august",
+      "sep": "september",
+      "oct": "október",
+      "nov": "november",
+      "dec": "december"
+    }
   },
   "cart": {
     "showProducts": "Pozrieť aktuálne súťaže",
