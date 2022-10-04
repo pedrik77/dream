@@ -16,7 +16,7 @@ export interface SocialSectionProps {
 
 const SocialSection = ({ title, links }: SocialSectionProps) => {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 lg:text-right">
       <h3 className="font-bold">{title}</h3>
       <div className="flex gap-3 lg:justify-end">
         {links.map((link) => {

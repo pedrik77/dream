@@ -30,7 +30,9 @@ export default function Newsletter() {
 
   return (
     <>
-      <h3 className="font-bold">PRIHLÁSENIE DO ODBERU NOVINIEK</h3>
+      <h3 className="font-bold lg:text-right">
+        PRIHLÁSENIE DO ODBERU NOVINIEK
+      </h3>
       <form onSubmit={handleSubmit}>
         <fieldset className={s.main}>
           <Input
