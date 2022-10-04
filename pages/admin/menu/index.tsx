@@ -19,7 +19,7 @@ const Select = dynamic(import('react-select'), { ssr: false })
 
 const isLegalOptions = [
   { label: 'Hlavné menu', value: 'main' },
-  { label: 'Legal menu', value: 'legal' },
+  { label: 'Vedlajšie menu', value: 'legal' },
 ]
 const generateHref = (type: string, value: string) => {
   if (type === 'manual') return ''
@@ -250,7 +250,7 @@ export default function Menu() {
         <div className="flex ">
           {Object.entries({
             'Hlavné menu': menu.main,
-            'Legal menu': menu.legal,
+            'Vedlajšie menu': menu.legal,
           }).map(([label, items]) => (
             <div key={label} className="flex-1">
               <h3>{label}</h3>
