@@ -43,6 +43,7 @@ export type ComponentConfig<T> = {
   title: string
   Component: React.FC<T>
   valuesDefinition: ValuesDefinition<T>
+  css?: boolean
   Editor?: (props: Settable<T>) => JSX.Element
   loadStarterValues?: () => Promise<T>
   prompt?: KeyOf<T>[]
