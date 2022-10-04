@@ -453,23 +453,30 @@ function Components({
             ? c.value
             : c.values[locale]
 
+        const isEditing = editing.includes(i)
+        const isHovering = hovering === i
+
         return (
           <Fragment key={blockId + c.type + i}>
             <div
-              className="contents"
+              className={
+                canEdit
+                  ? 'outline outline-1 outline-secondary rounded'
+                  : 'contents'
+              }
               onMouseEnter={() => hover(true)}
               onMouseLeave={() => hover(false)}
             >
               {canEdit && (
                 <ComponentEditor
-                  isEditing={editing.includes(i)}
+                  isEditing={isEditing}
                   onEditing={(isEditing) => handleEditComponent(i, isEditing)}
                   onChange={(value) => handleOnChange(i, value)}
                   toggleMoving={() => setMoving(!isMoving ? i : -1)}
                   removeSelf={() => handleRemoveSelf(i)}
                   toggleDraft={() => handleToggleDraft(i)}
                   isMoving={isMoving}
-                  isHovering={hovering === i}
+                  isHovering={isHovering}
                   single={components.length === 1}
                   {...c}
                   value={value}

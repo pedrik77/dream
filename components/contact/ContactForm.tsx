@@ -37,7 +37,7 @@ export default function ContactForm() {
             <br />
             <TextareaAutosize
               minRows={6}
-              className="w-full border-primary border rounded-md"
+              className="w-full border-primary border rounded-md bg-transparent"
             />
           </label>
         </fieldset>
