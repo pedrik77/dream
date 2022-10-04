@@ -2,13 +2,14 @@ import { Layout, SEO } from '@components/common'
 import { GetServerSideProps } from 'next'
 import { Container, Text } from '@components/ui'
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { inputDateFormat } from '@lib/date'
 import { Product, useProducts } from '@lib/products'
 import { ProductCard } from '@components/product'
 import Tree from '@components/winners/Tree'
 import { CMS } from 'cms'
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/router'
 
 const CMS_ID = 'static_page__winners'
 
@@ -32,6 +33,7 @@ interface WinnersPageProps {
 }
 
 export default function Winners({ date = '' }: WinnersPageProps) {
+  const { locale = '' } = useRouter()
   const { t } = useTranslation()
   const { products: allProducts } = useProducts({
     showClosed: true,
@@ -75,8 +77,10 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     [yearTree, currentYear]
   )
 
-  const monthName = (month: string) =>
-    t(`winners.months.${MONTHS[parseInt(month) - 1]}`)
+  const monthName = useCallback(
+    (month: string) => t(`winners.months.${MONTHS[parseInt(month) - 1]}`),
+    [t]
+  )
 
   const [products, currentMonthName] = useMemo(() => {
     if (!yearTree[currentYear]) return [allProducts, '']
@@ -94,7 +98,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     if (!yearTree[currentYear][currentMonth]) return [[], '']
 
     return [yearTree[currentYear][currentMonth], monthName(currentMonth)]
-  }, [yearTree, currentMonth, currentYear, allProducts])
+  }, [yearTree, currentMonth, currentYear, allProducts, monthName])
 
   const title = t('winners.title')
   const description = t('winners.description')
@@ -105,7 +109,7 @@ export default function Winners({ date = '' }: WinnersPageProps) {
         blockId={CMS_ID}
         single={CMS.PageBanner}
         onData={([bannerComponent]) =>
-          setBannerUrl(bannerComponent?.value?.img || '')
+          setBannerUrl(bannerComponent?.values?.[locale].img || '')
         }
       />
       <Container className="py-8 mt-0 md:mt-8 items-center justify-center">

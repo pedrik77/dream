@@ -7,6 +7,7 @@ import { Layout, SEO } from '@components/common'
 import { Skeleton } from '@mui/material'
 import { CMS } from 'cms'
 import { getCategoryCmsId, useCategory } from '@lib/categories'
+import { useRouter } from 'next/router'
 
 export const FALLBACK_BANNER = '/assets/category_fallback_banner.jpg'
 
@@ -29,6 +30,7 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
   const [showClosed, setShowClosed] = useState(false)
   const [bannerUrl, setBannerUrl] = useState('')
 
+  const { locale = '' } = useRouter()
   const { products, loading } = useProducts({ categorySlug, showClosed })
   const category = useCategory({ slug: categorySlug || '' })
 
@@ -42,7 +44,7 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
         blockId={getCategoryCmsId(categorySlug)}
         single={CMS.PageBanner}
         onData={([bannerComponent]) =>
-          setBannerUrl(bannerComponent?.value?.img || '')
+          setBannerUrl(bannerComponent?.values?.[locale].img || '')
         }
       />
       <Container className="flex gap-8 items-center justify-center my-10">
