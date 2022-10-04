@@ -77,6 +77,7 @@ export interface ComponentsProps extends ComponentsLists {
   maxNumberOfComponents?: number
   single?: ComponentConfig<any>
   onData?: (data: StarterCommon[]) => void
+  preventRender?: boolean
 }
 
 export type ChangableComponent = StarterCommon &

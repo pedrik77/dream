@@ -3,10 +3,10 @@ import { useState } from 'react'
 import { Container, Text } from '@components/ui'
 import { Tab } from '@components/ui/Tab/Tab'
 import ProductCard from './ProductCard'
-import { Layout } from '@components/common'
+import { Layout, SEO } from '@components/common'
 import { Skeleton } from '@mui/material'
 import { CMS } from 'cms'
-import { getCategoryCmsId } from '@lib/categories'
+import { getCategoryCmsId, useCategory } from '@lib/categories'
 
 export const FALLBACK_BANNER = '/assets/category_fallback_banner.jpg'
 
@@ -27,8 +27,13 @@ const Skeletons = Array(3)
 
 export function CategoryView({ categorySlug }: CategoryViewProps) {
   const [showClosed, setShowClosed] = useState(false)
+  const [bannerUrl, setBannerUrl] = useState('')
 
   const { products, loading } = useProducts({ categorySlug, showClosed })
+  const category = useCategory({ slug: categorySlug || '' })
+
+  const title = category?.title || 'Všetky produkty'
+  const description = category?.description || ''
 
   return (
     <Container clean>
@@ -36,6 +41,9 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
         key={getCategoryCmsId(categorySlug)}
         blockId={getCategoryCmsId(categorySlug)}
         single={CMS.PageBanner}
+        onData={([bannerComponent]) =>
+          setBannerUrl(bannerComponent?.value?.img || '')
+        }
       />
       <Container className="flex gap-8 items-center justify-center my-10">
         <Tab active={!showClosed} onClick={() => setShowClosed(false)}>
@@ -58,6 +66,24 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
           ))
         )}
       </Container>
+
+      <SEO
+        title={title}
+        description={description}
+        openGraph={{
+          type: 'website',
+          title,
+          description,
+          images: [
+            {
+              url: bannerUrl,
+              width: '2000',
+              height: '610',
+              alt: title + ' banner',
+            },
+          ],
+        }}
+      />
     </Container>
   )
 }

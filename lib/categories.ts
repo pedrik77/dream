@@ -17,6 +17,7 @@ import { AnyClosure, QueryBase } from './types'
 export interface Category {
   slug: string
   title: string
+  description?: string
 }
 
 interface UseCategoriesOptions extends QueryBase<Category> {}

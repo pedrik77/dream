@@ -1,7 +1,7 @@
 import { Input as UiInput } from '@components/ui'
 import { uploadFile } from '@lib/files'
 import { InputEditorGetter } from 'cms/types'
-import React from 'react'
+import React, { useState } from 'react'
 import { v4 as uuid4 } from 'uuid'
 
 interface InputProps {
@@ -12,6 +12,7 @@ interface InputProps {
     width?: number
     height?: number
   }
+  loading?: boolean
 }
 
 export const getInput: InputEditorGetter<string, InputProps> =
@@ -24,6 +25,7 @@ export const getInput: InputEditorGetter<string, InputProps> =
     placeholder = defaults.placeholder,
     type = defaults.type,
     imagePreview = defaults.imagePreview,
+    loading = false,
   }) =>
     (
       <>
@@ -38,10 +40,17 @@ export const getInput: InputEditorGetter<string, InputProps> =
           }}
           variant="cms"
           labelClass="text-white"
+          disabled={loading}
         >
           {label && (
             <>
               {label}
+              <br />
+            </>
+          )}
+          {loading && (
+            <>
+              loading...
               <br />
             </>
           )}
@@ -77,19 +86,28 @@ export const getImageInput: InputEditorGetter<
     label = defaults.label,
     getPath = defaults.getPath,
     imagePreview = defaults.imagePreview,
-  }) =>
-    (
+  }) => {
+    const [loading, setLoading] = useState(false)
+
+    return (
       <Input
         value={value}
         type="file"
         onChange={console.log}
-        onFile={(file) =>
+        onFile={(file) => {
+          setLoading(true)
+
           uploadFile(
             `${getPath ? getPath() : 'imgs'}/${file.name}_${uuid4()}`,
             file
-          ).then((src) => onChange(src))
-        }
+          ).then((src) => {
+            onChange(src)
+            setLoading(false)
+          })
+        }}
         imagePreview={imagePreview || {}}
         label={label}
+        loading={loading}
       />
     )
+  }

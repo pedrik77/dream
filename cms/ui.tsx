@@ -256,6 +256,7 @@ function Components({
   forbiddenComponents = config.DEFAULT_FORBIDDEN,
   single,
   onData,
+  preventRender,
 }: ComponentsProps) {
   const { t } = useTranslation()
   const loaded = useRef(false)
@@ -267,7 +268,7 @@ function Components({
   const [hovering, setHovering] = useState(-1)
   const [editing, setEditing] = useState<number[]>([])
 
-  const shouldRender = !onData
+  const shouldRender = !preventRender
 
   const canEdit =
     usePermission({ permission: PERMISSIONS.CMS }) &&
@@ -371,14 +372,12 @@ function Components({
 
   const handleOnChange = useCallback(
     (key: number, value: any) => {
-      const values = {}
-
       const newComponents = components.map((c, i) =>
         key === i
           ? {
               ...c,
               value: locale === defaultLocale ? value : c.value,
-              values: { ...values, [locale || '']: value },
+              values: { ...c.values, [locale || '']: value },
             }
           : c
       )
