@@ -45,6 +45,7 @@ export default function Pages({ page }: { page: Page }) {
           CMS.ContaineredWysiwyg,
           CMS.PageBanner,
           CMS.ContactForm,
+          CMS.Spacer,
         ]}
       >
         {page.cmsBlock?.components}
