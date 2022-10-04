@@ -19,7 +19,9 @@ export default function Dashboard() {
           </Text>
           <Permit permission={PERMISSIONS.PRODUCTS_FORM}>
             <Button className="w-fit">
-              <Link href="/admin/products/add">{t('admin.addNewProduct')}</Link>
+              <Link href="/admin/products/add">
+                <a>{t('admin.addNewProduct')}</a>
+              </Link>
             </Button>
           </Permit>
         </div>
