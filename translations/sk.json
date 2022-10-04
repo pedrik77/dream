@@ -92,6 +92,7 @@
   },
   "admin": {
     "addNewProduct": "Nový produkt",
+    "editProduct": "Upraviť produkt",
     "editProducts": "Upraviť produkty",
     "addNewCategory": "Nová kategória",
     "editCategories": "Upraviť kategórie",

@@ -150,7 +150,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     <Permit permission={PERMISSIONS.PRODUCTS_FORM} redirect="/admin/products">
       <AdminLayout>
         <Text className="my-4" variant="heading">
-          Upraviť produkt
+          {t(isEditing ? 'admin.editProduct' : 'admin.addNewProduct')}
         </Text>
         <form onSubmit={handleSubmit}>
           <fieldset className="flex flex-col gap-6">
