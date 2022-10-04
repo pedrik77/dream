@@ -1,14 +1,14 @@
-import { Layout } from '@components/common'
+import { Layout, SEO } from '@components/common'
 import { GetServerSideProps } from 'next'
-import { Avatar } from '@components/common'
 import { Container, Text } from '@components/ui'
 import Link from 'next/link'
-import React, { Fragment, useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { inputDateFormat } from '@lib/date'
 import { Product, useProducts } from '@lib/products'
 import { ProductCard } from '@components/product'
 import Tree from '@components/winners/Tree'
 import { CMS } from 'cms'
+import { useTranslation } from 'react-i18next'
 
 const CMS_ID = 'static_page__winners'
 
@@ -33,6 +33,7 @@ interface WinnersPageProps {
 }
 
 export default function Winners({ date = '' }: WinnersPageProps) {
+  const { t } = useTranslation()
   const { products: allProducts } = useProducts({
     showClosed: true,
     orderBy: 'closing_date',
@@ -40,6 +41,8 @@ export default function Winners({ date = '' }: WinnersPageProps) {
 
   const currentMonth = date.split('-')[1]
   const currentYear = date.split('-')[0]
+
+  const [bannerUrl, setBannerUrl] = useState('')
 
   const yearTree = useMemo(() => {
     const tree: {
@@ -93,9 +96,18 @@ export default function Winners({ date = '' }: WinnersPageProps) {
     return [yearTree[currentYear][currentMonth], monthName(currentMonth)]
   }, [yearTree, currentMonth, currentYear, allProducts])
 
+  const title = t('winners.title')
+  const description = t('winners.description')
+
   return (
     <Container clean>
-      <CMS blockId={CMS_ID} single={CMS.PageBanner} />
+      <CMS
+        blockId={CMS_ID}
+        single={CMS.PageBanner}
+        onData={([bannerComponent]) =>
+          setBannerUrl(bannerComponent?.value?.img || '')
+        }
+      />
       <Container className="py-8 mt-0 md:mt-8 items-center justify-center">
         <div className="flex flex-col gap-3 lg:gap-6 max-w-lg md:max-w-2xl mx-auto lg:max-w-6xl items-center justify-center">
           <div className="flex flex-col gap-4 items-center justify-center md:justify-start text-lg lg:text-2xl uppercase text-center">
@@ -136,6 +148,24 @@ export default function Winners({ date = '' }: WinnersPageProps) {
           </div>
         </div>
       </Container>
+
+      <SEO
+        title={title}
+        description={description}
+        openGraph={{
+          type: 'website',
+          title,
+          description,
+          images: [
+            {
+              url: bannerUrl,
+              width: '2000',
+              height: '610',
+              alt: title + ' banner',
+            },
+          ],
+        }}
+      />
     </Container>
   )
 }

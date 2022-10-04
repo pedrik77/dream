@@ -54,6 +54,9 @@
     "carousel": "Pozrite kto vyhral",
     "partners": "Naši partneri"
   },
+  "winners": {
+    "title": "Víťazi"
+  },
   "cart": {
     "showProducts": "Pozrieť aktuálne súťaže",
     "empty": "Košík je prázdny :("
