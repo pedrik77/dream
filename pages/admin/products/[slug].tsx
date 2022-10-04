@@ -254,19 +254,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               )}
             </label>
 
-            {/* <label>
-              Long description <br />
-            </label>
-            {isEditing && cmsBlock && (
-              <CMS
-                blockId={getProductCmsId(slug)}
-                forceEdit
-                forbiddenComponents={[]}
-              >
-                {cmsBlock.components}
-              </CMS>
-            )} */}
             {/* TODO: add trash icon on hover */}
+
             <label>
               {t('cms.labels.gallery')}
               {t('cms.labels.productImage')}
