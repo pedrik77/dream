@@ -38,8 +38,8 @@ const Input: React.FC<InputProps> = (props) => {
   }
 
   return (
-    <label>
-      {children && <div className={labelClass}>{children}</div>}
+    <label className={labelClass}>
+      {children && <div>{children}</div>}
       <input
         className={rootClassName}
         onChange={handleOnChange}

@@ -12,24 +12,20 @@ export default function ContactForm() {
       </Text>
       <form className="flex flex-col gap-4 justify-center max-w-2xl mx-auto">
         <fieldset className="flex flex-col md:flex-row gap-4">
-          <label className="flex-grow">
+          <Input variant="ghost" className="py-3" labelClass="flex-grow">
             {t('contact.name')}
-            <Input variant="ghost" className="py-3" />
-          </label>
-          <label className="flex-grow">
+          </Input>
+          <Input variant="ghost" className="py-3" labelClass="flex-grow">
             {t('contact.surname')}
-            <Input variant="ghost" className="py-3" />
-          </label>
+          </Input>
         </fieldset>
         <fieldset className="flex flex-col gap-4">
-          <label>
+          <Input type="email" variant="ghost" className="py-3">
             Email
-            <Input type="email" variant="ghost" className="py-3" />
-          </label>
-          <label>
+          </Input>
+          <Input variant="ghost" className="py-3">
             {t('contact.subject')}
-            <Input variant="ghost" className="py-3" />
-          </label>
+          </Input>
         </fieldset>
         <fieldset className="flex flex-col gap-4">
           <label>
