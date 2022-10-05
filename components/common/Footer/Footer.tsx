@@ -23,7 +23,7 @@ const Footer: FC<Props> = ({ className }) => {
     <footer className={rootClassName}>
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 border-b border-accent-0 py-12 text-accent-0 transition-colors duration-150">
-          <div className="flex flex-col justify-between col-span-1 lg:col-span-6">
+          <div className="flex flex-col justify-between col-span-1 lg:col-span-6 gap-y-12">
             <div className="grid grid-cols-1 md:grid-flow-col max-w-lg gap-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-4 gap-x-4">
                 <h3 className="uppercase font-bold md:col-span-2 ">
@@ -32,12 +32,12 @@ const Footer: FC<Props> = ({ className }) => {
 
                 {main.map(renderLink)}
               </div>
-              <div className="grid grid-cols-1 md:grid-rows-4 gap-x-4">
-                <h3 className="uppercase font-bold">
-                  <CMS blockId="footer__legal_menu_title" single={CMS.Text} />
-                </h3>
-                {legal.map(renderLink)}
-              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-rows-4 gap-x-4">
+              <h3 className="uppercase font-bold">
+                <CMS blockId="footer__legal_menu_title" single={CMS.Text} />
+              </h3>
+              {legal.map(renderLink)}
             </div>
             <div>
               <Link href="/">
