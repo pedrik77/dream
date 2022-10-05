@@ -1,5 +1,5 @@
 .main {
-  @apply flex flex-col sm:flex-row gap-2 sm:gap-0 my-4 lg:justify-end;
+  @apply flex flex-col sm:flex-row gap-4 sm:gap-0 my-4 lg:justify-end;
 }
 
 .input {
