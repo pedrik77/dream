@@ -78,7 +78,7 @@ export const getComponentStarter = async (componentType: ComponentType) => {
 
   const starter = {
     type: componentType,
-    draft: true,
+    draft: false,
     value,
   }
 
