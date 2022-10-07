@@ -1,20 +1,20 @@
 import { api } from './api'
 import { ContactFormData } from './zod-schemas'
 
+export const CONTACT_FORM_CMS_ID = 'email__contact-form'
 export const SIGN_UP_CMS_ID = 'email__sign-up'
 export const RESET_PASSWORD_CMS_ID = 'email__reset-password'
 export const VERIFICATION_CMS_ID = 'email__verification'
-export const CONTACT_FORM_CMS_ID = 'email__contact-form'
 export const ORDER_CREATED_CMS_ID = 'email__order-created'
 export const UNPAID_ORDER_CREATED_CMS_ID = 'email__unpaid-order-created'
 export const PRODUCT_CLOSE_CMS_ID = 'email__product-close'
 export const WINNER_ANNOUNCEMENT_CMS_ID = 'email__winner-announcement'
 
 export const templates = {
+  [CONTACT_FORM_CMS_ID]: ['name', 'surname', 'email', 'subject', 'message'],
   [SIGN_UP_CMS_ID]: ['name'],
   [RESET_PASSWORD_CMS_ID]: ['name'],
   [VERIFICATION_CMS_ID]: ['name'],
-  [CONTACT_FORM_CMS_ID]: ['name', 'surname', 'email', 'subject', 'message'],
   [ORDER_CREATED_CMS_ID]: ['name'],
   [UNPAID_ORDER_CREATED_CMS_ID]: ['name'],
   [PRODUCT_CLOSE_CMS_ID]: ['name'],
