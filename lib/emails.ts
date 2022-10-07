@@ -1,5 +1,5 @@
 import { api } from './api'
-import { ContactFormData } from './zod-schemas'
+import { ContactFormData } from './schemas/contact'
 
 export const CONTACT_FORM_CMS_ID = 'email__contact-form'
 export const SIGN_UP_CMS_ID = 'email__sign-up'
@@ -27,7 +27,7 @@ export async function sendEmailVerificationEmail(email: string) {
 }
 
 export async function sendOrderCreatedEmail(orderUuid: string) {
-  const { data } = await api.post('/email/order-created', { order: orderUuid })
+  const { data } = await api.post('/email/order-created', { orderUuid })
   return data === 'ok'
 }
 

@@ -10,7 +10,7 @@ import useLoading from '@lib/hooks/useLoading'
 import { useTranslation } from 'react-i18next'
 import { linkWithPopup, UserCredential } from 'firebase/auth'
 import { z, ZodError } from 'zod'
-import { LoginSchema } from '@lib/zod-schemas'
+import { LoginSchema } from '@lib/schemas/auth'
 
 const FlashMessages: StringMap = {
   success: 'Vitajte naspäť, sme radi, že vás tu máme!',

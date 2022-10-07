@@ -1,5 +1,4 @@
 import { Button, Container, Input, Text } from '@components/ui'
-import { ContactFormSchema } from '@lib/zod-schemas'
 import { TextareaAutosize } from '@mui/material'
 import { FormEventHandler, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +7,7 @@ import {
   handleErrorFlash,
 } from '@components/ui/FlashMessage/FlashMessage'
 import { sendContactFormEmail } from '@lib/emails'
+import { ContactFormSchema } from '@lib/schemas/contact'
 
 export default function ContactForm() {
   const { t } = useTranslation()

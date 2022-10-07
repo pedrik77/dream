@@ -10,7 +10,7 @@ export default async function handler(
 ) {
   if (req.method !== 'POST') return res.status(405).send('Method not allowed')
 
-  const orderUuid = req.body.order
+  const { orderUuid } = req.body
 
   if (!orderUuid) return res.status(400).send('Missing order UUID')
 
