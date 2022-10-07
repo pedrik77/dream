@@ -53,13 +53,9 @@ export function useOrders({
   const queries: QueryConstraint[] = useMemo(() => {
     const queries: QueryConstraint[] = []
 
-    if (user) {
-      queries.push(where('user', '==', user))
-    }
+    if (user) queries.push(where('user', '==', user))
 
-    if (orderBy) {
-      queries.push(queryOrderBy(orderBy, orderDirection))
-    }
+    if (orderBy) queries.push(queryOrderBy(orderBy, orderDirection))
 
     return queries
   }, [user, orderBy, orderDirection])
