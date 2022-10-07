@@ -1,10 +1,11 @@
 import { CategoryView, FALLBACK_BANNER } from '@components/product/CategoryView'
 import { getAllSlugs, getCategory } from '@lib/categories'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
 
 export default CategoryView
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const categorySlug = params?.slug || null
 
   const category =
@@ -16,17 +17,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: { categorySlug },
-    revalidate: 60 * 5,
+    // revalidate: 60 * 5,
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = (await getAllSlugs()).map((slug) => ({
-    params: { slug },
-  }))
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const paths = (await getAllSlugs()).map((slug) => ({
+//     params: { slug },
+//   }))
 
-  return {
-    paths,
-    fallback: false,
-  }
-}
+//   return {
+//     paths,
+//     fallback: false,
+//   }
+// }

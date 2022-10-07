@@ -1,13 +1,16 @@
-import type { GetStaticPathsContext, GetStaticPropsContext } from 'next'
+import type {
+  GetStaticPathsContext,
+  GetStaticPropsContext,
+  GetServerSideProps,
+} from 'next'
 import { Layout, SEO } from '@components/common'
 import { useRouter } from 'next/router'
 import { getPage, getPageCmsId, getPages, Page, pageHref } from '@lib/pages'
 import { CMS } from 'cms'
 import { Container } from '@components/ui'
 
-export async function getStaticProps({
-  params,
-}: GetStaticPropsContext<{ slug: string }>) {
+// export async function getStaticProps({ params, }: GetStaticPropsContext<{ slug: string }>) {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const page = await getPage(params?.slug as string).catch(console.error)
 
   if (!page) {
@@ -18,19 +21,19 @@ export async function getStaticProps({
 
   return {
     props: { page },
-    revalidate: 60 * 5,
+    // revalidate: 60 * 5,
   }
 }
 
-export async function getStaticPaths({ locales }: GetStaticPathsContext) {
-  const pages = await getPages()
-  const paths = pages.map((page) => pageHref(page.slug))
+// export async function getStaticPaths({ locales }: GetStaticPathsContext) {
+//   const pages = await getPages()
+//   const paths = pages.map((page) => pageHref(page.slug))
 
-  return {
-    paths,
-    fallback: 'blocking',
-  }
-}
+//   return {
+//     paths,
+//     fallback: 'blocking',
+//   }
+// }
 
 export default function Pages({ page }: { page: Page }) {
   const router = useRouter()

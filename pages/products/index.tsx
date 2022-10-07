@@ -3,9 +3,10 @@ import { GetServerSideProps, GetStaticProps } from 'next'
 
 export default CategoryView
 
-export const getStaticProps: GetStaticProps = async () => ({
+// export const getStaticProps: GetStaticProps = async () => ({
+export const getServerSideProps: GetServerSideProps = async () => ({
   props: {
     banner: FALLBACK_BANNER,
   },
-  revalidate: 60 * 5,
+  // revalidate: 60 * 5,
 })
