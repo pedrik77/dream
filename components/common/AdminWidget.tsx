@@ -40,6 +40,7 @@ function useMenu() {
 export default function AdminWidget() {
   const { permissions, adminEditingMode, adminStartEditing, adminStopEditing } =
     useAuthContext()
+  const { t } = useTranslation()
 
   const [showMenu, setShowMenu] = useState(false)
   const timeoutRef = useRef<any>()
@@ -69,6 +70,7 @@ export default function AdminWidget() {
       }}
     >
       <Menu visible={showMenu} />
+      {adminEditingMode && t('save')}
     </div>
   )
 }
