@@ -424,9 +424,7 @@ function Components({
     if (!blockId) return
 
     getCmsBlock(blockId)
-      .then((block) => {
-        setComponents(block.components)
-      })
+      .then((block) => setComponents(block.components))
       .catch(console.error)
   }, [blockId, children])
 
