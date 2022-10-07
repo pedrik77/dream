@@ -12,9 +12,11 @@ export default async function handler(
   const template = await getSingleComponent(PRODUCT_CLOSE_CMS_ID)
 
   await sendMail(
-    'tulic.peter77@gmail.com',
+    { address: 'tulic.peter77@gmail.com', name: 'meh' },
     template.value.subject,
-    template.value.template
+    processPlaceholders(template.value.template, {
+      name: 'testovy mail, tunak text dajak jeeeeb',
+    })
   )
 
   res.status(200).send('ok')

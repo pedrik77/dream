@@ -12,7 +12,9 @@ const config: ComponentConfig<EmailProps> = {
   title: 'Email',
   Component: ({ subject, template }) => (
     <>
-      <Text variant="sectionHeading">Subject: {subject}</Text>
+      <Text className="font-bold">Subject: </Text>
+      {subject}
+      <Text className="font-bold">Template:</Text>
       <Text html={template} />
     </>
   ),
