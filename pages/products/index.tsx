@@ -7,4 +7,5 @@ export const getStaticProps: GetStaticProps = async () => ({
   props: {
     banner: FALLBACK_BANNER,
   },
+  revalidate: 60 * 5,
 })
