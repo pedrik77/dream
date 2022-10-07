@@ -5,7 +5,7 @@ import { Text } from '@components/ui'
 import { PERMISSIONS } from '@lib/auth'
 import { templates } from '@lib/emails'
 import { CMS } from 'cms'
-import _ from 'lodash'
+import { startCase } from 'lodash'
 
 export default function Emails() {
   return (
@@ -14,7 +14,7 @@ export default function Emails() {
         {Object.entries(templates).map(([id, placeholders]) => (
           <div key={id}>
             <Text variant="sectionHeading">
-              {_.startCase(id.replace('email', ''))}
+              {startCase(id.replace('email', ''))}
             </Text>
             <Text className="font-bold">Placeholders:</Text>
             {placeholders.map((p) => `#${p}#`).join(', ')}
