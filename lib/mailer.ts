@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import fs from 'fs/promises'
 
 const host = process.env.MAIL_HOST
 const port = +(process.env.MAIL_PORT || 0)
@@ -21,8 +22,12 @@ const transporter = nodemailer.createTransport({
 export const sendMail = async (
   to: string | { name: string; address: string },
   subject: string,
-  html: string
+  body: string
 ) => {
+  const templateBuffer = await fs.readFile('templates/email.html')
+
+  const html = templateBuffer.toString().replace('%body%', body)
+
   const info = await transporter.sendMail({
     to,
     subject,

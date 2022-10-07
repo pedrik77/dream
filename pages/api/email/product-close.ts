@@ -15,7 +15,7 @@ export default async function handler(
     { address: 'tulic.peter77@gmail.com', name: 'meh' },
     template.value.subject,
     processPlaceholders(template.value.template, {
-      name: 'mehege',
+      name: 'testovy mail, tunak text dajak jeeeeb',
     })
   )
 
