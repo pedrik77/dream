@@ -1,0 +1,154 @@
+{
+  "welcome": "Vitaj",
+  "close": "Zatvoriť",
+  "back": "Späť",
+  "date": "Dátum",
+  "title": "Nadpis",
+  "edit": "Upraviť",
+  "save": "Uložiť",
+  "cancel": "Zrušiť",
+  "sure": "Naozaj?",
+  "remove": "Odstrániť",
+  "delete": "Odstrániť",
+  "deleted": "Odstránené",
+  "width": "Šírka",
+  "height": "Výška",
+  "category": "Kategória",
+  "send": "Odoslať",
+  "signIn": {
+    "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
+    "signIn": "Registrovať?"
+  },
+  "signUp.newsletter": "Chcem dostávať novinky e-mailom.",
+  "navbar": {
+    "user": {
+      "prizes": "Moje súťaže",
+      "orders": "Moje objednávky",
+      "account": "Môj účet",
+      "cart": "Môj košík",
+      "signOut": "Odhlásiť"
+    }
+  },
+  "account": {
+    "changeAvatar": "Kliknutím nastavíte fotku",
+    "contactEmail": "info@vysnivaj.si"
+  },
+  "prizes": {
+    "title": "Moje súťaže",
+    "product": "Súťaž",
+    "ticketCount": "Počet ticketov za všetky objednávky",
+    "lastOrder": "Posledná objednávka"
+  },
+  "orders": {
+    "title": "Moje objednávky",
+    "product": "Súťaž",
+    "totalPrice": "Cena spolu",
+    "ticketCount": "Počet ticketov"
+  },
+  "homepage": {
+    "product.button": "Chcem vyhrať",
+    "infobox": {
+      "title": "Každý je víťaž",
+      "text": "Súťažte o fantastické výhry a podporte tým zmysluplné projekty. Bla bla lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer viverra odio sit amet lorem vestibulum, a condimentum eros hendrerit. Sed sed cursus arcu. Quisque tincidunt justo sed sem consectetur consequat. In non lorem nulla."
+    },
+    "carousel": "Pozrite kto vyhral",
+    "partners": "Naši partneri"
+  },
+  "winners": {
+    "title": "Víťazi",
+    "months": {
+      "jan": "január",
+      "feb": "február",
+      "mar": "marec",
+      "apr": "apríl",
+      "may": "máj",
+      "jun": "jún",
+      "jul": "júl",
+      "aug": "august",
+      "sep": "september",
+      "oct": "október",
+      "nov": "november",
+      "dec": "december"
+    }
+  },
+  "cart": {
+    "showProducts": "Pozrieť aktuálne súťaže",
+    "empty": "Košík je prázdny :("
+  },
+  "product": {
+    "closing": "Končí",
+    "winnerAnnounce": "Vyhlásenie víťaza",
+    "joinNow": "ZÚČASTNIŤ SA",
+    "entry": {
+      "join": "Zapojiť sa do súťaže a podporiť",
+      "donate": "Prispieť"
+    },
+    "related": "Súvisiace produkty",
+    "shortDescription": "Krátky popis",
+    "support": "A podporte",
+    "price": "Cena"
+  },
+  "checkout": {
+    "personal": "Osobné informácie",
+    "company": "Objednávam na firmu",
+    "address": "Adresa",
+    "thankYou": "Objednávka úspešne odoslaná! Ďakujeme!",
+    "showOrders": "Zobraziť objednávky"
+  },
+  "contact": {
+    "title": "Kontaktujte nás",
+    "name": "Meno",
+    "surname": "Priezvisko",
+    "subject": "Predmet",
+    "message": "Správa"
+  },
+  "footer": {
+    "newsletter": "Súhlasím s podmienkami spracovania osobných údajov",
+    "copyright": "© 2022 vysnivaj.si. Všetky práva vyhradené.",
+    "socials": "SLEDUJTE NÁS"
+  },
+  "admin": {
+    "addNewProduct": "Nový produkt",
+    "editProduct": "Upraviť produkt",
+    "editProducts": "Upraviť produkty",
+    "addNewCategory": "Nová kategória",
+    "editCategories": "Upraviť kategórie",
+    "addNewMenuItem": "Nová položka menu",
+    "editMenu": "Upraviť menu",
+    "addNewPage": "Nová stránka",
+    "editPages": "Upraviť stránky",
+    "announceWinner": "Vyhlásiť víťaza",
+    "manageTickets": "Tickety",
+    "from": "z",
+    "titles": {
+      "main": "Admin",
+      "products": "Produkty",
+      "categories": "Kategórie",
+      "pages": "Stránky"
+    }
+  },
+  "cms": {
+    "publish": "Zverejniť",
+    "unpublish": "Skryť",
+    "move": "Presunúť",
+    "moveHere": "Presunúť sem",
+    "banner": {
+      "primaryTitle": "Hlavný nadpis",
+      "secondaryTitle": "Hlavný nadpis 2",
+      "subtitle": "Podnadpis",
+      "buttonText": "Text buttonu",
+      "buttonLink": "Smerovanie buttonu"
+    },
+    "labels": {
+      "image": "Obrázok ",
+      "images": "Obrázky ",
+      "gallery": "Galéria ",
+      "banner": "(2560px x 1440px)",
+      "pageBanner": "(2000px x 610px)",
+      "productImage": "(800px x 600px)",
+      "logosSection": "(180px x 60px)",
+      "logoHeader": "(500px x 150px)",
+      "socialIcon": "(64px x 64px)"
+    }
+  }
+}
