@@ -16,6 +16,8 @@ import { LocaleProvider } from '@lib/locale'
 import { useMenu } from '@lib/menu'
 import { MuiThemeProvider } from '@lib/mui-theme'
 import AdminWidget from '../AdminWidget'
+import { useTranslation } from 'react-i18next'
+import Cookies from '../Cookies'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -84,8 +86,6 @@ const SidebarUI = ({ links }) => {
 }
 
 const Layout = ({ children, pageProps: { ...pageProps } }) => {
-  const { acceptedCookies, acceptCookies, rejectCookies } = useAcceptCookies()
-
   const navBarlinks = useMenu().main
 
   return (
@@ -105,28 +105,8 @@ const Layout = ({ children, pageProps: { ...pageProps } }) => {
                 <FlashMessage />
               </Flasher>
               <SidebarUI links={navBarlinks} />
-              <FeatureBar
-                title="This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy."
-                hide={acceptedCookies !== undefined}
-                action={
-                  <>
-                    <Button
-                      variant="light"
-                      className="mx-5"
-                      onClick={rejectCookies}
-                    >
-                      Reject cookies
-                    </Button>
-                    <Button
-                      variant="light"
-                      className="mx-5"
-                      onClick={acceptCookies}
-                    >
-                      Accept cookies
-                    </Button>
-                  </>
-                }
-              />
+              <Cookies />
+
               <AdminWidget />
             </div>
           </MuiThemeProvider>

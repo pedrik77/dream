@@ -29,6 +29,11 @@
       "signOut": "Odhlásiť"
     }
   },
+  "cookies": {
+    "consent": "Táto webstránka používa na zlepšenie vášho prehliadania súbory cookies. Používaním tejto stránky súhlasíte s našou politikou cookies.",
+    "accept": "Povoliť cookies",
+    "reject": "Odmietnuť cookies"
+  },
   "account": {
     "changeAvatar": "Kliknutím nastavíte fotku",
     "contactEmail": "info@vysnivaj.si"
