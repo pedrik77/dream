@@ -261,7 +261,7 @@ function Components({
 }: ComponentsProps) {
   const { t } = useTranslation()
   const loaded = useRef(false)
-  const { adminEditingMode } = useAuthContext()
+  const { adminEditingMode, permissions } = useAuthContext()
   const { locale, defaultLocale } = useRouter()
 
   const [components, setComponents] = useState<StarterCommon[]>([])
@@ -292,12 +292,13 @@ function Components({
 
   const saveComponents = useCallback(
     (components: StarterCommon[]) => {
+      if (!permissions.length) return
       return setCmsBlock({
         id: blockId,
         components,
       })
     },
-    [blockId]
+    [blockId, permissions]
   )
 
   const move = useCallback(
