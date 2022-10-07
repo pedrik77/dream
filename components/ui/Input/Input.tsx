@@ -30,11 +30,7 @@ const Input: React.FC<InputProps> = (props) => {
     className
   )
 
-  const handleOnChange = (e: any) => {
-    if (onChange) onChange(e.target.value, e)
-
-    return null
-  }
+  const handleOnChange = (e: any) => onChange && onChange(e.target.value, e)
 
   return (
     <label className={labelClass}>
