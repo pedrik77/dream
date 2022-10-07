@@ -212,7 +212,7 @@ export function ComponentEditor({
         <div
           className={`flex justify-center pb-4 ${
             !forceEdit
-              ? 'z-40 fixed top-20 left-0 py-12 h-[90%] overflow-y-scroll bg-primary w-full'
+              ? 'z-50 fixed top-20 left-0 py-12 h-[90%] overflow-y-scroll bg-primary w-full'
               : ''
           }`}
         >
