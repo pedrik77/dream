@@ -17,7 +17,7 @@ export default function Emails() {
               {_.startCase(id.replace('email', ''))}
             </Text>
             <Text className="font-bold">Placeholders:</Text>
-            {placeholders.map((p) => `#${p}#`).join()}
+            {placeholders.map((p) => `#${p}#`).join(', ')}
             <CMS blockId={id} single={CMS.Email} />
             <hr className="my-4" />
           </div>

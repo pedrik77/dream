@@ -15,6 +15,7 @@
   "height": "Výška",
   "category": "Kategória",
   "send": "Odoslať",
+  "sending": "Odosielam",
   "signIn": {
     "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
     "signIn": "Registrovať?"
@@ -105,7 +106,8 @@
     "name": "Meno",
     "surname": "Priezvisko",
     "subject": "Predmet",
-    "message": "Správa"
+    "message": "Správa",
+    "success": "Email bol úspešne odoslaný. Ďakujeme za správu!"
   },
   "footer": {
     "newsletter": "Súhlasím s podmienkami spracovania osobných údajov",
