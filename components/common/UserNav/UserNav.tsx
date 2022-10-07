@@ -12,11 +12,13 @@ import {
 } from '@components/ui'
 
 import { useAuthContext } from '@lib/auth'
+import { useRouter } from 'next/router'
 
 const UserNav: React.FC<{
   className?: string
 }> = ({ className }) => {
   const { isLoggedIn } = useAuthContext()
+  const router = useRouter()
   const {
     toggleSidebar,
     openModal,
@@ -35,8 +37,9 @@ const UserNav: React.FC<{
             className={s.item}
             variant="naked"
             onClick={() => {
-              setSidebarView('CART_VIEW')
-              toggleSidebar()
+              // setSidebarView('CART_VIEW')
+              // toggleSidebar()
+              router.push('/cart')
             }}
           >
             <Bag />

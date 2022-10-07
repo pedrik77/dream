@@ -25,6 +25,11 @@
       "signOut": "Odhlásiť"
     }
   },
+  "cookies": {
+    "consent": "This site uses cookies to improve your experience. By clicking, you agree to our Privacy Policy.",
+    "accept": "Accept cookies",
+    "reject": "Reject cookies"
+  },
   "account": {
     "changeAvatar": "Kliknutím nastavíte fotku",
     "contactEmail": "info@vysnivaj.si"
