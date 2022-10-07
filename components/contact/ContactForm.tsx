@@ -52,7 +52,7 @@ export default function ContactForm() {
     sendContactFormEmail(parsed.data)
       .then(() => {
         flash(t('contact.success'), 'success')
-        // reset()
+        reset()
         setSending(false)
       })
       .catch(handleErrorFlash)
