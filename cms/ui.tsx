@@ -160,6 +160,7 @@ export function ComponentEditor({
   const { t } = useTranslation()
   const { locale } = useRouter()
   const editorRef = useRef(null)
+  const { adminEditingMode } = useAuthContext()
   useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
 
   const [data, setData] = useState({})
@@ -429,13 +430,13 @@ function Components({
       .catch(console.error)
   }, [blockId, children])
 
-  useEffect(() => {
-    onData && onData(components)
+  useEffect(() => onData && onData(components), [components, onData])
 
-    if (!loaded.current || !components.length) return
+  useEffect(() => {
+    if (!loaded.current || !components.length || adminEditingMode) return
 
     saveComponents(components)
-  }, [components, saveComponents, onData])
+  }, [components, saveComponents, adminEditingMode])
 
   return (
     <>
