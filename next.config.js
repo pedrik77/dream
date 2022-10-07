@@ -11,7 +11,7 @@ module.exports = {
 var cron = require('node-cron')
 
 cron.schedule('* * * * *', () => {
-  fetch('https://dreamm.vercel.app/api/product-close')
+  fetch('https://dreamm.vercel.app/api/email/product-close')
     .then(console.log)
     .catch(console.error)
 })
