@@ -230,7 +230,7 @@ export function ComponentEditor({
                       onEditing(false)
                     }}
                   >
-                    {t('save')}
+                    {t('finish')}
                   </Button>
                   <Button variant="cms" onClick={() => onEditing(false)}>
                     {t('cancel')}
