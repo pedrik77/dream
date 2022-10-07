@@ -2,6 +2,7 @@ import { api } from './api'
 
 export const ORDER_CREATED_CMS_ID = 'email__order-created'
 export const VERIFICATION_CMS_ID = 'email__verification'
+export const PRODUCT_CLOSE_CMS_ID = 'email__product-close'
 
 export async function sendEmailVerificationEmail(email: string) {
   const { data } = await api.post('email/verification', { email })

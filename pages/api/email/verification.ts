@@ -1,4 +1,3 @@
-import { getOrder, setOrder } from '@lib/orders'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendMail } from '@lib/mailer'
 import { getSingleComponent } from '@lib/cms'
