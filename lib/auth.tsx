@@ -21,9 +21,19 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { app, db } from './firebase'
-import { doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
+import { sendVerificationEmail } from './emails'
 
 const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`
 
@@ -34,6 +44,7 @@ export const NULL_CUSTOMER_DATA = {
   phone: '',
   avatar: placeholder,
   verified: false,
+  verificationToken: '',
   address: {
     street: '',
     city: '',
@@ -216,9 +227,9 @@ export async function signUp(
 ) {
   const result = await createUserWithEmailAndPassword(auth, email, password)
 
-  sendEmailVerification(result.user)
-
   setCustomerProfile({ ...NULL_CUSTOMER_DATA, email })
+
+  sendVerificationEmail(email)
 
   if (newsletter) {
     await subscribe(email, true)
@@ -256,4 +267,24 @@ export async function getCustomerProfile(email: string) {
   const { data, id } = await getDoc(doc(db, 'customers', email))
 
   return { ...data, email: id } as CustomerDataType
+}
+
+export async function verify(token: string) {
+  const snapshot = await getDocs(
+    query(collection(db, 'customers'), where('verificationToken', '==', token))
+  )
+
+  if (snapshot.empty) return false
+
+  const customer = { ...snapshot.docs[0].data(), email: snapshot.docs[0].id }
+
+  if (!customer) return false
+
+  await setCustomerProfile({
+    ...(customer as CustomerDataType),
+    verified: true,
+    verificationToken: '',
+  })
+
+  return true
 }

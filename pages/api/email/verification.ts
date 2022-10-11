@@ -1,8 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendMail } from '@lib/mailer'
 import { getSingleComponent } from '@lib/cms'
-import { processPlaceholders, VERIFICATION_CMS_ID } from '@lib/emails'
-import { getCustomerProfile } from '@lib/auth'
+import {
+  getActionButton,
+  processPlaceholders,
+  VERIFICATION_CMS_ID,
+} from '@lib/emails'
+import { getCustomerProfile, setCustomerProfile } from '@lib/auth'
+import { v4 as uuid4 } from 'uuid'
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,6 +23,10 @@ export default async function handler(
 
   if (customer.verified) return res.status(400).send('User already verifid')
 
+  const verificationToken = uuid4()
+
+  setCustomerProfile({ ...customer, verificationToken })
+
   const template = await getSingleComponent(VERIFICATION_CMS_ID)
 
   await sendMail(
@@ -27,7 +36,12 @@ export default async function handler(
     },
     template.value.subject,
     processPlaceholders(template.value.template, {
-      name: customer.firstname + ' ' + customer.lastname,
+      firstname: customer.firstname,
+      lastname: customer.lastname,
+      action: getActionButton(
+        process.env.NEXT_PUBLIC_API_URL + '/verify/' + verificationToken,
+        template.value.actionButtonText
+      ),
     })
   )
 

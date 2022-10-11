@@ -27,7 +27,7 @@ export const templates = {
   [WINNER_ANNOUNCEMENT_CMS_ID]: ['firstname', 'action'],
 }
 
-export async function sendEmailVerificationEmail(email: string) {
+export async function sendVerificationEmail(email: string) {
   const { data } = await api.post('/email/verification', { email })
   return data === 'ok'
 }
