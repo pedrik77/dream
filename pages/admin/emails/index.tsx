@@ -18,7 +18,7 @@ export default function Emails() {
             </Text>
             <Text className="font-bold">Placeholders:</Text>
             {placeholders.map((p) => `#${p}#`).join(', ')}
-            <CMS blockId={id} single={CMS.Email} />
+            <CMS blockId={id} single={CMS.Email} forceEdit={false} />
             <hr className="my-4" />
           </div>
         ))}
