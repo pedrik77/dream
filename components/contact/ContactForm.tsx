@@ -112,7 +112,7 @@ export default function ContactForm() {
             <br />
             <TextareaAutosize
               minRows={6}
-              className="w-full border-primary border rounded-md bg-transparent"
+              className="w-full border-primary border active:border active:border-secondary active:outline-none focus-visible:outline-none focus-visible:border focus-visible:border-secondary rounded-md bg-transparent px-6 py-4"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
