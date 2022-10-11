@@ -1,5 +1,8 @@
 import nodemailer from 'nodemailer'
+import { Address } from 'nodemailer/lib/mailer'
 import fs from 'fs/promises'
+
+type Recipient = string | Address | Array<string | Address> | undefined
 
 const host = process.env.MAIL_HOST
 const port = +(process.env.MAIL_PORT || 0)
@@ -20,7 +23,7 @@ const transporter = nodemailer.createTransport({
 })
 
 export const sendMail = async (
-  to: string | { name: string; address: string },
+  to: Recipient,
   subject: string,
   body: string
 ) => {

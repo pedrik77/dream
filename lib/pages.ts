@@ -5,8 +5,6 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
-  orderBy,
-  query,
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'

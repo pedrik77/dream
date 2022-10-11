@@ -1,5 +1,4 @@
 import { Button, Container, Input, Text } from '@components/ui'
-import { ContactFormSchema } from '@lib/zod-schemas'
 import { TextareaAutosize } from '@mui/material'
 import { FormEventHandler, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,21 +7,22 @@ import {
   handleErrorFlash,
 } from '@components/ui/FlashMessage/FlashMessage'
 import { sendContactFormEmail } from '@lib/emails'
+import { ContactFormSchema } from '@lib/schemas/contact'
 
 export default function ContactForm() {
   const { t } = useTranslation()
 
   const [sending, setSending] = useState(false)
 
-  const [name, setName] = useState('')
-  const [surname, setSurname] = useState('')
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
   const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
 
   const reset = () => {
-    setName('')
-    setSurname('')
+    setFirstname('')
+    setLastname('')
     setEmail('')
     setSubject('')
     setMessage('')
@@ -32,8 +32,8 @@ export default function ContactForm() {
     e.preventDefault()
 
     const parsed = ContactFormSchema.safeParse({
-      name,
-      surname,
+      firstname,
+      lastname,
       email,
       subject,
       message,
@@ -72,19 +72,19 @@ export default function ContactForm() {
             variant="ghost"
             className="py-3"
             labelClass="flex-grow"
-            value={name}
-            onChange={setName}
+            value={firstname}
+            onChange={setFirstname}
           >
-            {t('contact.name')}
+            {t('contact.firstname')}
           </Input>
           <Input
             variant="ghost"
             className="py-3"
             labelClass="flex-grow"
-            value={surname}
-            onChange={setSurname}
+            value={lastname}
+            onChange={setLastname}
           >
-            {t('contact.surname')}
+            {t('contact.lastname')}
           </Input>
         </fieldset>
         <fieldset className="flex flex-col gap-4">
@@ -112,7 +112,7 @@ export default function ContactForm() {
             <br />
             <TextareaAutosize
               minRows={6}
-              className="w-full border-primary border rounded-md bg-transparent"
+              className="w-full border-primary border active:border active:border-secondary active:outline-none focus-visible:outline-none focus-visible:border focus-visible:border-secondary rounded-md bg-transparent px-6 py-4"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />

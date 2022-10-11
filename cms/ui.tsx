@@ -33,6 +33,7 @@ import { getCmsBlock, setCmsBlock } from '@lib/cms'
 import { getSelect } from './editors/select'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
+import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
@@ -212,7 +213,7 @@ export function ComponentEditor({
         <div
           className={`flex justify-center pb-4 ${
             !forceEdit
-              ? 'z-40 fixed top-20 left-0 py-12 h-[90%] overflow-y-scroll bg-primary w-full'
+              ? 'z-50 fixed top-20 left-0 py-12 h-[90%] overflow-y-scroll bg-primary w-full'
               : ''
           }`}
         >

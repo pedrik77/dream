@@ -6,6 +6,7 @@
   "title": "Nadpis",
   "edit": "Upraviť",
   "save": "Uložiť",
+  "saved": "Uložené",
   "finish": "Dokončiť",
   "cancel": "Zrušiť",
   "sure": "Naozaj?",
@@ -39,6 +40,10 @@
   "account": {
     "changeAvatar": "Kliknutím nastavíte fotku",
     "contactEmail": "info@vysnivaj.si"
+  },
+  "verified": {
+    "success": "Gratulujeme, vaša registrácia je dokončená! Teraz si môžete vysnívať fantastické výhry a podporiť tak dobrú vec",
+    "error": "Bohužiaľ, nastala chyba pri overovaní. Kontaktujte nás prosím na info@vysnivaj.si"
   },
   "prizes": {
     "title": "Moje súťaže",
@@ -104,8 +109,8 @@
   },
   "contact": {
     "title": "Kontaktujte nás",
-    "name": "Meno",
-    "surname": "Priezvisko",
+    "firstname": "Meno",
+    "lastname": "Priezvisko",
     "subject": "Predmet",
     "message": "Správa",
     "success": "Email bol úspešne odoslaný. Ďakujeme za správu!"
@@ -131,6 +136,7 @@
     "titles": {
       "main": "Admin",
       "products": "Produkty",
+      "emails": "Emaily",
       "categories": "Kategórie",
       "pages": "Stránky"
     }

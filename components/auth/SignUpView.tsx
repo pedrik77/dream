@@ -9,7 +9,7 @@ import { StringMap } from '@lib/types'
 import useLoading from '@lib/hooks/useLoading'
 import { useTranslation } from 'react-i18next'
 import { z, ZodError } from 'zod'
-import { LoginSchema } from '@lib/zod-schemas'
+import { LoginSchema } from '@lib/schemas/auth'
 
 const FlashMessages: StringMap = {
   confirm:

@@ -9,7 +9,7 @@ type WidgetLink = [label: string, href?: string, locale?: string]
 const POSITION = 4.5
 
 const className =
-  'fixed cursor-pointer h-16 w-16 rounded-2xl z-50 text-xs hidden md:flex justify-center items-center text-center'
+  'fixed cursor-pointer h-16 w-16 rounded-2xl z-40 text-xs hidden md:flex justify-center items-center text-center'
 
 const activeBg = 'bg-secondary'
 const inactiveBg = 'bg-primary border-2 border-secondary text-white'
@@ -30,6 +30,7 @@ function useMenu() {
   const vertical: WidgetLink[] = [
     [t('admin.addNewProduct'), '/admin/products/add'],
     [t('admin.titles.products'), '/admin/products'],
+    [t('admin.titles.emails'), '/admin/emails'],
     // ['SK', , 'sk'],
     // ['EN', , 'en'],
   ]

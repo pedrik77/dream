@@ -5,6 +5,7 @@ import { ComponentConfig } from '../types'
 interface EmailProps {
   subject: string
   template: string
+  actionButtonText: string
 }
 
 const config: ComponentConfig<EmailProps> = {
@@ -20,7 +21,8 @@ const config: ComponentConfig<EmailProps> = {
   ),
   valuesDefinition: {
     subject: ['Subject', 'Email subject'],
-    template: ['Template', `#name#`, Editor],
+    actionButtonText: ['Action button text (#action#)', 'Action'],
+    template: ['Template', `#firstname# #lastname#`, Editor],
   },
 }
 
