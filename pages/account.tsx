@@ -19,7 +19,8 @@ export default function Account() {
   const { customer } = useAuthContext()
   const { t } = useTranslation()
 
-  const [fullname, setFullname] = useState('')
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
   const [phone, setPhone] = useState('')
 
   const [street, setStreet] = useState('')
@@ -31,7 +32,8 @@ export default function Account() {
   const resetMailSending = useLoading()
 
   useEffect(() => {
-    setFullname(customer.fullname)
+    setFirstname(customer.firstname)
+    setLastname(customer.lastname)
     setPhone(customer.phone)
 
     setStreet(customer.address.street)
@@ -54,7 +56,8 @@ export default function Account() {
     setCustomerProfile({
       ...customer,
       email: customer.email || '@',
-      fullname,
+      firstname,
+      lastname,
       phone,
       address: {
         street,
@@ -130,14 +133,26 @@ export default function Account() {
             </span>
 
             <AccountField>
-              <label htmlFor="fullname" className="cursor-pointer mb-2">
-                Celé meno
+              <label htmlFor="firstname" className="cursor-pointer mb-2">
+                Krstné meno
               </label>
               <Input
-                id="fullname"
+                id="firstname"
                 variant="ghost"
-                value={fullname}
-                onChange={setFullname}
+                value={firstname}
+                onChange={setFirstname}
+              />
+            </AccountField>
+
+            <AccountField>
+              <label htmlFor="lastname" className="cursor-pointer mb-2">
+                Priezvisko
+              </label>
+              <Input
+                id="lastname"
+                variant="ghost"
+                value={lastname}
+                onChange={setLastname}
               />
             </AccountField>
 
