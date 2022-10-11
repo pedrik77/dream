@@ -29,7 +29,8 @@ const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohla
 
 export const NULL_CUSTOMER_DATA = {
   email: '',
-  fullname: '',
+  firstname: '',
+  lastname: '',
   phone: '',
   avatar: placeholder,
   verified: false,

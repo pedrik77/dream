@@ -11,14 +11,20 @@ export const PRODUCT_CLOSE_CMS_ID = 'email__product-close'
 export const WINNER_ANNOUNCEMENT_CMS_ID = 'email__winner-announcement'
 
 export const templates = {
-  [CONTACT_FORM_CMS_ID]: ['name', 'surname', 'email', 'subject', 'message'],
-  [SIGN_UP_CMS_ID]: ['name'],
-  [RESET_PASSWORD_CMS_ID]: ['name'],
-  [VERIFICATION_CMS_ID]: ['name'],
-  [ORDER_CREATED_CMS_ID]: ['name'],
-  [UNPAID_ORDER_CREATED_CMS_ID]: ['name'],
-  [PRODUCT_CLOSE_CMS_ID]: ['name'],
-  [WINNER_ANNOUNCEMENT_CMS_ID]: ['name'],
+  [CONTACT_FORM_CMS_ID]: [
+    'firstname',
+    'lastname',
+    'email',
+    'subject',
+    'message',
+  ],
+  [SIGN_UP_CMS_ID]: ['firstname'],
+  [RESET_PASSWORD_CMS_ID]: ['firstname'],
+  [VERIFICATION_CMS_ID]: ['firstname'],
+  [ORDER_CREATED_CMS_ID]: ['firstname'],
+  [UNPAID_ORDER_CREATED_CMS_ID]: ['firstname'],
+  [PRODUCT_CLOSE_CMS_ID]: ['firstname'],
+  [WINNER_ANNOUNCEMENT_CMS_ID]: ['firstname'],
 }
 
 export async function sendEmailVerificationEmail(email: string) {
