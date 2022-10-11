@@ -14,7 +14,8 @@ export default function Information({ onNext = noop, onPrev = noop }) {
   const { setModalView, openModal } = useUI()
   const { t } = useTranslation()
 
-  const [fullname, setFullname] = useState('')
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
 
@@ -31,7 +32,8 @@ export default function Information({ onNext = noop, onPrev = noop }) {
   const [asCompany, setAsCompany] = useState(false)
 
   useEffect(() => {
-    setFullname(customer.fullname)
+    setFirstname(customer.firstname)
+    setLastname(customer.lastname)
     setEmail(customer.email)
     setPhone(customer.phone)
 
@@ -57,7 +59,16 @@ export default function Information({ onNext = noop, onPrev = noop }) {
   }
 
   const handleNext = async () => {
-    if (!fullname || !email || !phone || !street || !city || !zip || !country) {
+    if (
+      !firstname ||
+      !lastname ||
+      !email ||
+      !phone ||
+      !street ||
+      !city ||
+      !zip ||
+      !country
+    ) {
       return flash('Vyplňte všetky polia', 'danger')
     }
 
@@ -70,7 +81,8 @@ export default function Information({ onNext = noop, onPrev = noop }) {
 
     setCustomerProfile({
       ...customer,
-      fullname,
+      firstname,
+      lastname,
       email,
       phone,
       address: {
@@ -119,18 +131,36 @@ export default function Information({ onNext = noop, onPrev = noop }) {
         <AccountFieldWrapper>
           <div className="flex flex-col col-span-3 sm:divider sm:divide-y">
             <AccountField>
-              <label htmlFor="fullname" className="cursor-pointer pb-4 sm:pb-0">
-                Celé meno *
+              <label
+                htmlFor="firstname"
+                className="cursor-pointer pb-4 sm:pb-0"
+              >
+                Krstné meno *
               </label>
               <Input
                 required
-                id="fullname"
+                id="firstname"
                 variant="ghost"
-                value={fullname}
-                placeholder="Celé meno"
-                onChange={setFullname}
+                value={firstname}
+                placeholder="Krstné meno"
+                onChange={setFirstname}
               />
             </AccountField>
+
+            <AccountField>
+              <label htmlFor="lastname" className="cursor-pointer pb-4 sm:pb-0">
+                Priezvisko *
+              </label>
+              <Input
+                required
+                id="lastname"
+                variant="ghost"
+                value={lastname}
+                placeholder="Priezvisko"
+                onChange={setLastname}
+              />
+            </AccountField>
+
             <AccountField>
               <label htmlFor="email" className="cursor-pointer pb-4 sm:pb-0">
                 Email *
@@ -183,7 +213,7 @@ export default function Information({ onNext = noop, onPrev = noop }) {
               <div className="flex flex-col col-span-3">
                 <AccountField>
                   <label
-                    htmlFor="fullname"
+                    htmlFor="companyName"
                     className="cursor-pointer pb-4 sm:pb-0"
                   >
                     Názov spoločnosti *
@@ -199,7 +229,7 @@ export default function Information({ onNext = noop, onPrev = noop }) {
                 </AccountField>
                 <AccountField>
                   <label
-                    htmlFor="fullname"
+                    htmlFor="businessId"
                     className="cursor-pointer pb-4 sm:pb-0"
                   >
                     IČO *
@@ -215,7 +245,7 @@ export default function Information({ onNext = noop, onPrev = noop }) {
                 </AccountField>
                 <AccountField>
                   <label
-                    htmlFor="fullname"
+                    htmlFor="taxId"
                     className="cursor-pointer pb-4 sm:pb-0"
                   >
                     DIČ *
@@ -231,7 +261,7 @@ export default function Information({ onNext = noop, onPrev = noop }) {
                 </AccountField>
                 <AccountField>
                   <label
-                    htmlFor="fullname"
+                    htmlFor="vatId"
                     className="cursor-pointer pb-4 sm:pb-0"
                   >
                     IČ DPH *

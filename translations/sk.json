@@ -104,8 +104,8 @@
   },
   "contact": {
     "title": "Kontaktujte nás",
-    "name": "Meno",
-    "surname": "Priezvisko",
+    "firstname": "Meno",
+    "lastname": "Priezvisko",
     "subject": "Predmet",
     "message": "Správa",
     "success": "Email bol úspešne odoslaný. Ďakujeme za správu!"

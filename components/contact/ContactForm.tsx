@@ -14,15 +14,15 @@ export default function ContactForm() {
 
   const [sending, setSending] = useState(false)
 
-  const [name, setName] = useState('')
-  const [surname, setSurname] = useState('')
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
   const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
 
   const reset = () => {
-    setName('')
-    setSurname('')
+    setFirstname('')
+    setLastname('')
     setEmail('')
     setSubject('')
     setMessage('')
@@ -32,8 +32,8 @@ export default function ContactForm() {
     e.preventDefault()
 
     const parsed = ContactFormSchema.safeParse({
-      name,
-      surname,
+      firstname,
+      lastname,
       email,
       subject,
       message,
@@ -72,19 +72,19 @@ export default function ContactForm() {
             variant="ghost"
             className="py-3"
             labelClass="flex-grow"
-            value={name}
-            onChange={setName}
+            value={firstname}
+            onChange={setFirstname}
           >
-            {t('contact.name')}
+            {t('contact.firstname')}
           </Input>
           <Input
             variant="ghost"
             className="py-3"
             labelClass="flex-grow"
-            value={surname}
-            onChange={setSurname}
+            value={lastname}
+            onChange={setLastname}
           >
-            {t('contact.surname')}
+            {t('contact.lastname')}
           </Input>
         </fieldset>
         <fieldset className="flex flex-col gap-4">

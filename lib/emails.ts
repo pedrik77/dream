@@ -11,14 +11,20 @@ export const PRODUCT_CLOSE_CMS_ID = 'email__product-close'
 export const WINNER_ANNOUNCEMENT_CMS_ID = 'email__winner-announcement'
 
 export const templates = {
-  [CONTACT_FORM_CMS_ID]: ['name', 'surname', 'email', 'subject', 'message'],
-  [SIGN_UP_CMS_ID]: ['name'],
-  [RESET_PASSWORD_CMS_ID]: ['name'],
-  [VERIFICATION_CMS_ID]: ['name'],
-  [ORDER_CREATED_CMS_ID]: ['name'],
-  [UNPAID_ORDER_CREATED_CMS_ID]: ['name'],
-  [PRODUCT_CLOSE_CMS_ID]: ['name'],
-  [WINNER_ANNOUNCEMENT_CMS_ID]: ['name'],
+  [CONTACT_FORM_CMS_ID]: [
+    'firstname',
+    'lastname',
+    'email',
+    'subject',
+    'message',
+  ],
+  [SIGN_UP_CMS_ID]: ['firstname', 'action'],
+  [RESET_PASSWORD_CMS_ID]: ['firstname', 'action'],
+  [VERIFICATION_CMS_ID]: ['firstname', 'action'],
+  [ORDER_CREATED_CMS_ID]: ['firstname', 'action'],
+  [UNPAID_ORDER_CREATED_CMS_ID]: ['firstname', 'action'],
+  [PRODUCT_CLOSE_CMS_ID]: ['firstname', 'action'],
+  [WINNER_ANNOUNCEMENT_CMS_ID]: ['firstname', 'action'],
 }
 
 export async function sendEmailVerificationEmail(email: string) {
@@ -44,4 +50,8 @@ export function processPlaceholders(
     (acc, [key, value]) => acc.replace(new RegExp(`#${key}#`, 'g'), value),
     template
   )
+}
+
+export function getActionButton(action: string, buttonText: string) {
+  return `<a href="${action}" style="background-color: #ff0000; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 20px;">${buttonText}</a>`
 }

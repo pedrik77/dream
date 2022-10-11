@@ -84,7 +84,9 @@ const AccountLayout: React.FC<{
               <Avatar />
             </div>
             <span className="text-sm">({t('account.changeAvatar')})</span>
-            <Text variant="pageHeading">{customer.fullname}</Text>
+            <Text variant="pageHeading">
+              {customer.firstname} {customer.lastname}
+            </Text>
             <div className="flex flex-row lg:flex-col gap-4 justify-center items-center text-[1rem] sm:text-lg md:text-xl">
               {tuples.map(([href, label]) => (
                 <Link key={href} href={'/' + href}>

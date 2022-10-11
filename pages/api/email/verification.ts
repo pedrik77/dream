@@ -22,12 +22,12 @@ export default async function handler(
 
   await sendMail(
     {
-      name: customer.fullname,
+      name: customer.firstname + ' ' + customer.lastname,
       address: customer.email,
     },
     template.value.subject,
     processPlaceholders(template.value.template, {
-      name: customer.fullname,
+      name: customer.firstname + ' ' + customer.lastname,
     })
   )
 

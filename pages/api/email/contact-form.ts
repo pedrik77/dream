@@ -16,8 +16,8 @@ export default async function handler(
     // 'contact@vysnivaj.si',
     template.value.subject,
     processPlaceholders(template.value.template, {
-      name: req.body.name,
-      surname: req.body.surname,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
       email: req.body.email,
       subject: req.body.subject,
       message: req.body.message,
