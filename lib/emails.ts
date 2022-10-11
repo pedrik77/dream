@@ -42,11 +42,6 @@ export async function sendContactFormEmail(contactData: ContactFormData) {
   return data === 'ok'
 }
 
-export async function sendContactFormEmail(contactData: ContactFormData) {
-  const { data } = await api.post('/email/contact-form', contactData)
-  return data === 'ok'
-}
-
 export function processPlaceholders(
   template: string,
   data: Record<string, any>
