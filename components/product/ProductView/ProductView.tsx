@@ -204,7 +204,8 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                         confirmButtonText: 'Prispieť',
                       })
 
-                      handleAddToCart(variableTicketCount, Number(result))
+                      result &&
+                        handleAddToCart(variableTicketCount, Number(result))
                     }}
                   >
                     {t('product.entry.donate')}
