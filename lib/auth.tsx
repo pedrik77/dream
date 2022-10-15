@@ -22,19 +22,23 @@ import {
 import { app, db } from './firebase'
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
   onSnapshot,
   query,
   setDoc,
+  Timestamp,
   where,
 } from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
-import { sendVerificationEmail } from './emails'
+import { sendResetPasswordEmail, sendVerificationEmail } from './emails'
 import { WidgetProvider } from './adminWidget'
 import { noop } from './common'
+import { v4 as uuid4 } from 'uuid'
+import { api } from './api'
 
 const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`
 
@@ -45,7 +49,6 @@ export const NULL_CUSTOMER_DATA = {
   phone: '',
   avatar: placeholder,
   verified: false,
-  verificationToken: '',
   address: {
     street: '',
     city: '',
@@ -58,6 +61,11 @@ export const NULL_CUSTOMER_DATA = {
     tax_id: '',
     vat_id: '',
   },
+}
+
+export type TokenData = {
+  email: string
+  created: Timestamp
 }
 
 export type ProviderType = 'fb' | 'google'
@@ -239,7 +247,7 @@ export function signInVia(provider: ProviderType) {
 }
 
 export function resetPassword(email: string) {
-  return sendPasswordResetEmail(auth, email)
+  return sendResetPasswordEmail(email)
 }
 
 export function signOut() {
@@ -257,22 +265,50 @@ export async function getCustomerProfile(email: string) {
   return { ...data, email: id } as CustomerDataType
 }
 
-export async function verify(token: string) {
-  const snapshot = await getDocs(
-    query(collection(db, 'customers'), where('verificationToken', '==', token))
-  )
+export async function createToken(email: string) {
+  const token = uuid4()
 
-  if (snapshot.empty) return false
+  const docRef = doc(db, 'tokens', token)
 
-  const customer = { ...snapshot.docs[0].data(), email: snapshot.docs[0].id }
+  await setDoc(docRef, { email, created: Timestamp.now() })
+
+  return token
+}
+
+export async function verifyToken(token: string) {
+  const docRef = doc(db, 'tokens', token)
+
+  const snapshot = await getDoc(docRef)
+
+  const data = { ...snapshot.data } as TokenData
+
+  if (!data) throw new Error('Invalid token')
+
+  const { email, created } = data
+
+  if (created.toMillis() >= Date.now() - 1000 * 60 * 60 * 24)
+    throw new Error('Expired token')
+
+  await deleteDoc(docRef)
+
+  return email
+}
+
+export async function verifyUser(token: string) {
+  const email = await verifyToken(token)
+
+  const customer = await getCustomerProfile(email)
 
   if (!customer) return false
 
   await setCustomerProfile({
-    ...(customer as CustomerDataType),
+    ...customer,
     verified: true,
-    verificationToken: '',
   })
 
   return true
+}
+
+export async function verifyAndResetPassword(token: string, password: string) {
+  const email = await verifyToken(token)
 }

@@ -18,16 +18,20 @@ export default async function handler(
 
   if (order.mail_sent) return res.status(400).send('Mail already sent')
 
+  const { customer } = order
+
   const template = await getSingleComponent(ORDER_CREATED_CMS_ID)
 
   await sendMail(
     {
-      name: order.customer.firstname + ' ' + order.customer.lastname,
-      address: order.customer.email,
+      name: customer.firstname + ' ' + customer.lastname,
+      address: customer.email,
     },
     template.value.subject,
     processPlaceholders(template.value.template, {
-      name: order.customer.firstname + ' ' + order.customer.lastname,
+      firstname: customer.firstname,
+      lastname: customer.lastname,
+      email: customer.email,
     })
   )
 

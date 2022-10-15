@@ -48,6 +48,9 @@
       "title": "Gratulujeme!",
       "text": "Gratulujeme, vaša registrácia je dokončená! Teraz si môžete vysnívať fantastické výhry a podporiť tak dobrú vec"
     },
+    "expired": {
+      "text": "Link už vypršal."
+    },
     "error": {
       "title": "Ľutujeme...",
       "text": "Bohužiaľ, nastala chyba pri overovaní. Kontaktujte nás prosím na info@vysnivaj.si"

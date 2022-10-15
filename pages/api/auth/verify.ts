@@ -1,4 +1,4 @@
-import { verify } from '@lib/auth'
+import { verifyUser } from '@lib/auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(
@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   const { token = '' } = req.query
 
-  const result = await verify(token as string)
+  const result = await verifyUser(token as string)
 
-  res.redirect('/verified?error=' + +!result)
+  res.redirect('/verified')
 }

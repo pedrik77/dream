@@ -36,6 +36,8 @@ export default function Account() {
     setLastname(customer.lastname)
     setPhone(customer.phone)
 
+    if (!customer.address) return
+
     setStreet(customer.address.street)
     setCity(customer.address.city)
     setCountry(customer.address.country)

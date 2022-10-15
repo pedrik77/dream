@@ -28,6 +28,11 @@ export async function sendVerificationEmail(email: string) {
   return data === 'ok'
 }
 
+export async function sendResetPasswordEmail(email: string) {
+  const { data } = await api.post('/email/reset-password', { email })
+  return data === 'ok'
+}
+
 export async function sendOrderCreatedEmail(orderUuid: string) {
   const { data } = await api.post('/email/order-created', { orderUuid })
   return data === 'ok'
