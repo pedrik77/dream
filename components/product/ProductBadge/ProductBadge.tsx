@@ -37,7 +37,7 @@ export const ProductBadge: React.FC<ProductBadgeProps> = ({ product }) => {
 
 const useBadge = (product: Product): [BadgeType, number?] =>
   useMemo(() => {
-    if (!!product.winner) return ['closed']
+    if (!!product.winnerOrder) return ['closed']
 
     const now = new Date()
     const closingDate = new Date(product.closing_date * 1000)

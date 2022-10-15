@@ -27,11 +27,6 @@ export interface ProductImage {
   filename: string
 }
 
-export interface Winner {
-  customer: CustomerDataType
-  order: Order
-}
-
 export interface Product {
   slug: string
   title_1: string
@@ -48,7 +43,8 @@ export interface Product {
   cmsBlock?: CmsBlockData | null
   donation_entries: string
   category: string
-  winner?: Winner
+  winnerOrder?: string
+  winnerPage?: CmsBlockData | null
 }
 
 interface UseProductsOptions extends QueryBase<Product> {
@@ -141,6 +137,8 @@ export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
   return uploaded
 }
 
+export const isClosed = (product: Product) => product.closing_date <= Date.now()
+
 export async function getDonorsCount(slug: string) {
   const snapshot = await getDocs(
     query(collection(db, 'orders'), where('products', 'array-contains', slug))
@@ -153,6 +151,10 @@ export async function getDonorsCount(slug: string) {
 
 export function getProductCmsId(slug: string) {
   return `product__${slug}`
+}
+
+export function getWinnerCmsId(slug: string) {
+  return `product__${slug}_winner`
 }
 
 const getTransform =

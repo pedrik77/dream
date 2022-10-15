@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react'
 import { Button, Text } from '@components/ui'
 import ProductTag from '../ProductTag'
 import Link from 'next/link'
-import { getDonorsCount, Product } from '@lib/products'
+import { getDonorsCount, isClosed, Product } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
 import { Category, categoryHref, getCategory } from '@lib/categories'
 import CountUp from 'react-countup'
@@ -24,6 +24,8 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
 
   const [category, setCategory] = useState<Category | null>(null)
   const [countUpValue, setCountUpValue] = useState(0)
+
+  const productClosed = isClosed(product)
 
   useEffect(() => {
     if (product.category) {
@@ -75,8 +77,9 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
           onClick={onJoinNow}
           type="button"
           className={(s.button, 'my-5')}
+          disabled={productClosed}
         >
-          {t('product.joinNow')}
+          {t(productClosed ? 'product.joinDisabled' : 'product.joinNow')}
         </Button>
       </div>
     </div>
