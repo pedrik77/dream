@@ -282,12 +282,12 @@ export async function verifyToken(token: string) {
 
   const data = { ...snapshot.data } as TokenData
 
-  if (!data) throw new Error('Invalid token')
+  if (!data) throw new Error('invalid')
 
   const { email, created } = data
 
   if (created.toMillis() >= Date.now() - 1000 * 60 * 60 * 24)
-    throw new Error('Expired token')
+    throw new Error('expired')
 
   await deleteDoc(docRef)
 
@@ -299,7 +299,7 @@ export async function verifyUser(token: string) {
 
   const customer = await getCustomerProfile(email)
 
-  if (!customer) return false
+  if (!customer) throw new Error('invalid')
 
   await setCustomerProfile({
     ...customer,

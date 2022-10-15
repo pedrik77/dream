@@ -25,6 +25,36 @@
     "signIn": "Registrovať?"
   },
   "signUp.newsletter": "Chcem dostávať novinky e-mailom.",
+  "messages": {
+    "reset-password": {
+      "success": {
+        "title": "",
+        "text": "Heslo resetovane"
+      },
+      "expired": {
+        "title": "Ľutujeme...",
+        "text": "Link už vypršal."
+      },
+      "error": {
+        "title": "Ľutujeme...",
+        "text": "Bohužiaľ, nastala chyba pri overovaní. Kontaktujte nás prosím na info@vysnivaj.si"
+      }
+    },
+    "verify": {
+      "success": {
+        "title": "Gratulujeme!",
+        "text": "Gratulujeme, vaša registrácia je dokončená! Teraz si môžete vysnívať fantastické výhry a podporiť tak dobrú vec"
+      },
+      "expired": {
+        "title": "Ľutujeme...",
+        "text": "Link už vypršal."
+      },
+      "error": {
+        "title": "Ľutujeme...",
+        "text": "Bohužiaľ, nastala chyba pri overovaní. Kontaktujte nás prosím na info@vysnivaj.si"
+      }
+    }
+  },
   "navbar": {
     "user": {
       "prizes": "Moje súťaže",
@@ -42,19 +72,6 @@
   "account": {
     "changeAvatar": "Kliknutím nastavíte fotku",
     "contactEmail": "info@vysnivaj.si"
-  },
-  "verified": {
-    "success": {
-      "title": "Gratulujeme!",
-      "text": "Gratulujeme, vaša registrácia je dokončená! Teraz si môžete vysnívať fantastické výhry a podporiť tak dobrú vec"
-    },
-    "expired": {
-      "text": "Link už vypršal."
-    },
-    "error": {
-      "title": "Ľutujeme...",
-      "text": "Bohužiaľ, nastala chyba pri overovaní. Kontaktujte nás prosím na info@vysnivaj.si"
-    }
   },
   "prizes": {
     "title": "Moje súťaže",

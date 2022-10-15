@@ -7,7 +7,12 @@ export default async function handler(
 ) {
   const { token = '' } = req.query
 
-  const result = await verifyUser(token as string)
+  try {
+    await verifyUser(token as string)
+  } catch (e: any) {
+    res.redirect('/message?type=verify&error=' + e.message)
+    return
+  }
 
-  res.redirect('/verified')
+  res.redirect('/message?type=verify')
 }
