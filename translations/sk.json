@@ -93,7 +93,8 @@
     "joinNow": "ZÚČASTNIŤ SA",
     "entry": {
       "join": "Zapojiť sa do súťaže a podporiť",
-      "donate": "Prispieť"
+      "donate": "Prispieť",
+      "variable": "Zadajte sumu, koľko si želáte prispieť"
     },
     "related": "Súvisiace produkty",
     "shortDescription": "Krátky popis",
@@ -137,6 +138,7 @@
       "main": "Admin",
       "products": "Produkty",
       "emails": "Emaily",
+      "shop": "Obchod",
       "categories": "Kategórie",
       "pages": "Stránky"
     }

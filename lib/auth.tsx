@@ -97,6 +97,8 @@ export const PERMISSIONS = {
   CMS: 'cms',
 
   EMAILS: 'emails',
+
+  SHOP: 'shop',
 } as const
 
 type ContextType = {

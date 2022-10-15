@@ -9,6 +9,7 @@ import ContaineredWysiwyg from './components/containered_wysiwyg'
 import Carousel from './components/carousel'
 import Spacer from './components/spacer'
 import Email from './components/email'
+import Tickets from './components/tickets'
 import LogosSection from './components/logos_section'
 import Socials from './components/socials_section'
 import ContactForm from './components/contact_form'
@@ -20,6 +21,7 @@ const COMPONENTS = {
   Text,
   Image,
   Email,
+  Tickets,
   Hero,
   PageBanner,
   Banner,

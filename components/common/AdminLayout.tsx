@@ -36,6 +36,9 @@ export default function AdminLayout({ children }: { children?: any }) {
           <Permit permission={PERMISSIONS.EMAILS}>
             <Link href="/admin/emails">{t('admin.titles.emails')}</Link>
           </Permit>
+          <Permit permission={PERMISSIONS.SHOP}>
+            <Link href="/admin/shop">{t('admin.titles.shop')}</Link>
+          </Permit>
         </div>
 
         <div className="w-full">{children}</div>
