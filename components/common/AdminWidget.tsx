@@ -41,8 +41,13 @@ function useMenu() {
 
 export default function AdminWidget() {
   const { t } = useTranslation()
-  const { canShowWidget, isEditingMode, startEditing, stopEditing } =
-    useAdminWidget()
+  const {
+    canShowWidget,
+    isEditingMode,
+    startEditing,
+    stopEditing,
+    isSavingNeeded,
+  } = useAdminWidget()
 
   const [showMenu, setShowMenu] = useState(false)
   const timeoutRef = useRef<any>()
@@ -72,7 +77,7 @@ export default function AdminWidget() {
       }}
     >
       <Menu visible={showMenu} />
-      {isEditingMode && t('save')}
+      {isEditingMode && isSavingNeeded && t('save')}
     </div>
   )
 }

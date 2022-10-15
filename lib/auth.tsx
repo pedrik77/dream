@@ -35,6 +35,7 @@ import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
 import { sendVerificationEmail } from './emails'
 import { WidgetProvider } from './adminWidget'
+import { noop } from './common'
 
 const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`
 
@@ -113,7 +114,7 @@ const Context = createContext<ContextType>({
   isLoggedIn: false,
   permissions: [],
   permissionsLoaded: false,
-  setCustomer: () => {},
+  setCustomer: noop,
 })
 
 export const AuthProvider: React.FC = ({ children }) => {
