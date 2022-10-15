@@ -10,21 +10,17 @@ export const UNPAID_ORDER_CREATED_CMS_ID = 'email__unpaid-order-created'
 export const PRODUCT_CLOSE_CMS_ID = 'email__product-close'
 export const WINNER_ANNOUNCEMENT_CMS_ID = 'email__winner-announcement'
 
+const common = ['firstname', 'lastname', 'email']
+
 export const templates = {
-  [CONTACT_FORM_CMS_ID]: [
-    'firstname',
-    'lastname',
-    'email',
-    'subject',
-    'message',
-  ],
-  [SIGN_UP_CMS_ID]: ['firstname', 'action'],
-  [RESET_PASSWORD_CMS_ID]: ['firstname', 'action'],
-  [VERIFICATION_CMS_ID]: ['firstname', 'action'],
-  [ORDER_CREATED_CMS_ID]: ['firstname', 'action'],
-  [UNPAID_ORDER_CREATED_CMS_ID]: ['firstname', 'action'],
-  [PRODUCT_CLOSE_CMS_ID]: ['firstname', 'action'],
-  [WINNER_ANNOUNCEMENT_CMS_ID]: ['firstname', 'action'],
+  [CONTACT_FORM_CMS_ID]: [...common, 'subject', 'message'],
+  [SIGN_UP_CMS_ID]: [...common, 'action'],
+  [RESET_PASSWORD_CMS_ID]: [...common, 'action'],
+  [VERIFICATION_CMS_ID]: [...common, 'action'],
+  [ORDER_CREATED_CMS_ID]: [...common, 'action'],
+  [UNPAID_ORDER_CREATED_CMS_ID]: [...common, 'action'],
+  [PRODUCT_CLOSE_CMS_ID]: [...common, 'action'],
+  [WINNER_ANNOUNCEMENT_CMS_ID]: [...common, 'action'],
 }
 
 export async function sendVerificationEmail(email: string) {
@@ -53,5 +49,5 @@ export function processPlaceholders(
 }
 
 export function getActionButton(action: string, buttonText: string) {
-  return `<a href="${action}" style="background-color: #ff0000; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 20px;">${buttonText}</a>`
+  return `<a href="${action}" style="margin: 0 auto; background-color: #f5b612; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 20px;">${buttonText}</a>`
 }

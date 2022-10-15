@@ -14,7 +14,6 @@ import {
   createUserWithEmailAndPassword,
   signOut as authSignOut,
   sendPasswordResetEmail,
-  sendEmailVerification,
   User,
   FacebookAuthProvider,
   GoogleAuthProvider,
