@@ -1,6 +1,6 @@
 import { flash } from '@components/ui/FlashMessage'
 import { useAuthContext } from '@lib/auth'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { noop } from './common'
 
@@ -29,7 +29,7 @@ export const WidgetProvider: React.FC = ({ children }) => {
   const [isEditingMode, setEditingMode] = useState(false)
   const [isSavingNeeded, setSavingNeeded] = useState(false)
 
-  const needSaving = () => setSavingNeeded(true)
+  const needSaving = useCallback(() => setSavingNeeded(true), [])
 
   const saved = () => {
     if (isSavingNeeded) flash(t('saved'), 'success')
