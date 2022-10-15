@@ -67,7 +67,7 @@ export default function Account() {
       },
     })
       .then(() => {
-        flash('Údaje uložené')
+        flash('Údaje uložené', 'success')
         saving.stop()
       })
       .catch(handleErrorFlash)

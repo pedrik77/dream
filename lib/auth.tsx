@@ -219,6 +219,7 @@ export async function signUp(
 
   sendVerificationEmail(email)
 
+  signOut()
   if (newsletter) {
     await subscribe(email, true)
       .then(() => console.log('subscribed'))

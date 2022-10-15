@@ -3,7 +3,7 @@
 }
 
 .flashTypeInfo {
-  @apply bg-secondary-2 text-primary;
+  @apply bg-sky-400 text-primary;
 }
 
 .flashTypeSuccess {
