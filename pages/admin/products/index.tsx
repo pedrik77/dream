@@ -23,6 +23,7 @@ export default function Dashboard() {
   const { products: missingWinnerProducts } = useProducts({
     showClosed: true,
     winnerAnnounced: false,
+    orderDirection: 'asc',
     onError: handleErrorFlash,
   })
 
