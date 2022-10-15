@@ -103,7 +103,7 @@ export default function Account() {
             </span>
           ),
           'info',
-          7
+          60
         )
       })
       .catch(handleErrorFlash)

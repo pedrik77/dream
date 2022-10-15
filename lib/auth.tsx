@@ -242,7 +242,8 @@ export function signInVia(provider: ProviderType) {
 }
 
 export function resetPassword(email: string) {
-  return sendResetPasswordEmail(email)
+  return sendPasswordResetEmail(auth, email)
+  // return sendResetPasswordEmail(email)
 }
 
 export function signOut() {
@@ -255,9 +256,9 @@ export function setCustomerProfile({ email, ...customer }: CustomerDataType) {
 }
 
 export async function getCustomerProfile(email: string) {
-  const { data, id } = await getDoc(doc(db, 'customers', email))
+  const snapshot = await getDoc(doc(db, 'customers', email))
 
-  return { ...data(), email: id } as CustomerDataType
+  return { ...snapshot.data(), email: snapshot.id } as CustomerDataType
 }
 
 export async function createToken(email: string) {
