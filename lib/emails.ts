@@ -49,5 +49,5 @@ export function processPlaceholders(
 }
 
 export function getActionButton(action: string, buttonText: string) {
-  return `<a href="${action}" style="margin: 0 auto; background-color: #f5b612; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 20px;">${buttonText}</a>`
+  return `<a href="${action}" style="min-width: 5rem; text-align: center; margin: 20px auto 0; background-color: #f5b612; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">${buttonText}</a>`
 }
