@@ -148,7 +148,8 @@ export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
   return uploaded
 }
 
-export const isClosed = (product: Product) => product.closing_date <= Date.now()
+export const isClosed = (product: Product) =>
+  product.closing_date <= Date.now() / 1000
 
 export async function getDonorsCount(slug: string) {
   const snapshot = await getDocs(
