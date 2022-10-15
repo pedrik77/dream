@@ -67,8 +67,8 @@ export const getComponentStarter = async (componentType: ComponentType) => {
               // @ts-ignore
               prompt.includes(name) &&
               (await promptValue(name, {
-                cancelButton: 'Použiť predvolené',
-                confirmButton: 'Pokračovať',
+                cancelButtonText: 'Použiť predvolené',
+                confirmButtonText: 'Pokračovať',
               }))) ||
               value,
           ]

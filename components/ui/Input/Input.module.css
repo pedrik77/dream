@@ -19,7 +19,7 @@
 }
 
 .cms {
-  @apply bg-transparent text-white border-white my-4 mr-4 w-[50rem];
+  @apply bg-transparent text-white border-white my-4 mr-4;
 }
 
 .cms:focus {

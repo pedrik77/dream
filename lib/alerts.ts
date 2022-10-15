@@ -1,22 +1,22 @@
-import Swal from 'sweetalert2'
+import Swal, { SweetAlertInput, SweetAlertOptions } from 'sweetalert2'
 
 const DEFAULT_CANCEL = 'Zrušiť'
-const DEFAULT_CONFIRM = 'Áno'
-
-const defaultOptions = {
-  cancelButton: DEFAULT_CANCEL,
-  confirmButton: DEFAULT_CONFIRM,
-}
+const DEFAULT_CONFIRM = 'Potvrdiť'
 
 export const confirm = async (
   title: string,
-  { cancelButton, confirmButton } = defaultOptions
+  {
+    confirmButtonText = DEFAULT_CONFIRM,
+    cancelButtonText = DEFAULT_CANCEL,
+    ...options
+  }: SweetAlertOptions = {}
 ) => {
   const { isConfirmed } = await Swal.fire({
+    ...options,
     title,
-    confirmButtonText: confirmButton,
-    showCancelButton: !!cancelButton,
-    cancelButtonText: cancelButton,
+    confirmButtonText,
+    cancelButtonText,
+    showCancelButton: !!cancelButtonText,
     color: 'var(--text-primary)',
     confirmButtonColor: 'var(--text-primary)',
   })
@@ -25,14 +25,20 @@ export const confirm = async (
 
 export const prompt = async (
   title: string,
-  { cancelButton, confirmButton } = defaultOptions
+  {
+    confirmButtonText = DEFAULT_CONFIRM,
+    cancelButtonText = DEFAULT_CANCEL,
+    input = 'text',
+    ...options
+  }: SweetAlertOptions = {}
 ) => {
   const { value } = await Swal.fire({
+    ...options,
     title,
-    input: 'text',
-    showCancelButton: !!cancelButton,
-    cancelButtonText: cancelButton,
-    confirmButtonText: confirmButton,
+    input,
+    confirmButtonText,
+    cancelButtonText,
+    showCancelButton: !!cancelButtonText,
     color: 'var(--text-primary)',
     confirmButtonColor: 'var(--text-primary)',
   })

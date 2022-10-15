@@ -16,6 +16,8 @@ import { db } from './firebase'
 const CART_STORAGE_KEY = 'cart'
 const CUSTOMER_STORAGE_KEY = 'customer'
 
+export const TICKETS_CMS_ID = 'static__tickets'
+
 export interface CartItem {
   product: {
     slug: string

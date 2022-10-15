@@ -1,7 +1,7 @@
 import cn from 'clsx'
 import Image from 'next/image'
 import s from './ProductView.module.css'
-import { FC, useRef } from 'react'
+import { FC, useRef, useState } from 'react'
 import { ProductSlider, ProductCard } from '@components/product'
 import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
@@ -9,21 +9,22 @@ import ProductSidebar from '../ProductSidebar'
 import { getProductCmsId, Product, useProducts } from '@lib/products'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
-import { useShopContext } from '@lib/shop'
-import { confirm } from '@lib/alerts'
+import { TICKETS_CMS_ID, useShopContext } from '@lib/shop'
+import { confirm, prompt } from '@lib/alerts'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
+import { VariableTicket } from 'cms/components/tickets'
 
 interface ProductViewProps {
   product: Product
 }
 
-const GLOBAL_ENTRIES = Object.entries({
-  1: 1,
-  4: 2,
-  15: 5,
-  50: 10,
-})
+const GLOBAL_ENTRIES = [
+  { count: 1, price: 1 },
+  { count: 4, price: 2 },
+  { count: 15, price: 5 },
+  { count: 50, price: 10 },
+]
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
   const scrollToRef = useRef<HTMLElement>(null)
@@ -35,6 +36,10 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const { products } = useProducts({
     categorySlug: product.category,
   })
+
+  const [tickets, setTickets] = useState(GLOBAL_ENTRIES)
+  const [variableTicketCount, setVariableTicketCount] = useState(0)
+  const [variableMin, setVariableMin] = useState(1)
 
   const relatedProducts = products
     .filter(({ slug }) => slug !== product.slug)
@@ -77,6 +82,25 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   return (
     <>
       <Container className="max-w-none w-full" clean>
+        <CMS
+          blockId={TICKETS_CMS_ID}
+          single={CMS.Tickets}
+          onData={([ticketComponent]) => {
+            if (!ticketComponent) return
+
+            const {
+              tickets,
+              variableTicketCount = 0,
+              variableMin = 1,
+            } = ticketComponent.value
+
+            setTickets(tickets)
+
+            setVariableMin(variableMin || 1)
+            setVariableTicketCount(variableTicketCount || 0)
+          }}
+          preventRender
+        />
         <div className={cn(s.root, 'fit')}>
           <div className={cn(s.main, 'fit')}>
             <div className={s.sliderContainer}>
@@ -124,18 +148,43 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
             {t('product.entry.join')}
           </Text>
           <div className={s.buyCards}>
-            {GLOBAL_ENTRIES.map(([ticketCount, price]) => (
+            {tickets.map(({ price, count }) => (
               <div key={price} className={s.buyCard}>
-                <h5 className={s.ticketsNo}>{ticketCount}</h5>
+                <h5 className={s.ticketsNo}>{count}</h5>
                 <span className={s.tickets}>Tiketov</span>
                 <Button
                   className={s.btn}
-                  onClick={() => handleAddToCart(Number(ticketCount), price)}
+                  onClick={() => handleAddToCart(count, price)}
                 >
                   {t('product.entry.donate')} {price} €
                 </Button>
               </div>
             ))}
+            {!!variableTicketCount && (
+              <div className={s.buyCard}>
+                <h5 className={s.ticketsNo}>{variableTicketCount}</h5>
+                <span className={s.tickets}>Tiketov</span>
+                <Button
+                  className={s.btn}
+                  onClick={async () => {
+                    const result = await prompt(t('product.entry.variable'), {
+                      input: 'number',
+                      inputValidator: (value) => {
+                        if (Number(value) >= variableMin) return null
+
+                        return `Minimálna hodnota je ${variableMin}!`
+                      },
+                      inputValue: variableMin,
+                      confirmButtonText: 'Prispieť',
+                    })
+
+                    handleAddToCart(variableTicketCount, Number(result))
+                  }}
+                >
+                  {t('product.entry.donate')}
+                </Button>
+              </div>
+            )}
           </div>
         </section>
         {!!relatedProducts.length && (

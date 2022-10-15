@@ -1,21 +1,17 @@
 import cn from 'clsx'
-import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
-import { Moon, Sun } from '@components/icons'
 import s from './CustomerMenuContent.module.css'
 import {
   DropdownContent,
   DropdownMenuItem,
 } from '@components/ui/Dropdown/Dropdown'
-import { signOut, useAuthContext } from '@lib/auth'
+import { signOut } from '@lib/auth'
 import { flash } from '@components/ui/FlashMessage'
 import { useTranslation } from 'react-i18next'
 
 export default function CustomerMenuContent() {
   const router = useRouter()
   const { t } = useTranslation()
-  const { adminEditingMode, adminStartEditing, adminStopEditing, permissions } =
-    useAuthContext()
 
   function handleClick(_: React.MouseEvent<HTMLAnchorElement>, href: string) {
     router.push(href)
