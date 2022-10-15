@@ -14,9 +14,9 @@ export default async function handler(
 
     await verifyAndResetPassword(token, password)
   } catch (e: any) {
-    res.redirect('/message?type=reset-password&error=' + e.message)
+    res.redirect('/message?type=reset-password&status=' + e.message)
     return
   }
 
-  res.redirect('/message?type=reset-password')
+  res.redirect('/message?type=reset-password&status=success')
 }

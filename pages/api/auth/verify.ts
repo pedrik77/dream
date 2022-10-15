@@ -10,9 +10,9 @@ export default async function handler(
   try {
     await verifyUser(token as string)
   } catch (e: any) {
-    res.redirect('/message?type=verify&error=' + e.message)
+    res.redirect('/message?type=verify&status=' + e.message)
     return
   }
 
-  res.redirect('/message?type=verify')
+  res.redirect('/message?type=verify&status=success')
 }

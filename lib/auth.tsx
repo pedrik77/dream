@@ -63,11 +63,6 @@ export const NULL_CUSTOMER_DATA = {
   },
 }
 
-export type TokenData = {
-  email: string
-  created: Timestamp
-}
-
 export type ProviderType = 'fb' | 'google'
 
 export type CustomerDataType = typeof NULL_CUSTOMER_DATA
@@ -262,7 +257,7 @@ export function setCustomerProfile({ email, ...customer }: CustomerDataType) {
 export async function getCustomerProfile(email: string) {
   const { data, id } = await getDoc(doc(db, 'customers', email))
 
-  return { ...data, email: id } as CustomerDataType
+  return { ...data(), email: id } as CustomerDataType
 }
 
 export async function createToken(email: string) {
@@ -280,13 +275,11 @@ export async function verifyToken(token: string) {
 
   const snapshot = await getDoc(docRef)
 
-  const data = { ...snapshot.data } as TokenData
+  if (!snapshot.exists) throw new Error('invalid')
 
-  if (!data) throw new Error('invalid')
+  const { email, created } = snapshot.data() as any
 
-  const { email, created } = data
-
-  if (created.toMillis() >= Date.now() - 1000 * 60 * 60 * 24)
+  if (created.seconds >= Date.now() - 1000 * 60 * 60 * 24)
     throw new Error('expired')
 
   await deleteDoc(docRef)

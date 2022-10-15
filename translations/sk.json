@@ -28,8 +28,8 @@
   "messages": {
     "reset-password": {
       "success": {
-        "title": "",
-        "text": "Heslo resetovane"
+        "title": "Heslo resetovane",
+        "text": ""
       },
       "expired": {
         "title": "Ľutujeme...",
