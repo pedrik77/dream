@@ -44,8 +44,14 @@
     "contactEmail": "info@vysnivaj.si"
   },
   "verified": {
-    "success": "Gratulujeme, vaša registrácia je dokončená! Teraz si môžete vysnívať fantastické výhry a podporiť tak dobrú vec",
-    "error": "Bohužiaľ, nastala chyba pri overovaní. Kontaktujte nás prosím na info@vysnivaj.si"
+    "success": {
+      "title": "Gratulujeme!",
+      "text": "Gratulujeme, vaša registrácia je dokončená! Teraz si môžete vysnívať fantastické výhry a podporiť tak dobrú vec"
+    },
+    "error": {
+      "title": "Ľutujeme...",
+      "text": "Bohužiaľ, nastala chyba pri overovaní. Kontaktujte nás prosím na info@vysnivaj.si"
+    }
   },
   "prizes": {
     "title": "Moje súťaže",

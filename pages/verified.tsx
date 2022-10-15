@@ -16,9 +16,16 @@ export default function Verified({
 
   return (
     <Container>
-      <Text variant="sectionHeading">
-        {t(`verified.${error == 0 ? 'success' : 'error'}`)}
-      </Text>
+      <div className="max-w-2xl mx-8 sm:mx-auto py-20 flex flex-col items-center justify-center fit">
+        <div className="w-4/5 h-2/5 display-block mb-4">
+          <Text variant="heading">
+            {t(`verified.${error == 0 ? 'success' : 'error'}.title`)}
+          </Text>
+          <Text className="text-lg">
+            {t(`verified.${error == 0 ? 'success' : 'error'}.text`)}
+          </Text>
+        </div>
+      </div>
     </Container>
   )
 }
