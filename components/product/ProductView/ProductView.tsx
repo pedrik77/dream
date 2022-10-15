@@ -6,14 +6,19 @@ import { ProductSlider, ProductCard } from '@components/product'
 import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
-import { getProductCmsId, Product, useProducts } from '@lib/products'
+import {
+  getProductCmsId,
+  getWinnerCmsId,
+  isClosed,
+  Product,
+  useProducts,
+} from '@lib/products'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { TICKETS_CMS_ID, useShopContext } from '@lib/shop'
 import { confirm, prompt } from '@lib/alerts'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
-import { VariableTicket } from 'cms/components/tickets'
 
 interface ProductViewProps {
   product: Product
@@ -24,6 +29,16 @@ const GLOBAL_ENTRIES = [
   { count: 4, price: 2 },
   { count: 15, price: 5 },
   { count: 50, price: 10 },
+]
+
+const allowedComponents = [
+  CMS.Wysiwyg,
+  CMS.Image,
+  CMS.PageBanner,
+  CMS.Hero,
+  CMS.Carousel,
+  CMS.Text,
+  CMS.Spacer,
 ]
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
@@ -40,6 +55,8 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const [tickets, setTickets] = useState(GLOBAL_ENTRIES)
   const [variableTicketCount, setVariableTicketCount] = useState(0)
   const [variableMin, setVariableMin] = useState(1)
+
+  const productClosed = isClosed(product)
 
   const relatedProducts = products
     .filter(({ slug }) => slug !== product.slug)
@@ -131,62 +148,72 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <ProductSidebar product={product} onJoinNow={handleScroll} />
 
           <div className={s.descContainer}>
-            {product.cmsBlock && (
+            {!!product.winner_order ? (
               <CMS
-                blockId={getProductCmsId(product.slug)}
-                allowedComponents={[]}
+                blockId={getWinnerCmsId(product.slug)}
+                allowedComponents={allowedComponents}
                 forbiddenComponents={[]}
-              >
-                {product.cmsBlock.components}
-              </CMS>
+              />
+            ) : (
+              product.cmsBlock && (
+                <CMS
+                  blockId={getProductCmsId(product.slug)}
+                  allowedComponents={allowedComponents}
+                  forbiddenComponents={[]}
+                >
+                  {product.cmsBlock.components}
+                </CMS>
+              )
             )}
           </div>
         </div>
 
-        <section className={s.buySection} ref={scrollToRef}>
-          <Text variant="myHeading" className="text-center">
-            {t('product.entry.join')}
-          </Text>
-          <div className={s.buyCards}>
-            {tickets.map(({ price, count }) => (
-              <div key={price} className={s.buyCard}>
-                <h5 className={s.ticketsNo}>{count}</h5>
-                <span className={s.tickets}>Tiketov</span>
-                <Button
-                  className={s.btn}
-                  onClick={() => handleAddToCart(count, price)}
-                >
-                  {t('product.entry.donate')} {price} €
-                </Button>
-              </div>
-            ))}
-            {!!variableTicketCount && (
-              <div className={s.buyCard}>
-                <h5 className={s.ticketsNo}>{variableTicketCount}</h5>
-                <span className={s.tickets}>Tiketov</span>
-                <Button
-                  className={s.btn}
-                  onClick={async () => {
-                    const result = await prompt(t('product.entry.variable'), {
-                      input: 'number',
-                      inputValidator: (value) => {
-                        if (Number(value) >= variableMin) return null
+        {!productClosed && (
+          <section className={s.buySection} ref={scrollToRef}>
+            <Text variant="myHeading" className="text-center">
+              {t('product.entry.join')}
+            </Text>
+            <div className={s.buyCards}>
+              {tickets.map(({ price, count }) => (
+                <div key={price} className={s.buyCard}>
+                  <h5 className={s.ticketsNo}>{count}</h5>
+                  <span className={s.tickets}>Tiketov</span>
+                  <Button
+                    className={s.btn}
+                    onClick={() => handleAddToCart(count, price)}
+                  >
+                    {t('product.entry.donate')} {price} €
+                  </Button>
+                </div>
+              ))}
+              {!!variableTicketCount && (
+                <div className={s.buyCard}>
+                  <h5 className={s.ticketsNo}>{variableTicketCount}</h5>
+                  <span className={s.tickets}>Tiketov</span>
+                  <Button
+                    className={s.btn}
+                    onClick={async () => {
+                      const result = await prompt(t('product.entry.variable'), {
+                        input: 'number',
+                        inputValidator: (value) => {
+                          if (Number(value) >= variableMin) return null
 
-                        return `Minimálna hodnota je ${variableMin}!`
-                      },
-                      inputValue: variableMin,
-                      confirmButtonText: 'Prispieť',
-                    })
+                          return `Minimálna hodnota je ${variableMin}!`
+                        },
+                        inputValue: variableMin,
+                        confirmButtonText: 'Prispieť',
+                      })
 
-                    handleAddToCart(variableTicketCount, Number(result))
-                  }}
-                >
-                  {t('product.entry.donate')}
-                </Button>
-              </div>
-            )}
-          </div>
-        </section>
+                      handleAddToCart(variableTicketCount, Number(result))
+                    }}
+                  >
+                    {t('product.entry.donate')}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
         {!!relatedProducts.length && (
           <section className="py-12 px-6 mb-10 text-center">
             <Text variant="myHeading">{t('product.related')}</Text>

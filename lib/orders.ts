@@ -8,6 +8,7 @@ import {
   QueryConstraint,
   setDoc,
   where,
+  getDocs,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
 import { CustomerDataType, useAuthContext } from './auth'
@@ -25,7 +26,15 @@ export interface Order {
   mail_sent?: boolean
 }
 
-interface UseOrdersOptions extends QueryBase<Order> {
+export interface OrderToDraw {
+  uuid: string
+  email: string
+  name: string
+  phone: string
+  ticketCount: string
+}
+
+interface OrdersQuery extends QueryBase<Order> {
   user?: string
 }
 
@@ -47,7 +56,7 @@ export function useOrders({
   orderBy = 'created_date',
   orderDirection = 'desc',
   onError = console.error,
-}: UseOrdersOptions = {}) {
+}: OrdersQuery = {}) {
   const [orders, setOrders] = useState<Order[]>([])
 
   const queries: QueryConstraint[] = useMemo(() => {
@@ -116,6 +125,31 @@ export function usePrizes() {
       })
     )
   }, [orders])
+}
+
+export async function getOrdersToDraw(
+  productSlug: string
+): Promise<OrderToDraw[]> {
+  const snapshot = await getDocs(
+    query(
+      collection(db, 'orders'),
+      where('products', 'array-contains', productSlug)
+    )
+  )
+
+  return snapshot.docs.map((doc) => {
+    const { customer, items } = doc.data()
+
+    const item = items.find((i: CartItem) => i.product.slug === productSlug)
+
+    return {
+      uuid: doc.id,
+      email: customer.email,
+      name: customer.fullname,
+      phone: customer.phone,
+      ticketCount: item.ticketCount,
+    }
+  })
 }
 
 function transform(doc: any): Order {

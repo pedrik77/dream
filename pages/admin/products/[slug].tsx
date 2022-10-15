@@ -130,13 +130,14 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       show_donors,
       price,
       slug,
-      created_date: Timestamp.fromDate(new Date(created_date)),
-      closing_date: Timestamp.fromDate(new Date(closing_date)),
-      winner_announce_date: Timestamp.fromDate(new Date(winner_announce_date)),
+      created_date,
+      closing_date,
+      winner_announce_date,
       gallery,
       short_desc,
       category,
       donation_entries,
+      winner_order: null,
     })
       .then(() => {
         flash('Produkt uložený', 'success')
@@ -280,6 +281,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               ))}
             </div>
           </fieldset>
+          {!isEditing && <div>{t('admin.continueToContent')}</div>}
           <div className="flex gap-4 my-12 justify-center">
             <Button disabled={loading.pending}>Uložiť</Button>
             <Button

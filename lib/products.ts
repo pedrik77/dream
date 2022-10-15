@@ -27,11 +27,6 @@ export interface ProductImage {
   filename: string
 }
 
-export interface Winner {
-  customer: CustomerDataType
-  order: Order
-}
-
 export interface Product {
   slug: string
   title_1: string
@@ -48,25 +43,27 @@ export interface Product {
   cmsBlock?: CmsBlockData | null
   donation_entries: string
   category: string
-  winner?: Winner
+  winner_order?: string
+  winnerPage?: CmsBlockData | null
 }
 
-interface UseProductsOptions extends QueryBase<Product> {
+interface ProductQuery extends QueryBase<Product> {
   categorySlug?: string
   showClosed?: boolean | null
+  winnerAnnounced?: boolean | null
 }
 
 export async function getProduct(
   slug: string,
-  options = { withCmsBlock: true }
+  options = { withCmsBlocks: true }
 ) {
   const productData = await getDoc(doc(db, 'products', slug))
 
-  return await getTransform(options.withCmsBlock)(productData)
+  return await getTransform(options.withCmsBlocks)(productData)
 }
 
 export async function setProduct({ slug, ...product }: any) {
-  return await setDoc(doc(db, 'products', slug), product)
+  return await setDoc(doc(db, 'products', slug), transformBack(product))
 }
 
 export async function deleteProduct(slug: string | string[]) {
@@ -80,10 +77,11 @@ export async function deleteProduct(slug: string | string[]) {
 export function useProducts({
   categorySlug = '',
   showClosed = false,
+  winnerAnnounced = null,
   orderBy = 'closing_date',
   orderDirection = 'desc',
   onError = console.error,
-}: UseProductsOptions = {}) {
+}: ProductQuery = {}) {
   const [products, setProducts] = useState<Product[]>()
 
   const queries: QueryConstraint[] = useMemo(() => {
@@ -101,12 +99,21 @@ export function useProducts({
       queries.push(where('closing_date', '<=', Timestamp.fromDate(new Date())))
     }
 
+    if (winnerAnnounced !== null) {
+      if (winnerAnnounced) {
+        queries.push(where('winner_order', '!=', null))
+      }
+      if (!winnerAnnounced) {
+        queries.push(where('winner_order', '==', null))
+      }
+    }
+
     if (orderBy) {
       queries.push(queryOrderBy(orderBy, orderDirection))
     }
 
     return queries
-  }, [categorySlug, showClosed, orderBy, orderDirection])
+  }, [categorySlug, showClosed, orderBy, orderDirection, winnerAnnounced])
 
   useEffect(() => {
     setProducts(undefined)
@@ -141,6 +148,8 @@ export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
   return uploaded
 }
 
+export const isClosed = (product: Product) => product.closing_date <= Date.now()
+
 export async function getDonorsCount(slug: string) {
   const snapshot = await getDocs(
     query(collection(db, 'orders'), where('products', 'array-contains', slug))
@@ -155,8 +164,12 @@ export function getProductCmsId(slug: string) {
   return `product__${slug}`
 }
 
+export function getWinnerCmsId(slug: string) {
+  return `product__${slug}_winner`
+}
+
 const getTransform =
-  (withCmsBlock = false) =>
+  (withCmsBlocks = false) =>
   async (doc: any) => {
     const { created_date, closing_date, winner_announce_date, ...data } =
       doc.data()
@@ -164,17 +177,32 @@ const getTransform =
     const slug = doc.id
     const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
     let cmsBlock = null
+    let winnerPage = null
 
-    if (withCmsBlock)
+    if (withCmsBlocks) {
       cmsBlock = await getCmsBlock(getProductCmsId(slug)).catch(console.error)
+      winnerPage = await getCmsBlock(getWinnerCmsId(slug)).catch(console.error)
+    }
 
     return {
       ...data,
       slug,
       image,
       cmsBlock: cmsBlock || null,
+      winnerPage: winnerPage || null,
       created_date: created_date ? created_date.seconds : 0,
       closing_date: closing_date.seconds,
       winner_announce_date: winner_announce_date.seconds,
     } as Product
   }
+
+const transformBack = ({ cmsBlock, winnerPage, ...product }: Product) => {
+  return {
+    ...product,
+    created_date: Timestamp.fromDate(new Date(product.created_date)),
+    closing_date: Timestamp.fromDate(new Date(product.closing_date)),
+    winner_announce_date: Timestamp.fromDate(
+      new Date(product.winner_announce_date)
+    ),
+  }
+}

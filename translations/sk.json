@@ -18,6 +18,8 @@
   "category": "Kategória",
   "send": "Odoslať",
   "sending": "Odosielam",
+  "start": "Začať",
+  "again": "Znova",
   "signIn": {
     "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
     "signIn": "Registrovať?"
@@ -81,7 +83,11 @@
       "oct": "október",
       "nov": "november",
       "dec": "december"
-    }
+    },
+    "draw": "Vylosujte víťaza",
+    "drawing": "Losujem",
+    "drawn": "Vylosovaný víťaz",
+    "continueToPage": "Potvrdiť a vytvoriť víťaznú stránku"
   },
   "cart": {
     "showProducts": "Pozrieť aktuálne súťaže",
@@ -91,6 +97,7 @@
     "closing": "Končí",
     "winnerAnnounce": "Vyhlásenie víťaza",
     "joinNow": "ZÚČASTNIŤ SA",
+    "joinDisabled": "PRIHLASOVANIE BOLO UKONČENÉ",
     "entry": {
       "join": "Zapojiť sa do súťaže a podporiť",
       "donate": "Prispieť",
@@ -134,6 +141,7 @@
     "announceWinner": "Vyhlásiť víťaza",
     "manageTickets": "Tickety",
     "from": "z",
+    "continueToContent": "Pokračujte uložením a vytvorte obsah",
     "titles": {
       "main": "Admin",
       "products": "Produkty",

@@ -81,6 +81,7 @@ export const PERMISSIONS = {
   CATEGORIES_DELETE: 'categories.delete',
 
   WINNERS_LIST: 'winners.list',
+  WINNERS_DRAW: 'winners.draw',
 
   PAGES_LIST: 'pages.list',
   PAGES_FORM: 'pages.form',
