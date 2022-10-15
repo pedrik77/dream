@@ -86,11 +86,15 @@ export default function Dashboard() {
             </Button>
           </Permit>
           <Permit permission={PERMISSIONS.WINNERS_DRAW}>
-            {!!missingWinnerProducts.length && (
-              <Button onClick={handleWinnerDraw} type="button">
+            {
+              <Button
+                onClick={handleWinnerDraw}
+                disabled={!missingWinnerProducts.length}
+                type="button"
+              >
                 {t('winners.draw')} ({missingWinnerProducts.length})
               </Button>
-            )}
+            }
           </Permit>
         </div>
         <DataGrid
