@@ -1,3 +1,4 @@
+import { useAdminWidget } from '@lib/adminWidget'
 import { useAuthContext } from '@lib/auth'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -39,24 +40,24 @@ function useMenu() {
 }
 
 export default function AdminWidget() {
-  const { permissions, adminEditingMode, adminStartEditing, adminStopEditing } =
-    useAuthContext()
   const { t } = useTranslation()
+  const { canShowWidget, isEditingMode, startEditing, stopEditing } =
+    useAdminWidget()
 
   const [showMenu, setShowMenu] = useState(false)
   const timeoutRef = useRef<any>()
 
-  if (!permissions.length) return null
+  if (!canShowWidget) return null
 
   return (
     <div
       className={`right-12 ${className} ${
-        adminEditingMode ? inactiveBg : activeBg
+        isEditingMode ? inactiveBg : activeBg
       }`}
       style={{ bottom: POSITION + 'rem' }}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
-          adminEditingMode ? adminStopEditing() : adminStartEditing()
+          isEditingMode ? stopEditing() : startEditing()
         }
       }}
       onMouseEnter={() => {
@@ -71,7 +72,7 @@ export default function AdminWidget() {
       }}
     >
       <Menu visible={showMenu} />
-      {adminEditingMode && t('save')}
+      {isEditingMode && t('save')}
     </div>
   )
 }

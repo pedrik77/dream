@@ -34,6 +34,7 @@ import {
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
 import { sendVerificationEmail } from './emails'
+import { WidgetProvider } from './adminWidget'
 
 const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`
 
@@ -104,9 +105,6 @@ type ContextType = {
   permissions: string[]
   permissionsLoaded: boolean
   setCustomer: (customer: CustomerDataType) => void
-  adminEditingMode: boolean
-  adminStartEditing: () => void
-  adminStopEditing: () => void
 }
 
 const Context = createContext<ContextType>({
@@ -116,9 +114,6 @@ const Context = createContext<ContextType>({
   permissions: [],
   permissionsLoaded: false,
   setCustomer: () => {},
-  adminEditingMode: false,
-  adminStartEditing: () => {},
-  adminStopEditing: () => {},
 })
 
 export const AuthProvider: React.FC = ({ children }) => {
@@ -129,14 +124,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [permissionsLoaded, setPermissionsLoaded] = useState(false)
 
   const isLoggedIn = useMemo(() => !!user, [user])
-
-  const [adminEditingMode, setAdminEditingMode] = useState(false)
-
-  const adminStartEditing = () => setAdminEditingMode(true)
-
-  const adminStopEditing = async () => {
-    setAdminEditingMode(false)
-  }
 
   useEffect(
     () =>
@@ -198,12 +185,9 @@ export const AuthProvider: React.FC = ({ children }) => {
         permissions,
         permissionsLoaded,
         setCustomer,
-        adminEditingMode,
-        adminStartEditing,
-        adminStopEditing,
       }}
     >
-      {children}
+      <WidgetProvider>{children}</WidgetProvider>
     </Context.Provider>
   )
 }

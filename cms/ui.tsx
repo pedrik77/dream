@@ -17,7 +17,7 @@ import {
 } from 'react'
 import { useScrollDisable } from '@lib/hooks/useScrollDisable'
 import { usePermission } from '@lib/hooks/usePermission'
-import { PERMISSIONS, useAuthContext } from '@lib/auth'
+import { PERMISSIONS } from '@lib/auth'
 import Swal from 'sweetalert2'
 import { confirm } from '@lib/alerts'
 import {
@@ -34,6 +34,7 @@ import { getSelect } from './editors/select'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
+import { useAdminWidget } from '@lib/adminWidget'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
@@ -161,7 +162,6 @@ export function ComponentEditor({
   const { t } = useTranslation()
   const { locale } = useRouter()
   const editorRef = useRef(null)
-  const { adminEditingMode } = useAuthContext()
   useScrollDisable(isEditing && !forceEdit ? editorRef.current : null)
 
   const [data, setData] = useState({})
@@ -262,7 +262,7 @@ function Components({
 }: ComponentsProps) {
   const { t } = useTranslation()
   const loaded = useRef(false)
-  const { adminEditingMode, permissions } = useAuthContext()
+  const { isEditingMode, canShowWidget } = useAdminWidget()
   const { locale, defaultLocale } = useRouter()
 
   const [components, setComponents] = useState<StarterCommon[]>([])
@@ -274,7 +274,7 @@ function Components({
 
   const canEdit =
     usePermission({ permission: PERMISSIONS.CMS }) &&
-    (adminEditingMode || forceEdit) &&
+    (isEditingMode || forceEdit) &&
     !forbidEdit
 
   const isMoving = moving > -1
@@ -293,13 +293,13 @@ function Components({
 
   const saveComponents = useCallback(
     (components: StarterCommon[]) => {
-      if (!permissions.length) return
+      if (!canShowWidget) return
       return setCmsBlock({
         id: blockId,
         components,
       })
     },
-    [blockId, permissions]
+    [blockId, canShowWidget]
   )
 
   const move = useCallback(
@@ -416,8 +416,8 @@ function Components({
   )
 
   useEffect(() => {
-    if (!adminEditingMode) setMoving(-1)
-  }, [adminEditingMode])
+    if (!isEditingMode) setMoving(-1)
+  }, [isEditingMode])
 
   useEffect(() => {
     loaded.current = true
@@ -433,10 +433,10 @@ function Components({
   useEffect(() => onData && onData(components), [components, onData])
 
   useEffect(() => {
-    if (!loaded.current || !components.length || adminEditingMode) return
+    if (!loaded.current || !components.length || isEditingMode) return
 
     saveComponents(components)
-  }, [components, saveComponents, adminEditingMode])
+  }, [components, saveComponents, isEditingMode])
 
   return (
     <>
