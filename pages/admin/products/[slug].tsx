@@ -137,6 +137,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       short_desc,
       category,
       donation_entries,
+      winner_order: null,
     })
       .then(() => {
         flash('Produkt uložený', 'success')
@@ -280,6 +281,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               ))}
             </div>
           </fieldset>
+          {!isEditing && <div>{t('admin.continueToContent')}</div>}
           <div className="flex gap-4 my-12 justify-center">
             <Button disabled={loading.pending}>Uložiť</Button>
             <Button

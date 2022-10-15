@@ -43,22 +43,23 @@ export interface Product {
   cmsBlock?: CmsBlockData | null
   donation_entries: string
   category: string
-  winnerOrder?: string
+  winner_order?: string
   winnerPage?: CmsBlockData | null
 }
 
 interface UseProductsOptions extends QueryBase<Product> {
   categorySlug?: string
   showClosed?: boolean | null
+  winnerAnnounced?: boolean | null
 }
 
 export async function getProduct(
   slug: string,
-  options = { withCmsBlock: true }
+  options = { withCmsBlocks: true }
 ) {
   const productData = await getDoc(doc(db, 'products', slug))
 
-  return await getTransform(options.withCmsBlock)(productData)
+  return await getTransform(options.withCmsBlocks)(productData)
 }
 
 export async function setProduct({ slug, ...product }: any) {
@@ -76,6 +77,7 @@ export async function deleteProduct(slug: string | string[]) {
 export function useProducts({
   categorySlug = '',
   showClosed = false,
+  winnerAnnounced = null,
   orderBy = 'closing_date',
   orderDirection = 'desc',
   onError = console.error,
@@ -97,12 +99,21 @@ export function useProducts({
       queries.push(where('closing_date', '<=', Timestamp.fromDate(new Date())))
     }
 
+    if (winnerAnnounced !== null) {
+      if (winnerAnnounced) {
+        queries.push(where('winner_order', '!=', null))
+      }
+      if (!winnerAnnounced) {
+        queries.push(where('winner_order', '==', null))
+      }
+    }
+
     if (orderBy) {
       queries.push(queryOrderBy(orderBy, orderDirection))
     }
 
     return queries
-  }, [categorySlug, showClosed, orderBy, orderDirection])
+  }, [categorySlug, showClosed, orderBy, orderDirection, winnerAnnounced])
 
   useEffect(() => {
     setProducts(undefined)
@@ -158,7 +169,7 @@ export function getWinnerCmsId(slug: string) {
 }
 
 const getTransform =
-  (withCmsBlock = false) =>
+  (withCmsBlocks = false) =>
   async (doc: any) => {
     const { created_date, closing_date, winner_announce_date, ...data } =
       doc.data()
@@ -166,15 +177,19 @@ const getTransform =
     const slug = doc.id
     const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
     let cmsBlock = null
+    let winnerPage = null
 
-    if (withCmsBlock)
+    if (withCmsBlocks) {
       cmsBlock = await getCmsBlock(getProductCmsId(slug)).catch(console.error)
+      winnerPage = await getCmsBlock(getWinnerCmsId(slug)).catch(console.error)
+    }
 
     return {
       ...data,
       slug,
       image,
       cmsBlock: cmsBlock || null,
+      winnerPage: winnerPage || null,
       created_date: created_date ? created_date.seconds : 0,
       closing_date: closing_date.seconds,
       winner_announce_date: winner_announce_date.seconds,

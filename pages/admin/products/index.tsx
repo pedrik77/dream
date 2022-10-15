@@ -7,17 +7,24 @@ import { deleteProduct, Product, setProduct, useProducts } from '@lib/products'
 import { basicShowFormat } from '@lib/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
-import { confirm } from '@lib/alerts'
+import { confirm, prompt } from '@lib/alerts'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import { useTranslation } from 'react-i18next'
 import AdminLayout from '@components/common/AdminLayout'
 
 export default function Dashboard() {
+  const router = useRouter()
+
   const { products } = useProducts({
     showClosed: null,
     onError: handleErrorFlash,
   })
-  const router = useRouter()
+
+  const { products: missingWinnerProducts } = useProducts({
+    showClosed: true,
+    winnerAnnounced: false,
+    onError: handleErrorFlash,
+  })
 
   const { t } = useTranslation()
 
@@ -29,6 +36,21 @@ export default function Dashboard() {
     deleteProduct(selected)
       .then(() => flash(t('deleted') + ': ' + selected.length))
       .catch(handleErrorFlash)
+  }
+
+  const handleWinnerDraw = async () => {
+    const productSlug = await prompt(t('winners.draw'), {
+      input: 'select',
+      inputOptions: missingWinnerProducts.reduce((acc: any, product) => {
+        acc[product.slug] = product.title_1
+        return acc
+      }, {}),
+      confirmButtonText: t('start'),
+    })
+
+    if (!productSlug) return
+
+    router.push(`/admin/winners/draw?product=${productSlug}`)
   }
 
   const redirectToAddProduct = () => router.push('/admin/products/add')
@@ -52,11 +74,19 @@ export default function Dashboard() {
           <Permit permission={PERMISSIONS.PRODUCTS_DELETE}>
             <Button
               onClick={handleDeleteSelected}
+              className="my-4 mr-2"
               disabled={!selected.length}
               type="button"
             >
               {t('delete')} ({selected.length})
             </Button>
+          </Permit>
+          <Permit permission={PERMISSIONS.WINNERS_DRAW}>
+            {!!missingWinnerProducts.length && (
+              <Button onClick={handleWinnerDraw} type="button">
+                {t('winners.draw')} ({missingWinnerProducts.length})
+              </Button>
+            )}
           </Permit>
         </div>
         <DataGrid

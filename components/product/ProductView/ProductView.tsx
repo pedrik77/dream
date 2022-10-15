@@ -139,7 +139,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <ProductSidebar product={product} onJoinNow={handleScroll} />
 
           <div className={s.descContainer}>
-            {!!product.winnerOrder
+            {!!product.winner_order
               ? product.winnerPage && (
                   <CMS
                     blockId={getWinnerCmsId(product.slug)}
