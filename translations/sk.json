@@ -19,6 +19,7 @@
   "send": "Odoslať",
   "sending": "Odosielam",
   "start": "Začať",
+  "again": "Znova",
   "signIn": {
     "unknown": "Zadaná e-mailová adresa nie je registrovaná.",
     "signIn": "Registrovať?"
@@ -83,7 +84,10 @@
       "nov": "november",
       "dec": "december"
     },
-    "draw": "Vylosujte víťaza"
+    "draw": "Vylosujte víťaza",
+    "drawing": "Losujem",
+    "drawn": "Vylosovaný víťaz",
+    "continueToPage": "Potvrdiť a vytvoriť víťaznú stránku"
   },
   "cart": {
     "showProducts": "Pozrieť aktuálne súťaže",

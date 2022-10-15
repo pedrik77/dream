@@ -19,7 +19,6 @@ import { TICKETS_CMS_ID, useShopContext } from '@lib/shop'
 import { confirm, prompt } from '@lib/alerts'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
-import { VariableTicket } from 'cms/components/tickets'
 
 interface ProductViewProps {
   product: Product
@@ -30,6 +29,16 @@ const GLOBAL_ENTRIES = [
   { count: 4, price: 2 },
   { count: 15, price: 5 },
   { count: 50, price: 10 },
+]
+
+const allowedComponents = [
+  CMS.Wysiwyg,
+  CMS.Image,
+  CMS.PageBanner,
+  CMS.Hero,
+  CMS.Carousel,
+  CMS.Text,
+  CMS.Spacer,
 ]
 
 const ProductView: FC<ProductViewProps> = ({ product }) => {
@@ -139,25 +148,23 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <ProductSidebar product={product} onJoinNow={handleScroll} />
 
           <div className={s.descContainer}>
-            {!!product.winner_order
-              ? product.winnerPage && (
-                  <CMS
-                    blockId={getWinnerCmsId(product.slug)}
-                    allowedComponents={[]}
-                    forbiddenComponents={[]}
-                  >
-                    {product.winnerPage.components}
-                  </CMS>
-                )
-              : product.cmsBlock && (
-                  <CMS
-                    blockId={getProductCmsId(product.slug)}
-                    allowedComponents={[]}
-                    forbiddenComponents={[]}
-                  >
-                    {product.cmsBlock.components}
-                  </CMS>
-                )}
+            {!!product.winner_order ? (
+              <CMS
+                blockId={getWinnerCmsId(product.slug)}
+                allowedComponents={allowedComponents}
+                forbiddenComponents={[]}
+              />
+            ) : (
+              product.cmsBlock && (
+                <CMS
+                  blockId={getProductCmsId(product.slug)}
+                  allowedComponents={allowedComponents}
+                  forbiddenComponents={[]}
+                >
+                  {product.cmsBlock.components}
+                </CMS>
+              )
+            )}
           </div>
         </div>
 

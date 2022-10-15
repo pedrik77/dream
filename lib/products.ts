@@ -47,7 +47,7 @@ export interface Product {
   winnerPage?: CmsBlockData | null
 }
 
-interface UseProductsOptions extends QueryBase<Product> {
+interface ProductQuery extends QueryBase<Product> {
   categorySlug?: string
   showClosed?: boolean | null
   winnerAnnounced?: boolean | null
@@ -63,7 +63,7 @@ export async function getProduct(
 }
 
 export async function setProduct({ slug, ...product }: any) {
-  return await setDoc(doc(db, 'products', slug), product)
+  return await setDoc(doc(db, 'products', slug), transformBack(product))
 }
 
 export async function deleteProduct(slug: string | string[]) {
@@ -81,7 +81,7 @@ export function useProducts({
   orderBy = 'closing_date',
   orderDirection = 'desc',
   onError = console.error,
-}: UseProductsOptions = {}) {
+}: ProductQuery = {}) {
   const [products, setProducts] = useState<Product[]>()
 
   const queries: QueryConstraint[] = useMemo(() => {
@@ -195,3 +195,14 @@ const getTransform =
       winner_announce_date: winner_announce_date.seconds,
     } as Product
   }
+
+const transformBack = ({ cmsBlock, winnerPage, ...product }: Product) => {
+  return {
+    ...product,
+    created_date: Timestamp.fromDate(new Date(product.created_date)),
+    closing_date: Timestamp.fromDate(new Date(product.closing_date)),
+    winner_announce_date: Timestamp.fromDate(
+      new Date(product.winner_announce_date)
+    ),
+  }
+}

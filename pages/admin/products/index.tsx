@@ -42,10 +42,13 @@ export default function Dashboard() {
   const handleWinnerDraw = async () => {
     const productSlug = await prompt(t('winners.draw'), {
       input: 'select',
-      inputOptions: missingWinnerProducts.reduce((acc: any, product) => {
-        acc[product.slug] = product.title_1
-        return acc
-      }, {}),
+      inputOptions: missingWinnerProducts.reduce(
+        (acc: Record<string, string>, product) => {
+          acc[product.slug] = product.title_1
+          return acc
+        },
+        {}
+      ),
       confirmButtonText: t('start'),
     })
 
