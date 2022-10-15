@@ -198,7 +198,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
                         inputValidator: (value) => {
                           if (Number(value) >= variableMin) return null
 
-                          return `Minimálna hodnota je ${variableMin}!`
+                          return `Minimálna hodnota je ${variableMin} €!`
                         },
                         inputValue: variableMin,
                         confirmButtonText: 'Prispieť',
