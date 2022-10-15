@@ -165,7 +165,7 @@ export function getProductCmsId(slug: string) {
 }
 
 export function getWinnerCmsId(slug: string) {
-  return `product__${slug}_winner`
+  return `winner__${slug}`
 }
 
 const getTransform =
