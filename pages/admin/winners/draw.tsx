@@ -5,6 +5,7 @@ import { Button, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/alerts'
 import { PERMISSIONS } from '@lib/auth'
+import { confetti } from '@lib/confetti'
 import { getOrdersToDraw, OrderToDraw } from '@lib/orders'
 import { getProduct, Product, setProduct } from '@lib/products'
 import { sleep } from '@lib/sleep'
@@ -58,6 +59,8 @@ export default function WinnersDraw({
     setDrawing(true)
 
     await sleep(1111)
+
+    confetti()
 
     const result = await confirm(t('winners.drawn'), {
       confirmButtonText: t('winners.continueToPage'),
