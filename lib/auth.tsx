@@ -34,11 +34,11 @@ import {
 } from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
-import { sendResetPasswordEmail, sendVerificationEmail } from './emails'
 import { WidgetProvider } from './adminWidget'
 import { noop } from './common'
 import { v4 as uuid4 } from 'uuid'
 import { api } from './api'
+import { sendSignUpEmail } from './emails'
 
 const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`
 
@@ -219,7 +219,7 @@ export async function signUp(
 
   setCustomerProfile({ ...NULL_CUSTOMER_DATA, email })
 
-  sendVerificationEmail(email)
+  sendSignUpEmail(email)
 
   signOut()
   if (newsletter) {
