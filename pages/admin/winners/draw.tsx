@@ -6,6 +6,7 @@ import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/alerts'
 import { PERMISSIONS } from '@lib/auth'
 import { confetti } from '@lib/confetti'
+import { sendWinnerAnnouncementEmail } from '@lib/emails'
 import { getOrdersToDraw, OrderToDraw } from '@lib/orders'
 import { getProduct, Product, setProduct } from '@lib/products'
 import { sleep } from '@lib/sleep'
@@ -78,6 +79,8 @@ export default function WinnersDraw({
     await setProduct({ ...product, winner_order: winner.uuid })
       .then(() => flash(t('winners.winnerSelected'), 'success'))
       .catch(handleErrorFlash)
+
+    await sendWinnerAnnouncementEmail(product.slug)
 
     router.push(`/products/${product.slug}`)
   }

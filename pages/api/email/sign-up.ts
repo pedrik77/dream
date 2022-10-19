@@ -4,7 +4,7 @@ import { getSingleComponent } from '@lib/cms'
 import {
   getActionButton,
   processPlaceholders,
-  VERIFICATION_CMS_ID,
+  SIGN_UP_CMS_ID,
 } from '@lib/emails'
 import { createToken, getCustomerProfile } from '@lib/auth'
 
@@ -24,7 +24,7 @@ export default async function handler(
 
   const token = await createToken(customer.email)
 
-  const template = await getSingleComponent(VERIFICATION_CMS_ID)
+  const template = await getSingleComponent(SIGN_UP_CMS_ID)
 
   await sendMail(
     {

@@ -16,15 +16,14 @@ export const templates = {
   [CONTACT_FORM_CMS_ID]: ['subject', 'message', ...common],
   [SIGN_UP_CMS_ID]: ['action', ...common],
   // [RESET_PASSWORD_CMS_ID]: ['action', ...common],
-  [VERIFICATION_CMS_ID]: ['action', ...common],
   [ORDER_CREATED_CMS_ID]: ['orderInfo', ...common],
   [UNPAID_ORDER_CREATED_CMS_ID]: ['paymentDetails', 'orderInfo', ...common],
   [PRODUCT_CLOSE_CMS_ID]: ['productName', 'announceDate', ...common],
   [WINNER_ANNOUNCEMENT_CMS_ID]: ['productName', 'action', ...common],
 }
 
-export async function sendVerificationEmail(email: string) {
-  const { data } = await api.post('/email/verification', { email })
+export async function sendContactFormEmail(contactData: ContactFormData) {
+  const { data } = await api.post('/email/contact-form', contactData)
   return data === 'ok'
 }
 
@@ -33,13 +32,28 @@ export async function sendResetPasswordEmail(email: string) {
   return data === 'ok'
 }
 
+export async function sendSignUpEmail(email: string) {
+  const { data } = await api.post('/email/sign-up', { email })
+  return data === 'ok'
+}
+
 export async function sendOrderCreatedEmail(orderUuid: string) {
   const { data } = await api.post('/email/order-created', { orderUuid })
   return data === 'ok'
 }
 
-export async function sendContactFormEmail(contactData: ContactFormData) {
-  const { data } = await api.post('/email/contact-form', contactData)
+export async function sendUnpaidOrderCreatedEmail(orderUuid: string) {
+  const { data } = await api.post('/email/unpaid-order-created', { orderUuid }) // TODO
+  return data === 'ok'
+}
+
+export async function sendProductClosingEmail(productSlug: string) {
+  const { data } = await api.post('/email/product-closing', { productSlug }) // TODO
+  return data === 'ok'
+}
+
+export async function sendWinnerAnnouncementEmail(productSlug: string) {
+  const { data } = await api.post('/email/winner-announcement', { productSlug })
   return data === 'ok'
 }
 
