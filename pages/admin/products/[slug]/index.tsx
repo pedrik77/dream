@@ -137,7 +137,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
       short_desc,
       category,
       donation_entries,
-      winner_order: null,
+      winner_order: product?.winner_order || null,
     })
       .then(() => {
         flash('Produkt uložený', 'success')

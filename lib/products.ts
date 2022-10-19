@@ -200,10 +200,10 @@ const getTransform =
 const transformBack = ({ cmsBlock, winnerPage, ...product }: Product) => {
   return {
     ...product,
-    created_date: Timestamp.fromDate(new Date(product.created_date * 1000)),
-    closing_date: Timestamp.fromDate(new Date(product.closing_date * 1000)),
+    created_date: Timestamp.fromDate(new Date(product.created_date)),
+    closing_date: Timestamp.fromDate(new Date(product.closing_date)),
     winner_announce_date: Timestamp.fromDate(
-      new Date(product.winner_announce_date * 1000)
+      new Date(product.winner_announce_date)
     ),
   }
 }
