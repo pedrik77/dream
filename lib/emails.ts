@@ -14,7 +14,7 @@ const common = ['firstname', 'lastname', 'email']
 
 export const templates = {
   [CONTACT_FORM_CMS_ID]: ['subject', 'message', ...common],
-  [SIGN_UP_CMS_ID]: ['action', ...common],
+  [SIGN_UP_CMS_ID]: ['action', 'email'],
   // [RESET_PASSWORD_CMS_ID]: ['action', ...common],
   [ORDER_CREATED_CMS_ID]: ['orderInfo', ...common],
   [UNPAID_ORDER_CREATED_CMS_ID]: ['paymentDetails', 'orderInfo', ...common],
