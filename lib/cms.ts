@@ -17,7 +17,7 @@ export type CmsBlockData = {
   components: ComponentData[]
 }
 
-interface UseCmsBlockOptions {
+interface CmsBlockQuery {
   id: string
   onError?: AnyClosure
 }
@@ -41,7 +41,7 @@ export async function setCmsBlock({ id, ...block }: any, onError = noop) {
   }).catch(onError)
 }
 
-export function useCmsBlock({ id, onError = noop }: UseCmsBlockOptions) {
+export function useCmsBlock({ id, onError = noop }: CmsBlockQuery) {
   const [block, setBlock] = useState<CmsBlockData>()
 
   useEffect(
