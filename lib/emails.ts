@@ -13,14 +13,14 @@ export const WINNER_ANNOUNCEMENT_CMS_ID = 'email__winner-announcement'
 const common = ['firstname', 'lastname', 'email']
 
 export const templates = {
-  [CONTACT_FORM_CMS_ID]: [...common, 'subject', 'message'],
-  [SIGN_UP_CMS_ID]: [...common, 'action'],
-  [RESET_PASSWORD_CMS_ID]: [...common, 'action'],
-  [VERIFICATION_CMS_ID]: [...common, 'action'],
-  [ORDER_CREATED_CMS_ID]: [...common, 'action'],
-  [UNPAID_ORDER_CREATED_CMS_ID]: [...common, 'action'],
-  [PRODUCT_CLOSE_CMS_ID]: [...common, 'action'],
-  [WINNER_ANNOUNCEMENT_CMS_ID]: [...common, 'action'],
+  [CONTACT_FORM_CMS_ID]: ['subject', 'message', ...common],
+  [SIGN_UP_CMS_ID]: ['action', ...common],
+  // [RESET_PASSWORD_CMS_ID]: ['action', ...common],
+  [VERIFICATION_CMS_ID]: ['action', ...common],
+  [ORDER_CREATED_CMS_ID]: ['orderInfo', ...common],
+  [UNPAID_ORDER_CREATED_CMS_ID]: ['paymentDetails', 'orderInfo', ...common],
+  [PRODUCT_CLOSE_CMS_ID]: ['productName', 'announceDate', ...common],
+  [WINNER_ANNOUNCEMENT_CMS_ID]: ['productName', 'action', ...common],
 }
 
 export async function sendVerificationEmail(email: string) {
