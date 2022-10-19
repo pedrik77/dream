@@ -29,12 +29,13 @@ export default async function handler(
         sendMail(
           {
             address: customer.email,
-            name: `${customer.firstname} ${customer.lastname}`,
+            name: customer.firstname
+              ? `${customer.firstname} ${customer.lastname}`
+              : customer.email,
           },
           template.value.subject,
           processPlaceholders(template.value.template, {
             firstname: customer.firstname,
-            lastname: customer.lastname,
             email: customer.email,
             productName: product.title_1,
             announceDate: basicShowFormat(product.winner_announce_date),

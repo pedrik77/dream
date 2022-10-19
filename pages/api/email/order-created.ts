@@ -30,7 +30,6 @@ export default async function handler(
     template.value.subject,
     processPlaceholders(template.value.template, {
       firstname: customer.firstname,
-      lastname: customer.lastname,
       email: customer.email,
     })
   )

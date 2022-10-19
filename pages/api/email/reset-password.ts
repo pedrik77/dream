@@ -35,7 +35,6 @@ export default async function handler(
       template.value.subject,
       processPlaceholders(template.value.template, {
         firstname: customer.firstname,
-        lastname: customer.lastname,
         email: customer.email,
         action: getActionButton(
           process.env.NEXT_PUBLIC_URL + '/reset-password?token=' + token,

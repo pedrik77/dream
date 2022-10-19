@@ -9,7 +9,7 @@ export const UNPAID_ORDER_CREATED_CMS_ID = 'email__unpaid-order-created'
 export const PRODUCT_CLOSE_CMS_ID = 'email__product-close'
 export const WINNER_ANNOUNCEMENT_CMS_ID = 'email__winner-announcement'
 
-const common = ['firstname', 'lastname', 'email']
+const common = ['firstname', 'email']
 
 export const templates = {
   [CONTACT_FORM_CMS_ID]: ['subject', 'message', ...common],
