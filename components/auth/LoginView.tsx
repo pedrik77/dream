@@ -28,13 +28,15 @@ const LoginView = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const login = (callback: () => Promise<UserCredential>) => {
+  const login = async (callback: () => Promise<UserCredential>) => {
     loading.start()
     try {
-      callback().then(() => {
-        flash(FlashMessages.success, 'success')
-        closeModal()
-      })
+      const result = await callback()
+
+      flash(FlashMessages.success, 'success')
+      closeModal()
+
+      return result
     } catch (e: any) {
       if (e instanceof ZodError) {
         e.issues.map((i) => flash(i.message, 'danger'))
