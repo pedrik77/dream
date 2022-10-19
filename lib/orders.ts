@@ -29,7 +29,8 @@ export interface Order {
 export interface OrderToDraw {
   uuid: string
   email: string
-  name: string
+  firstname: string
+  lastname: string
   phone: string
   ticketCount: string
 }
@@ -145,11 +146,22 @@ export async function getOrdersToDraw(
     return {
       uuid: doc.id,
       email: customer.email,
-      name: customer.fullname,
+      firstname: customer.firstname,
+      lastname: customer.lastname,
       phone: customer.phone,
       ticketCount: item.ticketCount,
     }
   })
+}
+
+export async function getCustomersPerProduct(productSlug: string) {
+  const orders = await getOrdersToDraw(productSlug)
+
+  const emails = new Set(orders.map((order) => order.email))
+
+  return [...emails].map((email) =>
+    orders.find((order) => order.email === email)
+  )
 }
 
 function transform(doc: any): Order {

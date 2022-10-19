@@ -7,6 +7,7 @@ import {
   WINNER_ANNOUNCEMENT_CMS_ID,
 } from '@lib/emails'
 import { getProduct } from '@lib/products'
+import { getCustomersPerProduct } from '@lib/orders'
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,18 +23,30 @@ export default async function handler(
 
   const template = await getSingleComponent(WINNER_ANNOUNCEMENT_CMS_ID)
 
-  await sendMail(
-    { address: 'tulic.peter77@gmail.com', name: 'meh' },
-    template.value.subject,
-    processPlaceholders(template.value.template, {
-      // firstname: customer.firstname,
-      // lastname: customer.lastname,
-      // email: customer.email,
-      action: getActionButton(
-        process.env.NEXT_PUBLIC_URL + `/products/${product.slug}`,
-        template.value.actionButtonText
-      ),
-    })
+  const customers = await getCustomersPerProduct(productSlug)
+
+  await Promise.all(
+    customers.map(
+      (customer) =>
+        customer &&
+        sendMail(
+          {
+            address: customer.email,
+            name: `${customer.firstname} ${customer.lastname}`,
+          },
+          template.value.subject,
+          processPlaceholders(template.value.template, {
+            firstname: customer.firstname,
+            lastname: customer.lastname,
+            email: customer.email,
+            productName: product.title_1,
+            action: getActionButton(
+              process.env.NEXT_PUBLIC_URL + `/products/${product.slug}`,
+              template.value.actionButtonText
+            ),
+          })
+        )
+    )
   )
 
   res.status(200).send('ok')
