@@ -11,17 +11,19 @@ export default async function handler(
 ) {
   if (req.method !== 'POST') return res.status(405).send('Method not allowed')
 
+  const { firstname, lastname, email, subject, message } = req.body
+
   const template = await getSingleComponent(CONTACT_FORM_CMS_ID)
 
   await sendMail(
     recipient,
     template.value.subject,
     processPlaceholders(template.value.template, {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      email: req.body.email,
-      subject: req.body.subject,
-      message: req.body.message,
+      firstname,
+      lastname,
+      email,
+      subject,
+      message,
     })
   )
 
