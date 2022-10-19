@@ -38,7 +38,7 @@ interface ProductEditProps {
 }
 
 const Select = dynamic(import('react-select/creatable'), { ssr: false })
-const Editor = dynamic(import('../../../components/common/Editor'), {
+const Editor = dynamic(import('../../../../components/common/Editor'), {
   ssr: false,
 })
 
