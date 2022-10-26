@@ -1,5 +1,4 @@
-import { useAdminWidget } from '@lib/adminWidget'
-import { useAuthContext } from '@lib/auth'
+import { useAdminWidget } from '@lib/api/cms/adminWidget'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useRef } from 'react'

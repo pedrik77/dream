@@ -2,7 +2,7 @@ import { flash } from '@components/ui/FlashMessage'
 import { useAuthContext } from '@lib/auth'
 import { createContext, useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { noop } from './common'
+import { noop } from '../../common'
 
 type ContextType = {
   canShowWidget: boolean

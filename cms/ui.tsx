@@ -33,7 +33,7 @@ import { getCmsBlock, setCmsBlock } from '@lib/cms'
 import { getSelect } from './editors/select'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { useAdminWidget } from '@lib/adminWidget'
+import { useAdminWidget } from '@lib/api/cms/adminWidget'
 
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)

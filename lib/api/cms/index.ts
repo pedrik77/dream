@@ -7,9 +7,9 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import { noop } from '../lib/common'
-import { db } from '../lib/firebase'
-import { AnyClosure } from '../lib/types'
+import { noop } from '@lib/common'
+import { db } from '@lib/firebase'
+import { AnyClosure } from '@lib/types'
 
 export type ComponentData = StarterCommon
 

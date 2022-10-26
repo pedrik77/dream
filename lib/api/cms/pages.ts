@@ -1,3 +1,6 @@
+import { noop } from '@lib/common'
+import { db } from '@lib/firebase'
+import { AnyClosure, QueryBase } from '@lib/types'
 import {
   collection,
   deleteDoc,
@@ -7,11 +10,8 @@ import {
   onSnapshot,
   setDoc,
 } from 'firebase/firestore'
-import { useEffect, useMemo, useState } from 'react'
-import { CmsBlockData, getCmsBlock } from './cms'
-import { noop } from './common'
-import { db } from './firebase'
-import { AnyClosure, QueryBase } from './types'
+import { useEffect, useState } from 'react'
+import { CmsBlockData, getCmsBlock } from '.'
 
 export interface Page {
   title: string

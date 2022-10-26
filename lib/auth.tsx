@@ -1,12 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import {
   getAuth,
   onAuthStateChanged,
@@ -34,7 +26,7 @@ import {
 } from 'firebase/firestore'
 import { subscribe } from './newsletter'
 import { flash } from '@components/ui/FlashMessage'
-import { WidgetProvider } from './adminWidget'
+import { WidgetProvider } from './api/cms/adminWidget'
 import { noop } from './common'
 import { v4 as uuid4 } from 'uuid'
 import { sendSignUpEmail } from './emails'
