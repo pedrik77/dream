@@ -22,9 +22,7 @@ function useMenu() {
     [t('admin.titles.categories'), '/admin/categories'],
     [t('admin.titles.pages'), '/admin/pages'],
     ['Menu', '/admin/menu'],
-    // ['Víťazi', '/admin/winners'],
-    // ['Objednávky', '/admin/orders'],
-    // ['Produkty', '/admin/products'],
+    ['Blog', '/admin/posts'],
   ]
 
   const vertical: WidgetLink[] = [

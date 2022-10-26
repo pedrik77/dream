@@ -1,33 +1,22 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { categoryToSelect, useCategories } from '@lib/api/shop/categories'
 import { inputDateFormat } from '@lib/api/page/date'
 import { deleteFile } from '@lib/api/page/files'
 import useLoading from '@lib/hooks/useLoading'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import React, {
-  ChangeEventHandler,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from 'react'
-import { setCategory as createCategory } from '@lib/api/shop/categories'
+import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
 import _ from 'lodash'
 import { confirm } from '@lib/api/page/alerts'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/api/page/auth'
 import AdminLayout from '@components/common/AdminLayout'
 import { useTranslation } from 'react-i18next'
-import {
-  getPost,
-  Post,
-  PostImage,
-  setPost,
-  uploadGallery,
-} from '@lib/api/blog/posts'
+import { blog } from '@lib/api'
+import { Post, PostImage } from '@lib/api/blog/posts'
+import { Tag } from '@lib/api/blog/tags'
 
 interface PostEditProps {
   post: Post | null
@@ -39,7 +28,7 @@ const Editor = dynamic(import('../../../../components/common/Editor'), {
   ssr: false,
 })
 
-export default function ProductEdit({ post, isEditing }: PostEditProps) {
+export default function PostEdit({ post, isEditing }: PostEditProps) {
   const [title, setTitle] = useState(post?.title || '')
   const [slug, setSlug] = useState(post?.slug || '')
   const [created_date, setCreatedDate] = useState(
@@ -47,17 +36,22 @@ export default function ProductEdit({ post, isEditing }: PostEditProps) {
       post?.created_date ? post.created_date : new Date().getTime() / 1000
     )
   )
+  const [published_date, setPublishedDate] = useState(
+    inputDateFormat(
+      post?.published_date ? post.published_date : new Date().getTime() / 1000
+    )
+  )
   const [short_desc, setShortDesc] = useState(post?.short_desc || '')
   const [long_desc, setLongDesc] = useState(post?.long_desc || '')
 
-  const [tags, setTags] = useState(post?.tags || '')
+  const [tag, setTag] = useState(post?.tags?.[0] || '')
 
   const [gallery, setGallery] = useState<PostImage[]>(post?.gallery || [])
 
   const loading = useLoading()
   const uploading = useLoading()
 
-  const categories = useCategories()
+  const tags = blog.tags.useTags()
 
   const router = useRouter()
   const { t } = useTranslation()
@@ -69,7 +63,8 @@ export default function ProductEdit({ post, isEditing }: PostEditProps) {
 
     uploading.start()
 
-    uploadGallery(files)
+    blog.posts
+      .uploadGallery(files)
       .then((uploaded) => {
         setGallery((gallery) => [...gallery, ...uploaded])
         e.target.value = ''
@@ -92,17 +87,19 @@ export default function ProductEdit({ post, isEditing }: PostEditProps) {
 
     loading.start()
 
-    setPost({
-      title,
-      slug,
-      created_date,
-      short_desc,
-      tags,
-      gallery,
-    })
+    blog.posts
+      .setPost({
+        title,
+        slug,
+        created_date,
+        published_date,
+        short_desc,
+        tags: [tag],
+        gallery,
+      })
       .then(() => {
         flash('Post uložený', 'success')
-        router.push('/posts/' + slug)
+        router.push('/' + slug)
       })
       .catch(handleErrorFlash)
       .finally(loading.stop)
@@ -125,6 +122,16 @@ export default function ProductEdit({ post, isEditing }: PostEditProps) {
             >
               {t('title')}
             </Input>
+
+            <Input
+              variant="ghost"
+              type="date"
+              value={published_date}
+              placeholder={t('post.published_date')}
+              onChange={setPublishedDate}
+            >
+              {t('post.published_date')}
+            </Input>
             <Input
               variant="ghost"
               type="text"
@@ -142,17 +149,18 @@ export default function ProductEdit({ post, isEditing }: PostEditProps) {
                 // @ts-ignore
                 <Select
                   className="outline-none border border-primary rounded-md"
-                  options={categories.map(categoryToSelect)}
-                  onChange={(e: any) => setTags(e.value)}
-                  value={categoryToSelect(
-                    categories.find((c) => c.slug === tags)
+                  options={tags.map(blog.tags.tagToSelect)}
+                  onChange={(e: any) => setTag(e.value)}
+                  value={blog.tags.tagToSelect(
+                    tags.find((t: Tag) => t.slug === tag)
                   )}
-                  onCreateOption={(title) =>
-                    createCategory({
-                      title,
-                      slug: _.kebabCase(title),
-                    })
-                      .then(() => setTags(_.kebabCase(title)))
+                  onCreateOption={(name) =>
+                    blog.tags
+                      .setTag({
+                        name,
+                        slug: _.kebabCase(name),
+                      })
+                      .then(() => setTag(_.kebabCase(name)))
                       .catch(handleErrorFlash)
                   }
                 />
@@ -160,7 +168,7 @@ export default function ProductEdit({ post, isEditing }: PostEditProps) {
             </label>
 
             <label>
-              {t('product.shortDescription')} <br />
+              {t('post.shortDescription')} <br />
               {Editor && (
                 // @ts-ignore
                 <Editor value={short_desc} onChange={setShortDesc} />
@@ -168,7 +176,7 @@ export default function ProductEdit({ post, isEditing }: PostEditProps) {
             </label>
 
             <label>
-              {t('product.longDescriptions')} <br />
+              {t('post.longDescriptions')} <br />
               {Editor && (
                 // @ts-ignore
                 <Editor value={long_desc} onChange={setLongDesc} />
@@ -179,7 +187,7 @@ export default function ProductEdit({ post, isEditing }: PostEditProps) {
 
             <label>
               {t('cms.labels.gallery')}
-              {t('cms.labels.productImage')}
+              {t('cms.labels.postImage')}
               <br />
               <input
                 type="file"
@@ -214,13 +222,15 @@ export default function ProductEdit({ post, isEditing }: PostEditProps) {
   )
 }
 
-ProductEdit.Layout = Layout
+PostEdit.Layout = Layout
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const isEditing = params && params?.slug != 'add'
 
   const post = isEditing
-    ? await getPost((params?.slug as string) || '').catch(console.error)
+    ? await blog.posts
+        .getPost((params?.slug as string) || '')
+        .catch(console.error)
     : null
 
   if (isEditing && !post) return { notFound: true }

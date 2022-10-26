@@ -14,20 +14,32 @@ import {
 } from '@lib/api/cms/pages'
 import { CMS } from 'cms'
 import { Container } from '@components/ui'
+import { Post } from '@lib/api/blog/posts'
+import { blog } from '@lib/api'
 
 // export async function getStaticProps({ params, }: GetStaticPropsContext<{ slug: string }>) {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const page = await getPage(params?.slug as string).catch(console.error)
 
-  if (!page) {
+  if (!!page) {
     return {
-      notFound: true,
+      props: { pageOrPost: page, isPage: true },
+      // revalidate: 60 * 5,
+    }
+  }
+
+  const post = await blog.posts
+    .getPost(params?.slug as string)
+    .catch(console.error)
+
+  if (!!post) {
+    return {
+      props: { pageOrPost: post, isPage: false },
     }
   }
 
   return {
-    props: { page },
-    // revalidate: 60 * 5,
+    notFound: true,
   }
 }
 
@@ -41,39 +53,51 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 //   }
 // }
 
-export default function Pages({ page }: { page: Page }) {
+export default function Pages({
+  pageOrPost,
+  isPage = true,
+}: {
+  pageOrPost: Page | Post
+  isPage?: boolean
+}) {
   const router = useRouter()
 
   return router.isFallback ? (
     <h1>Loading...</h1> // TODO (BC) Add Skeleton Views
   ) : (
     <>
-      <CMS
-        blockId={getPageCmsId(page.slug)}
-        allowedComponents={[
-          CMS.ContaineredWysiwyg,
-          CMS.PageBanner,
-          CMS.ContactForm,
-          CMS.Spacer,
-        ]}
-      >
-        {page.cmsBlock?.components}
-      </CMS>
+      {isPage ? (
+        <CMS
+          blockId={getPageCmsId(pageOrPost.slug)}
+          allowedComponents={[
+            CMS.ContaineredWysiwyg,
+            CMS.PageBanner,
+            CMS.ContactForm,
+            CMS.Spacer,
+          ]}
+        >
+          {/* @ts-ignore */}
+          {pageOrPost.cmsBlock?.components}
+        </CMS>
+      ) : (
+        <>{pageOrPost.title}</>
+      )}
 
       <SEO
-        title={page.meta_title || page.title}
-        description={page.meta_description}
-        robots={page.meta_robots}
+        title={pageOrPost.meta_title || pageOrPost.title}
+        description={pageOrPost.meta_description}
+        robots={pageOrPost.meta_robots}
         openGraph={{
           type: 'website',
-          title: page.og_title || page.meta_title || page.title,
-          description: page.og_description || page.meta_description,
+          title:
+            pageOrPost.og_title || pageOrPost.meta_title || pageOrPost.title,
+          description: pageOrPost.og_description || pageOrPost.meta_description,
           images: [
             {
-              url: page.og_image_url,
-              width: page.og_image_width,
-              height: page.og_image_height,
-              alt: page.og_image_alt,
+              url: pageOrPost.og_image_url,
+              width: pageOrPost.og_image_width,
+              height: pageOrPost.og_image_height,
+              alt: pageOrPost.og_image_alt,
             },
           ],
         }}

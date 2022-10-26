@@ -8,6 +8,7 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
+  orderBy,
   orderBy as queryOrderBy,
   query,
   QueryConstraint,
@@ -33,6 +34,21 @@ export interface Post {
   long_desc: string
   tags: string[]
   created_date: number
+  published_date: number
+
+  meta_title?: string
+  meta_description?: string
+  meta_robots?: string
+  og_title?: string
+  og_type?: string
+  og_locale?: string
+  og_description?: string
+  og_site_name?: string
+  og_url?: string
+  og_image_url?: string
+  og_image_width?: string
+  og_image_height?: string
+  og_image_alt?: string
 }
 
 interface PostQuery extends QueryBase<Post> {
@@ -59,7 +75,7 @@ export async function deletePost(slug: string | string[]) {
 
 export function usePosts({
   tag,
-  orderBy = 'created_date',
+  orderBy = 'published_date',
   orderDirection = 'desc',
   onError = console.error,
 }: PostQuery = {}) {
@@ -111,8 +127,7 @@ export async function uploadGallery(files: FileList): Promise<PostImage[]> {
 }
 
 const transform = (doc: any) => {
-  const { created_date, closing_date, winner_announce_date, ...data } =
-    doc.data()
+  const { created_date, published_date, ...data } = doc.data()
 
   const slug = doc.id
   const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
@@ -122,6 +137,7 @@ const transform = (doc: any) => {
     slug,
     image,
     created_date: created_date ? created_date.seconds : 0,
+    published_date: published_date ? published_date.seconds : 0,
   } as Post
 }
 
@@ -129,5 +145,6 @@ const transformBack = ({ ...post }: Post) => {
   return {
     ...post,
     created_date: Timestamp.fromDate(new Date(post.created_date)),
+    published_date: Timestamp.fromDate(new Date(post.published_date)),
   }
 }
