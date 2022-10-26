@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import s from './Quantity.module.css'
 import { Cross, Plus, Minus } from '@components/icons'
 import cn from 'clsx'
-import { noop } from '@lib/common'
+import { noop } from '@lib/api/page/common'
 export interface QuantityProps {
   value: number
   increase: () => any

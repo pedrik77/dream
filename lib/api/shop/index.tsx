@@ -6,10 +6,10 @@ import {
   Timestamp,
 } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { today } from '../../date'
+import { today } from '@lib/api/page/date'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
-import { useAuthContext } from '../../auth'
+import { useAuthContext } from '@lib/api/page/auth'
 import { db } from '../../firebase'
 import { Product } from './products'
 

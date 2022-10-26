@@ -5,7 +5,7 @@ import {
   ref,
   uploadBytes,
 } from 'firebase/storage'
-import { app } from './firebase'
+import { app } from '@lib/firebase'
 
 const storage = getStorage(app)
 

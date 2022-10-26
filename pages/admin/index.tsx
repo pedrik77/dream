@@ -2,7 +2,7 @@ import { Layout } from '@components/common'
 import AdminLayout from '@components/common/AdminLayout'
 import Permit from '@components/common/Permit'
 import { Button, Container, Text } from '@components/ui'
-import { PERMISSIONS, useAuthContext } from '@lib/auth'
+import { PERMISSIONS, useAuthContext } from '@lib/api/page/auth'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 

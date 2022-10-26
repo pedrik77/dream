@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { IGNORE_PARAMS } from './menu'
+import { IGNORE_PARAMS } from '@lib/api/page/menu'
 
 export function useIsActiveMenu() {
   const { pathname, asPath } = useRouter()

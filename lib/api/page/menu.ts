@@ -7,8 +7,8 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
-import { db } from './firebase'
-import { QueryBase } from './types'
+import { db } from '@lib/firebase'
+import { QueryBase } from '@lib/types'
 
 export type Link = {
   label: string

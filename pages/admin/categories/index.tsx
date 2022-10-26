@@ -4,15 +4,15 @@ import { Col, DataGrid } from '@components/common/DataGrid'
 import Permit from '@components/common/Permit'
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { confirm } from '@lib/alerts'
-import { PERMISSIONS } from '@lib/auth'
+import { confirm } from '@lib/api/page/alerts'
+import { PERMISSIONS } from '@lib/api/page/auth'
 import {
   Category,
   deleteCategory,
   setCategory,
   useCategories,
 } from '@lib/categories'
-import { uploadFile } from '@lib/files'
+import { uploadFile } from '@lib/api/page/files'
 import { usePermission } from '@lib/hooks/usePermission'
 import { GridEventListener } from '@mui/x-data-grid'
 import _ from 'lodash'

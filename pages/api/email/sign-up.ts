@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendMail } from '@lib/mailer'
-import { getSingleComponent } from '@lib/cms'
+import { getSingleComponent } from '@lib/api/cms'
 import {
   getActionButton,
   processPlaceholders,
   SIGN_UP_CMS_ID,
 } from '@lib/emails'
-import { createToken, getCustomerProfile } from '@lib/auth'
+import { createToken, getCustomerProfile } from '@lib/api/page/auth'
 
 export default async function handler(
   req: NextApiRequest,

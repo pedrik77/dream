@@ -2,7 +2,7 @@ import { Layout } from '@components/common'
 import type { InferGetServerSidePropsType, InferGetStaticPropsType } from 'next'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
-import { getCmsBlock } from '@lib/cms'
+import { getCmsBlock } from '@lib/api/cms'
 
 const CMS_ID = 'static_page__home'
 

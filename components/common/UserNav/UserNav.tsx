@@ -11,7 +11,7 @@ import {
   Button,
 } from '@components/ui'
 
-import { useAuthContext } from '@lib/auth'
+import { useAuthContext } from '@lib/api/page/auth'
 import { useRouter } from 'next/router'
 
 const UserNav: React.FC<{

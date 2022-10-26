@@ -11,7 +11,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth'
-import { app, db } from './firebase'
+import { app, db } from '@lib/firebase'
 import {
   collection,
   deleteDoc,
@@ -24,12 +24,12 @@ import {
   Timestamp,
   where,
 } from 'firebase/firestore'
-import { subscribe } from './newsletter'
+import { subscribe } from '@lib/newsletter'
 import { flash } from '@components/ui/FlashMessage'
-import { WidgetProvider } from './api/cms/adminWidget'
+import { WidgetProvider } from '@lib/api/cms/adminWidget'
 import { noop } from './common'
 import { v4 as uuid4 } from 'uuid'
-import { sendSignUpEmail } from './emails'
+import { sendSignUpEmail } from '@lib/emails'
 
 const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`
 

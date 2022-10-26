@@ -1,4 +1,4 @@
-import { prompt as promptValue } from '@lib/alerts'
+import { prompt as promptValue } from '@lib/api/page/alerts'
 import { COMPONENTS as COMPONENTS_OBJ } from './config'
 import {
   ComponentConfig,

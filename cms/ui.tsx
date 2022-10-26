@@ -17,9 +17,9 @@ import {
 } from 'react'
 import { useScrollDisable } from '@lib/hooks/useScrollDisable'
 import { usePermission } from '@lib/hooks/usePermission'
-import { PERMISSIONS } from '@lib/auth'
+import { PERMISSIONS } from '@lib/api/page/auth'
 import Swal from 'sweetalert2'
-import { confirm } from '@lib/alerts'
+import { confirm } from '@lib/api/page/alerts'
 import {
   getComponentSelectOptions,
   getComponentStarter,
@@ -29,7 +29,7 @@ import {
 } from './getters'
 import * as config from './config'
 import { getInput } from './editors/input'
-import { getCmsBlock, setCmsBlock } from '@lib/cms'
+import { getCmsBlock, setCmsBlock } from '@lib/api/cms'
 import { getSelect } from './editors/select'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'

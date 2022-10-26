@@ -1,7 +1,7 @@
 import { getOrder, setOrder } from '@lib/orders'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendMail } from '@lib/mailer'
-import { getSingleComponent } from '@lib/cms'
+import { getSingleComponent } from '@lib/api/cms'
 import {
   ORDER_CREATED_CMS_ID,
   processPlaceholders,

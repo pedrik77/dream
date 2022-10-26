@@ -1,5 +1,5 @@
 import { Changeable, InputEditor } from 'cms/types'
-import { uploadFile } from '@lib/files'
+import { uploadFile } from '@lib/api/page/files'
 import { getImageInput, Input } from 'cms/editors/input'
 import { Select } from 'cms/editors/select'
 import { useState } from 'react'

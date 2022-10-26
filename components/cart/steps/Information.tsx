@@ -1,12 +1,12 @@
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
 import { Button, Container, Input, Text, useUI } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { setCustomerProfile, useAuthContext } from '@lib/auth'
+import { setCustomerProfile, useAuthContext } from '@lib/api/page/auth'
 import { useEffect, useState } from 'react'
 import { useShopContext } from '@lib/api/shop'
 import { Checkbox } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { noop } from '@lib/common'
+import { noop } from '@lib/api/page/common'
 
 export default function Information({ onNext = noop, onPrev = noop }) {
   const { customer, isLoggedIn } = useAuthContext()

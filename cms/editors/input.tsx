@@ -1,5 +1,5 @@
 import { Input as UiInput } from '@components/ui'
-import { uploadFile } from '@lib/files'
+import { uploadFile } from '@lib/api/page/files'
 import { InputEditorGetter } from 'cms/types'
 import React, { useState } from 'react'
 import { v4 as uuid4 } from 'uuid'

@@ -1,5 +1,5 @@
 import { FC, useRef, useEffect } from 'react'
-import { useAuthContext } from '@lib/auth'
+import { useAuthContext } from '@lib/api/page/auth'
 
 interface Props {
   className?: string

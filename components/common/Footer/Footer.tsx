@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Logo, Container } from '@components/ui'
 import s from './Footer.module.css'
 import Newsletter from './Newsletter'
-import { Link as LinkType, useMenu } from '@lib/menu'
+import { Link as LinkType, useMenu } from '@lib/api/page/menu'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
 

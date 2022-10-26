@@ -5,7 +5,13 @@ import type {
 } from 'next'
 import { Layout, SEO } from '@components/common'
 import { useRouter } from 'next/router'
-import { getPage, getPageCmsId, getPages, Page, pageHref } from '@lib/pages'
+import {
+  getPage,
+  getPageCmsId,
+  getPages,
+  Page,
+  pageHref,
+} from '@lib/api/cms/pages'
 import { CMS } from 'cms'
 import { Container } from '@components/ui'
 

@@ -1,4 +1,4 @@
-import { noop } from '@lib/common'
+import { noop } from '@lib/api/page/common'
 import { db } from '@lib/firebase'
 import { AnyClosure, QueryBase } from '@lib/types'
 import {

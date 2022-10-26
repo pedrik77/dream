@@ -1,5 +1,5 @@
 import { Button, Container, Text, useUI } from '@components/ui'
-import { noop } from '@lib/common'
+import { noop } from '@lib/api/page/common'
 import { useShopContext } from '@lib/api/shop'
 import Link from 'next/link'
 import React, { useMemo } from 'react'

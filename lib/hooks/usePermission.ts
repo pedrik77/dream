@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { PERMISSIONS, useAuthContext } from '@lib/auth'
+import { PERMISSIONS, useAuthContext } from '@lib/api/page/auth'
 
 interface usePermissionArgs {
   permission?: string

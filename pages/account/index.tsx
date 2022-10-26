@@ -1,6 +1,10 @@
 import { Layout } from '@components/common'
 import { Text, Input, Button } from '@components/ui'
-import { useAuthContext, setCustomerProfile, resetPassword } from '@lib/auth'
+import {
+  useAuthContext,
+  setCustomerProfile,
+  resetPassword,
+} from '@lib/api/page/auth'
 import React, {
   FormEventHandler,
   MouseEventHandler,
@@ -12,7 +16,7 @@ import AccountLayout from '@components/auth/AccountLayout'
 import useLoading from '@lib/hooks/useLoading'
 import { AccountField, AccountFieldWrapper } from '@components/account/Fields'
 import { Label } from '@radix-ui/react-dropdown-menu'
-import { confirm } from '@lib/alerts'
+import { confirm } from '@lib/api/page/alerts'
 import { useTranslation } from 'react-i18next'
 
 export default function Account() {

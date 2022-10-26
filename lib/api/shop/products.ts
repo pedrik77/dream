@@ -1,5 +1,5 @@
 import { CmsBlockData, getCmsBlock } from '@lib/api/cms'
-import { uploadFile } from '@lib/files'
+import { uploadFile } from '@lib/api/page/files'
 import { db } from '@lib/firebase'
 import { QueryBase } from '@lib/types'
 import {

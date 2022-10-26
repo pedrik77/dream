@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { useUI } from '@components/ui/context'
 import { Logo, Button, Input } from '@components/ui'
-import { resetPassword } from '@lib/auth'
+import { resetPassword } from '@lib/api/page/auth'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import useLoading from '@lib/hooks/useLoading'
 import { useTranslation } from 'react-i18next'

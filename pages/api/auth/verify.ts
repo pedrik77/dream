@@ -1,4 +1,4 @@
-import { verifyUser } from '@lib/auth'
+import { verifyUser } from '@lib/api/page/auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(

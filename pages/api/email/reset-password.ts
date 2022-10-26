@@ -1,5 +1,5 @@
-import { createToken, getCustomerProfile } from '@lib/auth'
-import { getSingleComponent } from '@lib/cms'
+import { createToken, getCustomerProfile } from '@lib/api/page/auth'
+import { getSingleComponent } from '@lib/api/cms'
 import {
   getActionButton,
   processPlaceholders,

@@ -4,12 +4,12 @@ import { Button, Text } from '@components/ui'
 import ProductTag from '../ProductTag'
 import Link from 'next/link'
 import { getDonorsCount, isClosed, Product } from '@lib/products'
-import { basicShowFormat } from '@lib/date'
+import { basicShowFormat } from '@lib/api/page/date'
 import { Category, categoryHref, getCategory } from '@lib/categories'
 import CountUp from 'react-countup'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
 import { useTranslation } from 'react-i18next'
-import { noop } from '@lib/common'
+import { noop } from '@lib/api/page/common'
 
 interface ProductSidebarProps {
   product: Product

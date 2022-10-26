@@ -5,7 +5,7 @@ import {
   DropdownContent,
   DropdownMenuItem,
 } from '@components/ui/Dropdown/Dropdown'
-import { signOut } from '@lib/auth'
+import { signOut } from '@lib/api/page/auth'
 import { flash } from '@components/ui/FlashMessage'
 import { useTranslation } from 'react-i18next'
 

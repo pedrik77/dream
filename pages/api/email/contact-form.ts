@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendMail } from '@lib/mailer'
-import { getSingleComponent } from '@lib/cms'
+import { getSingleComponent } from '@lib/api/cms'
 import { CONTACT_FORM_CMS_ID, processPlaceholders } from '@lib/emails'
 
 const recipient = process.env.MAIL_CONTACT_RECIPIENT as string

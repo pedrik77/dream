@@ -1,4 +1,4 @@
-import { CustomerDataType, useAuthContext } from '@lib/auth'
+import { CustomerDataType, useAuthContext } from '@lib/api/page/auth'
 import { db } from '@lib/firebase'
 import { QueryBase } from '@lib/types'
 import {

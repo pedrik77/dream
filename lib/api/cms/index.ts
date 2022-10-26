@@ -7,7 +7,7 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import { noop } from '@lib/common'
+import { noop } from '@lib/api/page/common'
 import { db } from '@lib/firebase'
 import { AnyClosure } from '@lib/types'
 

@@ -2,8 +2,8 @@ import { Layout } from '@components/common'
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { categoryToSelect, useCategories } from '@lib/categories'
-import { inputDateFormat } from '@lib/date'
-import { deleteFile } from '@lib/files'
+import { inputDateFormat } from '@lib/api/page/date'
+import { deleteFile } from '@lib/api/page/files'
 import useLoading from '@lib/hooks/useLoading'
 import {
   getDonorsCount,
@@ -26,9 +26,9 @@ import React, {
 } from 'react'
 import { setCategory as createCategory } from '@lib/categories'
 import _ from 'lodash'
-import { confirm } from '@lib/alerts'
+import { confirm } from '@lib/api/page/alerts'
 import Permit from '@components/common/Permit'
-import { PERMISSIONS } from '@lib/auth'
+import { PERMISSIONS } from '@lib/api/page/auth'
 import AdminLayout from '@components/common/AdminLayout'
 import { useTranslation } from 'react-i18next'
 

@@ -1,5 +1,5 @@
 import { Container } from '@components/ui'
-import { PERMISSIONS } from '@lib/auth'
+import { PERMISSIONS } from '@lib/api/page/auth'
 import Link from 'next/link'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

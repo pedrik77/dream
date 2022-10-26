@@ -1,6 +1,6 @@
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { noop } from '@lib/common'
+import { noop } from '@lib/api/page/common'
 import { sendOrderCreatedEmail } from '@lib/emails'
 import { useShopContext } from '@lib/api/shop'
 import { Radio } from '@mui/material'

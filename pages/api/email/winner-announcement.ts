@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendMail } from '@lib/mailer'
-import { getSingleComponent } from '@lib/cms'
+import { getSingleComponent } from '@lib/api/cms'
 import {
   getActionButton,
   processPlaceholders,
