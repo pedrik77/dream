@@ -1,7 +1,7 @@
 import AccountLayout from '@components/auth/AccountLayout'
 import { Layout } from '@components/common'
 import { Text } from '@components/ui'
-import { getOrder, Order } from '@lib/orders'
+import { getOrder, Order } from '@lib/api/shop/orders'
 import { GetServerSideProps } from 'next'
 import React from 'react'
 

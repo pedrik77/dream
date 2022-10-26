@@ -6,7 +6,7 @@ import ProductCard from './ProductCard'
 import { Layout, SEO } from '@components/common'
 import { Skeleton } from '@mui/material'
 import { CMS } from 'cms'
-import { getCategoryCmsId, useCategory } from '@lib/categories'
+import { getCategoryCmsId, useCategory } from '@lib/api/shop/categories'
 import { useRouter } from 'next/router'
 
 export const FALLBACK_BANNER = '/assets/category_fallback_banner.jpg'

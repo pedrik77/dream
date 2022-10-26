@@ -1,6 +1,6 @@
 import { Layout } from '@components/common'
 import AccountLayout from '@components/auth/AccountLayout'
-import { useOrders } from '@lib/orders'
+import { useOrders } from '@lib/api/shop/orders'
 import { basicShowFormat } from '@lib/api/page/date'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'

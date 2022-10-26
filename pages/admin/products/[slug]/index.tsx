@@ -1,7 +1,7 @@
 import { Layout } from '@components/common'
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { categoryToSelect, useCategories } from '@lib/categories'
+import { categoryToSelect, useCategories } from '@lib/api/shop/categories'
 import { inputDateFormat } from '@lib/api/page/date'
 import { deleteFile } from '@lib/api/page/files'
 import useLoading from '@lib/hooks/useLoading'
@@ -24,7 +24,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { setCategory as createCategory } from '@lib/categories'
+import { setCategory as createCategory } from '@lib/api/shop/categories'
 import _ from 'lodash'
 import { confirm } from '@lib/api/page/alerts'
 import Permit from '@components/common/Permit'

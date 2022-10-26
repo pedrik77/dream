@@ -4,7 +4,7 @@ import { sendMail } from '@lib/mailer'
 import { getSingleComponent } from '@lib/api/cms'
 import { processPlaceholders, PRODUCT_CLOSE_CMS_ID } from '@lib/emails'
 import { getProduct } from '@lib/api/shop/products'
-import { getCustomersPerProduct } from '@lib/orders'
+import { getCustomersPerProduct } from '@lib/api/shop/orders'
 
 export default async function handler(
   req: NextApiRequest,

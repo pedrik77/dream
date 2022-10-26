@@ -5,9 +5,9 @@ import { Button, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/api/page/alerts'
 import { PERMISSIONS } from '@lib/api/page/auth'
-import { confetti } from '@lib/confetti'
+import { confetti } from '@lib/api/page/confetti'
 import { sendWinnerAnnouncementEmail } from '@lib/emails'
-import { getOrdersToDraw, OrderToDraw } from '@lib/orders'
+import { getOrdersToDraw, OrderToDraw } from '@lib/api/shop/orders'
 import { getProduct, Product, setProduct } from '@lib/api/shop/products'
 import { sleep } from '@lib/sleep'
 import { flatten, shuffle } from 'lodash'
@@ -68,7 +68,7 @@ export default function WinnersDraw({
       cancelButtonText: t('again'),
       html: `
         <div class="text-center">
-          <div class="text-4xl font-bold">${winner.name}</div>
+          <div class="text-4xl font-bold">${winner.firstname} ${winner.lastname}</div>
           <div class="text-2xl">${winner.email}</div>
         </div>
       `,

@@ -3,7 +3,7 @@ import { Layout } from '@components/common'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import { Text } from '@components/ui'
 import { basicShowFormat } from '@lib/api/page/date'
-import { usePrizes } from '@lib/orders'
+import { usePrizes } from '@lib/api/shop/orders'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 

@@ -1,5 +1,5 @@
 import { CategoryView, FALLBACK_BANNER } from '@components/product/CategoryView'
-import { getAllSlugs, getCategory } from '@lib/categories'
+import { getAllSlugs, getCategory } from '@lib/api/shop/categories'
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
 
 export default CategoryView

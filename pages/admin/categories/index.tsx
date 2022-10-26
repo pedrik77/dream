@@ -11,7 +11,7 @@ import {
   deleteCategory,
   setCategory,
   useCategories,
-} from '@lib/categories'
+} from '@lib/api/shop/categories'
 import { uploadFile } from '@lib/api/page/files'
 import { usePermission } from '@lib/hooks/usePermission'
 import { GridEventListener } from '@mui/x-data-grid'

@@ -6,13 +6,17 @@ import { Button, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { confirm } from '@lib/api/page/alerts'
 import { PERMISSIONS } from '@lib/api/page/auth'
-import { categoryHref, categoryToSelect, useCategories } from '@lib/categories'
+import {
+  categoryHref,
+  categoryToSelect,
+  useCategories,
+} from '@lib/api/shop/categories'
 import { deleteMenuItem, Link, setMenuItem, useMenu } from '@lib/api/page/menu'
 import _ from 'lodash'
 import dynamic from 'next/dynamic'
 import React, { useMemo, useEffect, useState } from 'react'
 import { PropsValue } from 'react-select'
-import { pageHref, usePages, pageToSelect } from '@lib/api/page'
+import { pageHref, usePages, pageToSelect } from '@lib/api/cms/pages'
 import { useTranslation } from 'react-i18next'
 
 const Select = dynamic(import('react-select'), { ssr: false })
