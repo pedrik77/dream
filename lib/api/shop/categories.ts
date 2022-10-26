@@ -18,8 +18,8 @@ export interface Category {
   description?: string
 }
 
-interface UseCategoriesOptions extends QueryBase<Category> {}
-interface UseCategoryOptions {
+interface CategoriesQuery extends QueryBase<Category> {}
+interface CategoryQuery {
   slug: string
   onError?: AnyClosure
 }
@@ -50,7 +50,7 @@ export async function deleteCategory(slug: string | string[]) {
   )
 }
 
-export function useCategory({ slug, onError = noop }: UseCategoryOptions) {
+export function useCategory({ slug, onError = noop }: CategoryQuery) {
   const [category, setCategory] = useState<Category>()
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export function useCategory({ slug, onError = noop }: UseCategoryOptions) {
 
 export function useCategories({
   onError = console.error,
-}: UseCategoriesOptions = {}) {
+}: CategoriesQuery = {}) {
   const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(

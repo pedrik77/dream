@@ -17,7 +17,7 @@ export type Link = {
   is_legal?: boolean
 }
 
-interface UseMenuOptions extends QueryBase<Link> {
+interface MenuQuery extends QueryBase<Link> {
   withHidden?: boolean
 }
 
@@ -53,7 +53,7 @@ export async function deleteMenuItem(href: string | string[]) {
 export function useMenu({
   withHidden = false,
   onError = console.error,
-}: UseMenuOptions = {}) {
+}: MenuQuery = {}) {
   const [menu, setMenu] = useState<Link[]>([])
 
   const filter = (item: Link) => item.menu_position !== null
