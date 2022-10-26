@@ -107,6 +107,7 @@ const LoginView = () => {
         <Button
           variant="slim"
           type="submit"
+          className="hover:border-2 border-secondary"
           loading={loading.pending}
           disabled={loading.pending}
         >
@@ -115,6 +116,7 @@ const LoginView = () => {
         <Button
           variant="slim"
           type="button"
+          className="hover:border-2 border-secondary"
           onClick={handleFbLogin}
           loading={loading.pending}
           disabled={loading.pending}
