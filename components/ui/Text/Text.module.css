@@ -78,9 +78,17 @@
   @apply no-underline;
 }
 .wysiwyg {
-  @apply container;
+  @apply my-12 px-4;
 }
 
 .wysiwyg :in(h1, h2, h3, h3) {
   @apply text-primary;
+}
+
+.wysiwyg ol {
+  @apply list-decimal pl-4 py-4 indent-2;
+}
+
+.wysiwyg ul {
+  @apply list-disc pl-4 py-4 indent-2;
 }
