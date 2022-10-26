@@ -44,7 +44,7 @@
 }
 
 .buyCard {
-  @apply text-center flex flex-col gap-2 sm:gap-4 outline outline-1 outline-secondary hover:outline-primary rounded-lg min-w-[7rem] sm:min-w-[10rem] overflow-hidden cursor-pointer;
+  @apply text-center flex flex-col gap-2 sm:gap-4 outline outline-1 outline-secondary hover:outline-primary rounded-lg min-w-[8rem] sm:min-w-[10rem] overflow-hidden cursor-pointer;
   transition: ease-in-out 200ms;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .btn {
-  @apply block py-4 px-4 sm:px-6 text-lg md:text-2xl;
+  @apply block py-4 px-4 sm:px-6 rounded-none;
 }
 
 .relatedProductsGrid {

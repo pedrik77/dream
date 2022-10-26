@@ -2,7 +2,7 @@
   @apply bg-secondary text-accent-0 cursor-pointer inline-flex text-sm sm:text-[1rem]
   px-6 sm:px-10 lg:px-12 py-3 sm:py-5 lg:py-7 leading-6 transition ease-in-out duration-150
   shadow-sm text-center justify-center uppercase
-  border-transparent border-[2px] items-center font-semibold
+  border-transparent border-[2px] items-center font-semibold rounded-md
   tracking-wide;
   max-height: 64px;
 }

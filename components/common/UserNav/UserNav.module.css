@@ -20,8 +20,9 @@
 }
 
 .item:focus,
+.item:focus-visible,
 .item:active {
-  @apply outline-none;
+  @apply outline-none border-none;
 }
 
 .bagCount {
@@ -41,8 +42,10 @@
 }
 
 .avatarButton:focus,
-.mobileMenu:focus {
-  @apply outline-none;
+.mobileMenu:focus,
+.avatarButton:focus-visible,
+.mobileMenu:focus-visible {
+  @apply outline-none border-none;
 }
 
 .dropdownDesktop {
