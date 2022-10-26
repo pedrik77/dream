@@ -71,6 +71,13 @@ export default function Posts() {
         >
           <Col field="slug" headerName="Slug" width={170} />
           <Col field="title" headerName={t('title')} width={350} />
+          <Col
+            field="published_date"
+            headerName={t('post.published')}
+            width={130}
+          >
+            {(r) => basicShowFormat(r.value)}
+          </Col>
           <Col field="created_date" headerName={t('post.created')} width={130}>
             {(r) => basicShowFormat(r.value)}
           </Col>

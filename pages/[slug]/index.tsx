@@ -13,7 +13,6 @@ import {
   pageHref,
 } from '@lib/api/cms/pages'
 import { CMS } from 'cms'
-import { Container } from '@components/ui'
 import { Post } from '@lib/api/blog/posts'
 import { blog } from '@lib/api'
 
@@ -84,22 +83,24 @@ export default function Pages({
       )}
 
       <SEO
+        // @ts-ignore
         title={pageOrPost.meta_title || pageOrPost.title}
-        description={pageOrPost.meta_description}
+        // @ts-ignore
+        description={pageOrPost.meta_description || pageOrPost.short_desc}
+        // @ts-ignore
         robots={pageOrPost.meta_robots}
         openGraph={{
           type: 'website',
           title:
+            // @ts-ignore
             pageOrPost.og_title || pageOrPost.meta_title || pageOrPost.title,
-          description: pageOrPost.og_description || pageOrPost.meta_description,
-          images: [
-            {
-              url: pageOrPost.og_image_url,
-              width: pageOrPost.og_image_width,
-              height: pageOrPost.og_image_height,
-              alt: pageOrPost.og_image_alt,
-            },
-          ],
+          description:
+            // @ts-ignore
+            pageOrPost.og_description ||
+            // @ts-ignore
+            pageOrPost.meta_description ||
+            // @ts-ignore
+            pageOrPost.short_desc,
         }}
       />
     </>

@@ -35,20 +35,6 @@ export interface Post {
   tags: string[]
   created_date: number
   published_date: number
-
-  meta_title?: string
-  meta_description?: string
-  meta_robots?: string
-  og_title?: string
-  og_type?: string
-  og_locale?: string
-  og_description?: string
-  og_site_name?: string
-  og_url?: string
-  og_image_url?: string
-  og_image_width?: string
-  og_image_height?: string
-  og_image_alt?: string
 }
 
 interface PostQuery extends QueryBase<Post> {
