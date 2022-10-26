@@ -80,6 +80,10 @@ export const PERMISSIONS = {
   PAGES_FORM: 'pages.form',
   PAGES_DELETE: 'pages.delete',
 
+  POSTS_LIST: 'posts.list',
+  POSTS_FORM: 'posts.form',
+  POSTS_DELETE: 'posts.delete',
+
   PRODUCTS_LIST: 'products.list',
   PRODUCTS_FORM: 'products.form',
   PRODUCTS_DELETE: 'products.delete',
@@ -89,9 +93,7 @@ export const PERMISSIONS = {
   MENU_DELETE: 'menu.delete',
 
   CMS: 'cms',
-
   EMAILS: 'emails',
-
   SHOP: 'shop',
 } as const
 

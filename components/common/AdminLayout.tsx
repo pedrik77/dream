@@ -33,6 +33,9 @@ export default function AdminLayout({ children }: { children?: any }) {
           <Permit permission={PERMISSIONS.PAGES_LIST}>
             <Link href="/admin/pages">{t('admin.titles.pages')}</Link>
           </Permit>
+          <Permit permission={PERMISSIONS.POSTS_LIST}>
+            <Link href="/admin/posts">{t('admin.titles.posts')}</Link>
+          </Permit>
           <Permit permission={PERMISSIONS.EMAILS}>
             <Link href="/admin/emails">{t('admin.titles.emails')}</Link>
           </Permit>
