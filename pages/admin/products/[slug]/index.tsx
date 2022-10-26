@@ -31,6 +31,7 @@ import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/api/page/auth'
 import AdminLayout from '@components/common/AdminLayout'
 import { useTranslation } from 'react-i18next'
+import { api } from '@lib/api/rest'
 
 interface ProductEditProps {
   product: Product | null
@@ -284,6 +285,17 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
           {!isEditing && <div>{t('admin.continueToContent')}</div>}
           <div className="flex gap-4 my-12 justify-center">
             <Button disabled={loading.pending}>Uložiť</Button>
+            <Button
+              disabled={loading.pending}
+              onClick={() =>
+                api
+                  .post('/email/product-closing', { productSlug: slug })
+                  .then(() => flash('Success', 'success'))
+                  .catch(handleErrorFlash)
+              }
+            >
+              Uložiť a poslat notif
+            </Button>
             <Button
               type="button"
               onClick={() => router.push('/admin/products')}
