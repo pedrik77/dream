@@ -6,8 +6,8 @@ import {
   processPlaceholders,
   WINNER_ANNOUNCEMENT_CMS_ID,
 } from '@lib/emails'
-import { getProduct } from '@lib/api/shop/products'
 import { getCustomersPerProduct } from '@lib/api/shop/orders'
+import { shop } from '@lib/api'
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,7 +19,7 @@ export default async function handler(
 
   if (!productSlug) return res.status(400).send('Missing product slug')
 
-  const product = await getProduct(productSlug, { withCmsBlocks: false })
+  const product = await shop.products.get(productSlug, { withCmsBlocks: false })
 
   const template = await getSingleComponent(WINNER_ANNOUNCEMENT_CMS_ID)
 

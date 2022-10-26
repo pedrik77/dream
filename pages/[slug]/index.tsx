@@ -27,9 +27,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     }
   }
 
-  const post = await blog.posts
-    .getPost(params?.slug as string)
-    .catch(console.error)
+  const post = await blog.posts.get(params?.slug as string).catch(console.error)
 
   if (!!post) {
     return {

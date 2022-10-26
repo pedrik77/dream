@@ -10,12 +10,12 @@ import { confirm, prompt } from '@lib/api/page/alerts'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import { useTranslation } from 'react-i18next'
 import AdminLayout from '@components/common/AdminLayout'
-import { deletePost, usePosts } from '@lib/api/blog/posts'
+import { blog } from '@lib/api'
 
 export default function Posts() {
   const router = useRouter()
 
-  const { posts } = usePosts({
+  const { data: posts } = blog.posts.useSubscription({
     onError: handleErrorFlash,
   })
 
@@ -26,7 +26,8 @@ export default function Posts() {
   const handleDeleteSelected = async () => {
     if (!(await confirm(t('sure')))) return
 
-    deletePost(selected)
+    blog.posts
+      .delete(selected)
       .then(() => flash(t('deleted') + ': ' + selected.length))
       .catch(handleErrorFlash)
   }

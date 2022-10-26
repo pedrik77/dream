@@ -1,4 +1,3 @@
-import { useProducts } from '@lib/api/shop/products'
 import { useState } from 'react'
 import { Container, Text } from '@components/ui'
 import { Tab } from '@components/ui/Tab/Tab'
@@ -8,6 +7,7 @@ import { Skeleton } from '@mui/material'
 import { CMS } from 'cms'
 import { getCategoryCmsId, useCategory } from '@lib/api/shop/categories'
 import { useRouter } from 'next/router'
+import { shop } from '@lib/api'
 
 export const FALLBACK_BANNER = '/assets/category_fallback_banner.jpg'
 
@@ -31,7 +31,10 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
   const [bannerUrl, setBannerUrl] = useState('')
 
   const { locale = '' } = useRouter()
-  const { products, loading } = useProducts({ categorySlug, showClosed })
+  const { data: products, loading } = shop.products.useSubscription({
+    categorySlug,
+    showClosed,
+  })
   const category = useCategory({ slug: categorySlug || '' })
 
   const title = category?.title || 'Všetky produkty'

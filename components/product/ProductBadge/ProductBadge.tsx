@@ -1,5 +1,5 @@
 import { Product } from '@lib/api/shop/products'
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import s from './ProductBadge.module.css'
 import cn from 'clsx'
 
@@ -40,7 +40,7 @@ const useBadge = (product: Product): [BadgeType, number?] =>
     if (!!product.winner_order) return ['closed']
 
     const now = new Date()
-    const closingDate = new Date(product.closing_date * 1000)
+    const closingDate = product.closing_date
 
     if (now > closingDate) return ['pending']
 
@@ -51,8 +51,7 @@ const useBadge = (product: Product): [BadgeType, number?] =>
     if (diffClosing <= DAYS_BEFORE_CLOSING) return ['closing', diffClosing]
 
     const diffNew = Math.floor(
-      (new Date(product.created_date * 1000).getTime() - now.getTime()) /
-        (1000 * 60 * 60 * 24)
+      (product.created_date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
     )
 
     if (Math.abs(diffNew) <= DAYS_FOR_NEW) return ['new']

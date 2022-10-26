@@ -32,14 +32,10 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
   const [title, setTitle] = useState(post?.title || '')
   const [slug, setSlug] = useState(post?.slug || '')
   const [created_date, setCreatedDate] = useState(
-    inputDateFormat(
-      post?.created_date ? post.created_date : new Date().getTime() / 1000
-    )
+    inputDateFormat(post?.created_date ? post.created_date : new Date())
   )
   const [published_date, setPublishedDate] = useState(
-    inputDateFormat(
-      post?.published_date ? post.published_date : new Date().getTime() / 1000
-    )
+    inputDateFormat(post?.published_date ? post.published_date : new Date())
   )
   const [short_desc, setShortDesc] = useState(post?.short_desc || '')
   const [long_desc, setLongDesc] = useState(post?.long_desc || '')
@@ -88,7 +84,7 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
     loading.start()
 
     blog.posts
-      .setPost({
+      .set({
         title,
         slug,
         created_date,

@@ -8,13 +8,14 @@ import { PERMISSIONS } from '@lib/api/page/auth'
 import { confetti } from '@lib/api/page/confetti'
 import { sendWinnerAnnouncementEmail } from '@lib/emails'
 import { getOrdersToDraw, OrderToDraw } from '@lib/api/shop/orders'
-import { getProduct, Product, setProduct } from '@lib/api/shop/products'
+import { Product } from '@lib/api/shop/products'
 import { sleep } from '@lib/sleep'
 import { flatten, shuffle } from 'lodash'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { shop } from '@lib/api'
 
 export const getServerSideProps: GetServerSideProps<{
   product: Product
@@ -25,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<{
   if (!productSlug) return { notFound: true }
 
   const [product, ordersToDraw] = await Promise.all([
-    getProduct(productSlug as string),
+    shop.products.get(productSlug as string),
     getOrdersToDraw(productSlug as string),
   ])
 
@@ -76,7 +77,8 @@ export default function WinnersDraw({
 
     if (!result) return setDrawing(false)
 
-    await setProduct({ ...product, winner_order: winner.uuid })
+    await shop.products
+      .set({ ...product, winner_order: winner.uuid })
       .then(() => flash(t('winners.winnerSelected'), 'success'))
       .catch(handleErrorFlash)
 

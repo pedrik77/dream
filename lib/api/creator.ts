@@ -4,7 +4,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  DocumentData,
   DocumentSnapshot,
   getDoc,
   getDocs,
@@ -14,8 +13,6 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-
-interface TransformOpt {}
 
 interface CreatorOptions<T, D, Q, TransformOpt = {}> {
   getQuery?: (options: Q) => QueryConstraint[]
@@ -89,7 +86,7 @@ export function create<
       )
     },
 
-    useSubscribe(
+    useSubscription(
       queries: Q = {} as Q,
       transformerOptions = defaults.transformerOptions
     ) {

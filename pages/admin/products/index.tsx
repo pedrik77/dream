@@ -3,12 +3,7 @@ import { Button, Container, Text } from '@components/ui'
 import { PERMISSIONS } from '@lib/api/page/auth'
 import Permit from '@components/common/Permit'
 import { useState } from 'react'
-import {
-  deleteProduct,
-  Product,
-  setProduct,
-  useProducts,
-} from '@lib/api/shop/products'
+import { Product } from '@lib/api/shop/products'
 import { basicShowFormat } from '@lib/api/page/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
@@ -16,16 +11,17 @@ import { confirm, prompt } from '@lib/api/page/alerts'
 import { Col, DataGrid } from '@components/common/DataGrid'
 import { useTranslation } from 'react-i18next'
 import AdminLayout from '@components/common/AdminLayout'
+import { shop } from '@lib/api'
 
 export default function Dashboard() {
   const router = useRouter()
 
-  const { products } = useProducts({
+  const { data: products } = shop.products.useSubscription({
     showClosed: null,
     onError: handleErrorFlash,
   })
 
-  const { products: missingWinnerProducts } = useProducts({
+  const { data: missingWinnerProducts } = shop.products.useSubscription({
     showClosed: true,
     winnerAnnounced: false,
     orderDirection: 'asc',
@@ -39,7 +35,8 @@ export default function Dashboard() {
   const handleDeleteSelected = async () => {
     if (!(await confirm(t('sure')))) return
 
-    deleteProduct(selected)
+    shop.products
+      .delete(selected)
       .then(() => flash(t('deleted') + ': ' + selected.length))
       .catch(handleErrorFlash)
   }

@@ -36,7 +36,7 @@ interface WinnersPageProps {
 export default function Winners({ date = '' }: WinnersPageProps) {
   const { locale = '' } = useRouter()
   const { t } = useTranslation()
-  const { data: allProducts } = shop.products.useSubscribe({
+  const { data: allProducts } = shop.products.useSubscription({
     showClosed: true,
     orderBy: 'closing_date',
   })
