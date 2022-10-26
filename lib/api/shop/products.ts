@@ -17,7 +17,7 @@ import {
   where,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
-import * as uuid from 'uuid'
+import { v4 as uuid4 } from 'uuid'
 
 export interface ProductImage {
   src: string
@@ -136,7 +136,7 @@ export function useProducts({
 export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
   const uploaded = await Promise.all(
     Array.from(files).map(async (file) => {
-      const filename = `${uuid.v4()}_${file.name}`
+      const filename = `${uuid4()}_${file.name}`
       const path = `products/${filename}`
       const src = await uploadFile(path, file)
 

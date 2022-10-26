@@ -17,7 +17,7 @@ import {
   where,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
-import * as uuid from 'uuid'
+import { v4 as uuid4 } from 'uuid'
 
 export interface PostImage {
   src: string
@@ -85,8 +85,8 @@ export function usePosts({
     setPosts(undefined)
     return onSnapshot(
       query(collection(db, 'posts'), ...queries),
-      async (querySnapshot) => {
-        const posts = await Promise.all(querySnapshot.docs.map(transform))
+      (querySnapshot) => {
+        const posts = querySnapshot.docs.map(transform)
         setPosts(posts)
       },
       onError
@@ -102,7 +102,7 @@ export function usePosts({
 export async function uploadGallery(files: FileList): Promise<PostImage[]> {
   const uploaded = await Promise.all(
     Array.from(files).map(async (file) => {
-      const filename = `${uuid.v4()}_${file.name}`
+      const filename = `${uuid4()}_${file.name}`
       const path = `posts/${filename}`
       const src = await uploadFile(path, file)
 
