@@ -11,7 +11,7 @@
 }
 
 .button {
-  @apply h-10 bg-secondary text-primary border-0 border-none shadow-none transition-none hover:shadow-none hover:bg-secondary hover:text-accent-0 outline-1 outline outline-secondary max-w-xs sm:max-w-md;
+  @apply h-10 bg-secondary text-primary border-0 border-none shadow-none transition-none hover:shadow-none hover:bg-secondary hover:text-accent-0 outline-1 outline outline-secondary max-w-xs sm:max-w-md sm:ml-2;
 }
 .gdpr {
   @apply flex align-top py-2 lg:flex-row-reverse lg:gap-4;
