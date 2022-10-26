@@ -13,16 +13,12 @@ import {
 } from 'firebase/auth'
 import { app, db } from '@lib/firebase'
 import {
-  collection,
   deleteDoc,
   doc,
   getDoc,
-  getDocs,
   onSnapshot,
-  query,
   setDoc,
   Timestamp,
-  where,
 } from 'firebase/firestore'
 import { subscribe } from '@lib/newsletter'
 import { flash } from '@components/ui/FlashMessage'
