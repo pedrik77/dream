@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { sendMail } from '@lib/mailer'
 import { getSingleComponent } from '@lib/api/cms'
 import { processPlaceholders, PRODUCT_CLOSE_CMS_ID } from '@lib/emails'
-import { getProduct } from '@lib/products'
+import { getProduct } from '@lib/api/shop/products'
 import { getCustomersPerProduct } from '@lib/orders'
 
 export default async function handler(

@@ -12,7 +12,7 @@ import {
   isClosed,
   Product,
   useProducts,
-} from '@lib/products'
+} from '@lib/api/shop/products'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { TICKETS_CMS_ID, useShopContext } from '@lib/api/shop'

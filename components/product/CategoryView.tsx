@@ -1,4 +1,4 @@
-import { useProducts } from '@lib/products'
+import { useProducts } from '@lib/api/shop/products'
 import { useState } from 'react'
 import { Container, Text } from '@components/ui'
 import { Tab } from '@components/ui/Tab/Tab'

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import s from './ProductCard.module.css'
 import Image, { ImageProps } from 'next/image'
 import ProductTag from '../ProductTag'
-import { Product } from '@lib/products'
+import { Product } from '@lib/api/shop/products'
 import { ProductBadge } from '../ProductBadge/ProductBadge'
 
 interface Props {

@@ -13,7 +13,7 @@ import {
   ProductImage,
   setProduct,
   uploadGallery,
-} from '@lib/products'
+} from '@lib/api/shop/products'
 import { Timestamp } from 'firebase/firestore'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'

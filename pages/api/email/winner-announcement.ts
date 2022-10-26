@@ -6,7 +6,7 @@ import {
   processPlaceholders,
   WINNER_ANNOUNCEMENT_CMS_ID,
 } from '@lib/emails'
-import { getProduct } from '@lib/products'
+import { getProduct } from '@lib/api/shop/products'
 import { getCustomersPerProduct } from '@lib/orders'
 
 export default async function handler(

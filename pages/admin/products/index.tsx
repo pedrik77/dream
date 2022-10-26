@@ -3,7 +3,12 @@ import { Button, Container, Text } from '@components/ui'
 import { PERMISSIONS } from '@lib/api/page/auth'
 import Permit from '@components/common/Permit'
 import { useState } from 'react'
-import { deleteProduct, Product, setProduct, useProducts } from '@lib/products'
+import {
+  deleteProduct,
+  Product,
+  setProduct,
+  useProducts,
+} from '@lib/api/shop/products'
 import { basicShowFormat } from '@lib/api/page/date'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'

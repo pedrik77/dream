@@ -2,7 +2,7 @@ import type { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { Layout } from '@components/common'
 import { ProductView } from '@components/product'
-import { getProduct, Product } from '@lib/products'
+import { getProduct, Product } from '@lib/api/shop/products'
 
 interface ProductDetailProps {
   product: Product

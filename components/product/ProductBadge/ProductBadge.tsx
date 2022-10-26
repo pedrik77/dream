@@ -1,4 +1,4 @@
-import { Product } from '@lib/products'
+import { Product } from '@lib/api/shop/products'
 import React, { useEffect, useMemo } from 'react'
 import s from './ProductBadge.module.css'
 import cn from 'clsx'
