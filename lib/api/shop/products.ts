@@ -1,3 +1,7 @@
+import { CmsBlockData, getCmsBlock } from '@lib/cms'
+import { uploadFile } from '@lib/files'
+import { db } from '@lib/firebase'
+import { QueryBase } from '@lib/types'
 import {
   collection,
   deleteDoc,
@@ -13,13 +17,7 @@ import {
   where,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
-import { db } from './firebase'
-import { uploadFile } from './files'
 import * as uuid from 'uuid'
-import { CustomerDataType } from './auth'
-import { Order } from './orders'
-import { QueryBase } from './types'
-import { CmsBlockData, getCmsBlock } from './cms'
 
 export interface ProductImage {
   src: string

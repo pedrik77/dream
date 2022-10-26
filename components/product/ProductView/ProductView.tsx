@@ -15,7 +15,7 @@ import {
 } from '@lib/products'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
-import { TICKETS_CMS_ID, useShopContext } from '@lib/shop'
+import { TICKETS_CMS_ID, useShopContext } from '@lib/api/shop'
 import { confirm, prompt } from '@lib/alerts'
 import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'

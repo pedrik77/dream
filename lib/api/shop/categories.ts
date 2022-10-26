@@ -1,3 +1,6 @@
+import { noop } from '@lib/common'
+import { db } from '@lib/firebase'
+import { AnyClosure, QueryBase } from '@lib/types'
 import {
   collection,
   deleteDoc,
@@ -5,14 +8,9 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
-  orderBy,
-  query,
   setDoc,
 } from 'firebase/firestore'
-import { useEffect, useMemo, useState } from 'react'
-import { noop } from './common'
-import { db } from './firebase'
-import { AnyClosure, QueryBase } from './types'
+import { useEffect, useState } from 'react'
 
 export interface Category {
   slug: string

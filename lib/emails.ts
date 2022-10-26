@@ -1,4 +1,4 @@
-import { api } from './api'
+import { api } from './api/rest'
 import { ContactFormData } from './schemas/contact'
 
 export const CONTACT_FORM_CMS_ID = 'email__contact-form'

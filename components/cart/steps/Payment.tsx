@@ -1,11 +1,9 @@
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
-import { api } from '@lib/api'
 import { noop } from '@lib/common'
 import { sendOrderCreatedEmail } from '@lib/emails'
-import { useShopContext } from '@lib/shop'
+import { useShopContext } from '@lib/api/shop'
 import { Radio } from '@mui/material'
-import { CMS } from 'cms'
 import Image from 'next/image'
 
 export default function Payment({ onNext = noop, onPrev = noop }) {

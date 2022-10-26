@@ -37,7 +37,6 @@ import { flash } from '@components/ui/FlashMessage'
 import { WidgetProvider } from './adminWidget'
 import { noop } from './common'
 import { v4 as uuid4 } from 'uuid'
-import { api } from './api'
 import { sendSignUpEmail } from './emails'
 
 const placeholder = `https://avatars.dicebear.com/api/pixel-art-neutral/bezpohlavny.svg`

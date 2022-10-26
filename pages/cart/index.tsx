@@ -2,7 +2,7 @@ import { Layout } from '@components/common'
 import { Button, Text, Container } from '@components/ui'
 import Stepper from '@components/cart/Stepper'
 import { useEffect, useMemo, useState } from 'react'
-import { useShopContext } from '@lib/shop'
+import { useShopContext } from '@lib/api/shop'
 import steps from '@components/cart/steps'
 
 export default function Cart() {

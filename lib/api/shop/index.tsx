@@ -1,4 +1,3 @@
-import { Product } from '@lib/products'
 import {
   deleteDoc,
   doc,
@@ -7,14 +6,14 @@ import {
   Timestamp,
 } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { today } from './date'
+import { today } from '../../date'
 import { setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
-import { useAuthContext } from './auth'
-import { db } from './firebase'
+import { useAuthContext } from '../../auth'
+import { db } from '../../firebase'
+import { Product } from './products'
 
 const CART_STORAGE_KEY = 'cart'
-const CUSTOMER_STORAGE_KEY = 'customer'
 
 export const TICKETS_CMS_ID = 'static__tickets'
 

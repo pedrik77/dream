@@ -1,3 +1,6 @@
+import { CustomerDataType, useAuthContext } from '@lib/auth'
+import { db } from '@lib/firebase'
+import { QueryBase } from '@lib/types'
 import {
   collection,
   doc,
@@ -11,10 +14,7 @@ import {
   getDocs,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
-import { CustomerDataType, useAuthContext } from './auth'
-import { db } from './firebase'
-import { CartItem } from './shop'
-import { QueryBase } from './types'
+import { CartItem } from '.'
 
 export interface Order {
   uuid: string
