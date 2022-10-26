@@ -2,7 +2,7 @@ import { Layout } from '@components/common'
 import AdminLayout from '@components/common/AdminLayout'
 import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/api/page/auth'
-import { TICKETS_CMS_ID } from '@lib/api/shop'
+import { TICKETS_CMS_ID } from '@lib/api/shop/context'
 import { CMS } from 'cms'
 
 export default function Shop() {

@@ -14,7 +14,8 @@ import {
   getDocs,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
-import { CartItem } from '.'
+import { CartItem } from './context'
+import { create } from '../creator'
 
 export interface Order {
   uuid: string
@@ -38,6 +39,8 @@ export interface OrderToDraw {
 interface OrdersQuery extends QueryBase<Order> {
   user?: string
 }
+
+const orders = create('orders')
 
 export async function getOrder(uuid: string): Promise<Order> {
   const orderDoc = await getDoc(doc(db, 'orders', uuid))

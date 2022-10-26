@@ -1,6 +1,6 @@
 import { Cross } from '@components/icons'
 import { Button, Container, Text } from '@components/ui'
-import { CartItem as ICartItem, useShopContext } from '@lib/api/shop'
+import { CartItem as ICartItem, useShopContext } from '@lib/api/shop/context'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'

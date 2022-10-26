@@ -1,23 +1,18 @@
-import { CmsBlockData, getCmsBlock } from '@lib/api/cms'
-import { uploadFile } from '@lib/api/page/files'
-import { db } from '@lib/firebase'
 import { QueryBase } from '@lib/types'
 import {
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  orderBy as queryOrderBy,
-  query,
   QueryConstraint,
-  setDoc,
   Timestamp,
   where,
+  orderBy as queryOrderBy,
+  query,
+  collection,
+  getDocs,
 } from 'firebase/firestore'
-import { useEffect, useMemo, useState } from 'react'
+import { CmsBlockData, getCmsBlock } from '../cms'
+import { create } from '../creator'
+import { uploadFile } from '../page/files'
 import { v4 as uuid4 } from 'uuid'
+import { db } from '@lib/firebase'
 
 export interface ProductImage {
   src: string
@@ -25,16 +20,25 @@ export interface ProductImage {
   filename: string
 }
 
-export interface Product {
+type DatesDate = {
+  created_date: Date
+  closing_date: Date
+  winner_announce_date: Date
+}
+
+type DatesTimestamp = {
+  created_date: Timestamp
+  closing_date: Timestamp
+  winner_announce_date: Timestamp
+}
+
+export type Product<T extends DatesDate | DatesTimestamp = DatesDate> = T & {
   slug: string
   title_1: string
   title_2: string
   price?: number
   show_donors?: boolean
   short_desc: string
-  created_date: number
-  closing_date: number
-  winner_announce_date: number
   image: ProductImage | null
   gallery: ProductImage[]
   long_desc: string
@@ -51,38 +55,20 @@ interface ProductQuery extends QueryBase<Product> {
   winnerAnnounced?: boolean | null
 }
 
-export async function getProduct(
-  slug: string,
-  options = { withCmsBlocks: true }
-) {
-  const productData = await getDoc(doc(db, 'products', slug))
-
-  return await getTransform(options.withCmsBlocks)(productData)
-}
-
-export async function setProduct({ slug, ...product }: any) {
-  return await setDoc(doc(db, 'products', slug), transformBack(product))
-}
-
-export async function deleteProduct(slug: string | string[]) {
-  return await Promise.all(
-    (typeof slug === 'string' ? [slug] : slug).map((slug) =>
-      deleteDoc(doc(db, 'products', slug))
-    )
-  )
-}
-
-export function useProducts({
-  categorySlug = '',
-  showClosed = false,
-  winnerAnnounced = null,
-  orderBy = 'closing_date',
-  orderDirection = 'desc',
-  onError = console.error,
-}: ProductQuery = {}) {
-  const [products, setProducts] = useState<Product[]>()
-
-  const queries: QueryConstraint[] = useMemo(() => {
+export const products = create<
+  Product,
+  Product<DatesTimestamp>,
+  ProductQuery,
+  { withCmsBlocks?: boolean }
+>('products', {
+  getIdKey: () => 'slug',
+  getQuery: ({
+    categorySlug = '',
+    showClosed = false,
+    winnerAnnounced = null,
+    orderBy = 'closing_date',
+    orderDirection = 'desc',
+  }) => {
     const queries: QueryConstraint[] = []
 
     if (categorySlug) {
@@ -111,27 +97,48 @@ export function useProducts({
     }
 
     return queries
-  }, [categorySlug, showClosed, orderBy, orderDirection, winnerAnnounced])
+  },
+  getTransformerTo:
+    () =>
+    async ({ cmsBlock, winnerPage, ...product }) => {
+      return {
+        ...product,
+        created_date: Timestamp.fromDate(product.created_date),
+        closing_date: Timestamp.fromDate(product.closing_date),
+        winner_announce_date: Timestamp.fromDate(product.winner_announce_date),
+      }
+    },
+  getTransformerFrom: (options) => async (doc) => {
+    const docData = doc.data()
 
-  useEffect(() => {
-    setProducts(undefined)
-    return onSnapshot(
-      query(collection(db, 'products'), ...queries),
-      async (querySnapshot) => {
-        const products = await Promise.all(
-          querySnapshot.docs.map(getTransform())
-        )
-        setProducts(products)
-      },
-      onError
-    )
-  }, [queries, onError])
+    if (!docData) throw new Error()
 
-  return {
-    products: products || [],
-    loading: !products,
-  }
-}
+    const { created_date, closing_date, winner_announce_date, ...data } =
+      docData
+
+    const slug = doc.id
+    const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
+
+    let cmsBlock = null
+    let winnerPage = null
+
+    if (!!options?.withCmsBlocks) {
+      cmsBlock = await getCmsBlock(getProductCmsId(slug)).catch(console.error)
+      winnerPage = await getCmsBlock(getWinnerCmsId(slug)).catch(console.error)
+    }
+
+    return {
+      ...data,
+      slug,
+      image,
+      cmsBlock: cmsBlock || null,
+      winnerPage: winnerPage || null,
+      created_date: created_date.toDate(),
+      closing_date: closing_date.toDate(),
+      winner_announce_date: winner_announce_date.toDate(),
+    } as Product
+  },
+})
 
 export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
   const uploaded = await Promise.all(
@@ -146,8 +153,7 @@ export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
   return uploaded
 }
 
-export const isClosed = (product: Product) =>
-  product.closing_date <= Date.now() / 1000
+export const isClosed = (product: Product) => product.closing_date <= new Date()
 
 export async function getDonorsCount(slug: string) {
   const snapshot = await getDocs(
@@ -165,43 +171,4 @@ export function getProductCmsId(slug: string) {
 
 export function getWinnerCmsId(slug: string) {
   return `winner__${slug}`
-}
-
-const getTransform =
-  (withCmsBlocks = false) =>
-  async (doc: any) => {
-    const { created_date, closing_date, winner_announce_date, ...data } =
-      doc.data()
-
-    const slug = doc.id
-    const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
-    let cmsBlock = null
-    let winnerPage = null
-
-    if (withCmsBlocks) {
-      cmsBlock = await getCmsBlock(getProductCmsId(slug)).catch(console.error)
-      winnerPage = await getCmsBlock(getWinnerCmsId(slug)).catch(console.error)
-    }
-
-    return {
-      ...data,
-      slug,
-      image,
-      cmsBlock: cmsBlock || null,
-      winnerPage: winnerPage || null,
-      created_date: created_date ? created_date.seconds : 0,
-      closing_date: closing_date.seconds,
-      winner_announce_date: winner_announce_date.seconds,
-    } as Product
-  }
-
-const transformBack = ({ cmsBlock, winnerPage, ...product }: Product) => {
-  return {
-    ...product,
-    created_date: Timestamp.fromDate(new Date(product.created_date)),
-    closing_date: Timestamp.fromDate(new Date(product.closing_date)),
-    winner_announce_date: Timestamp.fromDate(
-      new Date(product.winner_announce_date)
-    ),
-  }
 }

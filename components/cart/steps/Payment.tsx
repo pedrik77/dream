@@ -2,7 +2,7 @@ import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { noop } from '@lib/api/page/common'
 import { sendOrderCreatedEmail } from '@lib/emails'
-import { useShopContext } from '@lib/api/shop'
+import { useShopContext } from '@lib/api/shop/context'
 import { Radio } from '@mui/material'
 import Image from 'next/image'
 

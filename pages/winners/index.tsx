@@ -4,12 +4,13 @@ import { Container, Text } from '@components/ui'
 import Link from 'next/link'
 import { useCallback, useMemo, useState } from 'react'
 import { inputDateFormat } from '@lib/api/page/date'
-import { Product, useProducts } from '@lib/api/shop/products'
+import { Product } from '@lib/api/shop/products'
 import { ProductCard } from '@components/product'
 import Tree from '@components/winners/Tree'
 import { CMS } from 'cms'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
+import { shop } from '@lib/api'
 
 const CMS_ID = 'static_page__winners'
 
@@ -35,7 +36,7 @@ interface WinnersPageProps {
 export default function Winners({ date = '' }: WinnersPageProps) {
   const { locale = '' } = useRouter()
   const { t } = useTranslation()
-  const { products: allProducts } = useProducts({
+  const { data: allProducts } = shop.products.useSubscribe({
     showClosed: true,
     orderBy: 'closing_date',
   })
