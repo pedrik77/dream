@@ -36,6 +36,7 @@ interface PostQuery extends QueryBase<Post> {
 }
 
 export const posts = create<Post, Post<WithTimestamp>, PostQuery>('posts', {
+  getIdKey: () => 'slug',
   getQuery: ({ tag, orderBy = 'published_date', orderDirection = 'desc' }) => {
     const queries: QueryConstraint[] = []
 

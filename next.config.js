@@ -1,4 +1,6 @@
-module.exports = {
+const { withSuperjson } = require('next-superjson')
+
+const nextConfig = {
   i18n: {
     locales: ['sk', 'en'],
     defaultLocale: 'sk',
@@ -7,6 +9,8 @@ module.exports = {
     domains: ['firebasestorage.googleapis.com'],
   },
 }
+
+module.exports = withSuperjson()(nextConfig)
 
 // var cron = require('node-cron')
 

@@ -102,6 +102,7 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
       .catch(handleErrorFlash)
       .finally(loading.stop)
   }
+  console.log(post?.tags)
 
   return (
     <Permit permission={PERMISSIONS.POSTS_FORM} redirect="/admin/posts">
@@ -142,7 +143,7 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
             </Input>
 
             <label className="w-[40%]">
-              {t('category')} <br />
+              {t('tag')} <br />
               {Select && (
                 // @ts-ignore
                 <Select

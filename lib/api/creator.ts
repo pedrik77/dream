@@ -43,14 +43,14 @@ export type Transformable<T, E> = E & T
 
 export function create<
   T extends {},
-  D = T,
+  Doc = T,
   Q extends QueryBase<T> = {},
   TransformOpt = {}
->(collectionName: string, options?: CreatorOptions<T, D, Q, TransformOpt>) {
+>(collectionName: string, options?: CreatorOptions<T, Doc, Q, TransformOpt>) {
   const {
     getQuery = () => [],
     getTransformerFrom = () => async (r: any) => r as T,
-    getTransformerTo = () => async (r: any) => r as T,
+    getTransformerTo = () => async (r: any) => r as Doc,
     getIdKey = () => 'uuid',
     defaults = {},
   } = options || {}
@@ -59,10 +59,17 @@ export function create<
 
   return {
     async set(entity: T, transformerOptions = defaults.transformerOptions) {
+      console.log('set', entity)
+
+      const transformer = getTransformerTo(transformerOptions)
+
+      const docData = await transformer(entity)
+
       return await setDoc(
         // @ts-ignore
         doc(db, collectionName, entity[id]),
-        getTransformerTo(transformerOptions)(entity)
+        // @ts-ignore
+        docData
       )
     },
 
@@ -79,7 +86,7 @@ export function create<
         const data = await getDoc(doc(db, collectionName, id))
 
         return await getTransformerFrom(transformerOptions)(
-          data as DocumentSnapshot<D>
+          data as DocumentSnapshot<Doc>
         )
       },
 
@@ -90,7 +97,7 @@ export function create<
 
         return await Promise.all(
           data.docs.map((doc) =>
-            getTransformerFrom(transformerOptions)(doc as DocumentSnapshot<D>)
+            getTransformerFrom(transformerOptions)(doc as DocumentSnapshot<Doc>)
           )
         )
       },
@@ -114,7 +121,7 @@ export function create<
             const data = await Promise.all(
               querySnapshot.docs.map((doc) => {
                 return getTransformerFrom(transformerOptions)(
-                  doc as DocumentSnapshot<D>
+                  doc as DocumentSnapshot<Doc>
                 )
               })
             )
