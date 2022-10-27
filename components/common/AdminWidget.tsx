@@ -22,7 +22,7 @@ function useMenu() {
     [t('admin.titles.categories'), '/admin/categories'],
     [t('admin.titles.pages'), '/admin/pages'],
     ['Menu', '/admin/menu'],
-    // ['Blog', '/admin/posts'],
+    ['Blog', '/admin/posts'],
   ]
 
   const vertical: WidgetLink[] = [

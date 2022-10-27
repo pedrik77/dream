@@ -15,6 +15,7 @@ import {
 import { CMS } from 'cms'
 import { Post } from '@lib/api/blog/posts'
 import { blog } from '@lib/api'
+import BlogPost from '@components/blog/BlogPost'
 
 // export async function getStaticProps({ params, }: GetStaticPropsContext<{ slug: string }>) {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -79,7 +80,7 @@ export default function Pages({
           {pageOrPost.cmsBlock?.components}
         </CMS>
       ) : (
-        <>{pageOrPost.title}</>
+        <BlogPost post={pageOrPost as Post} />
       )}
 
       <SEO
