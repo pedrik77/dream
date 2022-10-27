@@ -16,6 +16,7 @@ export default function List({ posts }: ListProps) {
           <a>
             <Text variant="sectionHeading">{post.title}</Text>
 
+            <p>{post.tags.join(' ')}</p>
             <p>{page.date.basicShowFormat(post.published_date)}</p>
 
             <p dangerouslySetInnerHTML={{ __html: post.short_desc }}></p>
