@@ -44,6 +44,8 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
 
   const [gallery, setGallery] = useState<FileType[]>(post?.gallery || [])
 
+  console.log(post?.gallery)
+
   const loading = useLoading()
   const uploading = useLoading()
 
@@ -102,7 +104,6 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
       .catch(handleErrorFlash)
       .finally(loading.stop)
   }
-  console.log(post?.tags)
 
   return (
     <Permit permission={PERMISSIONS.POSTS_FORM} redirect="/admin/posts">

@@ -12,6 +12,8 @@ export default function BlogPost({ post }: PostProps) {
     <Container>
       <Text variant="pageHeading">{post.title}</Text>
 
+      <img src={post.image?.src} alt="" />
+
       <p>{basicShowFormat(post.published_date)}</p>
 
       <p dangerouslySetInnerHTML={{ __html: post.short_desc }}></p>

@@ -59,8 +59,6 @@ export function create<
 
   return {
     async set(entity: T, transformerOptions = defaults.transformerOptions) {
-      console.log('set', entity)
-
       const transformer = getTransformerTo(transformerOptions)
 
       const docData = await transformer(entity)
