@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<{
   if (!productSlug) return { notFound: true }
 
   const [product, ordersToDraw] = await Promise.all([
-    shop.products.get(productSlug as string),
+    shop.products.get.one(productSlug as string),
     getOrdersToDraw(productSlug as string),
   ])
 

@@ -12,10 +12,12 @@ import { useTranslation } from 'react-i18next'
 import AdminLayout from '@components/common/AdminLayout'
 import { blog } from '@lib/api'
 
+const { useSubscription } = blog.posts
+
 export default function Posts() {
   const router = useRouter()
 
-  const { data: posts } = blog.posts.useSubscription({
+  const { data: posts } = useSubscription({
     onError: handleErrorFlash,
   })
 

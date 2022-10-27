@@ -17,9 +17,7 @@ import {
 } from 'react'
 import { useScrollDisable } from '@lib/hooks/useScrollDisable'
 import { usePermission } from '@lib/hooks/usePermission'
-import { PERMISSIONS } from '@lib/api/page/auth'
 import Swal from 'sweetalert2'
-import { confirm } from '@lib/api/page/alerts'
 import {
   getComponentSelectOptions,
   getComponentStarter,
@@ -34,7 +32,10 @@ import { getSelect } from './editors/select'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { useAdminWidget } from '@lib/api/cms/adminWidget'
+import { page } from '@lib/api'
+import { PERMISSIONS } from '@lib/api/page/auth'
 
+PERMISSIONS
 const selectType = async (options?: any) => {
   const optionKeys = Object.keys(options)
 
@@ -367,7 +368,7 @@ function Components({
     (key: number) => {
       const c = components.filter((_, j) => j !== key)
 
-      confirm('Are you sure?').then((res) => {
+      page.alerts.confirm('Are you sure?').then((res) => {
         if (!res) return
 
         setComponents(c)

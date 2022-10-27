@@ -13,15 +13,17 @@ import { useTranslation } from 'react-i18next'
 import AdminLayout from '@components/common/AdminLayout'
 import { shop } from '@lib/api'
 
+const { useSubscription } = shop.products
+
 export default function Dashboard() {
   const router = useRouter()
 
-  const { data: products } = shop.products.useSubscription({
+  const { data: products } = useSubscription({
     showClosed: null,
     onError: handleErrorFlash,
   })
 
-  const { data: missingWinnerProducts } = shop.products.useSubscription({
+  const { data: missingWinnerProducts } = useSubscription({
     showClosed: true,
     winnerAnnounced: false,
     orderDirection: 'asc',

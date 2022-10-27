@@ -19,7 +19,9 @@ export default async function handler(
 
   if (!productSlug) return res.status(400).send('Missing product slug')
 
-  const product = await shop.products.get(productSlug, { withCmsBlocks: false })
+  const product = await shop.products.get.one(productSlug, {
+    withCmsBlocks: false,
+  })
 
   const template = await getSingleComponent(WINNER_ANNOUNCEMENT_CMS_ID)
 

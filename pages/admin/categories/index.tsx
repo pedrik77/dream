@@ -12,7 +12,6 @@ import {
   setCategory,
   useCategories,
 } from '@lib/api/shop/categories'
-import { uploadFile } from '@lib/api/page/files'
 import { usePermission } from '@lib/hooks/usePermission'
 import { GridEventListener } from '@mui/x-data-grid'
 import _ from 'lodash'

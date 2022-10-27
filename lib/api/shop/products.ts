@@ -10,8 +10,6 @@ import {
 } from 'firebase/firestore'
 import { CmsBlockData, getCmsBlock } from '../cms'
 import { create } from '../creator'
-import { uploadFile } from '../page/files'
-import { v4 as uuid4 } from 'uuid'
 import { db } from '@lib/firebase'
 
 export interface ProductImage {
@@ -41,11 +39,10 @@ export type Product<T extends DatesDate | DatesTimestamp = DatesDate> = T & {
   short_desc: string
   image: ProductImage | null
   gallery: ProductImage[]
-  long_desc: string
   cmsBlock?: CmsBlockData | null
   donation_entries: string
   category: string
-  winner_order?: string
+  winner_order?: string | null
   winnerPage?: CmsBlockData | null
 }
 
@@ -62,6 +59,9 @@ export const products = create<
   { withCmsBlocks?: boolean }
 >('products', {
   getIdKey: () => 'slug',
+  defaults: {
+    storageName: 'gallery',
+  },
   getQuery: ({
     categorySlug = '',
     showClosed = false,
@@ -134,24 +134,11 @@ export const products = create<
       cmsBlock: cmsBlock || null,
       winnerPage: winnerPage || null,
       created_date: created_date.toDate(),
-      closing_date: closing_date.toDate(),
-      winner_announce_date: winner_announce_date.toDate(),
+      closing_date: closing_date?.toDate() || null,
+      winner_announce_date: winner_announce_date?.toDate() || null,
     } as Product
   },
 })
-
-export async function uploadGallery(files: FileList): Promise<ProductImage[]> {
-  const uploaded = await Promise.all(
-    Array.from(files).map(async (file) => {
-      const filename = `${uuid4()}_${file.name}`
-      const path = `products/${filename}`
-      const src = await uploadFile(path, file)
-
-      return { src, path, filename }
-    })
-  )
-  return uploaded
-}
 
 export const isClosed = (product: Product) => product.closing_date <= new Date()
 

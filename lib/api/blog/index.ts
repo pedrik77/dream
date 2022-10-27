@@ -1,4 +1,2 @@
-import { posts } from './posts'
-import * as tags from './tags'
-
-export const blog = { posts, tags }
+export { posts } from './posts'
+export * as tags from './tags'

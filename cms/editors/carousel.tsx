@@ -1,10 +1,10 @@
 import { Changeable, InputEditor } from 'cms/types'
-import { uploadFile } from '@lib/api/page/files'
 import { getImageInput, Input } from 'cms/editors/input'
 import { Select } from 'cms/editors/select'
 import { useState } from 'react'
 import { v4 as uuid4 } from 'uuid'
 import { Button } from '@components/ui'
+import { page } from '@lib/api'
 
 const typeOptions = ['iframe', 'image']
 
@@ -48,9 +48,9 @@ export const SlideEditor = ({ onChange, ...slide }: Changeable & Slide) => {
         type={inputType}
         onChange={(src) => onChange({ ...slide, src })}
         onFile={(file) =>
-          uploadFile('cms/carousel/' + uuid4(), file).then((src) =>
-            onChange({ ...slide, src })
-          )
+          page.files
+            .upload('cms/carousel/' + uuid4(), file)
+            .then((src) => onChange({ ...slide, src }))
         }
         imagePreview={{ width: 200, height: 200 }}
       />

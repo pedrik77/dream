@@ -23,8 +23,8 @@ ProductDetail.Layout = Layout
 export const getServerSideProps: GetServerSideProps<
   ProductDetailProps
 > = async ({ params }) => {
-  const product = await shop.products
-    .get((params?.slug as string) || '')
+  const product = await shop.products.get
+    .one((params?.slug as string) || '')
     .catch(console.error)
 
   if (!product) return { notFound: true }

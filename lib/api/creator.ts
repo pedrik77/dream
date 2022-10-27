@@ -1,3 +1,4 @@
+import { page } from '@lib/api'
 import { db } from '@lib/firebase'
 import { QueryBase } from '@lib/types'
 import {
@@ -12,7 +13,14 @@ import {
   QueryConstraint,
   setDoc,
 } from 'firebase/firestore'
-import { useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
+import { v4 as uuid4 } from 'uuid'
+
+export type FileType = {
+  src: string
+  path: string
+  filename: string
+}
 
 interface CreatorOptions<T, D, Q, TransformOpt = {}> {
   getQuery?: (options: Q) => QueryConstraint[]
@@ -27,8 +35,11 @@ interface CreatorOptions<T, D, Q, TransformOpt = {}> {
 
   defaults?: {
     transformerOptions?: TransformOpt
+    storageName?: string
   }
 }
+
+export type Transformable<T, E> = E & T
 
 export function create<
   T extends {},
@@ -47,14 +58,6 @@ export function create<
   const id = getIdKey()
 
   return {
-    async get(id: string, transformerOptions = defaults.transformerOptions) {
-      const data = await getDoc(doc(db, collectionName, id))
-
-      return await getTransformerFrom(transformerOptions)(
-        data as DocumentSnapshot<D>
-      )
-    },
-
     async set(entity: T, transformerOptions = defaults.transformerOptions) {
       return await setDoc(
         // @ts-ignore
@@ -71,19 +74,26 @@ export function create<
       )
     },
 
-    async getMany(
-      queries: Q,
-      transformerOptions = defaults.transformerOptions
-    ) {
-      const data = await getDocs(
-        query(collection(db, collectionName), ...getQuery(queries))
-      )
+    get: {
+      async one(id: string, transformerOptions = defaults.transformerOptions) {
+        const data = await getDoc(doc(db, collectionName, id))
 
-      return await Promise.all(
-        data.docs.map((doc) =>
-          getTransformerFrom(transformerOptions)(doc as DocumentSnapshot<D>)
+        return await getTransformerFrom(transformerOptions)(
+          data as DocumentSnapshot<D>
         )
-      )
+      },
+
+      async many(queries: Q, transformerOptions = defaults.transformerOptions) {
+        const data = await getDocs(
+          query(collection(db, collectionName), ...getQuery(queries))
+        )
+
+        return await Promise.all(
+          data.docs.map((doc) =>
+            getTransformerFrom(transformerOptions)(doc as DocumentSnapshot<D>)
+          )
+        )
+      },
     },
 
     useSubscription(
@@ -91,9 +101,13 @@ export function create<
       transformerOptions = defaults.transformerOptions
     ) {
       const [data, setData] = useState<T[]>()
+      const [refresh, setRefresh] = useState(false)
+
+      const doRefresh: SetStateAction<void> = () => setRefresh((r) => !r)
 
       useEffect(() => {
         setData(undefined)
+
         return onSnapshot(
           query(collection(db, collectionName), ...getQuery(queries)),
           async (querySnapshot) => {
@@ -108,12 +122,32 @@ export function create<
           },
           queries.onError
         )
-      }, [queries, transformerOptions])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [refresh])
 
       return {
         data: data || [],
         loading: !data,
+        refresh: doRefresh,
       }
+    },
+
+    uploadFiles: async (
+      files: FileList,
+      storageName = defaults.storageName || ''
+    ): Promise<FileType[]> => {
+      const uploaded = await Promise.all(
+        Array.from(files).map(async (file) => {
+          const filename = `${uuid4()}_${file.name}`
+          const path = `${collectionName}/${storageName}${
+            !!storageName ? '/' : ''
+          }${filename}`
+          const src = await page.files.upload(path, file)
+
+          return { src, path, filename }
+        })
+      )
+      return uploaded
     },
   }
 }

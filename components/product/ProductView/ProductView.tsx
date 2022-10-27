@@ -20,6 +20,8 @@ import { useTranslation } from 'react-i18next'
 import { CMS } from 'cms'
 import { shop } from '@lib/api'
 
+const { useSubscription } = shop.products
+
 interface ProductViewProps {
   product: Product
 }
@@ -48,7 +50,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const { addToCart, isInCart } = useShopContext()
   const { t } = useTranslation()
 
-  const { data: products } = shop.products.useSubscription({
+  const { data: products } = useSubscription({
     categorySlug: product.category,
   })
 

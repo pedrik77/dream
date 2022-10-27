@@ -2,7 +2,6 @@ import { Layout } from '@components/common'
 import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { inputDateFormat } from '@lib/api/page/date'
-import { deleteFile } from '@lib/api/page/files'
 import useLoading from '@lib/hooks/useLoading'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
@@ -14,9 +13,10 @@ import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/api/page/auth'
 import AdminLayout from '@components/common/AdminLayout'
 import { useTranslation } from 'react-i18next'
-import { blog } from '@lib/api'
-import { Post, PostImage } from '@lib/api/blog/posts'
+import { blog, page } from '@lib/api'
+import { Post } from '@lib/api/blog/posts'
 import { Tag } from '@lib/api/blog/tags'
+import { FileType } from '@lib/api/creator'
 
 interface PostEditProps {
   post: Post | null
@@ -31,18 +31,18 @@ const Editor = dynamic(import('../../../../components/common/Editor'), {
 export default function PostEdit({ post, isEditing }: PostEditProps) {
   const [title, setTitle] = useState(post?.title || '')
   const [slug, setSlug] = useState(post?.slug || '')
-  const [created_date, setCreatedDate] = useState(
-    inputDateFormat(post?.created_date ? post.created_date : new Date())
+  const [created_date, ___] = useState(
+    post?.created_date ? post.created_date : new Date()
   )
   const [published_date, setPublishedDate] = useState(
-    inputDateFormat(post?.published_date ? post.published_date : new Date())
+    post?.published_date ? post.published_date : new Date()
   )
   const [short_desc, setShortDesc] = useState(post?.short_desc || '')
   const [long_desc, setLongDesc] = useState(post?.long_desc || '')
 
   const [tag, setTag] = useState(post?.tags?.[0] || '')
 
-  const [gallery, setGallery] = useState<PostImage[]>(post?.gallery || [])
+  const [gallery, setGallery] = useState<FileType[]>(post?.gallery || [])
 
   const loading = useLoading()
   const uploading = useLoading()
@@ -60,7 +60,7 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
     uploading.start()
 
     blog.posts
-      .uploadGallery(files)
+      .uploadFiles(files)
       .then((uploaded) => {
         setGallery((gallery) => [...gallery, ...uploaded])
         e.target.value = ''
@@ -69,11 +69,11 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
       .finally(uploading.stop)
   }
 
-  const handleDeleteImage = async (image: PostImage) => {
+  const handleDeleteImage = async (image: FileType) => {
     if (!(await confirm('Vymazať obrázok?'))) return
 
     setGallery((gallery) => gallery.filter((i) => i.path !== image.path))
-    deleteFile(image.path).catch(handleErrorFlash)
+    page.files.del(image.path).catch(handleErrorFlash)
   }
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
@@ -90,8 +90,10 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
         created_date,
         published_date,
         short_desc,
+        long_desc,
         tags: [tag],
         gallery,
+        image: null,
       })
       .then(() => {
         flash('Post uložený', 'success')
@@ -122,7 +124,7 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
             <Input
               variant="ghost"
               type="date"
-              value={published_date}
+              value={inputDateFormat(published_date)}
               placeholder={t('post.published_date')}
               onChange={setPublishedDate}
             >
@@ -224,8 +226,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const isEditing = params && params?.slug != 'add'
 
   const post = isEditing
-    ? await blog.posts
-        .getPost((params?.slug as string) || '')
+    ? await blog.posts.get
+        .one((params?.slug as string) || '')
         .catch(console.error)
     : null
 

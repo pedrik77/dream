@@ -1,4 +1,4 @@
-import { uploadFile } from '@lib/api/page/files'
+import { Transformable } from './../creator'
 import { QueryBase } from '@lib/types'
 import {
   orderBy as queryOrderBy,
@@ -6,41 +6,36 @@ import {
   Timestamp,
   where,
 } from 'firebase/firestore'
-import { useEffect, useMemo, useState } from 'react'
-import { v4 as uuid4 } from 'uuid'
-import { create } from '../creator'
+import { create, FileType } from '../creator'
 
-export interface PostImage {
-  src: string
-  path: string
-  filename: string
-}
-
-type DatesDate = {
+type WithDate = {
   created_date: Date
   published_date: Date
 }
 
-type DatesTimestamp = {
+type WithTimestamp = {
   created_date: Timestamp
   published_date: Timestamp
 }
 
-export type Post<T extends DatesDate | DatesTimestamp = DatesDate> = T & {
-  slug: string
-  title: string
-  short_desc: string
-  image: PostImage | null
-  gallery: PostImage[]
-  long_desc: string
-  tags: string[]
-}
+export type Post<T = WithDate> = Transformable<
+  T,
+  {
+    slug: string
+    title: string
+    short_desc: string
+    image: FileType | null
+    gallery: FileType[]
+    long_desc: string
+    tags: string[]
+  }
+>
 
 interface PostQuery extends QueryBase<Post> {
   tag?: string
 }
 
-export const posts = create<Post, Post<DatesTimestamp>, PostQuery>('posts', {
+export const posts = create<Post, Post<WithTimestamp>, PostQuery>('posts', {
   getQuery: ({ tag, orderBy = 'published_date', orderDirection = 'desc' }) => {
     const queries: QueryConstraint[] = []
 

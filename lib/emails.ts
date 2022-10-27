@@ -1,4 +1,4 @@
-import { api } from './api/rest'
+import { rest } from './api'
 import { ContactFormData } from './schemas/contact'
 
 export const CONTACT_FORM_CMS_ID = 'email__contact-form'
@@ -22,37 +22,43 @@ export const templates = {
 }
 
 export async function sendContactFormEmail(contactData: ContactFormData) {
-  const { data } = await api.post('/email/contact-form', contactData)
+  const { data } = await rest.api.post('/email/contact-form', contactData)
   return data === 'ok'
 }
 
 export async function sendResetPasswordEmail(email: string) {
-  const { data } = await api.post('/email/reset-password', { email })
+  const { data } = await rest.api.post('/email/reset-password', { email })
   return data === 'ok'
 }
 
 export async function sendSignUpEmail(email: string) {
-  const { data } = await api.post('/email/sign-up', { email })
+  const { data } = await rest.api.post('/email/sign-up', { email })
   return data === 'ok'
 }
 
 export async function sendOrderCreatedEmail(orderUuid: string) {
-  const { data } = await api.post('/email/order-created', { orderUuid })
+  const { data } = await rest.api.post('/email/order-created', { orderUuid })
   return data === 'ok'
 }
 
 export async function sendUnpaidOrderCreatedEmail(orderUuid: string) {
-  const { data } = await api.post('/email/unpaid-order-created', { orderUuid }) // TODO
+  const { data } = await rest.api.post('/email/unpaid-order-created', {
+    orderUuid,
+  }) // TODO
   return data === 'ok'
 }
 
 export async function sendProductClosingEmail(productSlug: string) {
-  const { data } = await api.post('/email/product-closing', { productSlug }) // TODO
+  const { data } = await rest.api.post('/email/product-closing', {
+    productSlug,
+  }) // TODO
   return data === 'ok'
 }
 
 export async function sendWinnerAnnouncementEmail(productSlug: string) {
-  const { data } = await api.post('/email/winner-announcement', { productSlug })
+  const { data } = await rest.api.post('/email/winner-announcement', {
+    productSlug,
+  })
   return data === 'ok'
 }
 

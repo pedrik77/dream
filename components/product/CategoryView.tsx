@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Container, Text } from '@components/ui'
 import { Tab } from '@components/ui/Tab/Tab'
 import ProductCard from './ProductCard'
@@ -8,6 +8,8 @@ import { CMS } from 'cms'
 import { getCategoryCmsId, useCategory } from '@lib/api/shop/categories'
 import { useRouter } from 'next/router'
 import { shop } from '@lib/api'
+
+const { useSubscription } = shop.products
 
 export const FALLBACK_BANNER = '/assets/category_fallback_banner.jpg'
 
@@ -31,11 +33,16 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
   const [bannerUrl, setBannerUrl] = useState('')
 
   const { locale = '' } = useRouter()
-  const { data: products, loading } = shop.products.useSubscription({
+
+  const category = useCategory({ slug: categorySlug || '' })
+  const {
+    data: products,
+    loading,
+    refresh,
+  } = useSubscription({
     categorySlug,
     showClosed,
   })
-  const category = useCategory({ slug: categorySlug || '' })
 
   const title = category?.title || 'Všetky produkty'
   const description = category?.description || ''
@@ -51,10 +58,22 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
         }
       />
       <Container className="flex gap-8 items-center justify-center my-10">
-        <Tab active={!showClosed} onClick={() => setShowClosed(false)}>
+        <Tab
+          active={!showClosed}
+          onClick={() => {
+            setShowClosed(false)
+            refresh()
+          }}
+        >
           Aktuálne
         </Tab>
-        <Tab active={showClosed} onClick={() => setShowClosed(true)}>
+        <Tab
+          active={showClosed}
+          onClick={() => {
+            setShowClosed(true)
+            refresh()
+          }}
+        >
           Predošlé
         </Tab>
       </Container>

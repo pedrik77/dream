@@ -1,5 +1,5 @@
 import { Input as UiInput } from '@components/ui'
-import { uploadFile } from '@lib/api/page/files'
+import { page } from '@lib/api'
 import { InputEditorGetter } from 'cms/types'
 import React, { useState } from 'react'
 import { v4 as uuid4 } from 'uuid'
@@ -97,13 +97,15 @@ export const getImageInput: InputEditorGetter<
         onFile={(file) => {
           setLoading(true)
 
-          uploadFile(
-            `${getPath ? getPath() : 'imgs'}/${file.name}_${uuid4()}`,
-            file
-          ).then((src) => {
-            onChange(src)
-            setLoading(false)
-          })
+          page.files
+            .upload(
+              `${getPath ? getPath() : 'imgs'}/${file.name}_${uuid4()}`,
+              file
+            )
+            .then((src) => {
+              onChange(src)
+              setLoading(false)
+            })
         }}
         imagePreview={imagePreview || {}}
         label={label}

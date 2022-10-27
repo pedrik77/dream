@@ -3,18 +3,8 @@ import { Button, Container, Input, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { categoryToSelect, useCategories } from '@lib/api/shop/categories'
 import { inputDateFormat } from '@lib/api/page/date'
-import { deleteFile } from '@lib/api/page/files'
 import useLoading from '@lib/hooks/useLoading'
-import {
-  getDonorsCount,
-  getProduct,
-  getProductCmsId,
-  Product,
-  ProductImage,
-  setProduct,
-  uploadGallery,
-} from '@lib/api/shop/products'
-import { Timestamp } from 'firebase/firestore'
+import { getDonorsCount, Product, ProductImage } from '@lib/api/shop/products'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -31,7 +21,7 @@ import Permit from '@components/common/Permit'
 import { PERMISSIONS } from '@lib/api/page/auth'
 import AdminLayout from '@components/common/AdminLayout'
 import { useTranslation } from 'react-i18next'
-import { api } from '@lib/api/rest'
+import { page, shop, rest } from '@lib/api'
 
 interface ProductEditProps {
   product: Product | null
@@ -50,17 +40,13 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const [show_donors, setShowDonors] = useState(product?.show_donors || false)
   const [slug, setSlug] = useState(product?.slug || '')
   const [created_date, setCreatedDate] = useState(
-    inputDateFormat(
-      product?.created_date ? product.created_date : new Date().getTime() / 1000
-    )
+    product?.created_date ? product.created_date : new Date()
   )
   const [closing_date, setClosingDate] = useState(
-    product?.closing_date ? inputDateFormat(product.closing_date) : ''
+    product?.closing_date ? product.closing_date : new Date()
   )
   const [winner_announce_date, setWinnerAnnounceDate] = useState(
-    product?.winner_announce_date
-      ? inputDateFormat(product.winner_announce_date)
-      : ''
+    product?.winner_announce_date ? product.winner_announce_date : new Date()
   )
 
   const [short_desc, setShortDesc] = useState(product?.short_desc || '')
@@ -101,7 +87,8 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
     uploading.start()
 
-    uploadGallery(files)
+    shop.products
+      .uploadFiles(files)
       .then((uploaded) => {
         setGallery((gallery) => [...gallery, ...uploaded])
         e.target.value = ''
@@ -114,7 +101,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
     if (!(await confirm('Vymazať obrázok?'))) return
 
     setGallery((gallery) => gallery.filter((i) => i.path !== image.path))
-    deleteFile(image.path).catch(handleErrorFlash)
+    page.files.del(image.path).catch(handleErrorFlash)
   }
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
@@ -125,21 +112,23 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
     loading.start()
 
-    setProduct({
-      title_1,
-      title_2,
-      show_donors,
-      price,
-      slug,
-      created_date,
-      closing_date,
-      winner_announce_date,
-      gallery,
-      short_desc,
-      category,
-      donation_entries,
-      winner_order: product?.winner_order || null,
-    })
+    shop.products
+      .set({
+        title_1,
+        title_2,
+        show_donors,
+        price,
+        slug,
+        created_date,
+        closing_date,
+        winner_announce_date,
+        gallery,
+        short_desc,
+        category,
+        donation_entries,
+        winner_order: product?.winner_order || null,
+        image: null,
+      })
       .then(() => {
         flash('Produkt uložený', 'success')
         router.push('/products/' + slug)
@@ -231,7 +220,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
             <Input
               variant="ghost"
               type="date"
-              value={closing_date}
+              value={inputDateFormat(closing_date)}
               placeholder={t('product.closing')}
               onChange={setClosingDate}
             >
@@ -241,7 +230,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
             <Input
               variant="ghost"
               type="date"
-              value={winner_announce_date}
+              value={inputDateFormat(winner_announce_date)}
               placeholder={t('product.winnerAnnounce')}
               onChange={setWinnerAnnounceDate}
             >
@@ -288,7 +277,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
             <Button
               disabled={loading.pending}
               onClick={() =>
-                api
+                rest.api
                   .post('/email/product-closing', { productSlug: slug })
                   .then(() => flash('Success', 'success'))
                   .catch(handleErrorFlash)
@@ -315,7 +304,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const isEditing = params && params?.slug != 'add'
 
   const product = isEditing
-    ? await getProduct((params?.slug as string) || '').catch(console.error)
+    ? await shop.products.get
+        .one((params?.slug as string) || '')
+        .catch(console.error)
     : null
 
   if (isEditing && !product) return { notFound: true }

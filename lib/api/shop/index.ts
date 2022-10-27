@@ -1,5 +1,1 @@
-import { products } from './products'
-
-export const shop = {
-  products,
-}
+export { products } from './products'

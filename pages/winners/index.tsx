@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
 import { shop } from '@lib/api'
 
+const { useSubscription } = shop.products
+
 const CMS_ID = 'static_page__winners'
 
 const MONTHS = [
@@ -36,7 +38,7 @@ interface WinnersPageProps {
 export default function Winners({ date = '' }: WinnersPageProps) {
   const { locale = '' } = useRouter()
   const { t } = useTranslation()
-  const { data: allProducts } = shop.products.useSubscription({
+  const { data: allProducts } = useSubscription({
     showClosed: true,
     orderBy: 'closing_date',
   })

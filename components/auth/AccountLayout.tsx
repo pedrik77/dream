@@ -2,9 +2,9 @@ import { Avatar } from '@components/common'
 import Permit from '@components/common/Permit'
 import { Container, Text, useUI } from '@components/ui'
 import { flash } from '@components/ui/FlashMessage'
+import { page } from '@lib/api'
 import { confirm } from '@lib/api/page/alerts'
 import { setCustomerProfile, useAuthContext } from '@lib/api/page/auth'
-import { uploadFile } from '@lib/api/page/files'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { ChangeEventHandler, EventHandler, useRef } from 'react'
@@ -55,7 +55,7 @@ const AccountLayout: React.FC<{
     const path = `avatar/${customer.email}`
 
     try {
-      const src = await uploadFile(path, file)
+      const src = await page.files.upload(path, file)
 
       await setCustomerProfile({ ...customer, avatar: src })
 

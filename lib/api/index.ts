@@ -1,7 +1,15 @@
-export { shop } from './shop'
+export * as page from './page'
 
 //
 
-export { blog } from './blog'
+export * as rest from './rest'
+
+//
+
+export * as shop from './shop'
+
+//
+
+export * as blog from './blog'
 
 //

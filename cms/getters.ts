@@ -1,4 +1,4 @@
-import { prompt as promptValue } from '@lib/api/page/alerts'
+import { page } from '@lib/api'
 import { COMPONENTS as COMPONENTS_OBJ } from './config'
 import {
   ComponentConfig,
@@ -66,7 +66,7 @@ export const getComponentStarter = async (componentType: ComponentType) => {
             (prompt &&
               // @ts-ignore
               prompt.includes(name) &&
-              (await promptValue(name, {
+              (await page.alerts.prompt(name, {
                 cancelButtonText: 'Použiť predvolené',
                 confirmButtonText: 'Pokračovať',
               }))) ||
