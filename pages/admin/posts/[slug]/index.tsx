@@ -44,8 +44,6 @@ export default function PostEdit({ post, isEditing }: PostEditProps) {
 
   const [gallery, setGallery] = useState<FileType[]>(post?.gallery || [])
 
-  console.log(post?.gallery)
-
   const loading = useLoading()
   const uploading = useLoading()
 
