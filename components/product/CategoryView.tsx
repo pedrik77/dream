@@ -32,7 +32,7 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
   const [showClosed, setShowClosed] = useState(false)
   const [bannerUrl, setBannerUrl] = useState('')
 
-  const { locale = '' } = useRouter()
+  const { locale = '', events } = useRouter()
 
   const category = useCategory({ slug: categorySlug || '' })
   const {
@@ -43,6 +43,14 @@ export function CategoryView({ categorySlug }: CategoryViewProps) {
     categorySlug,
     showClosed,
   })
+
+  useEffect(() => {
+    const handle = () => refresh()
+
+    events.on('routeChangeComplete', handle)
+
+    return () => events.off('routeChangeComplete', handle)
+  }, [events, refresh])
 
   const title = category?.title || 'Všetky produkty'
   const description = category?.description || ''
