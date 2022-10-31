@@ -52,97 +52,9 @@ interface ProductQuery extends QueryBase<Product> {
   winnerAnnounced?: boolean | null
 }
 
-export const products = create<
-  Product,
-  Product<DatesTimestamp>,
-  ProductQuery,
-  { withCmsBlocks?: boolean }
->('products', {
-  getIdKey: () => 'slug',
-  defaults: {
-    storageName: 'gallery',
-  },
-  getQuery: ({
-    categorySlug = '',
-    showClosed = false,
-    winnerAnnounced = null,
-    orderBy = 'closing_date',
-    orderDirection = 'desc',
-  }) => {
-    const queries: QueryConstraint[] = []
+const isClosed = (product: Product) => product.closing_date <= new Date()
 
-    if (categorySlug) {
-      queries.push(where('category', '==', categorySlug))
-    }
-
-    if (showClosed === false) {
-      queries.push(where('closing_date', '>', Timestamp.fromDate(new Date())))
-    }
-
-    if (showClosed === true) {
-      queries.push(where('closing_date', '<=', Timestamp.fromDate(new Date())))
-    }
-
-    if (winnerAnnounced !== null) {
-      if (winnerAnnounced) {
-        queries.push(where('winner_order', '!=', null))
-      }
-      if (!winnerAnnounced) {
-        queries.push(where('winner_order', '==', null))
-      }
-    }
-
-    if (orderBy) {
-      queries.push(queryOrderBy(orderBy, orderDirection))
-    }
-
-    return queries
-  },
-  getTransformerTo:
-    () =>
-    async ({ cmsBlock, winnerPage, ...product }) => {
-      return {
-        ...product,
-        created_date: Timestamp.fromDate(product.created_date),
-        closing_date: Timestamp.fromDate(product.closing_date),
-        winner_announce_date: Timestamp.fromDate(product.winner_announce_date),
-      }
-    },
-  getTransformerFrom: (options) => async (doc) => {
-    const docData = doc.data()
-
-    if (!docData) throw new Error()
-
-    const { created_date, closing_date, winner_announce_date, ...data } =
-      docData
-
-    const slug = doc.id
-    const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
-
-    let cmsBlock = null
-    let winnerPage = null
-
-    if (!!options?.withCmsBlocks) {
-      cmsBlock = await getCmsBlock(getProductCmsId(slug)).catch(console.error)
-      winnerPage = await getCmsBlock(getWinnerCmsId(slug)).catch(console.error)
-    }
-
-    return {
-      ...data,
-      slug,
-      image,
-      cmsBlock: cmsBlock || null,
-      winnerPage: winnerPage || null,
-      created_date: created_date.toDate(),
-      closing_date: closing_date?.toDate() || null,
-      winner_announce_date: winner_announce_date?.toDate() || null,
-    } as Product
-  },
-})
-
-export const isClosed = (product: Product) => product.closing_date <= new Date()
-
-export async function getDonorsCount(slug: string) {
+const getDonorsCount = async (slug: string) => {
   const snapshot = await getDocs(
     query(collection(db, 'orders'), where('products', 'array-contains', slug))
   )
@@ -152,10 +64,110 @@ export async function getDonorsCount(slug: string) {
     .filter((v, i, a) => a.indexOf(v) === i).length
 }
 
-export function getProductCmsId(slug: string) {
-  return `product__${slug}`
-}
+const getProductCmsId = (slug: string) => `product__${slug}`
 
-export function getWinnerCmsId(slug: string) {
-  return `winner__${slug}`
+const getWinnerCmsId = (slug: string) => `winner__${slug}`
+
+export const products = {
+  getDonorsCount,
+  isClosed,
+  getProductCmsId,
+  getWinnerCmsId,
+  ...create<
+    Product,
+    Product<DatesTimestamp>,
+    ProductQuery,
+    { withCmsBlocks?: boolean }
+  >('products', {
+    getIdKey: () => 'slug',
+    defaults: {
+      storageName: 'gallery',
+    },
+    getQuery: ({
+      categorySlug = '',
+      showClosed = false,
+      winnerAnnounced = null,
+      orderBy = 'closing_date',
+      orderDirection = 'desc',
+    }) => {
+      const queries: QueryConstraint[] = []
+
+      if (categorySlug) {
+        queries.push(where('category', '==', categorySlug))
+      }
+
+      if (showClosed === false) {
+        queries.push(where('closing_date', '>', Timestamp.fromDate(new Date())))
+      }
+
+      if (showClosed === true) {
+        queries.push(
+          where('closing_date', '<=', Timestamp.fromDate(new Date()))
+        )
+      }
+
+      if (winnerAnnounced !== null) {
+        if (winnerAnnounced) {
+          queries.push(where('winner_order', '!=', null))
+        }
+        if (!winnerAnnounced) {
+          queries.push(where('winner_order', '==', null))
+        }
+      }
+
+      if (orderBy) {
+        queries.push(queryOrderBy(orderBy, orderDirection))
+      }
+
+      return queries
+    },
+    getTransformerTo:
+      () =>
+      async ({ cmsBlock, winnerPage, ...product }) => {
+        return {
+          ...product,
+          created_date: Timestamp.fromDate(product.created_date),
+          closing_date: Timestamp.fromDate(product.closing_date),
+          winner_announce_date: Timestamp.fromDate(
+            product.winner_announce_date
+          ),
+        }
+      },
+    getTransformerFrom:
+      (options = {}) =>
+      async (doc) => {
+        const docData = doc.data()
+
+        if (!docData) throw new Error()
+
+        const { created_date, closing_date, winner_announce_date, ...data } =
+          docData
+
+        const slug = doc.id
+        const image = data.gallery && data.gallery[0] ? data.gallery[0] : null
+
+        let cmsBlock = null
+        let winnerPage = null
+
+        if (!!options.withCmsBlocks) {
+          cmsBlock = await getCmsBlock(getProductCmsId(slug)).catch(
+            console.error
+          )
+          winnerPage = await getCmsBlock(getWinnerCmsId(slug)).catch(
+            console.error
+          )
+        }
+
+        return {
+          ...data,
+          slug,
+          image,
+          cmsBlock: cmsBlock || null,
+          winnerPage: winnerPage || null,
+          created_date: created_date.toDate(),
+          closing_date: closing_date?.toDate() || null,
+          winner_announce_date: winner_announce_date?.toDate() || null,
+        } as Product
+      },
+  }),
 }

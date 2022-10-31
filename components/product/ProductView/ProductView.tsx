@@ -6,12 +6,7 @@ import { ProductSlider, ProductCard } from '@components/product'
 import { Button, Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
-import {
-  getProductCmsId,
-  getWinnerCmsId,
-  isClosed,
-  Product,
-} from '@lib/api/shop/products'
+import { Product } from '@lib/api/shop/products'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { useRouter } from 'next/router'
 import { TICKETS_CMS_ID, useShopContext } from '@lib/api/shop/context'
@@ -58,7 +53,7 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const [variableTicketCount, setVariableTicketCount] = useState(0)
   const [variableMin, setVariableMin] = useState(1)
 
-  const productClosed = isClosed(product)
+  const productClosed = shop.products.isClosed(product)
 
   const relatedProducts = products
     .filter(({ slug }) => slug !== product.slug)
@@ -152,14 +147,14 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
           <div className={s.descContainer}>
             {!!product.winner_order ? (
               <CMS
-                blockId={getWinnerCmsId(product.slug)}
+                blockId={shop.products.getWinnerCmsId(product.slug)}
                 allowedComponents={allowedComponents}
                 forbiddenComponents={[]}
               />
             ) : (
               product.cmsBlock && (
                 <CMS
-                  blockId={getProductCmsId(product.slug)}
+                  blockId={shop.products.getProductCmsId(product.slug)}
                   allowedComponents={allowedComponents}
                   forbiddenComponents={[]}
                 >
