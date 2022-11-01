@@ -82,6 +82,7 @@ export const products = {
     getIdKey: () => 'slug',
     defaults: {
       storageName: 'gallery',
+      transformerOptions: { withCmsBlocks: true },
     },
     getQuery: ({
       categorySlug = '',
