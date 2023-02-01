@@ -4,7 +4,7 @@ import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { categoryToSelect, useCategories } from '@lib/api/shop/categories'
 import { inputDateFormat } from '@lib/api/page/date'
 import useLoading from '@lib/hooks/useLoading'
-import { getDonorsCount, Product, ProductImage } from '@lib/api/shop/products'
+import { products, Product, ProductImage } from '@lib/api/shop/products'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -73,7 +73,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
 
     loadingDonors.start()
 
-    getDonorsCount(product.slug)
+    products.getDonorsCount(product.slug)
       .then(setDonors)
       .catch((e) => {})
       .finally(loadingDonors.stop)

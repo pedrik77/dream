@@ -3,13 +3,14 @@ import { FC, useEffect, useState } from 'react'
 import { Button, Text } from '@components/ui'
 import ProductTag from '../ProductTag'
 import Link from 'next/link'
-import { getDonorsCount, isClosed, Product } from '@lib/api/shop/products'
+import { Product } from '@lib/api/shop/products'
 import { basicShowFormat } from '@lib/api/page/date'
 import { Category, categoryHref, getCategory } from '@lib/api/shop/categories'
 import CountUp from 'react-countup'
 import { handleErrorFlash } from '@components/ui/FlashMessage'
 import { useTranslation } from 'react-i18next'
 import { noop } from '@lib/api/page/common'
+import { shop } from '@lib/api'
 
 interface ProductSidebarProps {
   product: Product
@@ -25,7 +26,7 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   const [category, setCategory] = useState<Category | null>(null)
   const [countUpValue, setCountUpValue] = useState(0)
 
-  const productClosed = isClosed(product)
+  const productClosed = shop.products.isClosed(product)
 
   useEffect(() => {
     if (product.category) {
@@ -36,7 +37,10 @@ const ProductSidebar: FC<ProductSidebarProps> = ({
   useEffect(() => {
     if (!product.show_donors) return setCountUpValue(product.price ?? 0)
 
-    getDonorsCount(product.slug).then(setCountUpValue).catch(handleErrorFlash)
+    shop.products
+      .getDonorsCount(product.slug)
+      .then(setCountUpValue)
+      .catch(handleErrorFlash)
   }, [product])
 
   return (
