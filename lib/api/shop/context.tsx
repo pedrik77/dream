@@ -63,7 +63,7 @@ export const ShopProvider: React.FC = ({ children }) => {
   const [cart, setCart] = useState<CartItem[]>([])
 
   const total = useMemo(
-    () => cart.reduce((acc, item) => acc + item.price, 0),
+    () => cart.reduce((acc, item) => acc + Number(item.price), 0),
     [cart]
   )
 

@@ -41,7 +41,7 @@ if (typeof window !== 'undefined') {
     isTokenAutoRefreshEnabled: true, // Set to true to allow auto-refresh.
   })
 
-  console.log('app check initialized', appCheck)
+  console.log('app check initialized')
 }
 
 export const db = getFirestore(app)

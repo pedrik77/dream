@@ -59,7 +59,6 @@ export function useCmsBlock({ id, onError = noop }: CmsBlockQuery) {
 
 function transform(doc: DocumentSnapshot): CmsBlockData {
   if (!doc.exists()) {
-    console.log(doc)
     throw new Error('Document does not exist')
   }
 
