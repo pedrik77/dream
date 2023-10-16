@@ -68,12 +68,19 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
   const router = useRouter()
   const { t } = useTranslation()
 
+  console.log({
+    created_date,
+    closing_date,
+    winner_announce_date,
+  })
+
   useEffect(() => {
     if (!product) return
 
     loadingDonors.start()
 
-    products.getDonorsCount(product.slug)
+    products
+      .getDonorsCount(product.slug)
       .then(setDonors)
       .catch((e) => {})
       .finally(loadingDonors.stop)
@@ -222,7 +229,7 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               type="date"
               value={inputDateFormat(closing_date)}
               placeholder={t('product.closing')}
-              onChange={setClosingDate}
+              onChange={(date) => setClosingDate(new Date(Date.parse(date)))}
             >
               {t('product.closing')}
             </Input>
@@ -232,7 +239,9 @@ export default function ProductEdit({ product, isEditing }: ProductEditProps) {
               type="date"
               value={inputDateFormat(winner_announce_date)}
               placeholder={t('product.winnerAnnounce')}
-              onChange={setWinnerAnnounceDate}
+              onChange={(date) =>
+                setWinnerAnnounceDate(new Date(Date.parse(date)))
+              }
             >
               {t('product.winnerAnnounce')}
             </Input>
