@@ -41,10 +41,18 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
           <span>{total} €</span>
         </div>
         <div className="flex-1">
-          <Button onClick={handleNext}>Pokračovať s povinnosťou platby</Button>
+          <Button onClick={handleNext} disabled>
+            Pokračovať s povinnosťou platby
+          </Button>
         </div>
       </div>
 
+      <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0  mx-auto">
+        <div className="flex flex-row flex-wrap justify-center gap-2sm:gap-8 py-8">
+          <Text>Platobná brána</Text>
+        </div>
+      </div>
+      {/*
       <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0  mx-auto">
         <div className="flex flex-row flex-wrap justify-center gap-2sm:gap-8 py-8">
           <div className="flex gap-4">
@@ -104,7 +112,6 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
             <div>
               <label htmlFor="cardExpirationDate" className="cursor-pointer">
                 Platnosť karty
-                {/* TODO: translations */}
               </label>
               <Input id="cardExpirationDate" variant="ghost" />
             </div>
@@ -116,7 +123,7 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </Container>
   )
 }

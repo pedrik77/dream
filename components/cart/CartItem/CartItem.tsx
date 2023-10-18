@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 import s from './CartItem.module.css'
+import { t } from 'i18next'
 
 interface CartItemProps extends ICartItem {
   sidebar?: boolean
@@ -45,7 +46,9 @@ export default function CartItem({
           >
             {product.title_1}
           </Text>
-          <span className="text-base m-0 left">{product.title_2}</span>
+          <span className="text-base m-0 left">
+            {t('product.support')} {product.title_2}
+          </span>
         </div>
       </div>
 

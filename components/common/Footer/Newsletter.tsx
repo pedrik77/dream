@@ -5,6 +5,7 @@ import { Checkbox } from '@mui/material'
 import React, { FormEventHandler, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import s from './Newsletter.module.css'
+import Link from '@components/ui/Link'
 
 export default function Newsletter() {
   const [email, setEmail] = useState('')
@@ -58,7 +59,9 @@ export default function Newsletter() {
           />
 
           <label htmlFor="gdpr-checkbox" className={s.text}>
-            {t('footer.newsletter')}
+            <Link href="/ochrana-osobnych-udajov">
+              {t('footer.newsletter')}
+            </Link>
           </label>
         </fieldset>
       </form>

@@ -78,7 +78,7 @@
   @apply no-underline;
 }
 .wysiwyg {
-  @apply my-12 px-4;
+  @apply my-4 px-4;
 }
 
 .wysiwyg :in(h1, h2, h3, h3) {
