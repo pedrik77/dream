@@ -7,6 +7,7 @@ import { useShopContext } from '@lib/api/shop/context'
 import { Checkbox } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { noop } from '@lib/api/page/common'
+import Link from '@components/ui/Link'
 
 export default function Information({ onNext = noop, onPrev = noop }) {
   const { customer, isLoggedIn } = useAuthContext()
@@ -31,6 +32,7 @@ export default function Information({ onNext = noop, onPrev = noop }) {
 
   const [asCompany, setAsCompany] = useState(false)
   const [consent, setConsent] = useState(false)
+  const [gdpr, setGdpr] = useState(false)
 
   useEffect(() => {
     setFirstname(customer.firstname)
@@ -69,7 +71,8 @@ export default function Information({ onNext = noop, onPrev = noop }) {
       !city ||
       !zip ||
       !country ||
-      !consent
+      !consent ||
+      !gdpr
     ) {
       return flash('Vyplňte všetky polia', 'danger')
     }
@@ -356,7 +359,12 @@ export default function Information({ onNext = noop, onPrev = noop }) {
                   htmlFor="consent"
                   className="cursor-pointer pb-4 sm:pb-0"
                 >
-                  {t('checkout.consent')}
+                  Súhlasím so
+                  <Link href="/vseobecne-obchodne-podmienky">
+                    Všeobecnými obchodnými podmienkami
+                  </Link>
+                  a Podmienkami spracovania osobných údajov spoločnosti
+                  Vysnivajsi, n.o. *
                 </label>
                 <Checkbox
                   id="consent"
@@ -364,6 +372,23 @@ export default function Information({ onNext = noop, onPrev = noop }) {
                   className="text-primary pr-2 pl-1"
                   checked={consent}
                   onChange={(e) => setConsent(e.target.checked)}
+                />
+              </AccountField>
+
+              <AccountField>
+                <label htmlFor="gdpr" className="cursor-pointer pb-4 sm:pb-0">
+                  Súhlasím s Súhlasím s
+                  <Link href="/ochrana-osobnych-udajov">
+                    Podmienkami spracovania osobných údajov
+                  </Link>
+                  spoločnosti Vysnivajsi, n.o. *
+                </label>
+                <Checkbox
+                  id="gdpr"
+                  color="default"
+                  className="text-primary pr-2 pl-1"
+                  checked={gdpr}
+                  onChange={(e) => setGdpr(e.target.checked)}
                 />
               </AccountField>
             </div>
