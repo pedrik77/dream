@@ -2,7 +2,7 @@ const { withSuperjson } = require('next-superjson')
 
 const nextConfig = {
   i18n: {
-    locales: ['sk', 'en'],
+    locales: ['sk'],
     defaultLocale: 'sk',
     localeDetection: false,
   },
