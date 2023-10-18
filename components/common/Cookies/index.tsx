@@ -14,9 +14,9 @@ export default function Cookies() {
       title={
         <>
           Táto webstránka používa na zlepšenie vášho prehliadania súbory
-          cookies. Používaním tejto stránky súhlasíte s našou{' '}
+          cookies. Viac sa dozviete na{' '}
           <Link href="/ochrana-osobnych-udajov" className="underline">
-            politikou cookies
+            tejto stránke
           </Link>
           .
         </>
