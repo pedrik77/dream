@@ -1,5 +1,5 @@
 .root {
-  @apply w-full my-8 py-8 relative;
+  @apply w-full my-4 py-8 relative;
 }
 
 .h2 {
