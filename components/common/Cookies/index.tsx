@@ -3,6 +3,7 @@ import { useAcceptCookies } from '@lib/hooks/useAcceptCookies'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import FeatureBar from '../FeatureBar'
+import Link from '@components/ui/Link'
 
 export default function Cookies() {
   const { acceptedCookies, acceptCookies, rejectCookies } = useAcceptCookies()
@@ -11,7 +12,14 @@ export default function Cookies() {
   return (
     <FeatureBar
       title={
-        'Táto webstránka používa na zlepšenie vášho prehliadania súbory cookies. Používaním tejto stránky súhlasíte s našou politikou cookies.'
+        <>
+          Táto webstránka používa na zlepšenie vášho prehliadania súbory
+          cookies. Používaním tejto stránky súhlasíte s našou{' '}
+          <Link href="/ochrana-osobnych-udajov" className="underline">
+            politikou cookies
+          </Link>
+          .
+        </>
       }
       hide={acceptedCookies !== undefined}
       action={
