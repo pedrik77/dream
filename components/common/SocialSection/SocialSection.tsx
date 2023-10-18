@@ -17,6 +17,20 @@ export interface SocialSectionProps {
 const SocialSection = ({ title, links }: SocialSectionProps) => {
   return (
     <div className="flex flex-col gap-3 lg:text-right">
+      <h3 className="font-bold">Kontakt</h3>
+      <div className="flex flex-col gap-3 lg:justify-end">
+        <div>
+          <a href="mailto:info@vysnivaj.si">info@vysnivaj.si</a>
+        </div>
+        <div>
+          <a href="tel:+421918374936">+421 918 374 936</a>
+        </div>
+      </div>
+    </div>
+  )
+
+  return (
+    <div className="flex flex-col gap-3 lg:text-right">
       <h3 className="font-bold">{title}</h3>
       <div className="flex gap-3 lg:justify-end">
         {links.map((link) => {
