@@ -49,10 +49,10 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
 
       <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0  mx-auto">
         <div className="flex flex-row flex-wrap justify-center gap-2sm:gap-8 py-8">
-          <Text>Platobná brána</Text>
+          <Text variant="heading">Platobná brána</Text>
         </div>
       </div>
-      {/*
+      {/*§§
       <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0  mx-auto">
         <div className="flex flex-row flex-wrap justify-center gap-2sm:gap-8 py-8">
           <div className="flex gap-4">
