@@ -30,6 +30,7 @@ export default function Information({ onNext = noop, onPrev = noop }) {
   const [companyVatId, setCompanyVatId] = useState('')
 
   const [asCompany, setAsCompany] = useState(false)
+  const [consent, setConsent] = useState(false)
 
   useEffect(() => {
     setFirstname(customer.firstname)
@@ -67,7 +68,8 @@ export default function Information({ onNext = noop, onPrev = noop }) {
       !street ||
       !city ||
       !zip ||
-      !country
+      !country ||
+      !consent
     ) {
       return flash('Vyplňte všetky polia', 'danger')
     }
@@ -346,6 +348,22 @@ export default function Information({ onNext = noop, onPrev = noop }) {
                   value={country}
                   placeholder="Country"
                   onChange={setCountry}
+                />
+              </AccountField>
+
+              <AccountField>
+                <label
+                  htmlFor="consent"
+                  className="cursor-pointer pb-4 sm:pb-0"
+                >
+                  {t('checkout.consent')}
+                </label>
+                <Checkbox
+                  id="consent"
+                  color="default"
+                  className="text-primary pr-2 pl-1"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
                 />
               </AccountField>
             </div>
