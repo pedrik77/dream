@@ -3,7 +3,7 @@ import s from './FeatureBar.module.css'
 
 interface FeatureBarProps {
   className?: string
-  title: string
+  title: string | React.ReactNode
   description?: string
   hide?: boolean
   action?: React.ReactNode
