@@ -115,8 +115,8 @@ export default function Information({ onNext = noop, onPrev = noop }) {
           <Button className="w-36" onClick={onPrev} variant="ghost">
             Späť
           </Button>
-          <Button className="w-36" onClick={handleNext}>
-            Pokračovať
+          <Button className="w-36 p-0" onClick={handleNext}>
+            Prejsť na platbu
           </Button>
         </div>
       </div>
