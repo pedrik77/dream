@@ -366,8 +366,7 @@ export default function Information({ onNext = noop, onPrev = noop }) {
                   >
                     Všeobecnými obchodnými podmienkami
                   </Link>{' '}
-                  a Podmienkami spracovania osobných údajov spoločnosti
-                  Vysnivajsi, n.o. *
+                  spoločnosti Vysnivajsi, n.o. *
                 </label>
                 <Checkbox
                   id="consent"
