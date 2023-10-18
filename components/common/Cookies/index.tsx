@@ -10,15 +10,17 @@ export default function Cookies() {
 
   return (
     <FeatureBar
-      title={t('cookies.consent')}
+      title={
+        'Táto webstránka používa na zlepšenie vášho prehliadania súbory cookies. Používaním tejto stránky súhlasíte s našou politikou cookies.'
+      }
       hide={acceptedCookies !== undefined}
       action={
         <>
           <Button variant="light" className="mx-5" onClick={rejectCookies}>
-            {t('cookies.reject')}
+            Odmietnuť cookies
           </Button>
           <Button variant="light" className="mx-5" onClick={acceptCookies}>
-            {t('cookies.accept')}
+            Povoliť cookies
           </Button>
         </>
       }
