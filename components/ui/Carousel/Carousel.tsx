@@ -53,7 +53,16 @@ const Carousel = <T,>({ title, children, slides }: CarouselProps<T>) => {
       <Text variant="myHeading" className={s.h2}>
         {title}
       </Text>
-      <div className={`keen-slider ${s.keenSlider}`} ref={sliderRef}>
+      <div className={` ${s.keenSlider} flex justify-center`} ref={sliderRef}>
+        {slides.map((slide, i) => {
+          return (
+            <div key={i} className={`${s.slide} lg:w-1/3`}>
+              {children({ onPrev, onNext, slide })}
+            </div>
+          )
+        })}
+      </div>
+      {/*<div className={`keen-slider ${s.keenSlider}`} ref={sliderRef}>
         {slides.map((slide, i) => {
           return (
             <div key={i} className={`keen-slider__slide ${s.slide}`}>
@@ -61,7 +70,7 @@ const Carousel = <T,>({ title, children, slides }: CarouselProps<T>) => {
             </div>
           )
         })}
-        {/* <div className={`keen-slider__slide ${s.slide}`}>
+         <div className={`keen-slider__slide ${s.slide}`}>
           <iframe
             width="560"
             height="315"
@@ -105,8 +114,8 @@ const Carousel = <T,>({ title, children, slides }: CarouselProps<T>) => {
             allowFullScreen
           ></iframe>
         </div>
-      */}
       </div>
+      */}
 
       <ProductSliderControl onPrev={onPrev} onNext={onNext} />
     </section>
