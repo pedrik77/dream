@@ -359,10 +359,13 @@ export default function Information({ onNext = noop, onPrev = noop }) {
                   htmlFor="consent"
                   className="cursor-pointer pb-4 sm:pb-0"
                 >
-                  Súhlasím so
-                  <Link href="/vseobecne-obchodne-podmienky">
+                  Súhlasím so{' '}
+                  <Link
+                    href="/vseobecne-obchodne-podmienky"
+                    className="underline"
+                  >
                     Všeobecnými obchodnými podmienkami
-                  </Link>
+                  </Link>{' '}
                   a Podmienkami spracovania osobných údajov spoločnosti
                   Vysnivajsi, n.o. *
                 </label>
@@ -377,10 +380,10 @@ export default function Information({ onNext = noop, onPrev = noop }) {
 
               <AccountField>
                 <label htmlFor="gdpr" className="cursor-pointer pb-4 sm:pb-0">
-                  Súhlasím s Súhlasím s
-                  <Link href="/ochrana-osobnych-udajov">
+                  Súhlasím s{' '}
+                  <Link href="/ochrana-osobnych-udajov" className="underline">
                     Podmienkami spracovania osobných údajov
-                  </Link>
+                  </Link>{' '}
                   spoločnosti Vysnivajsi, n.o. *
                 </label>
                 <Checkbox
