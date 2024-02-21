@@ -127,7 +127,8 @@ export const ShopProvider: React.FC = ({ children }) => {
   const placeOrder = async () => {
     const uuid = uuid4()
     const orderCount = await getOrderCount(dayjs().year())
-    const reference = dayjs().format("YYMMDD") + ("" + orderCount).padStart(4, "0")
+    const reference =
+      dayjs().format('YYMMDD') + ('' + orderCount).padStart(4, '0')
 
     await setOrder({
       uuid,
