@@ -12,6 +12,7 @@ import {
   setDoc,
   where,
   getDocs,
+  updateDoc,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
 import { CartItem } from './context'
@@ -51,8 +52,13 @@ export async function getOrder(uuid: string): Promise<Order> {
 export async function setOrder({ uuid, ...order }: any) {
   return await setDoc(doc(db, 'orders', uuid), {
     ...order,
+    total_paid: 0,
     products: order.items.map((i: any) => i.product.slug),
   })
+}
+
+export async function payOrder({ uuid, total_paid }: any) {
+  return await updateDoc(doc(db, 'orders', uuid), { total_paid })
 }
 
 export function useOrders({
