@@ -13,6 +13,7 @@ import {
   where,
   getDocs,
   updateDoc,
+  Timestamp,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
 import { CartItem } from './context'
@@ -55,6 +56,13 @@ export async function setOrder({ uuid, ...order }: any) {
     total_paid: 0,
     products: order.items.map((i: any) => i.product.slug),
   })
+}
+
+export async function getOrderCount(year: number) {
+  const querySnapshot = await getDocs(
+      query(collection(db, 'orders'), where('created_date', '>=', Timestamp.fromDate(new Date(year, 0, 1))), where('created_date', '<=', Timestamp.fromDate(new Date(year, 11, 31))))
+    )
+    return querySnapshot.size
 }
 
 export async function payOrder({ uuid, total_paid }: any) {

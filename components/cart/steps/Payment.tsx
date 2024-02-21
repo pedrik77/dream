@@ -1,10 +1,9 @@
-import { Button, Container, Input, Text } from '@components/ui'
+import { Button, Container, Text } from '@components/ui'
 import { flash, handleErrorFlash } from '@components/ui/FlashMessage'
 import { noop } from '@lib/api/page/common'
 import { sendOrderCreatedEmail } from '@lib/emails'
 import { useShopContext } from '@lib/api/shop/context'
-import { Radio } from '@mui/material'
-import Image from 'next/image'
+import { api } from '@lib/api/rest'
 
 export default function Payment({ onNext = noop, onPrev = noop }) {
   const { total, placeOrder, clearCart } = useShopContext()
@@ -40,16 +39,12 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
           <span>Spolu:</span>
           <span>{total} €</span>
         </div>
-        <div className="flex-1">
-          <Button onClick={handleNext} disabled>
-            Pokračovať s povinnosťou platby
-          </Button>
-        </div>
       </div>
 
       <div className="max-w-full md:max-w-md lg:max-w-xl my-8 px-0  mx-auto">
         <div className="flex flex-row flex-wrap justify-center gap-2sm:gap-8 py-8">
           <Text variant="heading">Platobná brána</Text>
+          <Button onClick={handleNext}>Zaplatiť</Button>
         </div>
       </div>
       {/*§§

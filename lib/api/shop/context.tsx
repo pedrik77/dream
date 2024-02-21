@@ -7,11 +7,12 @@ import {
 } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { today } from '@lib/api/page/date'
-import { setOrder } from './orders'
+import { getOrderCount, setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useAuthContext } from '@lib/api/page/auth'
 import { db } from '../../firebase'
 import { Product } from './products'
+import dayjs from 'dayjs'
 
 const CART_STORAGE_KEY = 'cart'
 
@@ -125,8 +126,12 @@ export const ShopProvider: React.FC = ({ children }) => {
 
   const placeOrder = async () => {
     const uuid = uuid4()
+    const orderCount = await getOrderCount(dayjs().year())
+    const reference = dayjs().format("YYMMDD") + ("" + orderCount).padStart(4, "0")
+
     await setOrder({
       uuid,
+      reference,
       user: user?.email || '',
       items: cart,
       total_price: total,
