@@ -5,6 +5,7 @@ import { sendOrderCreatedEmail } from '@lib/emails'
 import { useShopContext } from '@lib/api/shop/context'
 import { api } from '@lib/api/rest'
 import { useRouter } from 'next/router'
+import { router } from 'next/client'
 
 export default function Payment({ onNext = noop, onPrev = noop }) {
   const { total, placeOrder, clearCart } = useShopContext()
@@ -25,6 +26,8 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
           .catch(handleErrorFlash)
 
         await clearCart()
+
+        router.push(`/pay?order=${orderUuid}`)
       })
       .catch(handleErrorFlash)
   }

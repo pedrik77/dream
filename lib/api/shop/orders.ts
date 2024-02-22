@@ -21,6 +21,7 @@ import { create } from '../creator'
 
 export interface Order {
   uuid: string
+  reference: string
   user: string
   items: CartItem[]
   customer: CustomerDataType
