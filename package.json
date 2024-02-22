@@ -4,7 +4,7 @@
   "license": "MIT",
   "packageManager": "yarn@1.22.17",
   "scripts": {
-    "dev": "next dev -p 3333",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "analyze": "BUNDLE_ANALYZE=both next build",
