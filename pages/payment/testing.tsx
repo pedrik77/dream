@@ -1,4 +1,4 @@
-import { Container } from '@components/ui'
+import { Container, Input } from '@components/ui'
 import { FormEvent, useRef } from 'react'
 import { PaymentRequestModel } from '@lib/payments'
 import { Layout } from '@components/common'
@@ -22,18 +22,68 @@ export default function PaymentTesting() {
 
   return (
     <Container>
-      <form className="flex flex-col" onSubmit={handleSubmit}>
-        <input type="text" name="MID" />
-        <input type="text" name="AMT" />
-        <input type="text" name="CURR" />
-        <input type="text" name="VS" />
-        <input type="text" name="RURL" />
-        <input type="text" name="IPC" />
-        <input type="text" name="NAME" />
-        <input type="text" name="TIMESTAMP" />
-        <button>Vygenerovať HMAC</button>
-        <input ref={hmacRef} disabled type="text" name="HMAC" />
-      </form>
+      <div className="flex ">
+        <form className="flex flex-col" onSubmit={handleSubmit}>
+          <Input type="text" name="MID">
+            MID
+          </Input>
+          <Input type="text" name="AMT">
+            AMT
+          </Input>
+          <Input type="text" name="CURR">
+            CURR
+          </Input>
+          <Input type="text" name="VS">
+            VS
+          </Input>
+          <Input type="text" name="RURL">
+            RURL
+          </Input>
+          <Input type="text" name="IPC">
+            IPC
+          </Input>
+          <Input type="text" name="NAME">
+            NAME
+          </Input>
+          <Input type="text" name="TIMESTAMP">
+            TIMESTAMP
+          </Input>
+          <button>Vygenerovať HMAC</button>
+          <Input ref={hmacRef} disabled type="text" name="HMAC">
+            HMAC
+          </Input>
+        </form>
+        <form className="flex flex-col" onSubmit={handleSubmit}>
+          <Input type="text" name="MID">
+            MID
+          </Input>
+          <Input type="text" name="AMT">
+            AMT
+          </Input>
+          <Input type="text" name="CURR">
+            CURR
+          </Input>
+          <Input type="text" name="VS">
+            VS
+          </Input>
+          <Input type="text" name="RURL">
+            RURL
+          </Input>
+          <Input type="text" name="IPC">
+            IPC
+          </Input>
+          <Input type="text" name="NAME">
+            NAME
+          </Input>
+          <Input type="text" name="TIMESTAMP">
+            TIMESTAMP
+          </Input>
+          <button>Vygenerovať HMAC</button>
+          <Input ref={hmacRef} disabled type="text" name="HMAC">
+            HMAC
+          </Input>
+        </form>
+      </div>
     </Container>
   )
 }
