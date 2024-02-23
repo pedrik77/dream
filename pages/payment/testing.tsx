@@ -1,4 +1,4 @@
-import { Button, Container, Input } from '@components/ui'
+import { Button, Container, Input, Text } from '@components/ui'
 import { FormEvent, useState } from 'react'
 import {
   calculateHmac,
@@ -6,14 +6,14 @@ import {
   concatStringToSignForResult,
   ecdsaPublicKeys,
   PaymentRequestModel,
-  PaymentResultModel
+  PaymentResultModel,
 } from '@lib/payments'
 import { Layout } from '@components/common'
 import { api } from '@lib/api/rest'
 
 export default function PaymentTesting() {
-
-  const defaultPublicKey = '-----BEGIN PUBLIC KEY-----\n' +
+  const defaultPublicKey =
+    '-----BEGIN PUBLIC KEY-----\n' +
     'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEozvFM1FJP4igUQ6kP8ofnY7ydIWksMDk1IKXyr/TRDoX4sTMmmdiIrpmCZD4CLDtP0j2LfD7saSIc8kZUwfILg==\n' +
     '-----END PUBLIC KEY-----'
 
@@ -31,10 +31,13 @@ export default function PaymentTesting() {
       rurl: e.target.querySelector('[name=RURL]')?.value,
       ipc: e.target.querySelector('[name=IPC]')?.value,
       name: e.target.querySelector('[name=NAME]')?.value,
-      timestamp: e.target.querySelector('[name=TIMESTAMP]')?.value
+      timestamp: e.target.querySelector('[name=TIMESTAMP]')?.value,
     }
     const hmacKey = e.target.querySelector('[name=HMACKey]')?.value
-    const hmac = calculateHmac(hmacKey, concatStringToSignForRequest(paymentReqModel))
+    const hmac = calculateHmac(
+      hmacKey,
+      concatStringToSignForRequest(paymentReqModel)
+    )
     setHmac(hmac)
   }
 
@@ -55,28 +58,31 @@ export default function PaymentTesting() {
       timestamp: e.target.querySelector('[name=TIMESTAMP_RES]')?.value,
       hmac: e.target.querySelector('[name=HMAC_RES]')?.value,
       ecdsaKey: e.target.querySelector('[name=ECDSA_KEY_RES]')?.value,
-      ecdsa: e.target.querySelector('[name=ECDSA_RES]')?.value
+      ecdsa: e.target.querySelector('[name=ECDSA_RES]')?.value,
     }
     const stringToSign = concatStringToSignForResult(paymentResultModel)
     const hmacKey = e.target.querySelector('[name=HMACKey_RES]')?.value
     const hmac = calculateHmac(hmacKey, stringToSign)
     setHmacValid(hmac === paymentResultModel.hmac)
     const stringToVerify = stringToSign + hmac
-    const ecdsaPublicKeyToUse = paymentResultModel.ecdsaKey ? ecdsaPublicKeys[+paymentResultModel.ecdsaKey - 1] : defaultPublicKey
+    const ecdsaPublicKeyToUse = paymentResultModel.ecdsaKey
+      ? ecdsaPublicKeys[+paymentResultModel.ecdsaKey - 1]
+      : defaultPublicKey
     const ecdsaVerificationSuccessful = await api.get('/pay/test-check-ecdsa', {
       params: {
         stringToVerify: stringToVerify,
         ecdsa: paymentResultModel.ecdsa,
-        ecdsaPublicKey: ecdsaPublicKeyToUse
-      }
+        ecdsaPublicKey: ecdsaPublicKeyToUse,
+      },
     })
     setEcdsaValid(ecdsaVerificationSuccessful.data)
-
   }
 
   return (
     <Container>
-      <div className="flex gap-8">
+      <Text variant="pageHeading">Form</Text>
+
+      <div className="flex justify-between">
         <form className="flex flex-col" onSubmit={handleRequestSubmit}>
           <Input defaultValue="9999" type="text" name="MID">
             MID
@@ -90,7 +96,11 @@ export default function PaymentTesting() {
           <Input defaultValue="1111" type="text" name="VS">
             VS
           </Input>
-          <Input defaultValue="https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/example.jsp" type="text" name="RURL">
+          <Input
+            defaultValue="https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/example.jsp"
+            type="text"
+            name="RURL"
+          >
             RURL
           </Input>
           <Input defaultValue="1.2.3.4" type="text" name="IPC">
@@ -104,7 +114,9 @@ export default function PaymentTesting() {
           </Input>
           <Input
             defaultValue="31323334353637383930313233343536373839303132333435363738393031323132333435363738393031323334353637383930313233343536373839303132"
-            type="text" name="HMACKey">
+            type="text"
+            name="HMACKey"
+          >
             HMAC Key
           </Input>
           <Button>Vygenerovať HMAC</Button>
@@ -149,7 +161,11 @@ export default function PaymentTesting() {
           <Input defaultValue="01092014125505" type="text" name="TIMESTAMP_RES">
             TIMESTAMP
           </Input>
-          <Input defaultValue="8df96c2603831046d0e3502cab1ddb7d9b629d7f09a44aee7abbec0be3f2d971" type="text" name="HMAC_RES">
+          <Input
+            defaultValue="8df96c2603831046d0e3502cab1ddb7d9b629d7f09a44aee7abbec0be3f2d971"
+            type="text"
+            name="HMAC_RES"
+          >
             HMAC
           </Input>
           <Input defaultValue="" type="text" name="ECDSA_KEY_RES">
@@ -157,19 +173,33 @@ export default function PaymentTesting() {
           </Input>
           <Input
             defaultValue="3044022020410f62c230bd0ba64a5a3f5086711d6d452accab4e81662e4ce07863616790022024ee3c2aad8f2100d31b25acd3ed03c6813849f4608fef1a7f33335142c6bfa3"
-            type="text" name="ECDSA_RES">
+            type="text"
+            name="ECDSA_RES"
+          >
             ECDSA
           </Input>
           <Input
             defaultValue="31323334353637383930313233343536373839303132333435363738393031323132333435363738393031323334353637383930313233343536373839303132"
-            type="text" name="HMACKey_RES">
+            type="text"
+            name="HMACKey_RES"
+          >
             HMAC Key
           </Input>
           <Button>Overiť HMAC a ECDSA</Button>
-          <Input value={hmacValid + ''} readOnly type="text" name="HMAC_VALID_RES">
+          <Input
+            value={hmacValid + ''}
+            readOnly
+            type="text"
+            name="HMAC_VALID_RES"
+          >
             HMAC Valid
           </Input>
-          <Input value={ecdsaValid + ''} readOnly type="text" name="ECDSA_VALID_RES">
+          <Input
+            value={ecdsaValid + ''}
+            readOnly
+            type="text"
+            name="ECDSA_VALID_RES"
+          >
             ECDSA Valid
           </Input>
         </form>
