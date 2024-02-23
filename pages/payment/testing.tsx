@@ -22,7 +22,7 @@ export default function PaymentTesting() {
 
   return (
     <Container>
-      <div className="flex ">
+      <div className="flex gap-8">
         <form className="flex flex-col" onSubmit={handleSubmit}>
           <Input type="text" name="MID">
             MID
