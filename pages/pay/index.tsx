@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 
 import crypto from 'crypto'
 import utc from 'dayjs/plugin/utc'
-import { calculateHmac, concatStringToSignForRequest, PaymentRequestModel } from '@lib/payment-util'
+import { calculateHmac, concatStringToSignForRequest, PaymentRequestModel, hmacKeyEnv } from '@lib/payment-util'
 
 const baseUrl = process.env.NEXT_PUBLIC_URL
 const paymentGateUrl = process.env.PAYMENT_GATE_URL
@@ -63,8 +63,3 @@ function constructPaymentRequestModel(order: Order, clientIp: string) {
   return paymentFormModel
 }
 
-export function hmacKeyEnv(): string {
-  const paymentHmacKey = process.env.PAYMENT_HMAC_KEY
-  if (!paymentHmacKey) throw Error('PAYMENT_HMAC_KEY environment variable has to be set')
-  return paymentHmacKey
-}

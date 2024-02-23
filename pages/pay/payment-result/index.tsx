@@ -1,12 +1,19 @@
 import { Container } from '@components/ui'
 import { GetServerSideProps } from 'next'
-import { getOrder } from '@lib/api/shop/orders'
-import { calculateHmac, concatStringToSignForResult, PaymentResultModel } from '@lib/payment-util'
-import Error from 'next/error'
+import {
+  calculateHmac,
+  concatStringToSignForResult,
+  ecdsaPublicKeys, hmacKeyEnv,
+  PaymentResultModel,
+  verifyEcdsa
+} from '@lib/payments'
 
-export default function PaymentResult({result}: {result: string}) {
+export default function PaymentResult({paymentSuccessful, hmacVerificationSuccessful, ecdsaVerificationSuccessful}: {paymentSuccessful: boolean, hmacVerificationSuccessful: boolean, ecdsaVerificationSuccessful: boolean}) {
+  console.log("Payment successful", paymentSuccessful)
+  console.log("HMAC successful", hmacVerificationSuccessful)
+  console.log("ECDSA successful", ecdsaVerificationSuccessful)
   return <Container>
-    payment-result component and the result is: {result}
+    payment-result component and the result is: {paymentSuccessful}
   </Container>
 }
 
@@ -28,15 +35,16 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
     ecdsaKey: query.ECDSA_KEY as string,
     ecdsa: query.ECDSA as string,
   }
-  console.log(paymentResultModel)
   const stringToSign = concatStringToSignForResult(paymentResultModel)
-  console.log("Own stringToSign", stringToSign)
-  const key = "31323334353637383930313233343536373839303132333435363738393031323132333435363738393031323334353637383930313233343536373839303132"
+  const key = hmacKeyEnv()
   const hmac = calculateHmac(key, stringToSign)
-  const hmacMatches = hmac !== paymentResultModel.hmac
-  console.log("hmacMatches", hmacMatches)
+
+  const stringToVerify = stringToSign + hmac
+  const ecdsaVerificationSuccessful = verifyEcdsa(stringToVerify, paymentResultModel.ecdsa, ecdsaPublicKeys[+paymentResultModel.ecdsaKey - 1])
+  const hmacVerificationSuccessful = hmac === paymentResultModel.hmac
+  const paymentSuccessful = (query.RES as string).toLowerCase() === 'ok'
   return ({
-    props: { result: query.RES }
+    props: { paymentSuccessful, hmacVerificationSuccessful, ecdsaVerificationSuccessful }
   })
 }
 
