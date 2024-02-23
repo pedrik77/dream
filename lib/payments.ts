@@ -7,6 +7,7 @@ export type PaymentRequestModel = {
   curr: string,
   vs: string,
   rurl: string,
+  rem?: string,
   ipc: string,
   name: string,
   timestamp: string,
@@ -61,6 +62,7 @@ export function bytesToHex({ bytes }: { bytes: Uint8Array }) {
 }
 
 export function calculateHmac(key: string, stringToSign: string) {
+  console.log("stringToSign", stringToSign)
   const keyBytes = hexToBytes(key)
   const hmac = crypto.createHmac('sha256', keyBytes)
   hmac.update(stringToSign)
@@ -70,7 +72,7 @@ export function calculateHmac(key: string, stringToSign: string) {
 
 
 export function concatStringToSignForRequest(model: PaymentRequestModel): string {
-  return `${model.mid}${model.amt}${model.curr}${model.vs}${model.rurl}${model.ipc}${model.name}${model.timestamp}`
+  return `${model.mid}${model.amt}${model.curr}${model.vs}${model.rurl}${model.ipc}${model.name}${model.rem || ''}${model.timestamp}`
 }
 
 export function concatStringToSignForResult(model: PaymentResultModel): string {

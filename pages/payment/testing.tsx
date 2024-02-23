@@ -37,6 +37,7 @@ export default function PaymentTesting() {
       rurl: getInput(form, 'RURL').value,
       ipc: getInput(form, 'IPC').value,
       name: getInput(form, 'NAME').value,
+      rem: getInput(form, 'REM').value,
       timestamp: getInput(form, 'TIMESTAMP').value,
     }
     const hmacKey = getInput(form, 'HMACKey').value
@@ -117,6 +118,9 @@ export default function PaymentTesting() {
           </Input>
           <Input defaultValue="Jan Pokusny" type="text" name="NAME">
             NAME
+          </Input>
+          <Input defaultValue="" type="text" name="REM">
+            REM
           </Input>
           <Input defaultValue="01092014125505" type="text" name="TIMESTAMP">
             TIMESTAMP

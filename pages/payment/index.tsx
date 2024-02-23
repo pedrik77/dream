@@ -17,6 +17,7 @@ import { Layout } from '@components/common'
 
 const baseUrl = process.env.NEXT_PUBLIC_URL
 const paymentGateUrl = process.env.PAYMENT_GATE_URL
+const paymentRemRecipient = process.env.PAYMENT_REM_RECIPIENT
 
 export default function Payment({
   paymentFormModel,
@@ -28,14 +29,16 @@ export default function Payment({
     if (!btnRef.current) return
     // btnRef.current.click()
   }, [])
-  return (
+
+  console.log("paymentFormModel", paymentFormModel)
+  return(
     <Container>
-      {/*TODO: prod value: https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/cardpay*/}
       <form action={paymentGateUrl} method="post">
         <input type="hidden" name="MID" value={paymentFormModel.mid} />
         <input type="hidden" name="AMT" value={paymentFormModel.amt} />
         <input type="hidden" name="CURR" value={paymentFormModel.curr} />
         <input type="hidden" name="VS" value={paymentFormModel.vs} />
+        {paymentFormModel.rem && <input type="hidden" name="REM" value={paymentFormModel.rem} />}
         <input type="hidden" name="RURL" value={paymentFormModel.rurl} />
         <input type="hidden" name="IPC" value={paymentFormModel.ipc} />
         <input type="hidden" name="NAME" value={paymentFormModel.name} />
@@ -80,6 +83,7 @@ function constructPaymentRequestModel(order: Order, clientIp: string) {
     rurl: baseUrl + '/payment/result',
     ipc: clientIp,
     name: order.customer.email,
+    rem: paymentRemRecipient,
     timestamp: dayjs.utc().format('DDMMYYYYHHmmss'),
   }
   const stringToSign = concatStringToSignForRequest(paymentFormModel)
