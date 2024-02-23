@@ -3,21 +3,38 @@ import { GetServerSideProps } from 'next'
 import {
   calculateHmac,
   concatStringToSignForResult,
-  ecdsaPublicKeys, hmacKeyEnv,
+  ecdsaPublicKeys,
+  hmacKeyEnv,
   PaymentResultModel,
-  verifyEcdsa
+  verifyEcdsa,
 } from '@lib/payments'
+import { Layout } from '@components/common'
 
-export default function PaymentResult({paymentSuccessful, hmacVerificationSuccessful, ecdsaVerificationSuccessful}: {paymentSuccessful: boolean, hmacVerificationSuccessful: boolean, ecdsaVerificationSuccessful: boolean}) {
-  console.log("Payment successful", paymentSuccessful)
-  console.log("HMAC successful", hmacVerificationSuccessful)
-  console.log("ECDSA successful", ecdsaVerificationSuccessful)
-  return <Container>
-    payment-result component and the result is: {paymentSuccessful}
-  </Container>
+export default function PaymentResult({
+  paymentSuccessful,
+  hmacVerificationSuccessful,
+  ecdsaVerificationSuccessful,
+}: {
+  paymentSuccessful: boolean
+  hmacVerificationSuccessful: boolean
+  ecdsaVerificationSuccessful: boolean
+}) {
+  console.log('Payment successful', paymentSuccessful)
+  console.log('HMAC successful', hmacVerificationSuccessful)
+  console.log('ECDSA successful', ecdsaVerificationSuccessful)
+  return (
+    <Container>
+      payment-result component and the result is: {paymentSuccessful}
+    </Container>
+  )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
+PaymentResult.Layout = Layout
+
+export const getServerSideProps: GetServerSideProps = async ({
+  query,
+  req,
+}) => {
   const paymentResultModel: PaymentResultModel = {
     amt: query.AMT as string,
     curr: query.CURR as string,
@@ -40,12 +57,20 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
   const hmac = calculateHmac(key, stringToSign)
 
   const stringToVerify = stringToSign + hmac
-  const ecdsaVerificationSuccessful = verifyEcdsa(stringToVerify, paymentResultModel.ecdsa, ecdsaPublicKeys[+paymentResultModel.ecdsaKey - 1])
+  const ecdsaVerificationSuccessful = verifyEcdsa(
+    stringToVerify,
+    paymentResultModel.ecdsa,
+    ecdsaPublicKeys[+paymentResultModel.ecdsaKey - 1]
+  )
   const hmacVerificationSuccessful = hmac === paymentResultModel.hmac
   const paymentSuccessful = (query.RES as string).toLowerCase() === 'ok'
-  return ({
-    props: { paymentSuccessful, hmacVerificationSuccessful, ecdsaVerificationSuccessful }
-  })
+  return {
+    props: {
+      paymentSuccessful,
+      hmacVerificationSuccessful,
+      ecdsaVerificationSuccessful,
+    },
+  }
 }
 
 // example key: 31323334353637383930313233343536373839303132333435363738393031323132333435363738393031323334353637383930313233343536373839303132
