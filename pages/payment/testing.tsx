@@ -49,25 +49,28 @@ export default function PaymentTesting() {
 
   const handleResponseSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const form = e.target as HTMLFormElement
+
     const paymentResultModel: PaymentResultModel = {
-      amt: e.target.querySelector('[name=AMT_RES]')?.value,
-      curr: e.target.querySelector('[name=CURR_RES]')?.value,
-      vs: e.target.querySelector('[name=VS_RES]')?.value,
-      txn: e.target.querySelector('[name=TXN_RES]')?.value,
-      res: e.target.querySelector('[name=RES_RES]')?.value,
-      ac: e.target.querySelector('[name=AC_RES]')?.value,
-      cc: e.target.querySelector('[name=CC_RES]')?.value,
-      tres: e.target.querySelector('[name=TRES_RES]')?.value,
-      cid: e.target.querySelector('[name=CID_RES]')?.value,
-      rc: e.target.querySelector('[name=RC_RES]')?.value,
-      tid: e.target.querySelector('[name=TID_RES]')?.value,
-      timestamp: e.target.querySelector('[name=TIMESTAMP_RES]')?.value,
-      hmac: e.target.querySelector('[name=HMAC_RES]')?.value,
-      ecdsaKey: e.target.querySelector('[name=ECDSA_KEY_RES]')?.value,
-      ecdsa: e.target.querySelector('[name=ECDSA_RES]')?.value,
+      amt: getInput(form, 'AMT_RES').value,
+      curr: getInput(form, 'CURR_RES').value,
+      vs: getInput(form, 'VS_RES').value,
+      txn: getInput(form, 'TXN_RES').value,
+      res: getInput(form, 'RES_RES').value,
+      ac: getInput(form, 'AC_RES').value,
+      cc: getInput(form, 'CC_RES').value,
+      tres: getInput(form, 'TRES_RES').value,
+      cid: getInput(form, 'CID_RES').value,
+      rc: getInput(form, 'RC_RES').value,
+      tid: getInput(form, 'TID_RES').value,
+      timestamp: getInput(form, 'TIMESTAMP_RES').value,
+      hmac: getInput(form, 'HMAC_RES').value,
+      ecdsaKey: getInput(form, 'ECDSA_KEY_RES').value,
+      ecdsa: getInput(form, 'ECDSA_RES').value,
     }
     const stringToSign = concatStringToSignForResult(paymentResultModel)
-    const hmacKey = e.target.querySelector('[name=HMACKey_RES]')?.value
+    const hmacKey = getInput(form, 'HMACKey_RES').value
     const hmac = calculateHmac(hmacKey, stringToSign)
     setHmacValid(hmac === paymentResultModel.hmac)
     const stringToVerify = stringToSign + hmac
