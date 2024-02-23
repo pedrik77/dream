@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import * as crypto from 'crypto'
 import process from 'process'
 
 export type PaymentRequestModel = {
@@ -78,14 +78,8 @@ export function concatStringToSignForResult(model: PaymentResultModel): string {
 }
 
 export function verifyEcdsa(stringToVerify: string, ecdsa: string, ecdsaKey: string): boolean {
-  const crypto = require('crypto');
-
-  const pemPublicKey = "-----BEGIN PUBLIC KEY-----\n" +
-    "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEozvFM1FJP4igUQ6kP8ofnY7y\n" +
-    "dIWksMDk1IKXyr/TRDoX4sTMmmdiIrpmCZD4CLDtP0j2LfD7saSIc8kZUwfILg==\n" +
-    "-----END PUBLIC KEY-----"
   const publicKeyObject = crypto.createPublicKey({
-    key: pemPublicKey,
+    key: ecdsaKey,
     format: 'pem'
   });
 
