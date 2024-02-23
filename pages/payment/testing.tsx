@@ -11,6 +11,9 @@ import {
 import { Layout } from '@components/common'
 import { api } from '@lib/api/rest'
 
+const getInput = (form: HTMLFormElement, name: string) =>
+  form.querySelector(`[name=${name}]`) as HTMLInputElement
+
 export default function PaymentTesting() {
   const defaultPublicKey =
     '-----BEGIN PUBLIC KEY-----\n' +
