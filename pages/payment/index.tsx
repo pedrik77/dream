@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next'
 import { useEffect, useRef } from 'react'
 import * as process from 'process'
 import dayjs from 'dayjs'
+import requestIp from 'request-ip'
 
 import utc from 'dayjs/plugin/utc'
 import {
@@ -57,7 +58,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
 }) => {
   if (!query.order) throw new Error('Invalid order number=' + query.order)
-  const clientIp = req.ip || '127.0.0.1'
+  // const clientIp = req.ip || '127.0.0.1'
+  const clientIp = requestIp.getClientIp(req)
+  console.log("clientIp: ",clientIp)
   const order = await getOrder(query.order as string)
   const paymentFormModel = constructPaymentRequestModel(order, clientIp)
   order.paymentHmac = paymentFormModel.hmac + ''
