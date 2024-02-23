@@ -27,7 +27,8 @@ export interface Order {
   customer: CustomerDataType
   total_price: number
   created_date: number
-  mail_sent?: boolean
+  mail_sent?: boolean,
+  paymentHmac: string
 }
 
 export interface OrderToDraw {
@@ -72,6 +73,10 @@ export async function getOrderCount(year: number) {
 
 export async function payOrder({ uuid, total_paid }: any) {
   return await updateDoc(doc(db, 'orders', uuid), { total_paid })
+}
+
+export async function setOrderHmac({ uuid, paymentHmac }: any) {
+  return await updateDoc(doc(db, 'orders', uuid), { paymentHmac })
 }
 
 export function useOrders({

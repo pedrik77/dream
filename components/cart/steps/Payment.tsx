@@ -27,7 +27,7 @@ export default function Payment({ onNext = noop, onPrev = noop }) {
 
         await clearCart()
 
-        router.push(`/pay?order=${orderUuid}`)
+        router.push(`/payment?order=${orderUuid}`)
       })
       .catch(handleErrorFlash)
   }

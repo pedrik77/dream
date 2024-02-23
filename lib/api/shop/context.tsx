@@ -121,13 +121,11 @@ export const ShopProvider: React.FC = ({ children }) => {
   })
 
   const isEmptyCart = () => !cart.length
-  console.log("before placeOrder customer: ", customer)
   const placeOrder = async () => {
     const uuid = uuid4()
     const orderCount = await getOrderCount(dayjs().year())
     const reference =
       dayjs().format('YYMMDD') + ('' + orderCount).padStart(4, '0')
-    console.log("in placeOrder Customer:", customer)
     const order = {
       uuid,
       reference,

@@ -1,18 +1,17 @@
-import { getOrder, Order } from '@lib/api/shop/orders'
+import { getOrder, Order, setOrderHmac } from '@lib/api/shop/orders'
 import { Container } from '@components/ui'
 import { GetServerSideProps } from 'next'
 import { useEffect, useRef } from 'react'
 import * as process from 'process'
 import dayjs from 'dayjs'
 
-import crypto from 'crypto'
 import utc from 'dayjs/plugin/utc'
-import { calculateHmac, concatStringToSignForRequest, PaymentRequestModel, hmacKeyEnv } from '@lib/payment-util'
+import { calculateHmac, concatStringToSignForRequest, PaymentRequestModel, hmacKeyEnv } from '@lib/payments'
 
 const baseUrl = process.env.NEXT_PUBLIC_URL
 const paymentGateUrl = process.env.PAYMENT_GATE_URL
 
-export default function Pay({ paymentFormModel }: { paymentFormModel: PaymentRequestModel }) {
+export default function Payment({ paymentFormModel }: { paymentFormModel: PaymentRequestModel }) {
 
   const btnRef = useRef<HTMLButtonElement>(null)
   useEffect(() => {
@@ -41,6 +40,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
   const clientIp = req.ip || '127.0.0.1'
   const order = await getOrder(query.order as string)
   const paymentFormModel = constructPaymentRequestModel(order, clientIp)
+  order.paymentHmac = paymentFormModel.hmac + ""
+  await setOrderHmac(order)
   return ({
     props: { paymentFormModel }
   })
@@ -53,7 +54,7 @@ function constructPaymentRequestModel(order: Order, clientIp: string) {
     amt: order.total_price + '',
     curr: '978',
     vs: order.reference,
-    rurl: baseUrl + '/pay/payment-result',
+    rurl: baseUrl + '/payment/result',
     ipc: clientIp,
     name: order.customer.email,
     timestamp: dayjs.utc().format('DDMMYYYYHHmmss')
