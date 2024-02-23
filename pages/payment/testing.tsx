@@ -26,15 +26,18 @@ export default function PaymentTesting() {
 
   const handleRequestSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    
+    const form = e.target as HTMLFormElement
+    
     const paymentReqModel: PaymentRequestModel = {
-      mid: e.target.querySelector('[name=MID]')?.value,
-      amt: e.target.querySelector('[name=AMT]')?.value,
-      curr: e.target.querySelector('[name=CURR]')?.value,
-      vs: e.target.querySelector('[name=VS]')?.value,
-      rurl: e.target.querySelector('[name=RURL]')?.value,
-      ipc: e.target.querySelector('[name=IPC]')?.value,
-      name: e.target.querySelector('[name=NAME]')?.value,
-      timestamp: e.target.querySelector('[name=TIMESTAMP]')?.value,
+      mid: getInput(form, "MID").value
+      amt: getInput(form, "AMT").value
+      curr: getInput(form, "CURR").value
+      vs: getInput(form, "VS").value
+      rurl: getInput(form, "RURL").value
+      ipc: getInput(form, "IPC").value
+      name: getInput(form, "NAME").value
+      timestamp: getInput(form, "TIMESTAMP").value
     }
     const hmacKey = e.target.querySelector('[name=HMACKey]')?.value
     const hmac = calculateHmac(
