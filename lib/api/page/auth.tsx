@@ -114,7 +114,7 @@ const Context = createContext<ContextType>({
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | undefined>()
   const [customer, setCustomer] = useState<CustomerDataType>(NULL_CUSTOMER_DATA)
-
+  useEffect(() => console.log("tunaa",customer), [customer])
   const [permissions, setPermissions] = useState<string[]>([])
   const [permissionsLoaded, setPermissionsLoaded] = useState(false)
 

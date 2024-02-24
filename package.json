@@ -4,7 +4,7 @@
   "license": "MIT",
   "packageManager": "yarn@1.22.17",
   "scripts": {
-    "dev": "next dev -p 3333",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "analyze": "BUNDLE_ANALYZE=both next build",
@@ -52,6 +52,7 @@
     "react-merge-refs": "^1.1.0",
     "react-select": "^5.3.2",
     "react-universal-flash": "^1.0.15",
+    "request-ip": "^3.3.0",
     "superjson": "^1.11.0",
     "sweetalert2": "^11.4.23",
     "tabbable": "^5.2.1",
