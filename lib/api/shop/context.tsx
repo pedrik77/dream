@@ -1,17 +1,12 @@
-import {
-  deleteDoc,
-  doc,
-  onSnapshot,
-  setDoc,
-  Timestamp,
-} from 'firebase/firestore'
+import { deleteDoc, doc, onSnapshot, setDoc, Timestamp } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { today } from '@lib/api/page/date'
-import { setOrder } from './orders'
+import { getOrderCount, setOrder } from './orders'
 import { v4 as uuid4 } from 'uuid'
 import { useAuthContext } from '@lib/api/page/auth'
 import { db } from '../../firebase'
 import { Product } from './products'
+import dayjs from 'dayjs'
 
 const CART_STORAGE_KEY = 'cart'
 
@@ -49,12 +44,15 @@ type ContextType = {
 const Context = createContext<ContextType>({
   cart: [],
   total: 0,
-  addToCart: async () => {},
-  clearCart: async () => {},
+  addToCart: async () => {
+  },
+  clearCart: async () => {
+  },
   isInCart: () => false,
   isEmptyCart: () => true,
-  removeFromCart: async () => {},
-  placeOrder: async () => '',
+  removeFromCart: async () => {
+  },
+  placeOrder: async () => ''
 })
 
 export const ShopProvider: React.FC = ({ children }) => {
@@ -86,11 +84,11 @@ export const ShopProvider: React.FC = ({ children }) => {
   )
 
   const addToCart = async ({
-    product: { slug, title_1, title_2, image },
-    ticketCount,
-    price,
-    forceOverride = false,
-  }: AddToCartParams) => {
+                             product: { slug, title_1, title_2, image },
+                             ticketCount,
+                             price,
+                             forceOverride = false
+                           }: AddToCartParams) => {
     const inCart = isInCart(slug)
 
     if (inCart && !forceOverride) throw new Error('Already in cart')
@@ -102,11 +100,11 @@ export const ShopProvider: React.FC = ({ children }) => {
           title_1,
           title_2,
           slug,
-          image: image?.src || '',
+          image: image?.src || ''
         },
         ticketCount,
-        price,
-      },
+        price
+      }
     ])
   }
 
@@ -119,20 +117,26 @@ export const ShopProvider: React.FC = ({ children }) => {
       cart.filter(({ product: { slug } }) => slug !== productSlug)
     )
 
-  const clearCart = () => saveCart(cartId, []).catch((e) => {})
+  const clearCart = () => saveCart(cartId, []).catch((e) => {
+  })
 
   const isEmptyCart = () => !cart.length
-
   const placeOrder = async () => {
     const uuid = uuid4()
-    await setOrder({
+    const orderCount = await getOrderCount(dayjs().year())
+    const reference =
+      dayjs().format('YYMMDD') + ('' + orderCount).padStart(4, '0')
+    const order = {
       uuid,
+      reference,
       user: user?.email || '',
       items: cart,
       total_price: total,
       customer,
-      created_date: Timestamp.fromDate(new Date(today())),
-    })
+      created_date: Timestamp.fromDate(new Date(today()))
+    }
+    console.log('Order \'placeOrder\': ', order)
+    await setOrder(order)
     return uuid
   }
 
@@ -146,7 +150,7 @@ export const ShopProvider: React.FC = ({ children }) => {
         isInCart,
         isEmptyCart,
         removeFromCart,
-        placeOrder,
+        placeOrder
       }}
     >
       {children}

@@ -13,6 +13,7 @@ import {
   where,
   getDocs,
   updateDoc,
+  Timestamp,
 } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'
 import { CartItem } from './context'
@@ -20,12 +21,14 @@ import { create } from '../creator'
 
 export interface Order {
   uuid: string
+  reference: string
   user: string
   items: CartItem[]
   customer: CustomerDataType
   total_price: number
   created_date: number
-  mail_sent?: boolean
+  mail_sent?: boolean,
+  paymentHmac: string
 }
 
 export interface OrderToDraw {
@@ -57,8 +60,23 @@ export async function setOrder({ uuid, ...order }: any) {
   })
 }
 
+export async function getOrderCount(year: number) {
+  const querySnapshot = await getDocs(
+    query(
+      collection(db, 'orders'),
+      where('created_date', '>=', Timestamp.fromDate(new Date(year, 0, 1))),
+      where('created_date', '<=', Timestamp.fromDate(new Date(year, 11, 31)))
+    )
+  )
+  return querySnapshot.size
+}
+
 export async function payOrder({ uuid, total_paid }: any) {
   return await updateDoc(doc(db, 'orders', uuid), { total_paid })
+}
+
+export async function setOrderHmac({ uuid, paymentHmac }: any) {
+  return await updateDoc(doc(db, 'orders', uuid), { paymentHmac })
 }
 
 export function useOrders({

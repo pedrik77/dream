@@ -10,7 +10,7 @@ import { noop } from '@lib/api/page/common'
 import Link from '@components/ui/Link'
 
 export default function Information({ onNext = noop, onPrev = noop }) {
-  const { customer, isLoggedIn } = useAuthContext()
+  const { customer, isLoggedIn, setCustomer } = useAuthContext()
   const { total } = useShopContext()
   const { setModalView, openModal } = useUI()
   const { t } = useTranslation()
@@ -84,7 +84,7 @@ export default function Information({ onNext = noop, onPrev = noop }) {
       return flash('Vyplňte všetky firemne polia', 'danger')
     }
 
-    setCustomerProfile({
+    const newCustomer = {
       ...customer,
       firstname,
       lastname,
@@ -102,9 +102,10 @@ export default function Information({ onNext = noop, onPrev = noop }) {
         tax_id: companyTaxId,
         vat_id: companyVatId,
       },
-    })
-      .then(onNext)
-      .catch(handleErrorFlash)
+    }
+
+    setCustomer(newCustomer)
+    await setCustomerProfile(newCustomer).then(onNext).catch(handleErrorFlash)
   }
 
   return (
