@@ -27,7 +27,7 @@ export default function Payment({
   const btnRef = useRef<HTMLButtonElement>(null)
   useEffect(() => {
     if (!btnRef.current) return
-    // btnRef.current.click()
+    btnRef.current.click()
   }, [])
 
   console.log("paymentFormModel", paymentFormModel)
