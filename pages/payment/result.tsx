@@ -1,4 +1,4 @@
-import { Container } from '@components/ui'
+import { Container, Text } from '@components/ui'
 import { GetServerSideProps } from 'next'
 import {
   calculateHmac,
@@ -6,15 +6,16 @@ import {
   ecdsaPublicKeys,
   hmacKeyEnv,
   PaymentResultModel,
-  verifyEcdsa,
+  verifyEcdsa
 } from '@lib/payments'
 import { Layout } from '@components/common'
+import Link from 'next/link'
 
 export default function PaymentResult({
-  paymentSuccessful,
-  hmacVerificationSuccessful,
-  ecdsaVerificationSuccessful,
-}: {
+                                        paymentSuccessful,
+                                        hmacVerificationSuccessful,
+                                        ecdsaVerificationSuccessful
+                                      }: {
   paymentSuccessful: boolean
   hmacVerificationSuccessful: boolean
   ecdsaVerificationSuccessful: boolean
@@ -24,7 +25,13 @@ export default function PaymentResult({
   console.log('ECDSA successful', ecdsaVerificationSuccessful)
   return (
     <Container>
-      payment-result component and the result is: {paymentSuccessful}
+      <div className="max-w-2xl mx-8 sm:mx-auto py-20 flex flex-col items-center justify-center fit">
+        <Link href={'/'}>
+          {paymentSuccessful ?
+            <Text variant="heading">Platba prebehla úspešne :)</Text> :
+            <Text variant="heading">Nastala chyba pri platbe :(</Text>}
+        </Link>
+      </div>
     </Container>
   )
 }
@@ -32,9 +39,9 @@ export default function PaymentResult({
 PaymentResult.Layout = Layout
 
 export const getServerSideProps: GetServerSideProps = async ({
-  query,
-  req,
-}) => {
+                                                               query,
+                                                               req
+                                                             }) => {
   const paymentResultModel: PaymentResultModel = {
     amt: query.AMT as string,
     curr: query.CURR as string,
@@ -50,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     timestamp: query.TIMESTAMP as string,
     hmac: query.HMAC as string,
     ecdsaKey: query.ECDSA_KEY as string,
-    ecdsa: query.ECDSA as string,
+    ecdsa: query.ECDSA as string
   }
   const stringToSign = concatStringToSignForResult(paymentResultModel)
   const key = hmacKeyEnv()
@@ -68,8 +75,8 @@ export const getServerSideProps: GetServerSideProps = async ({
     props: {
       paymentSuccessful,
       hmacVerificationSuccessful,
-      ecdsaVerificationSuccessful,
-    },
+      ecdsaVerificationSuccessful
+    }
   }
 }
 
