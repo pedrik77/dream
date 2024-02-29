@@ -24,7 +24,12 @@ export default function PaymentResult({
   console.log('ECDSA successful', ecdsaVerificationSuccessful)
   return (
     <Container>
-      payment-result component and the result is: {paymentSuccessful}
+      {paymentSuccessful ? 'Platba prebehla úspešne' : 'Nastala chyba pri platbe'}
+      <br />
+      {hmacVerificationSuccessful ? 'HMAC je korektný' : 'HMAC nie je korektný'}
+      <br />
+      {ecdsaVerificationSuccessful ? 'ECDSA podpis je korektný' : 'ECDSA podpis nie je korektný'}
+
     </Container>
   )
 }
